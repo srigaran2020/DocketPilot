@@ -112,8 +112,8 @@ def _ranked(name: str, ylabel: str, bars: list[tuple[str, float | None, str, boo
 
 CAPTIONS = {
     "fig1a_cost_reduction": "Cost reduction against an AI baseline. DocketPilot (measured, gpt-oss-120b on both sides): research "
-                            "answers vs a long-context baseline that reads the full judgments, and case papers vs plain-LLM "
-                            "reading. LegalMind (IEEE Access 2025) vs baseline AI models. NAVINDEX (Hany et al., "
+                            "answers vs a long-context baseline that reads the full judgments. LegalMind (IEEE Access 2025) "
+                            "vs baseline AI models. NAVINDEX (Hany et al., "
                             "arXiv:2607.05764, 2026) vs injecting the whole corpus.",
     "fig2a_citation_recall": "Share of wrong citations caught. Other systems: Liu, Stammbach & Henderson (arXiv:2606.21155, 2026), "
                              "Table 2, agentic setting, 390 US brief excerpts. DocketPilot: 756 injected fakes on real Indian Supreme "
@@ -134,12 +134,10 @@ def main() -> None:
     ours = data["ours"]
 
     cost, speed = _find(ours, "DocketPilot", "Cost reduction vs baseline"), _find(ours, "DocketPilot", "speed improvement")
-    doc_cost = _find(ours, "DocketPilot", "Document processing cost reduction")
     if cost is not None:
         _ranked("fig1a_cost_reduction", "Cost reduction vs baseline (%)", [
-            ("Better Call\nGPT†", 99.97, LIGHT, True), ("Docket\nPilot\n(answers)", cost, BLUE, False),
-            ("Docket\nPilot\n(papers)", doc_cost, BLUE, False), ("Legal\nMind", 42.6, GREY, False),
-            ("NAVINDEX", 25.0, GREY, False)],
+            ("Better Call\nGPT†", 99.97, LIGHT, True), ("Docket\nPilot", cost, BLUE, False),
+            ("Legal\nMind", 42.6, GREY, False), ("NAVINDEX", 25.0, GREY, False)],
             "† vs human lawyers; others vs an AI baseline")
     if speed is not None:
         _ranked("fig1b_speedup", "Processing time saved (%)", [
@@ -206,17 +204,13 @@ def main() -> None:
 METHODS: dict[str, list[tuple[str, str]]] = {
     "fig1a_cost_reduction": [
         ("Metric", "cost reduction = 1 - (system's cost / its baseline's cost), each against the baseline its own authors chose."),
-        ("DocketPilot (answers)", "8 legal research questions across practice areas (bail, divorce, specific performance, "
+        ("DocketPilot", "8 legal research questions across practice areas (bail, divorce, specific performance, "
          "limitation, arbitration, maintenance, consumer, motor accident). DocketPilot retrieves 6 reranked judgment passages and "
          "up to 5 statute sections, answers, then checks every citation (including AI-judge calls). Every token was counted "
          "from Groq's API responses and priced at the list price of gpt-oss-120b (US$0.15 per million input, US$0.60 per million "
          "output tokens). Baseline: the same model given the full text of the same judgments and the same statute sections; its "
          "input was counted with the o200k tokenizer and its output assumed equal to DocketPilot's answer, which favours the "
          "baseline. Result: US$0.00285 vs US$0.02215 per answer."),
-        ("DocketPilot (papers)", "8 real High Court judgments (AWS Open Data) used as case papers; task: case number, parties and "
-         "every dated event. DocketPilot reads the case number locally, masks names, and sends one structured call with only "
-         "the cause title and the sentences containing dates. Baseline: the same model reading the full unmasked text with a "
-         "generic prompt. Result: US$0.00070 vs US$0.00147 per paper."),
         ("LegalMind", "published figure (IEEE Access, 2025): an agentic framework built on a fine-tuned DeepSeek R1 with a "
          "structured legal dataset, reporting 42.6% cost reduction over baseline AI models. Not re-run by us; the abstract does "
          "not give its task set or baseline in detail."),
