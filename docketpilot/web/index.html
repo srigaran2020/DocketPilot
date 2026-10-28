@@ -25,14 +25,15 @@ a{color:var(--spine-2)}
 ::selection{background:var(--brass-soft)}
 
 /* ---------- shell: binding spine + paper ---------- */
-.shell{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.shell{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh}
 aside{background:var(--spine);color:var(--spine-ink);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
   border-right:6px solid var(--brass);box-shadow:inset -14px 0 0 -10px rgba(0,0,0,.18)}
-.brand{padding:26px 22px 22px;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand{padding:24px 18px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
 .brand .mark{display:flex;align-items:center;gap:10px}
 .seal{width:34px;height:34px;border-radius:50%;background:var(--seal);display:grid;place-items:center;color:#fff;
   font:700 15px var(--serif);box-shadow:0 0 0 3px var(--spine),0 0 0 4px rgba(255,255,255,.25)}
-.brand b{font:700 23px var(--brand);letter-spacing:.06em;color:#fff}
+.brand b{font:700 19px var(--brand);letter-spacing:.03em;color:#fff;white-space:nowrap;min-width:0}
+.brand .logo{width:40px;height:40px}
 .brand small{display:block;margin-top:8px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#9fbcb2}
 #nav{padding:14px 0;flex:1}
 #nav a{display:flex;align-items:center;gap:12px;padding:11px 22px;color:var(--spine-ink);text-decoration:none;font-weight:500;
@@ -491,7 +492,7 @@ async function viewDashboard() {
 }
 const QUICK = [["¶", "Draft a document", "Petition, application, notice, reply", "Draft a "],
   ["§", "Ask a legal question", "Answers from real judgments and Acts", "What does the law say about "],
-  ["⌕", "Find a section", "36 Central Acts, by topic", "#research"],
+  ["⌕", "Find a section", "35 Central Acts, by topic", "#research"],
   ["✓", "Check citations", "Paste text; wrong citations get fixed", "#verify"]];
 
 // ---------- adding papers (shared by Cases, a case page and the chat) ----------
@@ -954,7 +955,7 @@ function viewGuide() {
     <table><tbody>
       <tr><td><b>Ask about the law</b></td><td>${ex("What must be proved for divorce on the ground of cruelty?")} ${ex("When can anticipatory bail be granted under the BNSS?")}</td></tr>
       <tr><td><b>Make a draft</b></td><td>${ex("Draft a bail application for this case")} ${ex("Draft a reply to the legal notice")} ${ex("Draft a divorce petition")}</td></tr>
-      <tr><td><b>Find a section</b></td><td>Research → <b>Find the section</b>: type a topic like “specific performance”. 36 Central Acts, including BNS, BNSS, BSA, CPC, Contract, Hindu Marriage, DV, Consumer, Arbitration.</td></tr>
+      <tr><td><b>Find a section</b></td><td>Research → <b>Find the section</b>: type a topic like “specific performance”. 35 Central Acts, including BNS, BNSS, BSA, CPC, Contract, Hindu Marriage, DV, Consumer, Arbitration.</td></tr>
       <tr><td><b>Check citations</b></td><td>${ex("Verify this: ")} then paste your text</td></tr>
       <tr><td><b>Risk and strategy</b></td><td>${ex("What strategy should I use for this case?")}</td></tr>
       <tr><td><b>Past cases</b></td><td>${ex("Show me similar past cases")}</td></tr>

@@ -108,7 +108,25 @@
   "role": "other"
  },
  {
-  "bar": "cost:12",
+  "bar": "hallucination:12",
+  "chart": "hallucination",
+  "label": "Hallucination (closed book, US law)",
+  "system": "GPT-3.5",
+  "value": 69.0,
+  "unit": "%",
+  "role": "other"
+ },
+ {
+  "bar": "hallucination:13",
+  "chart": "hallucination",
+  "label": "Hallucination (closed book, US law)",
+  "system": "Llama 2",
+  "value": 88.0,
+  "unit": "%",
+  "role": "other"
+ },
+ {
+  "bar": "cost:14",
   "chart": "cost",
   "label": "US$ per 1,000 answers",
   "system": "Long-context LLM",
@@ -117,7 +135,7 @@
   "role": "named"
  },
  {
-  "bar": "cost:13",
+  "bar": "cost:15",
   "chart": "cost",
   "label": "US$ per 1,000 answers",
   "system": "DocketPilot",

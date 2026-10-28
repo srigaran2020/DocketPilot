@@ -23,33 +23,33 @@ const LX = 16, LW = 1888, LBL = 140;
 const N = {}, node = (id, shape, x, y, w, h, lines, o = {}) => (N[id] = {id, shape, x, y, w, h, lines, ...o});
 
 // Lawyer: 5 steps
-node("U1", "pill", 180, 138, 300, 76, ["📎 Attach papers"]);
-node("U2", "pill", 540, 138, 300, 76, ["Ask or command"]);
-node("U3", "pill", 1000, 138, 360, 76, ["Review result", "✓ ! ✕ stamps + proof"]);
+node("U1", "pill", 180, 138, 300, 76, ["📎 Attach papers", "auto-filed by case no."]);
+node("U2", "pill", 540, 138, 300, 76, ["Ask or command", "any area of law"]);
+node("U3", "pill", 1000, 138, 360, 76, ["Review result", "citations already corrected"]);
 node("U4", "pill", 1500, 138, 200, 76, ["Approve"]);
 node("U5", "pill", 1730, 138, 160, 76, ["⬇ Word"]);
 
 // Backend
-node("B1", "box", 180, 297, 300, 82, ["Privacy gateway", "Redaction"]);
+node("B1", "box", 180, 297, 300, 82, ["Privacy gateway", "redact · mask · encrypt"]);
 node("B2", "diamond", 560, 284, 260, 108, ["Router"]);
-node("B3", "box", 880, 297, 480, 82, ["Tools", "answer + strategy + schedule + verify + draft"]);
+node("B3", "box", 880, 297, 480, 82, ["Tools", "answer · draft · verify · risk · past cases · calendar"]);
 node("B4", "box", 1500, 297, 200, 82, ["Approve", "advocate only"]);
 
 // LangGraph agents
 const AX = i => 180 + i * 192, AW = 174, AY = 468, AH = 94;
-[["① Orchestrator", "plans"], ["② Doc Analysis", "reads facts"], ["③ Research", "finds law"], ["④ Drafting", "writes draft"],
- ["⑤ Verification", "checks it"], ["⑥ Strategy", "risks + cases"], ["⑦ Monitoring", "deadlines"]]
+[["① Orchestrator", "plans"], ["② Doc Analysis", "facts + quotes"], ["③ Research", "Acts + judgments"], ["④ Drafting", "any document"],
+ ["⑤ Verification", "checks + fixes"], ["⑥ Strategy", "gaps + cases"], ["⑦ Monitoring", "deadlines"]]
   .forEach((l, i) => node("A" + i, "dark", AX(i), AY, AW, AH, l));
 node("A7", "approval", AX(7), AY - 4, AW, AH + 8, ["⏸ Approval", "you decide"]);
 node("A8", "dark", AX(8), AY, 1888 - AX(8), AH, ["Finalize", "real names"]);
 
 // Verification: one strip
-node("V1", "strip", 180, 648, 1710, 90, ["Anti-hallucination check : on every answer and draft"]);
+node("V1", "strip", 180, 648, 1710, 90, ["Anti-hallucination check + auto-correction : on every answer and draft"]);
 
 // Data & AI
 const DX = i => 180 + i * 430, DW = 410;
-[["Knowledge base", "India Code"], ["PostgreSQL + Qdrant", "storage + search (RAG)"],
- ["Groq gpt-oss-120b", "sees masked text only"], ["Encrypted vault", "real names stay local"]]
+[["Knowledge base", "35 Acts · 16,318 judgments"], ["PostgreSQL + Qdrant", "372k passages · hybrid RAG"],
+ ["Groq gpt-oss-120b", "masked text · 4-key failover"], ["Encrypted vault", "real names stay local"]]
   .forEach((l, i) => node("D" + i, i === 1 || i === 3 ? "cyl" : "box", DX(i), 808, DW, 98, l));
 
 const E = [
@@ -78,7 +78,7 @@ const defs = el("defs", {});
 
 el("rect", {x: 0, y: 0, width: 1920, height: 1080, fill: "#fff"});
 txt(LX + 2, 46, "DocketPilot — how it works", {serif: true, bold: true, size: 42, anchor: "start"});
-txt(1904, 50, "every citation is checked before it reaches the lawyer", {size: 21, fill: C.mute, anchor: "end"});
+txt(1904, 50, "every citation is checked and corrected before it reaches the lawyer", {size: 21, fill: C.mute, anchor: "end"});
 el("rect", {x: LX, y: 80, width: LW, height: 2, fill: C.ink});
 
 LANES.forEach(l => {
@@ -114,7 +114,7 @@ function drawStrip(n) {
     el("rect", {x, y: y - 17, width: w, height: 34, rx: 17, fill: "#fff", stroke: C.warn, "stroke-width": 1.5});
     txt(x + 22, y + 1, String(i + 1), {bold: true, size: 17, fill: C.warn}); txt(x + 36, y + 1, c, {size: 18, anchor: "start"});
     x += w + 14; if (i < checks.length - 1) {} });
-  const res = [["✓ verified", C.ok, "#fff"], ["! check", C.warn, "#fff"], ["✕ blocked", C.bad, "#fff"]];
+  const res = [["✓ verified", C.ok, "#fff"], ["↻ corrected", C.warn, "#fff"], ["✕ removed", C.bad, "#fff"]];
   let rx = n.x + n.w - 22;
   res.reverse().forEach(([s, col, bg]) => { const w = s.length * 11 + 30; rx -= w;
     el("rect", {x: rx, y: y - 17, width: w, height: 34, rx: 17, fill: bg, stroke: col, "stroke-width": 1.8});
@@ -142,7 +142,7 @@ E.forEach(drawEdge);
 Object.values(N).forEach(drawNode);
 
 // footer
-txt(LX + 4, 980, "Names are masked before the AI sees them · nothing is final until the lawyer approves · LangGraph saves every step and pauses for approval",
+txt(LX + 4, 980, "Names masked before the AI sees them · hearing dates go on the calendar · LangGraph saves every step and pauses for approval",
   {size: 19, anchor: "start", fill: C.mute});
 txt(1904, 980, "Prototype · not legal advice", {size: 16, anchor: "end", fill: C.mute});
 document.body.setAttribute("data-done", "1");

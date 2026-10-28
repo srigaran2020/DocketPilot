@@ -27,6 +27,11 @@ Our numbers: measured on this build (benchmark run 2026-10-28T15:46:54.753615+00
 | Westlaw AI-Assisted Research | Hallucination rate (legal research answers) | 33% | Magesh et al., arXiv:2405.20362; LawSites, June 2024 | As above. |
 | Lexis+ AI | Accurate answers | 65% | Magesh et al., arXiv:2405.20362; LawSites, June 2024 | Human-graded accuracy; not measured for DocketPilot. |
 | Westlaw AI-Assisted Research | Accurate answers | 42% | Magesh et al., arXiv:2405.20362; LawSites, June 2024 | As above. |
+| Ask Practical Law AI | Accurate answers | 20% | Magesh et al., J. Empirical Legal Studies 22 (2025), DOI 10.1111/jels.12413 (text: 19% -> 20% after re-grading) | Human-graded accuracy; not measured for DocketPilot. |
+| GPT-3.5 (closed book) | Hallucination rate (legal queries) | 69% | Dahl, Magesh, Suzgun & Ho, 'Large Legal Fictions', J. Legal Analysis 16 (2024), arXiv:2401.01301 | Closed-book model on verifiable questions about US federal cases; like our closed-book baseline, other law. |
+| Llama 2 (closed book) | Hallucination rate (legal queries) | 88% | Dahl et al. 2024, arXiv:2401.01301 | As above. |
+| Harvey Assistant | Document Q&A score (lawyer baseline 70.1) | 94.8% | Vals Legal AI Report (VLAIR), 27 Feb 2025 | Task accuracy vs lawyers; not a DocketPilot metric. |
+| CoCounsel | Document Q&A score (lawyer baseline 70.1) | 89.6% | Vals Legal AI Report (VLAIR), 27 Feb 2025 | As above. |
 | GPT-5, agentic citation checker | Recall of citation errors (hallucination detection) | 84.4% | Liu, Stammbach & Henderson, 'Who Checks the Citations?', arXiv:2606.21155 (2026) | Same metric (share of bad citations caught); their 1,300 US brief excerpts are harder and more varied than our fakes. |
 | GPT-5, agentic citation checker | F1 of citation-error detection | 55.0% | arXiv:2606.21155 | Same metric; different data (see above). |
 | Best of 21 LLMs, closed book | Citation retrieval/completion score | 7/100 (below) | Chen, Yin & Zhou, 'LegalCiteBench', arXiv:2605.10186 (ICML 2026) | Shows why closed-book models cannot be trusted with citations; misleading-answer rate >94% for 20 of 21 models. |

@@ -55,6 +55,51 @@
  },
  {
   "key": "p6",
+  "system": "Ask Practical Law AI",
+  "metric": "Accurate answers",
+  "value": "20",
+  "unit": "%",
+  "source": "Magesh et al., J. Empirical Legal Studies 22 (2025), DOI 10.1111/jels.12413 (text: 19% -> 20% after re-grading)",
+  "comparable": "Human-graded accuracy; not measured for DocketPilot."
+ },
+ {
+  "key": "p7",
+  "system": "GPT-3.5 (closed book)",
+  "metric": "Hallucination rate (legal queries)",
+  "value": "69",
+  "unit": "%",
+  "source": "Dahl, Magesh, Suzgun & Ho, 'Large Legal Fictions', J. Legal Analysis 16 (2024), arXiv:2401.01301",
+  "comparable": "Closed-book model on verifiable questions about US federal cases; like our closed-book baseline, other law."
+ },
+ {
+  "key": "p8",
+  "system": "Llama 2 (closed book)",
+  "metric": "Hallucination rate (legal queries)",
+  "value": "88",
+  "unit": "%",
+  "source": "Dahl et al. 2024, arXiv:2401.01301",
+  "comparable": "As above."
+ },
+ {
+  "key": "p9",
+  "system": "Harvey Assistant",
+  "metric": "Document Q&A score (lawyer baseline 70.1)",
+  "value": "94.8",
+  "unit": "%",
+  "source": "Vals Legal AI Report (VLAIR), 27 Feb 2025",
+  "comparable": "Task accuracy vs lawyers; not a DocketPilot metric."
+ },
+ {
+  "key": "p10",
+  "system": "CoCounsel",
+  "metric": "Document Q&A score (lawyer baseline 70.1)",
+  "value": "89.6",
+  "unit": "%",
+  "source": "Vals Legal AI Report (VLAIR), 27 Feb 2025",
+  "comparable": "As above."
+ },
+ {
+  "key": "p11",
   "system": "GPT-5, agentic citation checker",
   "metric": "Recall of citation errors (hallucination detection)",
   "value": "84.4",
@@ -63,7 +108,7 @@
   "comparable": "Same metric (share of bad citations caught); their 1,300 US brief excerpts are harder and more varied than our fakes."
  },
  {
-  "key": "p7",
+  "key": "p12",
   "system": "GPT-5, agentic citation checker",
   "metric": "F1 of citation-error detection",
   "value": "55.0",
@@ -72,7 +117,7 @@
   "comparable": "Same metric; different data (see above)."
  },
  {
-  "key": "p8",
+  "key": "p13",
   "system": "Best of 21 LLMs, closed book",
   "metric": "Citation retrieval/completion score",
   "value": "7",
@@ -81,7 +126,7 @@
   "comparable": "Shows why closed-book models cannot be trusted with citations; misleading-answer rate >94% for 20 of 21 models."
  },
  {
-  "key": "p9",
+  "key": "p14",
   "system": "4 commercial LLMs (Ukrainian law)",
   "metric": "Hallucinated citations, sparse vs dense reference store",
   "value": "15-21 vs ~0.1-1.1",
@@ -90,7 +135,7 @@
   "comparable": "Methodological: the measured rate depends on the reference store's coverage. We therefore count only formats our store covers completely as fabricated."
  },
  {
-  "key": "p10",
+  "key": "p15",
   "system": "Falkor-IRAC (Indian judicial AI)",
   "metric": "Verified answers via graph verifier",
   "value": "qualitative",

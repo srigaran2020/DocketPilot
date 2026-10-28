@@ -30,6 +30,18 @@ PUBLISHED: list[dict[str, Any]] = [
      "source": "Magesh et al., arXiv:2405.20362; LawSites, June 2024", "comparable": "Human-graded accuracy; not measured for DocketPilot."},
     {"system": "Westlaw AI-Assisted Research", "metric": "Accurate answers", "value": 42, "unit": "%",
      "source": "Magesh et al., arXiv:2405.20362; LawSites, June 2024", "comparable": "As above."},
+    {"system": "Ask Practical Law AI", "metric": "Accurate answers", "value": 20, "unit": "%",
+     "source": "Magesh et al., J. Empirical Legal Studies 22 (2025), DOI 10.1111/jels.12413 (text: 19% -> 20% after re-grading)",
+     "comparable": "Human-graded accuracy; not measured for DocketPilot."},
+    {"system": "GPT-3.5 (closed book)", "metric": "Hallucination rate (legal queries)", "value": 69, "unit": "%",
+     "source": "Dahl, Magesh, Suzgun & Ho, 'Large Legal Fictions', J. Legal Analysis 16 (2024), arXiv:2401.01301",
+     "comparable": "Closed-book model on verifiable questions about US federal cases; like our closed-book baseline, other law."},
+    {"system": "Llama 2 (closed book)", "metric": "Hallucination rate (legal queries)", "value": 88, "unit": "%",
+     "source": "Dahl et al. 2024, arXiv:2401.01301", "comparable": "As above."},
+    {"system": "Harvey Assistant", "metric": "Document Q&A score (lawyer baseline 70.1)", "value": 94.8, "unit": "%",
+     "source": "Vals Legal AI Report (VLAIR), 27 Feb 2025", "comparable": "Task accuracy vs lawyers; not a DocketPilot metric."},
+    {"system": "CoCounsel", "metric": "Document Q&A score (lawyer baseline 70.1)", "value": 89.6, "unit": "%",
+     "source": "Vals Legal AI Report (VLAIR), 27 Feb 2025", "comparable": "As above."},
     {"system": "GPT-5, agentic citation checker", "metric": "Recall of citation errors (hallucination detection)", "value": 84.4,
      "unit": "%", "source": "Liu, Stammbach & Henderson, 'Who Checks the Citations?', arXiv:2606.21155 (2026)",
      "comparable": "Same metric (share of bad citations caught); their 1,300 US brief excerpts are harder and more varied than our fakes."},
@@ -156,6 +168,8 @@ def chart_rows(data: dict[str, Any]) -> list[dict[str, Any]]:
         find("Same model, no DocketPilot", "Fabricated citations"), "named")
     bar("hallucination", "Hallucination (human-graded, US law)", "Westlaw AI-Assisted Research", 33.0, "other")
     bar("hallucination", "Hallucination (human-graded, US law)", "Lexis+ AI", 17.0, "other")
+    bar("hallucination", "Hallucination (closed book, US law)", "GPT-3.5", 69.0, "other")
+    bar("hallucination", "Hallucination (closed book, US law)", "Llama 2", 88.0, "other")
     bench = _load("benchmark_vs.json").get("summary", {})
     c = bench.get("cost_per_answer_usd")
     if c:

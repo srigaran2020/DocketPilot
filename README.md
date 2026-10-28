@@ -1,6 +1,6 @@
 # DocketPilot (prototype)
 
-Verifiable legal research and drafting for Indian law, any area of practice: 36 Central Acts (BNS, BNSS, BSA, CPC,
+Verifiable legal research and drafting for Indian law, any area of practice: 35 Central Acts (BNS, BNSS, BSA, CPC,
 Contract, family, property, consumer, arbitration, ...), ~16,000 Supreme Court and High Court judgments, and any document
 type. Section 138 NI Act (cheque bounce) has the deepest rule support (fixed templates, deadline rules, ingredient checklist).
 **Not legal advice. Nothing here was reviewed by a lawyer.** Full design: [docs/SPEC.md](docs/SPEC.md).
@@ -45,14 +45,14 @@ Search, statutes, calendar, cases and citation look-ups do not use the AI. For r
    reminders. Cheque-bounce notice/complaint use the fixed Section 138 templates.
 4. Review the draft: every citation is green / amber / red; click one to see its evidence passage. Red items **block** approval; amber items must be ticked as checked.
 5. **Approve** → download the Word file (real names restored only now, with a removable verification appendix) and the deadlines calendar (.ics).
-6. **Research**: search judgments, **find the section** by topic across 36 Acts, look up "Section X as on date D", look up a
+6. **Research**: search judgments, **find the section** by topic across 35 Acts, look up "Section X as on date D", look up a
    citation. **Check a document**: paste any text; wrong citations come back corrected.
 
 ## Rebuild the knowledge base
 
 ```powershell
 .\.venv\Scripts\python.exe -m docketpilot.ingestion.download --sc-from 2015   # ~4 GB, resumable (data/raw/)
-.\.venv\Scripts\python.exe -m docketpilot.ingestion.load       # judgments + 36 Acts into PostgreSQL; safe to re-run
+.\.venv\Scripts\python.exe -m docketpilot.ingestion.load       # judgments + 35 Acts into PostgreSQL; safe to re-run
 .\.venv-gpu\Scripts\python.exe -m docketpilot.retrieval.index --gpu --scope all --collection chunks_all   # GPU vectors
 # no NVIDIA GPU? .\.venv\Scripts\python.exe -m docketpilot.retrieval.index  (CPU, s.138 judgments only)
 ```
