@@ -1,0 +1,130 @@
+{
+ "run_at": "2026-10-27T17:47:41.637757+00:00",
+ "steps": [
+  {
+   "step": "preview return_memo.txt",
+   "masked": 7,
+   "leaked_values": []
+  },
+  {
+   "step": "preview client_statement.txt",
+   "masked": 7,
+   "leaked_values": []
+  },
+  {
+   "step": "draft",
+   "status": "awaiting_approval",
+   "release": "clear",
+   "facts": {
+    "drawer": "PERSON_1",
+    "drawer_address": "ADDRESS_1",
+    "payee": "PERSON_2",
+    "payee_bank_branch_city": "ORG_3",
+    "drawee_bank": "ORG_1, ORG_2, ORG_3",
+    "cheque_number": "004512",
+    "cheque_date": "2025-06-10",
+    "amount": 250000,
+    "presentation_date": "2025-07-01",
+    "return_reason": "FUNDS INSUFFICIENT",
+    "return_information_date": "2025-07-03",
+    "notice_date": "2025-07-15",
+    "notice_received_date": "2025-07-18",
+    "payment_received": false,
+    "debt_description": "hand loan"
+   },
+   "error": null,
+   "trace": [
+    {
+     "node": "orchestrator",
+     "ms": 0,
+     "workflow": "complaint"
+    },
+    {
+     "node": "document_analysis",
+     "ms": 3030,
+     "accepted": 15,
+     "rejected_no_source": [],
+     "model": "openai/gpt-oss-120b",
+     "input_tokens": 1607,
+     "output_tokens": 924
+    },
+    {
+     "node": "research",
+     "ms": 4755,
+     "passages": 5,
+     "search_mode": "hybrid_rerank"
+    },
+    {
+     "node": "drafting",
+     "ms": 12122,
+     "unknown_tags_removed": [],
+     "model": "openai/gpt-oss-120b",
+     "input_tokens": 3245,
+     "output_tokens": 1957
+    },
+    {
+     "node": "verification",
+     "ms": 21667,
+     "release": "clear"
+    },
+    {
+     "node": "strategy_risk",
+     "ms": 458,
+     "similar": 5
+    },
+    {
+     "node": "monitoring",
+     "ms": 9,
+     "reminders": 4
+    }
+   ]
+  },
+  {
+   "step": "approve",
+   "http": 200,
+   "body": {
+    "status": "approved",
+    "approval": {
+     "action": "approve",
+     "user_id": "466e9123-85ce-47d6-98d9-9efa293ee64a",
+     "acknowledged": []
+    }
+   }
+  },
+  {
+   "step": "download docx",
+   "http": 200,
+   "bytes": 38791,
+   "real_names_restored": true
+  },
+  {
+   "step": "calendar .ics",
+   "http": 200,
+   "events": 4
+  }
+ ],
+ "draft_seconds": 43.2,
+ "reminders": [
+  {
+   "title": "Send the written demand notice to the drawer",
+   "due": "2025-08-02"
+  },
+  {
+   "title": "Drawer's time to pay after receiving the notice ends",
+   "due": "2025-08-02"
+  },
+  {
+   "title": "File the complaint",
+   "due": "2025-09-03"
+  },
+  {
+   "title": "Present the cheque to the bank",
+   "due": "2025-12-10"
+  }
+ ],
+ "gate_check": {
+  "release": "blocked",
+  "approve_http": 409,
+  "blocked_as_expected": true
+ }
+}

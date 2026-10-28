@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DocketPilot</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* DocketPilot — "case file" design: white paper, court-green binding, seal vermilion, brass. */
+:root{
+  --paper:#ffffff; --desk:#f4f1ea; --ink:#16231f; --ink-2:#3d4a45; --mute:#7a8580; --rule:#e4dfd3; --rule-2:#cfc8b6;
+  --spine:#0f3b33; --spine-2:#15514a; --spine-ink:#d8e6df;
+  --seal:#c2410c; --seal-dark:#9a330a; --brass:#b08a2e; --brass-soft:#f6edd5;
+  --ok:#17663f; --ok-soft:#e5f2ea; --warn:#9a6400; --warn-soft:#fdf2d9; --bad:#b4231b; --bad-soft:#fbe6e3;
+  --serif:"Fraunces",Georgia,"Times New Roman",serif; --brand:"Cinzel","Trajan Pro",Georgia,serif; --sans:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",Consolas,ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--desk);color:var(--ink);font:15px/1.55 var(--sans)}
+a{color:var(--spine-2)}
+::selection{background:var(--brass-soft)}
+
+/* ---------- shell: binding spine + paper ---------- */
+.shell{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+aside{background:var(--spine);color:var(--spine-ink);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;
+  border-right:6px solid var(--brass);box-shadow:inset -14px 0 0 -10px rgba(0,0,0,.18)}
+.brand{padding:26px 22px 22px;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand .mark{display:flex;align-items:center;gap:10px}
+.seal{width:34px;height:34px;border-radius:50%;background:var(--seal);display:grid;place-items:center;color:#fff;
+  font:700 15px var(--serif);box-shadow:0 0 0 3px var(--spine),0 0 0 4px rgba(255,255,255,.25)}
+.brand b{font:700 23px var(--brand);letter-spacing:.06em;color:#fff}
+.brand small{display:block;margin-top:8px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#9fbcb2}
+#nav{padding:14px 0;flex:1}
+#nav a{display:flex;align-items:center;gap:12px;padding:11px 22px;color:var(--spine-ink);text-decoration:none;font-weight:500;
+  border-left:3px solid transparent;cursor:pointer}
+#nav a .tab{font:500 11px var(--mono);color:#86a99d;width:22px}
+#nav a:hover{background:var(--spine-2)}
+#nav a.on{background:var(--paper);color:var(--spine);border-left-color:var(--seal);margin-right:-6px}
+#nav a.on .tab{color:var(--seal)}
+.disclaimer{padding:16px 22px 22px;font-size:11.5px;line-height:1.5;color:#9fbcb2;border-top:1px solid rgba(255,255,255,.08)}
+.disclaimer b{color:#f2c56b;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;display:block;margin-bottom:4px}
+main{padding:34px 40px 60px;max-width:1240px;width:100%}
+
+/* ---------- page head ---------- */
+.pagehead{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--ink)}
+.pagehead .eyebrow{font:500 11.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--seal)}
+.pagehead h1{font:600 34px/1.1 var(--serif);margin:6px 0 0;letter-spacing:-.3px}
+.pagehead .right{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* ---------- paper sheets ---------- */
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:2px;padding:22px 24px;margin-bottom:22px;
+  box-shadow:0 1px 0 var(--rule-2),0 10px 24px -18px rgba(22,35,31,.35);position:relative}
+.card.tabbed{margin-top:38px}
+.grid > div > .card.tabbed:first-child,.grid > .card.tabbed{margin-top:24px}
+.card.tabbed::before{content:attr(data-tab);position:absolute;top:-24px;left:18px;background:var(--paper);border:1px solid var(--rule);
+  border-bottom:0;padding:3px 12px;font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);border-radius:4px 4px 0 0}
+h2{font:600 20px var(--serif);margin:0 0 14px}
+h3{font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin:20px 0 8px}
+
+/* ---------- controls ---------- */
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{background:var(--paper);border:1px solid var(--rule-2);border-radius:3px;padding:9px 11px;max-width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--spine-2);box-shadow:0 0 0 3px rgba(21,81,74,.12)}
+textarea{width:100%;min-height:170px;font:13px/1.6 var(--mono)}
+button{background:var(--seal);color:#fff;border:0;border-radius:3px;padding:10px 18px;cursor:pointer;font-weight:600;letter-spacing:.02em;
+  box-shadow:0 2px 0 var(--seal-dark);transition:transform .06s ease}
+button:hover{background:var(--seal-dark)}
+button:active{transform:translateY(1px);box-shadow:none}
+button.ghost{background:transparent;color:var(--spine);border:1.5px solid var(--spine);box-shadow:none}
+button.ghost:hover{background:var(--spine);color:#fff}
+button:disabled{opacity:.45;cursor:not-allowed}
+label{cursor:pointer}
+input[type=checkbox]{accent-color:var(--seal);width:16px;height:16px;vertical-align:-3px;margin-right:6px}
+input[type=file]{border-style:dashed;background:var(--desk)}
+
+/* ---------- ledger tables ---------- */
+table{border-collapse:collapse;width:100%}
+th{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left;padding:8px 10px;border-bottom:2px solid var(--ink)}
+td{padding:11px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-size:14px}
+tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:#fbfaf6}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:24px;align-items:start}
+.mute{color:var(--mute);font-size:13px}
+.err{color:var(--bad);font-weight:500;margin:10px 0}
+
+/* ---------- ink stamps (status) ---------- */
+.stamp{display:inline-block;font:600 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:3px 8px 2px;
+  border:1.5px solid currentColor;border-radius:3px;transform:rotate(-2deg);white-space:nowrap;background:var(--paper)}
+.stamp.green{color:var(--ok)}.stamp.amber{color:var(--warn)}.stamp.red{color:var(--bad)}
+.stamp.green::before{content:"✓ "}.stamp.red::before{content:"✕ "}.stamp.amber::before{content:"! "}
+.pill{display:inline-block;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+.pill.green{background:var(--ok-soft);color:var(--ok)}.pill.amber{background:var(--warn-soft);color:var(--warn)}.pill.red{background:var(--bad-soft);color:var(--bad)}
+.pill.idle{background:var(--desk);color:var(--ink-2)}
+
+/* ---------- the draft: ruled legal paper ---------- */
+.legalpad{position:relative;background:
+   linear-gradient(90deg,transparent 54px,rgba(194,65,12,.55) 54px,rgba(194,65,12,.55) 55.5px,transparent 55.5px),
+   repeating-linear-gradient(180deg,#fff 0,#fff 27px,#e8eef2 27px,#e8eef2 28px);
+  padding:14px 22px 22px 74px;font:15px/28px var(--serif);white-space:pre-wrap;max-height:72vh;overflow:auto;border:1px solid var(--rule)}
+mark.ph{background:var(--brass-soft);color:#7a5a12;border-radius:2px;padding:0 3px;font:500 12.5px var(--mono)}
+.cit{cursor:pointer;padding:1px 2px;border-bottom:2.5px solid;background:rgba(255,255,255,.7)}
+.cit.green{border-color:var(--ok)}.cit.amber{border-color:var(--warn);background:var(--warn-soft)}.cit.red{border-color:var(--bad);background:var(--bad-soft)}
+.cit:hover{outline:2px solid var(--brass)}
+.passage{border-left:3px solid var(--brass);padding:10px 14px;background:#fcfaf4;white-space:pre-wrap;font:13.5px/1.6 var(--serif);max-height:280px;overflow:auto;margin:8px 0}
+.evidence{background:#fcfaf4;border:1px dashed var(--rule-2);padding:14px;border-radius:3px}
+
+/* ---------- verification list ---------- */
+.vlist{list-style:none;margin:0;padding:0}
+.vlist li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;padding:11px 0;border-bottom:1px solid var(--rule);align-items:start}
+.vlist li:last-child{border-bottom:0}
+.vlist a{font:500 13px var(--mono);color:var(--ink);text-decoration:none;word-break:break-word}
+.vlist a:hover{color:var(--seal)}
+.release{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:3px;margin-bottom:14px}
+.release.clear{background:var(--ok-soft);color:var(--ok)}.release.needs_acknowledgement{background:var(--warn-soft);color:var(--warn)}
+.release.blocked{background:var(--bad-soft);color:var(--bad)}
+.release b{font:600 17px var(--serif)}
+
+/* ---------- dashboard ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:26px}
+.stat{background:var(--paper);border:1px solid var(--rule);padding:18px 20px;border-top:4px solid var(--spine)}
+.stat:nth-child(2){border-top-color:var(--seal)}.stat:nth-child(3){border-top-color:var(--brass)}
+.stat .n{font:600 40px/1 var(--serif)}
+.stat .l{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:8px}
+.deadlines{display:grid;gap:10px}
+.dl{display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:16px;align-items:center;padding:10px 0;border-bottom:1px solid var(--rule)}
+.dl:last-child{border-bottom:0}
+.cal{border:1.5px solid var(--ink);border-radius:3px;text-align:center;overflow:hidden;background:var(--paper)}
+.cal .m{background:var(--seal);color:#fff;font:600 10.5px var(--mono);letter-spacing:.14em;padding:2px 0}
+.cal .d{font:600 26px/1.25 var(--serif)}
+.cal.past .m{background:var(--mute)}
+.dl .t{font-weight:600}.dl .s{font-size:13px;color:var(--mute)}
+.days{font:500 12px var(--mono);color:var(--ink-2);text-align:right}
+.days.soon{color:var(--seal)}
+
+/* ---------- login ---------- */
+.logo{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 2px rgba(242,197,107,.55)}
+.logo.lg{width:68px;height:68px}
+.login h1.caption{font-size:34px;line-height:1.18;font-style:italic;font-weight:500;color:#f2c56b}
+.login h1.caption em{font-style:italic;color:inherit}
+.draftform label{display:block;font-size:13px;color:var(--ink-2);margin:10px 0 4px}
+.draftform input,.draftform textarea{width:100%;box-sizing:border-box}
+.draftform button{margin-top:10px}
+details.sec{border-bottom:1px solid var(--rule);padding:10px 0}
+details.sec summary{cursor:pointer}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.qa{display:flex;flex-direction:column;gap:2px;padding:14px 16px;background:var(--paper);border:1px solid var(--rule);border-top:3px solid var(--seal);text-decoration:none;color:var(--ink)}
+.qa:hover{border-color:var(--seal)}.qa i{font-style:normal;color:var(--seal);font:600 18px var(--serif)}.qa b{font-weight:600}.qa span{color:var(--mute);font-size:13px}
+@media (max-width:900px){.quick{grid-template-columns:1fr 1fr}}
+.authtabs{display:flex;gap:4px;border-bottom:1px solid var(--rule);margin-bottom:18px}
+.authtabs a{padding:9px 14px;color:var(--mute);text-decoration:none;font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
+.authtabs a.on{color:var(--ink);border-bottom-color:var(--seal)}
+.or{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:12px;margin:16px 0 12px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--rule)}
+.who{margin-top:auto;padding:12px 22px;border-top:1px solid rgba(255,255,255,.12);font-size:13px}
+.wholink{display:block;text-decoration:none;color:inherit}.wholink:hover .acct{text-decoration:underline}
+.who .acct{display:block;color:#f2c56b;margin-top:4px}
+.who b{display:block;color:#fff;font-weight:500}.who small{color:#9fbcb2;word-break:break-all}
+.login{display:grid;grid-template-columns:1.1fr 1fr;min-height:100vh}
+.login .hero{background:var(--spine);color:#fff;padding:60px 56px;display:flex;flex-direction:column;justify-content:space-between;
+  border-right:8px solid var(--brass);position:relative;overflow:hidden}
+.login .hero::after{content:"§";position:absolute;right:-30px;bottom:-120px;font:400 460px/1 var(--serif);color:rgba(255,255,255,.05)}
+.login h1{font:600 52px/1.05 var(--serif);margin:0 0 18px;letter-spacing:-.8px}
+.login h1 em{font-style:italic;color:#f2c56b;font-weight:400}
+.login .hero p{max-width:440px;color:#c9ddd5;font-size:16px}
+.login .formside{display:grid;place-items:center;padding:40px;background:var(--paper)}
+.login form{width:100%;max-width:340px}
+.login form input{width:100%;margin-bottom:12px;padding:12px 13px}
+.login form button{width:100%;padding:13px}
+.login .hero > div > p{font:italic 400 20px var(--serif);color:#f2c56b;margin:0}
+.features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:38px;max-width:620px;position:relative;z-index:1}
+.feat{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);padding:16px 16px 15px;border-radius:3px;transition:background .15s}
+.feat:hover{background:rgba(255,255,255,.08);border-color:rgba(242,197,107,.5)}
+.feat i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--seal);color:#fff;font:600 14px var(--serif);
+  font-style:normal;margin-bottom:10px}
+.feat b{display:block;font:600 16px var(--serif);color:#fff;margin-bottom:3px}
+.feat span{font-size:13px;line-height:1.45;color:#c9ddd5}
+
+/* ---------- assistant (chat) ---------- */
+.chat{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+.thread{display:flex;flex-direction:column;gap:18px;min-height:52vh;padding-bottom:150px}
+.msg.user{align-self:flex-end;max-width:78%;background:var(--spine);color:#eef5f1;padding:12px 16px;border-radius:14px 14px 2px 14px;
+  white-space:pre-wrap;box-shadow:0 6px 18px -12px rgba(15,59,51,.6)}
+.msg.bot{background:var(--paper);border:1px solid var(--rule);border-left:4px solid var(--brass);padding:18px 22px;
+  box-shadow:0 10px 24px -20px rgba(22,35,31,.4);font-size:15px;line-height:1.7}
+.msg.bot p{margin:0 0 10px}.msg.bot ul{margin:4px 0 12px;padding-left:20px}.msg.bot li{margin:4px 0}
+.msg.bot .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px dashed var(--rule-2)}
+.msg.bot .who{font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--seal);margin-bottom:8px}
+.src{display:inline-flex;gap:6px;align-items:center;font:500 12px var(--mono);background:var(--desk);border:1px solid var(--rule);
+  padding:3px 9px;border-radius:20px;cursor:pointer;color:var(--ink-2)}
+.src:hover{border-color:var(--brass);color:var(--ink)}
+.composer{position:fixed;bottom:0;left:232px;right:0;padding:16px 40px 22px;background:linear-gradient(180deg,rgba(244,241,234,0),var(--desk) 30%)}
+.composer .box{max-width:1160px;display:flex;gap:10px;align-items:flex-end;background:var(--paper);border:1.5px solid var(--ink);
+  border-radius:6px;padding:10px 10px 10px 14px;box-shadow:0 12px 30px -18px rgba(22,35,31,.5)}
+.composer textarea{border:0;min-height:26px;max-height:180px;resize:none;padding:4px 0;font:15px/1.5 var(--sans);box-shadow:none}
+.composer textarea:focus{box-shadow:none}
+.composer .hint{max-width:1160px;font-size:12px;color:var(--mute);margin-top:6px;display:flex;justify-content:space-between}
+.starters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
+.starter{background:var(--paper);border:1px solid var(--rule);padding:14px 16px;cursor:pointer;text-align:left;color:var(--ink);
+  box-shadow:none;font-weight:400;border-radius:3px}
+.starter:hover{border-color:var(--seal);background:#fffdf8}
+.starter b{display:block;font:600 15px var(--serif);margin-bottom:3px}
+.starter span{font-size:13px;color:var(--mute)}
+.intro{text-align:center;padding:30px 0 18px}
+.intro .seal{width:56px;height:56px;font-size:24px;margin:0 auto 14px}
+.intro h2{font-size:30px;margin-bottom:6px}
+@media (max-width:900px){.chat{grid-template-columns:1fr}.composer{left:0;padding:12px 12px 16px}.starters{grid-template-columns:1fr}.msg.user{max-width:92%}}
+
+.chatbar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.chatbar select{margin-left:8px;max-width:280px}
+.chatbar #clr{margin-left:auto}
+button.small{padding:6px 12px;font-size:13px}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2);cursor:pointer}
+.switch input{display:none}
+.switch span{width:36px;height:20px;border-radius:20px;background:var(--rule-2);position:relative;transition:background .15s}
+.switch span::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
+.switch input:checked + span{background:var(--spine-2)}
+.switch input:checked + span::after{left:19px}
+.attach{background:transparent;color:var(--ink-2);box-shadow:none;font-size:19px;padding:6px 8px}
+.attach:hover{background:var(--desk);color:var(--ink)}
+.sysnote{align-self:center;font:500 11.5px var(--mono);letter-spacing:.06em;color:var(--mute);border:1px dashed var(--rule-2);padding:4px 12px;border-radius:20px}
+.starter i{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--spine);color:#fff;
+  font:600 13px var(--serif);font-style:normal;margin-bottom:8px}
+.side{position:sticky;top:24px}
+.shield{display:flex;gap:12px;align-items:flex-start;margin-top:14px;padding:11px 14px;border-radius:4px;border:1px solid}
+.shield b{display:block;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.shield span:not(.shield-icon){font-size:13.5px}
+.shield-icon{font-size:20px;line-height:1}
+.shield.green{background:var(--ok-soft);border-color:#b9dcc6;color:var(--ok)}
+.shield.amber{background:var(--warn-soft);border-color:#f0d79b;color:var(--warn)}
+.shield.red{background:var(--bad-soft);border-color:#f0b9b3;color:var(--bad)}
+.shield.idle{background:var(--desk);border-color:var(--rule);color:var(--ink-2)}
+.msg.bot table td{padding:7px 8px}
+
+/* ---------- guide ---------- */
+.gstep{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.gstep:last-child{border-bottom:0}
+.gnum{width:36px;height:36px;border-radius:50%;background:var(--seal);color:#fff;display:grid;place-items:center;font:600 17px var(--serif)}
+.gh{font:600 17px var(--serif);text-transform:none;letter-spacing:0;color:var(--ink);margin:4px 0 4px}
+.gstep p{margin:0}
+.gex{display:inline-block;font:500 12.5px var(--mono);background:var(--brass-soft);color:#6b4f12;padding:2px 9px;border-radius:3px;
+  cursor:pointer;margin:2px 2px;border:1px solid #ead9a8}
+.gex:hover{background:#f1e2b6}
+.gex::after{content:" ↗";opacity:.6}
+.newhere{display:flex;align-items:center;gap:12px;background:var(--brass-soft);border:1px solid #ead9a8;padding:12px 16px;margin-bottom:22px;border-radius:3px}
+
+/* ---------- calendar, cases, quiet citation check ---------- */
+.kpill{display:inline-block;font:500 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;border:1px solid;vertical-align:1px}
+.k-hearing{color:var(--seal);border-color:#f0b9a3;background:#fff6f1}
+.k-deadline{color:var(--warn);border-color:#ecd59a;background:#fffaee}
+.k-filing{color:var(--ok);border-color:#b9dcc6;background:#f3faf5}
+.k-user{color:var(--ink-2);border-color:var(--rule-2);background:#fff}
+.calwrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
+.calhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.calhead .legend{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.cgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}
+.cwd{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);padding:6px 8px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.cday{min-height:104px;padding:6px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:#fff}
+.cday.other{background:#fbfaf7}.cday.other .cnum{color:#c5c0b3}
+.cday.today{box-shadow:inset 0 0 0 2px var(--seal)}
+.cnum{font:600 14px var(--serif);margin-bottom:4px}
+.cev{font-size:11.5px;line-height:1.3;padding:3px 6px;border-radius:3px;margin-bottom:3px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:1px solid}
+.cev.done{opacity:.45;text-decoration:line-through}
+.cmore{font-size:11px;color:var(--spine-2);cursor:pointer}
+.weekbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--rule);border-left:4px solid var(--seal);padding:10px 14px;margin-bottom:18px}
+.weekbar .wk{font-size:13px;border:1px solid var(--rule);padding:3px 9px;border-radius:3px;cursor:pointer}
+.weekbar .wk:hover{border-color:var(--seal)}
+.dl.done{opacity:.5}
+.casehead{font-size:17px;margin:-10px 0 20px}
+.caseline{padding:8px 0;border-bottom:1px solid var(--rule)}.caseline:last-child{border-bottom:0}
+.filing{background:#fff;border:1px solid var(--rule);border-left:4px solid var(--spine);padding:10px 14px}
+details.manual summary{cursor:pointer;font-weight:600}
+.cite{border-bottom:1px dotted var(--spine-2);cursor:pointer}
+.cite:hover{background:#f3f7f5}
+.checked{margin-top:12px;font:500 12px var(--mono);color:var(--ok)}
+details.checked summary{cursor:pointer;list-style:none}
+details.checked summary::-webkit-details-marker{display:none}
+details.checked summary::after{content:"  ▸ details";color:var(--mute)}
+details.checked[open] summary::after{content:"  ▾"}
+.chg{font:13px var(--sans);color:var(--ink);margin:6px 0 0 2px}
+.corrected{margin-top:10px}
+@media (max-width:900px){.calwrap{grid-template-columns:1fr}.cday{min-height:70px}.cev{font-size:10px}}
+
+/* ---------- misc ---------- */
+.drop{border:1.5px dashed var(--rule-2);background:#fcfbf7;padding:16px;border-radius:3px}
+.chip{font:500 12px var(--mono);background:var(--desk);padding:2px 8px;border-radius:2px;color:var(--ink-2)}
+.working{display:flex;gap:14px;align-items:center}
+.dots span{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--seal);margin-right:5px;animation:b 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s;background:var(--brass)}.dots span:nth-child(3){animation-delay:.4s;background:var(--spine-2)}
+@keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.steps .chip.done{background:var(--ok-soft);color:var(--ok)}
+.empty{padding:22px;text-align:center;color:var(--mute);border:1px dashed var(--rule-2);font-size:14px}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:0;border-bottom:5px solid var(--brass)}
+  .brand{padding:16px}.brand small,.disclaimer{display:none}
+  #nav{display:flex;overflow-x:auto;padding:0}
+  #nav a{padding:12px 14px;border-left:0;border-bottom:3px solid transparent;white-space:nowrap}
+  #nav a.on{margin-right:0;border-bottom-color:var(--seal)}
+  main{padding:22px 16px 40px}
+  .grid,.login,.stats{grid-template-columns:1fr}
+  .login .hero{padding:34px 22px;border-right:0;border-bottom:6px solid var(--brass)}
+  .login h1{font-size:36px}
+  .features{grid-template-columns:1fr}
+  .pagehead h1{font-size:27px}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+"use strict";
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let token = null; try { token = localStorage.getItem("dp_token") || sessionStorage.getItem("dp_token"); } catch (e) {}
+const root = $("#root");
+let app = null;
+
+async function api(path, opts = {}) {
+  const headers = Object.assign({}, opts.headers || {});
+  if (token) headers.Authorization = "Bearer " + token;
+  if (opts.json) { headers["Content-Type"] = "application/json"; opts.body = JSON.stringify(opts.json); }
+  const r = await fetch(path, Object.assign({}, opts, {headers}));
+  if (r.status === 401 && !path.startsWith("/auth/") ) { logout(); throw new Error("Please sign in again"); }
+  const ct = r.headers.get("content-type") || "";
+  const body = ct.includes("json") ? await r.json() : await r.text();
+  if (!r.ok) throw new Error((body && body.detail) ? (typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail)) : r.statusText);
+  return body;
+}
+function logout() {
+  try { localStorage.removeItem(chatKey()); sessionStorage.clear(); } catch (e) {}
+  token = null; me = null; chatLog = []; chatOwner = null;
+  try { localStorage.removeItem("dp_token"); } catch (e) {}
+  try { if (window.google && google.accounts) google.accounts.id.disableAutoSelect(); } catch (e) {}
+  location.hash = "#login"; route();
+}
+// Renew the week-long token on each visit so an active user is never asked to sign in again.
+let me = null;
+async function renew() {
+  if (!token) return;
+  try { saveToken((await api("/auth/refresh", {method: "POST"})).access_token); me = await api("/auth/me"); }
+  catch (e) { if (/sign in/i.test(e.message)) { token = null; try { localStorage.removeItem("dp_token"); } catch (x) {} } }
+}
+
+const NAV = [["dashboard","Dashboard","01"],["ask","Ask DocketPilot","02"],["matters","Cases","03"],["calendar","Calendar","04"],["research","Research","05"],["verify","Check a document","06"],["guide","How to use","?"]];
+function shell(active) {
+  if (!$(".shell")) {
+    root.innerHTML = `<div class="shell"><aside>
+      <div class="brand"><div class="mark"><img class="logo" src="/logo.png" alt=""><b>DocketPilot</b></div><small>Research & drafting</small></div>
+      <nav id="nav"></nav>
+      <div class="who" id="who"></div>
+      <div class="disclaimer">Prototype · Not legal advice · Not lawyer-reviewed</div>
+      </aside><main id="app"></main></div>`;
+  }
+  $("#nav").innerHTML = NAV.map(([k,l,n]) => `<a class="${k===active?"on":""}" href="#${k}"><span class="tab">${n}</span>${l}</a>`).join("")
+    + `<a onclick="logout()"><span class="tab">⏻</span>Sign out</a>`;
+  if (me) $("#who").innerHTML = `<a href="#account" class="wholink"><b>${esc(me.full_name)}</b><small>${esc(me.email)}</small><small class="acct">Account · password</small></a>`;
+  app = $("#app");
+  return app;
+}
+const head = (eyebrow, title, right = "") => `<div class="pagehead"><div><div class="eyebrow">${esc(eyebrow)}</div><h1>${esc(title)}</h1></div><div class="right">${right}</div></div>`;
+const LABEL = {green:"verified", amber:"check", red:"problem"};
+const stamp = c => `<span class="stamp ${c}">${LABEL[c] || esc(c)}</span>`;
+const STATUS = {approved:"green", awaiting_approval:"amber", blocked:"red", failed:"red", running:"idle"};
+const pill = s => `<span class="pill ${STATUS[s] || "idle"}">${esc(String(s).replace(/_/g," "))}</span>`;
+const fail = e => `<p class="err">${esc(e.message || e)}</p>`;
+const MONTHS = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+function cal(iso) {
+  const d = new Date(iso + "T00:00:00"); const today = new Date(); today.setHours(0,0,0,0);
+  const days = Math.round((d - today) / 86400000);
+  return {tile: `<div class="cal ${days < 0 ? "past" : ""}"><div class="m">${MONTHS[d.getMonth()]} ${String(d.getFullYear()).slice(2)}</div><div class="d">${d.getDate()}</div></div>`,
+    days: days < 0 ? `${-days} days ago` : days === 0 ? "today" : `in ${days} days`, soon: days >= 0 && days <= 10};
+}
+
+// ---------- sign in / create account ----------
+function saveToken(t) { token = t; try { localStorage.setItem("dp_token", t); } catch (e) {} }
+async function signedIn(t) {
+  saveToken(t.access_token); try { me = await api("/auth/me"); } catch (e) {}
+  if (["", "#", "#login", "#signup"].includes(location.hash)) location.hash = "#dashboard"; else route();
+}
+let authCfg = null;
+async function googleButton(box, onError) {
+  try { authCfg = authCfg || await api("/auth/config"); } catch (e) { authCfg = {}; }
+  if (!authCfg.google_client_id) { box.innerHTML = ""; return; }
+  const draw = () => {
+    google.accounts.id.initialize({client_id: authCfg.google_client_id, callback: async r => {
+      try { await signedIn(await api("/auth/google", {method: "POST", json: {credential: r.credential}})); } catch (e) { onError(e); }
+    }});
+    box.innerHTML = '<div class="or"><span>or</span></div><div id="gbtn"></div>';
+    google.accounts.id.renderButton($("#gbtn"), {theme: "outline", size: "large", width: 340, text: "continue_with", shape: "rectangular"});
+  };
+  if (window.google && google.accounts) return draw();
+  const sc = document.createElement("script"); sc.src = "https://accounts.google.com/gsi/client"; sc.async = true; sc.onload = draw;
+  document.head.appendChild(sc);
+}
+function viewLogin(mode) {
+  mode = mode || (location.hash === "#signup" ? "signup" : "signin");
+  const up = mode === "signup";
+  root.innerHTML = `<div class="login"><div class="hero"><div><div class="mark" style="display:flex;gap:12px;align-items:center;margin-bottom:60px">
+      <img class="logo lg" src="/logo.png" alt=""><b style="font:700 30px var(--brand);letter-spacing:.06em">DocketPilot</b></div>
+      <h1 class="caption">An Agentic AI System for Indian Legal Research, Drafting, <em>Anti-Hallucination Verification and Case Management</em></h1>
+      <div class="features">
+        <div class="feat"><i>✓</i><b>Fake-citation shield</b><span>Wrong citations are corrected or removed before you see them.</span></div>
+        <div class="feat"><i>¶</i><b>Drafts in minutes</b><span>Notices, petitions, replies, applications, ready in Word.</span></div>
+        <div class="feat"><i>◐</i><b>Private by design</b><span>Client names are masked before any AI sees them.</span></div>
+        <div class="feat"><i>◷</i><b>Never miss a date</b><span>Hearing dates read from your papers onto your calendar.</span></div>
+        <div class="feat"><i>?</i><b>Ask DocketPilot</b><span>One chat for questions, drafts, dates and citation checks.</span></div>
+        <div class="feat"><i>⚖</i><b>Precedent finder</b><span>Supreme Court and High Court judgments, in seconds.</span></div>
+      </div></div>
+      <div class="mute" style="color:#9fbcb2">Prototype · Not legal advice</div></div>
+    <div class="formside"><form id="f" autocomplete="on">
+      <div class="authtabs"><a class="${up ? "" : "on"}" href="#login">Sign in</a><a class="${up ? "on" : ""}" href="#signup">Create account</a></div>
+      <h2 style="font-size:28px;margin:6px 0 18px">${up ? "Start free" : "Welcome back"}</h2>
+      ${up ? `<input name="n" placeholder="Your name" autocomplete="name" required>` : ""}
+      <input name="u" type="email" placeholder="Email" autocomplete="${up ? "email" : "username"}" required>
+      <input name="p" type="password" placeholder="${up ? "Password (at least 8 characters)" : "Password"}" autocomplete="${up ? "new-password" : "current-password"}" minlength="${up ? 8 : 1}" required>
+      ${up ? `<input name="c" placeholder="Chambers / firm name (optional)" autocomplete="organization">` : ""}
+      <button>${up ? "Create account" : "Sign in"}</button>
+      <div id="g"></div><div id="e"></div>
+      <p class="mute" style="font-size:12.5px;margin-top:16px">${up ? "Your cases are private to your account. You stay signed in on this device until you sign out." : "You stay signed in on this device until you sign out."}</p>
+    </form></div></div>`;
+  const showErr = e => { $("#e").innerHTML = fail(e); };
+  $("#f").onsubmit = async ev => {
+    ev.preventDefault();
+    const f = ev.target, btn = f.querySelector("button"); btn.disabled = true; $("#e").innerHTML = "";
+    try {
+      if (up) await signedIn(await api("/auth/signup", {method: "POST", json: {email: f.u.value, password: f.p.value, full_name: f.n.value, chambers: f.c.value || null}}));
+      else await signedIn(await api("/auth/login", {method: "POST", body: new URLSearchParams({username: f.u.value, password: f.p.value})}));
+    } catch (e) { showErr(e); btn.disabled = false; }
+  };
+  googleButton($("#g"), showErr);
+}
+
+// ---------- account ----------
+function viewAccount() {
+  const app = shell("");
+  const u = me || {};
+  app.innerHTML = head("Your account", u.full_name || "Account") + `<div class="grid"><div class="card"><h2>Details</h2>
+    <table><tbody><tr><td class="mute">Name</td><td><b>${esc(u.full_name || "")}</b></td></tr><tr><td class="mute">Email</td><td>${esc(u.email || "")}</td></tr>
+    <tr><td class="mute">Role</td><td>${esc(u.role || "")} <span class="mute">(your own private workspace)</span></td></tr></tbody></table>
+    <p style="margin-top:16px"><button class="ghost" onclick="logout()">Sign out on this device</button></p></div>
+    <div class="card"><h2>Change password</h2><form id="pw" class="draftform">
+      <label for="pw0">Current password <span class="mute">(leave empty if you only use Google)</span></label><input id="pw0" type="password" autocomplete="current-password">
+      <label for="pw1">New password <span class="mute">(at least 8 characters)</span></label><input id="pw1" type="password" minlength="8" autocomplete="new-password" required>
+      <button>Change password</button></form><div id="pwe"></div></div></div>`;
+  $("#pw").onsubmit = async ev => { ev.preventDefault();
+    try { await api("/auth/password", {method: "POST", json: {current_password: $("#pw0").value, new_password: $("#pw1").value}});
+      $("#pwe").innerHTML = `<p>${stamp("green")} Password changed.</p>`; ev.target.reset(); } catch (e) { $("#pwe").innerHTML = fail(e); } };
+}
+
+// ---------- dashboard ----------
+const KIND_CLASS = {hearing: "k-hearing", deadline: "k-deadline", rule: "k-deadline", filing: "k-filing", notice: "k-filing", order: "k-filing", user: "k-user", other: "k-user"};
+// "H.M.O.P. No. 214 of 2026" -> "214/2026" so cases can be told apart on small calendar chips
+const shortCase = s => { const m = String(s || "").match(/(\d{1,6})\s*(?:of|\/)\s*((?:19|20)\d{2})/); return m ? `${m[1]}/${m[2]}` : String(s || "").slice(0, 14); };
+const niceDate = iso => new Date(String(iso).slice(0, 10) + "T00:00:00").toLocaleDateString("en-IN", {day: "numeric", month: "short", year: "numeric"});
+const kindPill = e => `<span class="kpill ${KIND_CLASS[e.kind] || "k-user"}">${esc(e.kind_label || e.kind)}</span>`;
+const partyLine = c => c.petitioner ? `${esc(c.petitioner)}${c.respondent ? " <span class='mute'>v.</span> " + esc(c.respondent) : ""}` : `<span class="mute">parties not read yet</span>`;
+
+async function viewDashboard() {
+  const app = shell("dashboard");
+  const today = new Date().toLocaleDateString("en-IN", {weekday: "long", day: "numeric", month: "long", year: "numeric"});
+  app.innerHTML = head(today, "Today's docket") + `<div class="card">Loading…</div>`;
+  try {
+    const [cases, calr, desk] = await Promise.all([api("/cases"), api("/calendar"), api("/dashboard")]);
+    const week = calr.due_this_week;
+    const hearings = week.filter(e => e.kind === "hearing").length;
+    const upcoming = calr.events.filter(e => e.status === "open" && e.date >= new Date().toISOString().slice(0, 10)).slice(0, 8);
+    app.innerHTML = head(today, "Today's docket", `<a href="#ask"><button>Ask DocketPilot</button></a>`) + `
+      ${cases.length === 0 ? `<div class="newhere"><b style="font-family:var(--serif);font-size:17px">New here?</b><span>Attach your first case papers in the chat. The case file, parties and hearing dates are created for you.</span><a href="#guide" style="margin-left:auto"><button class="ghost small">Open the guide</button></a></div>` : ""}
+      <div class="quick">${QUICK.map(([i, t, d, ask]) => `<a class="qa" data-ask="${esc(ask)}" href="${ask.startsWith("#") ? ask : "#ask"}"><i>${i}</i><b>${esc(t)}</b><span>${esc(d)}</span></a>`).join("")}</div>
+      <div class="stats"><div class="stat"><div class="n">${cases.length}</div><div class="l">Cases</div></div>
+        <div class="stat"><div class="n">${hearings}</div><div class="l">Hearings in the next 7 days</div></div>
+        <div class="stat"><div class="n">${desk.drafts_needing_action.length}</div><div class="l">Drafts waiting for you</div></div></div>
+      <div class="grid"><div class="card tabbed" data-tab="Coming up"><h2>Next dates</h2>
+        ${upcoming.length ? `<div class="deadlines">${upcoming.map(e => { const c = cal(e.date);
+          return `<div class="dl">${c.tile}<div><div class="t">${esc(e.title)} ${kindPill(e)}</div><div class="s"><a href="#matter/${e.matter_id}">${esc(e.case)}</a>${e.petitioner ? " · " + esc(e.petitioner) : ""}</div></div><div class="days ${c.soon ? "soon" : ""}">${c.days}</div></div>`; }).join("")}</div>
+          <p style="margin-top:12px"><a href="#calendar">Open the calendar →</a></p>`
+        : `<div class="empty">No dates yet. Attach a case paper and its dates go on the calendar automatically.</div>`}</div>
+      <div><div class="card tabbed" data-tab="Desk"><h2>Drafts on your desk</h2>${desk.drafts_needing_action.length ? `<table><tbody>${desk.drafts_needing_action.map(r => `<tr><td><a href="#draft/${r.id}"><b>v${r.version}</b> ${esc(docName(r.template, r))}</a><div class="mute">${esc(r.matter)}</div></td><td style="text-align:right">${pill(r.status)}</td></tr>`).join("")}</tbody></table>`
+        : `<div class="empty">Nothing waiting for you.</div>`}</div>
+      <div class="card tabbed" data-tab="Cases"><h2>Recent cases</h2>${cases.slice(0, 5).map(c => `<div class="caseline"><a href="#matter/${c.id}"><b>${esc(c.case_number || c.title)}</b></a><div class="mute">${partyLine(c)}${c.next_hearing ? " · next hearing " + niceDate(c.next_hearing) : ""}</div></div>`).join("") || `<div class="empty">No cases yet.</div>`}
+        ${cases.length > 5 ? `<p><a href="#matters">All ${cases.length} cases →</a></p>` : ""}</div></div></div>`;
+    app.querySelectorAll(".qa").forEach(a => a.onclick = () => { if (!a.dataset.ask.startsWith("#")) try { sessionStorage.setItem("dp_prefill", a.dataset.ask); } catch (e) {} });
+  } catch (e) { app.innerHTML = head(today, "Today's docket") + fail(e); }
+}
+const QUICK = [["¶", "Draft a document", "Petition, application, notice, reply", "Draft a "],
+  ["§", "Ask a legal question", "Answers from real judgments and Acts", "What does the law say about "],
+  ["⌕", "Find a section", "36 Central Acts, by topic", "#research"],
+  ["✓", "Check citations", "Paste text; wrong citations get fixed", "#verify"]];
+
+// ---------- adding papers (shared by Cases, a case page and the chat) ----------
+// Reads the paper on this machine, finds the case number, shows what will be masked and where it will be filed.
+async function paperPreview(file, matterId) {
+  const fd = new FormData(); fd.append("file", file); if (matterId) fd.append("matter_id", matterId);
+  return api("/papers/preview", {method: "POST", body: fd});
+}
+function paperReviewHtml(pv) {
+  const t = pv.target;
+  return `<div class="filing"><span class="mute">Filing under</span> <b>${esc(t.label)}</b> ${t.new ? `<span class="kpill k-filing">new case file</span>` : `<span class="kpill k-user">existing case</span>`}</div>
+    <p class="mute" style="margin:8px 0">These are hidden before anything goes to the AI. Untick anything that isn't private.</p>
+    <table><tbody>${pv.entities.map((e, k) => `<tr><td><span class="chip">${esc(e.type)}</span></td><td>${esc(e.value)}</td><td><mark class="ph">${esc(e.placeholder)}</mark></td><td><label class="mute"><input type="checkbox" class="keep" data-k="${k}" checked>hide</label></td></tr>`).join("") || `<tr><td class="mute">Nothing private found.</td></tr>`}</tbody></table>
+    <div class="row" style="margin-top:12px"><input class="extra" placeholder="Anything missed? Type it exactly as written" style="flex:1"><button class="file-it">File it</button></div>`;
+}
+async function paperConfirm(box, pv) {
+  const unmask = [...box.querySelectorAll(".keep")].filter(x => !x.checked).map(x => pv.entities[x.dataset.k].value);
+  const extra = box.querySelector(".extra").value.trim();
+  return api("/papers/confirm", {method: "POST", json: {preview_id: pv.preview_id, unmask, extra: extra ? [["PERSON", extra]] : []}});
+}
+function filedHtml(r) {
+  const m = r.matter;
+  return `<p>Filed <b>${r.masked}</b> hidden item(s) under <a href="#matter/${m.id}"><b>${esc(m.case_number || m.title)}</b></a>${r.new_case ? " (new case file)" : ""}.</p>
+    ${m.petitioner ? `<p class="mute">${partyLine(m)}${m.court ? " · " + esc(m.court) : ""}${m.case_type ? " · " + esc(m.case_type) : ""}</p>` : ""}
+    ${r.events.length ? `<p><b>Added ${r.events.length} date(s) to your calendar:</b></p><div class="deadlines">${r.events.map(e => { const c = cal(e.date);
+        return `<div class="dl">${c.tile}<div><div class="t">${esc(e.title)} ${kindPill({kind: e.kind, kind_label: e.kind})}</div></div><div class="days ${c.soon ? "soon" : ""}">${c.days}</div></div>`; }).join("")}</div>`
+      : `<p class="mute">No dates found in this paper.</p>`}
+    ${r.warning ? `<p class="err">${esc(r.warning)}</p>` : ""}`;
+}
+function paperFlow(container, file, matterId, onDone) {
+  container.innerHTML = `<div class="card"><div class="working"><div class="dots"><span></span><span></span><span></span></div><span class="mute">Reading ${esc(file.name)} and hiding names on this machine…</span></div></div>`;
+  paperPreview(file, matterId).then(pv => {
+    container.innerHTML = `<div class="card">${paperReviewHtml(pv)}</div>`;
+    container.querySelector(".file-it").onclick = async ev => {
+      ev.target.disabled = true; ev.target.textContent = "Filing and reading dates…";
+      try { const r = await paperConfirm(container, pv); container.innerHTML = `<div class="card">${filedHtml(r)}</div>`; onDone && onDone(r); }
+      catch (e) { container.innerHTML += fail(e); }
+    };
+  }).catch(e => { container.innerHTML = `<div class="card">${fail(e)}</div>`; });
+}
+
+// ---------- cases ----------
+async function viewMatters() {
+  const app = shell("matters");
+  app.innerHTML = head("Case files", "Cases", `<button id="addp">📎 Add case papers</button><input type="file" id="pf" accept=".pdf,.docx,.txt" hidden>`)
+    + `<div id="flow"></div><div class="card" id="list">Loading…</div>
+    <details class="card manual"><summary>Open a case file by hand</summary><form id="f" class="row" style="margin-top:12px"><input name="t" placeholder="Case number or your label" style="flex:1;min-width:240px">
+      <input name="c" placeholder="Court (optional)"><button class="ghost">Open case file</button></form><div id="e"></div></details>`;
+  $("#addp").onclick = () => $("#pf").click();
+  $("#pf").onchange = () => { const f = $("#pf").files[0]; $("#pf").value = ""; if (f) paperFlow($("#flow"), f, null, () => loadList()); };
+  $("#f").onsubmit = async ev => { ev.preventDefault();
+    try { const m = await api("/matters", {method: "POST", json: {title: ev.target.t.value, court: ev.target.c.value || null}}); location.hash = "#matter/" + m.id; }
+    catch (e) { $("#e").innerHTML = fail(e); } };
+  async function loadList() {
+    try {
+      const cs = await api("/cases");
+      $("#list").innerHTML = cs.length ? `<table><thead><tr><th>Case</th><th>Parties</th><th>Court · type</th><th>Next hearing</th><th>Papers</th><th>Draft</th></tr></thead><tbody>
+        ${cs.map(c => `<tr><td><a href="#matter/${c.id}"><b>${esc(c.case_number || c.title)}</b></a></td><td>${partyLine(c)}</td>
+          <td class="mute">${esc([c.court, c.case_type].filter(Boolean).join(" · ") || "—")}</td>
+          <td>${c.next_hearing ? `<b>${niceDate(c.next_hearing)}</b>` : `<span class="mute">—</span>`}</td><td><span class="chip">${c.documents}</span></td>
+          <td>${c.latest_draft_status ? pill(c.latest_draft_status) : `<span class="mute">—</span>`}</td></tr>`).join("")}</tbody></table>`
+        : `<div class="empty">No cases yet. Click <b>📎 Add case papers</b>: the case file, parties and dates are created for you.</div>`;
+    } catch (e) { $("#list").innerHTML = fail(e); }
+  }
+  loadList();
+}
+
+async function viewMatter(id) {
+  const app = shell("matters");
+  app.innerHTML = `<div class="card">Loading…</div>`;
+  let m, card; try { [m, card] = await Promise.all([api("/matters/" + id), api("/cases").then(cs => cs.find(c => c.id === id))]); } catch (e) { app.innerHTML = fail(e); return; }
+  card = card || {};
+  const dates = m.reminders.slice().sort((a, b) => a.due_date < b.due_date ? -1 : 1);
+  app.innerHTML = head([card.court, card.case_type].filter(Boolean).join(" · ") || "Case file", card.case_number || m.title, `<a href="#matters" class="mute">← All cases</a>`) + `
+  <div class="casehead">${partyLine(card)}</div>
+  <div class="grid"><div>
+    <div class="card tabbed" data-tab="Papers"><h2>Case papers</h2>${m.documents.length ? `<table><tbody>${m.documents.map(d => `<tr><td><b>${esc(d.filename)}</b></td><td class="mute">${d.pages} page(s)</td><td style="text-align:right"><span class="kpill k-filing">${d.masks.length} hidden</span></td></tr>`).join("")}</tbody></table>` : `<div class="empty">No papers yet.</div>`}
+      <p style="margin-top:12px"><button class="ghost" id="addp">📎 Add a paper to this case</button><input type="file" id="pf" accept=".pdf,.docx,.txt" hidden></p><div id="flow"></div></div>
+    <div class="card tabbed" data-tab="Drafts"><h2>Drafts</h2>${m.drafts.length ? `<table><tbody>${m.drafts.map(d => `<tr><td><a href="#draft/${d.id}"><b>v${d.version}</b> ${esc(docName(d.template, d))}</a></td><td style="text-align:right">${pill(d.status)}</td></tr>`).join("")}</tbody></table>` : `<div class="empty">No drafts yet.</div>`}
+      <form id="gf" class="draftform"><label>Document</label>
+        <input id="dtp" list="doclist" placeholder="e.g. Bail application, Divorce petition, Reply to legal notice" required>
+        <datalist id="doclist">${DOC_SUGGESTIONS.map(x => `<option value="${esc(x)}">`).join("")}</datalist>
+        <label>What should it say? <span class="mute">(optional if the papers say it all)</span></label>
+        <textarea id="ins" rows="3" placeholder="Facts, relief you want, anything the papers don't cover. Names are masked before the AI sees them."></textarea>
+        <button id="gen">Draft it</button></form><div id="ge"></div></div>
+  </div><div>
+    <div class="card tabbed" data-tab="Dates"><h2>Case calendar</h2>${dates.length ? `<div class="deadlines">${dates.map(r => { const c = cal(r.due_date);
+        return `<div class="dl ${r.status === "done" ? "done" : ""}">${c.tile}<div><div class="t">${esc(r.title)}</div><div class="s">${esc(r.source)}</div></div><div class="days ${c.soon ? "soon" : ""}">${r.status === "done" ? "done" : c.days}</div></div>`; }).join("")}</div>`
+      : `<div class="empty">No dates yet.</div>`}
+      <div class="row" style="margin-top:14px"><button class="ghost small" id="reread">Read dates again from papers</button>${dates.length ? `<button class="ghost small" id="ics">Add to phone calendar (.ics)</button>` : ""}</div><div id="rr"></div></div>
+  </div></div>`;
+  $("#addp").onclick = () => $("#pf").click();
+  $("#pf").onchange = () => { const f = $("#pf").files[0]; $("#pf").value = ""; if (f) paperFlow($("#flow"), f, id, r => { if (r.matter.id !== id) location.hash = "#matter/" + r.matter.id; else setTimeout(() => viewMatter(id), 2500); }); };
+  $("#gf").onsubmit = async ev => { ev.preventDefault(); $("#gen").disabled = true;
+    const t = $("#dtp").value.trim(), wf = S138_DOCS[t] || "general";
+    try { const d = await api(`/matters/${id}/drafts`, {method: "POST", json: {workflow: wf, doc_type: wf === "general" ? t : null, instructions: $("#ins").value.trim() || null}}); location.hash = "#draft/" + d.id; }
+    catch (e) { $("#ge").innerHTML = fail(e); $("#gen").disabled = false; } };
+  $("#reread").onclick = async ev => { ev.target.disabled = true; ev.target.textContent = "Reading…";
+    try { const r = await api(`/cases/${id}/reread`, {method: "POST"}); $("#rr").innerHTML = `<p>${r.events.length} new date(s) found.</p>${r.warning ? fail(r.warning) : ""}`; setTimeout(() => viewMatter(id), 1500); }
+    catch (e) { $("#rr").innerHTML = fail(e); } };
+  const ics = $("#ics"); if (ics) ics.onclick = () => download(`/matters/${id}/reminders.ics`, "case-dates.ics");
+}
+
+async function download(path, name) {
+  const r = await fetch(path, {headers: {Authorization: "Bearer " + token}});
+  if (!r.ok) { alert((await r.json()).detail || r.statusText); return; }
+  const url = URL.createObjectURL(await r.blob()); const a = document.createElement("a"); a.href = url; a.download = name; a.click(); URL.revokeObjectURL(url);
+}
+
+// ---------- calendar ----------
+let calMonth = null;
+async function viewCalendar() {
+  const app = shell("calendar");
+  const now = new Date();
+  calMonth = calMonth || new Date(now.getFullYear(), now.getMonth(), 1);
+  const first = new Date(calMonth), gridStart = new Date(first); gridStart.setDate(1 - ((first.getDay() + 6) % 7));
+  const gridEnd = new Date(gridStart); gridEnd.setDate(gridStart.getDate() + 41);
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  app.innerHTML = head("Hearings, deadlines and reminders", "Calendar") + `<div class="card">Loading…</div>`;
+  let data, cases;
+  try { [data, cases] = await Promise.all([api(`/calendar?start=${iso(gridStart)}&end=${iso(gridEnd)}`), api("/cases")]); } catch (e) { app.innerHTML = fail(e); return; }
+  const byDay = {}; data.events.forEach(e => (byDay[e.date] = byDay[e.date] || []).push(e));
+  const todayIso = iso(now), monthName = first.toLocaleDateString("en-IN", {month: "long", year: "numeric"});
+  let cells = "";
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(gridStart); d.setDate(gridStart.getDate() + i);
+    const k = iso(d), evs = byDay[k] || [];
+    cells += `<div class="cday ${d.getMonth() !== first.getMonth() ? "other" : ""} ${k === todayIso ? "today" : ""}"><div class="cnum">${d.getDate()}</div>
+      ${evs.slice(0, 3).map(e => `<div class="cev ${KIND_CLASS[e.kind] || "k-user"} ${e.status === "done" ? "done" : ""}" data-ev="${e.id}" title="${esc((e.case || "") + " · " + e.title + (e.petitioner ? " · " + e.petitioner : ""))}"><b>${esc(shortCase(e.case))}</b> ${esc(e.title)}</div>`).join("")}
+      ${evs.length > 3 ? `<div class="cmore" data-day="${k}">+${evs.length - 3} more</div>` : ""}</div>`;
+  }
+  app.innerHTML = head("Hearings, deadlines and reminders", "Calendar") + `
+    ${data.due_this_week.length ? `<div class="weekbar"><b>This week</b>${data.due_this_week.map(e => `<span class="wk" data-ev="${e.id}"><b>${new Date(e.date + "T00:00:00").toLocaleDateString("en-IN", {weekday: "short", day: "numeric"})}</b> ${esc(e.case)} · ${esc(e.title)}</span>`).join("")}</div>` : ""}
+    <div class="calwrap"><div class="card"><div class="calhead"><button class="ghost small" id="prev">‹</button><h2 style="margin:0">${monthName}</h2><button class="ghost small" id="next">›</button>
+        <button class="ghost small" id="tod" style="margin-left:8px">Today</button>
+        <span class="legend"><span class="kpill k-hearing">Hearing</span><span class="kpill k-deadline">Deadline</span><span class="kpill k-filing">Filing / notice / order</span><span class="kpill k-user">Reminder</span></span></div>
+      <div class="cgrid">${["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d => `<div class="cwd">${d}</div>`).join("")}${cells}</div></div>
+    <div><div class="card tabbed" data-tab="Details"><h2>Details</h2><div id="evd" class="evidence mute">Click any date on the calendar.</div></div>
+      <div class="card tabbed" data-tab="Add"><h2>Add a reminder</h2><form id="addr"><select name="m" style="width:100%;margin-bottom:8px" required><option value="">Choose a case…</option>${cases.map(c => `<option value="${c.id}">${esc(c.label || c.title)}</option>`).join("")}</select>
+        <input name="t" placeholder="e.g. Hearing - cross-examination" style="width:100%;margin-bottom:8px" required><input name="d" type="date" style="width:100%;margin-bottom:10px" required>
+        <button style="width:100%">Add to calendar</button></form><div id="ae"></div>
+        <p class="mute">Tip: in the chat you can just type “Remind me about the hearing on 12 November”.</p></div></div></div>`;
+  $("#prev").onclick = () => { calMonth = new Date(first.getFullYear(), first.getMonth() - 1, 1); viewCalendar(); };
+  $("#next").onclick = () => { calMonth = new Date(first.getFullYear(), first.getMonth() + 1, 1); viewCalendar(); };
+  $("#tod").onclick = () => { calMonth = null; viewCalendar(); };
+  const show = id => { const e = data.events.find(x => x.id === id); if (!e) return; const c = cal(e.date);
+    $("#evd").classList.remove("mute");
+    $("#evd").innerHTML = `<div class="dl" style="border:0;padding:0">${c.tile}<div><div class="t">${esc(e.title)}</div><div class="s">${kindPill(e)} ${c.days}</div></div></div>
+      <p><a href="#matter/${e.matter_id}"><b>${esc(e.case)}</b></a>${e.petitioner ? " · " + esc(e.petitioner) : ""}</p>
+      ${e.source ? `<div class="passage">${esc(e.source)}</div>` : ""}${e.warn_on ? `<p class="mute">Reminder from ${esc(e.warn_on)}</p>` : ""}
+      <div class="row"><button class="small" id="dn">${e.status === "done" ? "Mark not done" : "Mark done"}</button><button class="ghost small" id="del">Delete</button></div>`;
+    $("#dn").onclick = async () => { await api("/reminders/" + e.id, {method: "PATCH", json: {status: e.status === "done" ? "open" : "done"}}); viewCalendar(); };
+    $("#del").onclick = async () => { if (confirm("Delete this date from the calendar?")) { await api("/reminders/" + e.id, {method: "DELETE"}); viewCalendar(); } };
+  };
+  app.querySelectorAll("[data-ev]").forEach(el => el.onclick = () => show(el.dataset.ev));
+  app.querySelectorAll("[data-day]").forEach(el => el.onclick = () => { const evs = byDay[el.dataset.day];
+    $("#evd").classList.remove("mute"); $("#evd").innerHTML = evs.map(e => `<p><a href="#" data-ev2="${e.id}">${esc(e.case)} · ${esc(e.title)}</a></p>`).join("");
+    $("#evd").querySelectorAll("[data-ev2]").forEach(a => a.onclick = ev => { ev.preventDefault(); show(a.dataset.ev2); }); });
+  $("#addr").onsubmit = async ev => { ev.preventDefault(); const f = ev.target;
+    try { await api("/reminders", {method: "POST", json: {matter_id: f.m.value, title: f.t.value, date: f.d.value}}); calMonth = new Date(f.d.value.slice(0, 7) + "-01T00:00:00"); viewCalendar(); }
+    catch (e) { $("#ae").innerHTML = fail(e); } };
+}
+
+// ---------- draft ----------
+let pollTimer = null;
+const STEP_NAMES = [["orchestrator","Plan"],["document_analysis","Read papers"],["research","Research"],["drafting","Draft"],["verification","Verify"],["strategy_risk","Checklist"],["monitoring","Deadlines"]];
+// One line explaining the stamp: existence verdict, then whatever made it amber/red.
+function whyColour(c) {
+  const parts = [{VERIFIED:"case found", PARTIAL:"partly matched", NOT_FOUND:"not in our corpus", CONFLICT:"cites a different case"}[c.verdict] || c.verdict];
+  const badQ = c.quotes.find(q => q.status !== "exact");
+  if (badQ) parts.push("quote " + badQ.status.replace(/_/g, " "));
+  const p = c.proposition || {};
+  if (p.label && p.label !== "supports") parts.push("proposition " + p.label.replace(/_/g, " "));
+  if (c.good_law && c.good_law.length) parts.push("later treatment noted");
+  return parts.join(" · ");
+}
+const docName = (t, d) => (d && d.doc_type) || ({demand_notice:"Cheque bounce notice (s.138)", complaint:"Cheque bounce complaint (s.138)", general:"Draft"}[t] || String(t).replace(/_/g," "));
+// Section 138 documents have fixed, rule-checked templates; anything else is drafted from the papers and the law.
+const S138_DOCS = {"Cheque bounce notice (s.138)": "demand_notice", "Cheque bounce complaint (s.138)": "complaint"};
+const DOC_SUGGESTIONS = ["Legal notice", "Reply to legal notice", "Bail application", "Anticipatory bail application", "Petition to quash FIR",
+  "Divorce petition", "Mutual consent divorce petition", "Maintenance petition", "Domestic violence complaint", "Plaint (money recovery suit)",
+  "Written statement", "Interim injunction application", "Consumer complaint", "Affidavit", "Vakalatnama", "Appeal memorandum",
+  "Revision petition", "Writ petition", "Rent agreement", "Sale agreement", "Cheque bounce notice (s.138)", "Cheque bounce complaint (s.138)"];
+const statuteNote = s => ({in_force:"in force on that date", not_yet_in_force:"not yet in force on that date",
+  repealed:"repealed: " + s.message, earlier_version_not_stored:"wording on that date differs from today",
+  act_not_in_store:"Act not in library yet", not_found:"section does not exist"}[s.status] || s.message)
+  + (s.quote_check === "differs" ? " · quoted text differs" : "");
+const RELEASE_TEXT = {clear:"Clear to approve", needs_acknowledgement:"Needs your sign-off on amber items", blocked:"Blocked — fix the red items first"};
+async function viewDraft(id) {
+  const app = shell("matters"); clearTimeout(pollTimer);
+  let d; try { d = await api("/drafts/" + id); } catch (e) { app.innerHTML = fail(e); return; }
+  if (d.status === "running") {
+    const done = new Set((d.graph_trace || d.trace || []).map(t => t.node));
+    app.innerHTML = head("Draft v" + d.version, "Preparing your draft") + `<div class="card"><div class="working"><div class="dots"><span></span><span></span><span></span></div>
+      <div><b>Reading the papers, researching, drafting and checking every citation.</b><div class="mute">Usually one to three minutes.</div></div></div>
+      <div class="steps">${STEP_NAMES.map(([k,l]) => `<span class="chip ${done.has(k) ? "done" : ""}">${done.has(k) ? "✓ " : ""}${l}</span>`).join("")}</div></div>`;
+    pollTimer = setTimeout(() => viewDraft(id), 4000); return;
+  }
+  const rep = d.verification || {citations:[], statutes:[]};
+  let html = esc(d.redacted_text || "");
+  for (const c of rep.citations) html = html.split(esc(c.raw)).join(`<span class="cit ${c.colour}" data-c="${c.id}">${esc(c.raw)}</span>`);
+  html = html.replace(/\b([A-Z_]+_\d+)\b/g, '<mark class="ph">$1</mark>');
+  const needAck = rep.items_needing_acknowledgement || [];
+  const editable = ["awaiting_approval","blocked"].includes(d.status);
+  app.innerHTML = head(`Draft v${d.version}`, docName(d.template, d),
+      `${pill(d.status)} <a href="#matter/${d.matter_id}" class="mute">← Back to matter</a>`) + `
+  ${d.error ? `<div class="card"><p class="err">${esc(d.error)}</p></div>` : ""}
+  ${d.status === "approved" ? `<div class="release clear">${stamp("green")}<b>Approved${d.approved_at ? " on " + esc(String(d.approved_at).slice(0,10)) : ""}. Word file ready.</b></div>`
+    : rep.release ? `<div class="release ${rep.release}">${stamp({clear:"green",needs_acknowledgement:"amber",blocked:"red"}[rep.release])}<b>${RELEASE_TEXT[rep.release] || esc(rep.release)}</b></div>` : ""}
+  <div class="grid"><div>
+    <div class="card tabbed" data-tab="Draft"><p class="mute" style="margin-top:0">Click any underlined citation to see its proof.</p>
+      <div class="legalpad" id="dt">${html}</div>
+      ${editable ? `<h3>Edit the text</h3><textarea id="ed">${esc(d.redacted_text||"")}</textarea><p><button class="ghost" id="rv">Re-check edited text</button></p>` : ""}</div>
+    <div class="card tabbed" data-tab="Facts"><h2>Facts read from the papers</h2><table><tbody>${Object.entries(d.facts||{}).map(([k,v]) => `<tr><td class="mute" style="width:34%">${esc(k.replace(/_/g," "))}</td><td><b>${esc(v)}</b><div class="mute">“${esc(((d.fact_sources||{})[k]||{}).quote||"")}”</div></td></tr>`).join("")}</tbody></table></div>
+  </div><div>
+    <div class="card tabbed" data-tab="Evidence"><h2>Evidence</h2><div id="ev" class="evidence mute">Select a citation to see the passage it rests on.</div></div>
+    <div class="card tabbed" data-tab="Verification"><h2>Citation check</h2><ul class="vlist">
+      ${rep.citations.map(c => `<li>${stamp(c.colour)}<div><a href="#" data-c="${c.id}">${esc(c.raw.slice(0,90))}</a><div class="mute">${esc(whyColour(c))}</div></div></li>`).join("")}
+      ${rep.statutes.map(s => `<li>${stamp(s.colour)}<div><span style="font:500 13px var(--mono)">${esc(s.raw)}</span><div class="mute">${esc(statuteNote(s))}</div></div></li>`).join("")}</ul>
+      </div>
+    ${editable ? `<div class="card tabbed" data-tab="Sign-off"><h2>Approve</h2>${rep.release === "blocked" ? `<p class="err">Blocked. Edit the draft to fix the red items, then re-check.</p>` : ""}
+      ${needAck.map(i => `<div style="margin:6px 0"><label><input type="checkbox" class="ack" value="${i}">I have personally checked item <b>${i}</b></label></div>`).join("")}
+      <p><button id="ap" ${rep.release === "blocked" ? "disabled" : ""}>Approve & prepare Word file</button></p><div id="ae"></div></div>` : ""}
+    ${d.status === "approved" ? `<div class="card tabbed" data-tab="Ready"><h2>Approved</h2><p class="mute">Real names restored. Includes a removable verification page.</p><button id="dl">Download .docx</button></div>` : ""}
+    <div class="card tabbed" data-tab="Checklist"><h2>${d.template === "general" ? "Still needed before filing" : "Legal ingredients"}</h2><ul class="vlist">${(d.checklist||[]).map(e => `<li>${stamp({satisfied:"green",unclear:"amber",missing:"red"}[e.status])}<div><b>${esc(e.title)}</b><div class="mute">${esc(e.evidence)}</div></div></li>`).join("")}</ul></div>
+    <div class="card tabbed" data-tab="Precedent"><h2>Similar past cases</h2><ul class="vlist">${(d.similar_cases||[]).map(s => `<li><span class="pill ${s.outcome==="unknown"?"idle":"amber"}">${esc(s.outcome)}</span><div><a href="#" data-chunk="${s.chunk_id}">${esc(s.label)}</a><div class="mute">${esc(s.court)} · ${s.year}${s.outcome_confidence<0.5?" · low confidence":""}</div></div></li>`).join("")}</ul>
+      </div>
+  </div></div>`;
+  const show = cid => { const c = rep.citations.find(x => x.id === cid); if (!c) return; const p = c.proposition || {};
+    $("#ev").classList.remove("mute");
+    $("#ev").innerHTML = `<div class="row">${stamp(c.colour)}<b style="font-family:var(--serif)">${esc(c.verdict.replace("_"," ").toLowerCase())}</b></div><p>${esc(c.reason)}</p>
+      ${c.quotes.map(q => `<p><span class="chip">quote</span> <b>${esc(q.status.replace(/_/g," "))}</b> <span class="mute">${esc(q.reason||"")}</span></p>`).join("")}
+      ${p.label ? `<p><span class="chip">supports?</span> <b>${esc(p.label.replace(/_/g," "))}</b> <span class="mute">${esc(p.reason||"")}</span></p>${p.passage?`<div class="passage">${esc(p.passage)}</div><p class="mute">Page ${p.page}. ${esc(p.explanation||"")}</p>`:""}` : ""}
+      ${c.good_law.length ? `<h3>Later treatment · signal only</h3>${c.good_law.map(g => `<p class="mute">${esc(g.signal)} by ${esc(g.by)} (${g.year})</p>`).join("")}` : ""}`;
+    $("#ev").scrollIntoView({behavior:"smooth", block:"nearest"}); };
+  app.querySelectorAll("[data-c]").forEach(el => el.onclick = ev => { ev.preventDefault(); show(el.dataset.c); });
+  app.querySelectorAll("[data-chunk]").forEach(el => el.onclick = async ev => { ev.preventDefault(); const p = await api("/chunks/" + el.dataset.chunk);
+    $("#ev").classList.remove("mute");
+    $("#ev").innerHTML = `<b style="font-family:var(--serif)">${esc(p.title)}</b><div class="mute">${esc(p.court)} · ${p.year} · page ${p.page}</div><div class="passage">${esc(p.text)}</div>`; });
+  const rv = $("#rv"); if (rv) rv.onclick = async () => { await api(`/drafts/${id}/revise`, {method:"POST", json:{text: $("#ed").value}}); viewDraft(id); };
+  const ap = $("#ap"); if (ap) ap.onclick = async () => { const ack = [...app.querySelectorAll(".ack:checked")].map(x => x.value);
+    try { await api(`/drafts/${id}/approve`, {method:"POST", json:{acknowledged: ack}}); viewDraft(id); } catch (e) { $("#ae").innerHTML = fail(e); } };
+  const dl = $("#dl"); if (dl) dl.onclick = () => download(`/drafts/${id}/download`, `draft-v${d.version}.docx`);
+}
+
+// ---------- assistant: one chat for every feature ----------
+// The conversation stays on this device for this user until they clear it or sign out.
+const chatKey = () => "dp_chat_" + ((me && me.id) || "anon");
+let chatLog = [], chatOwner = null;
+function loadChat() { if (chatOwner === chatKey()) return; chatOwner = chatKey();
+  try { chatLog = JSON.parse(localStorage.getItem(chatOwner) || sessionStorage.getItem("dp_chat") || "[]"); } catch (e) { chatLog = []; } }
+const STARTERS = [
+  ["📎", "Add case papers", "Filed under the right case; hearing dates go on your calendar.", "__attach__"],
+  ["◷", "When is my next hearing?", "Answered from your calendar, never guessed.", "When is my next hearing?"],
+  ["¶", "Draft any document", "Petition, application, notice, reply. From this case's papers, citations checked.", "Draft a petition for this case"],
+  ["⚖", "Strengths & strategy", "What helps, what hurts, and what to do next.", "What are the strengths, weaknesses and the best strategy for this case?"],
+  ["§", "Ask the law", "Answers only from real judgments and statutes.", "Can the accused rebut the presumption under Section 139, and on what standard?"],
+  ["✓", "Check citations", "Paste any text; wrong citations come back corrected.", "Verify this: "],
+];
+
+// Safe formatting: escape first, then **bold**, "- " bullets, paragraphs; verified citations are clickable.
+function renderAnswer(text, report) {
+  const cits = (report && report.citations) || [];
+  let html = esc(text).split(/\n{2,}/).map(b => {
+    const lines = b.split("\n").filter(l => l.trim());
+    if (!lines.length) return "";
+    const bullets = lines.filter(l => /^\s*[-•*]\s+/.test(l));
+    if (bullets.length && bullets.length >= lines.length - 1) {
+      const lead = /^\s*[-•*]\s+/.test(lines[0]) ? "" : "<p>" + lines.shift() + "</p>";
+      return lead + "<ul>" + lines.map(l => "<li>" + l.replace(/^\s*[-•*]\s+/, "") + "</li>").join("") + "</ul>";
+    }
+    return "<p>" + lines.join("<br>") + "</p>";
+  }).join("");
+  html = html.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+  for (const c of cits) html = html.split(esc(c.raw)).join(`<span class="cite" data-c="${c.id}">${esc(c.raw)}</span>`);
+  return html;
+}
+// A quiet one-line note, only expanded on click. Bad citations are already fixed, so nothing to decide.
+function checkedLine(m) {
+  const rep = m.verification; if (!rep) return "";
+  const n = rep.checked ?? ((rep.citations || []).length + (rep.statutes || []).length); if (!n) return "";
+  const ch = m.corrections || rep.corrections || [];
+  const fixed = ch.filter(c => c.action === "replace").length, removed = ch.filter(c => c.action === "remove").length;
+  const sum = `✓ ${n} reference${n > 1 ? "s" : ""} checked` + (fixed ? ` · ${fixed} corrected` : "") + (removed ? ` · ${removed} removed` : "");
+  if (!ch.length) return `<div class="checked">${sum}</div>`;
+  return `<details class="checked"><summary>${sum}</summary>${ch.map(c => `<div class="chg">${c.action === "replace"
+      ? `Corrected <s>${esc(c.original)}</s> → <b>${esc(c.replacement)}</b>` : `Removed <s>${esc(c.original)}</s>`} <span class="mute">— ${esc(c.reason)}</span></div>`).join("")}</details>`;
+}
+
+async function viewAsk() {
+  const app = shell("ask");
+  let cases = []; try { cases = await api("/cases"); } catch (e) {}
+  loadChat();
+  let current = ""; try { current = sessionStorage.getItem("dp_chat_matter") || ""; } catch (e) {}
+  if (current && !cases.some(c => c.id === current)) current = "";
+  let simple = false; try { simple = sessionStorage.getItem("dp_simple") === "1"; } catch (e) {}
+  const setCase = id => { current = id || ""; try { sessionStorage.setItem("dp_chat_matter", current); } catch (e) {} fill(); };
+  const saveChat = () => { try { localStorage.setItem(chatKey(), JSON.stringify(chatLog.filter(m => m.kind !== "attach").slice(-60))); } catch (e) {} };
+
+  app.innerHTML = `<div class="chat"><div><div class="chatbar">
+      <label class="mute">Case <select id="mt"></select></label>
+      <label class="switch"><input type="checkbox" id="simple" ${simple ? "checked" : ""}><span></span>Explain simply</label>
+      <button class="ghost small" id="clr">New conversation</button></div>
+      <div class="thread" id="thread"></div></div>
+    <div class="side"><div class="card tabbed" data-tab="Source"><h2>Source</h2><div id="ev" class="evidence mute">Click a citation or a case to read the passage it comes from.</div></div></div></div>
+    <div class="composer"><div class="box"><button class="attach" id="att" title="Add case papers (.pdf, .docx, .txt)">📎</button>
+      <input type="file" id="file" accept=".pdf,.docx,.txt" multiple hidden>
+      <textarea id="q" rows="1" placeholder="Ask anything, or: “When is my next hearing?” · “Draft a bail application” · “Remind me on 12 Nov”"></textarea><button id="send">Send</button></div>
+      <div class="hint"><span>Names are hidden before the AI sees them · citations are checked and corrected automatically</span><span>Enter to send · Shift+Enter for a new line</span></div></div>`;
+  function fill() { $("#mt").innerHTML = `<option value="">All cases / general</option>` + cases.map(c => `<option value="${c.id}" ${c.id === current ? "selected" : ""}>${esc(c.label || c.title)}</option>`).join(""); }
+  fill();
+  $("#mt").onchange = () => setCase($("#mt").value);
+  $("#simple").onchange = () => { simple = $("#simple").checked; try { sessionStorage.setItem("dp_simple", simple ? "1" : "0"); } catch (e) {} };
+  $("#clr").onclick = () => { chatLog = []; saveChat(); draw(); };
+  const q = $("#q");
+  q.oninput = () => { q.style.height = "auto"; q.style.height = Math.min(q.scrollHeight, 180) + "px"; };
+  q.onkeydown = ev => { if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); send(); } };
+  $("#send").onclick = () => send();
+  $("#att").onclick = () => $("#file").click();
+  $("#file").onchange = () => { const files = [...$("#file").files]; $("#file").value = ""; files.reduce((p, f) => p.then(() => attach(f)), Promise.resolve()); };
+  const refreshCases = async () => { try { cases = await api("/cases"); fill(); } catch (e) {} };
+
+  async function attach(f) {
+    chatLog.push({role: "user", content: `📎 ${f.name}`}); draw(true, `Reading ${f.name}, finding the case number and hiding names on this machine…`);
+    try { const pv = await paperPreview(f, current); chatLog.push({role: "assistant", kind: "attach", pv}); }
+    catch (e) { chatLog.push({role: "assistant", error: e.message}); }
+    draw();
+  }
+
+  function draw(pending, pendingText) {
+    const t = $("#thread");
+    if (!chatLog.length && !pending) {
+      t.innerHTML = `<div class="intro"><img class="logo lg" src="/logo.png" alt=""><h2>Ask DocketPilot</h2><p class="mute">Add papers, ask, draft, check citations or manage hearing dates — all here.</p></div>
+        <div class="starters">${STARTERS.map(([i, h, s], n) => `<button class="starter" data-i="${n}"><i>${i}</i><b>${esc(h)}</b><span>${esc(s)}</span></button>`).join("")}</div>`;
+      t.querySelectorAll(".starter").forEach(b => b.onclick = () => { const s = STARTERS[b.dataset.i][3];
+        if (s === "__attach__") return $("#file").click(); q.value = s; q.focus(); if (!s.endsWith(" ")) send(); });
+      return;
+    }
+    t.innerHTML = chatLog.map((m, i) => m.role === "user" ? `<div class="msg user">${esc(m.content)}</div>`
+        : m.role === "system" ? `<div class="sysnote">${esc(m.note)}</div>` : botHtml(m, i)).join("")
+      + (pending ? `<div class="msg bot"><div class="who">DocketPilot</div><div class="working"><div class="dots"><span></span><span></span><span></span></div><span class="mute">${esc(pendingText || "Finding the law · writing · checking every citation… (usually under a minute; up to two when the AI is busy)")}</span></div></div>` : "");
+    wire(t);
+    window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"});
+  }
+
+  const who = m => `<div class="who">DocketPilot${m.matter ? " · " + esc(m.matter) : ""}</div>`;
+  function botHtml(m, i) {
+    if (m.error) return `<div class="msg bot">${who(m)}<p class="err">${esc(m.error)}</p></div>`;
+    if (m.kind === "attach") return `<div class="msg bot" data-m="${i}">${who(m)}${paperReviewHtml(m.pv)}</div>`;
+    if (m.kind === "filed") return `<div class="msg bot">${who(m)}${filedHtml(m.result)}</div>`;
+    if (m.kind === "scheduled") {
+      const c = cal(m.reminder.due);
+      return `<div class="msg bot">${who(m)}${renderAnswer(m.content)}<div class="dl" style="border:0">${c.tile}<div><div class="t">${esc(m.reminder.title)}</div><div class="s">${c.days}</div></div>
+        <a href="#calendar"><button class="ghost small">Open calendar</button></a></div></div>`;
+    }
+    if (m.kind === "draft_started") {
+      const d = m.draft || {status: "running"}, rep = d.verification || {};
+      const body = d.status === "running" ? `<div class="working"><div class="dots"><span></span><span></span><span></span></div><span class="mute">${renderAnswer(m.content)}</span></div>
+           <p><a href="#draft/${m.draft_id}" class="mute">Watch progress →</a></p>`
+        : d.status === "failed" ? `<p class="err">The draft could not be completed. ${esc(d.error || "")}</p><p class="mute">Try again in a minute; if it fails again, shorten the instructions.</p>`
+        : `<p>Your <b>${esc(docName(d.template, d))}</b> (v${d.version}) is ready.</p>${checkedLine({verification: rep})}
+           <p><a href="#draft/${m.draft_id}"><button class="small">Open, review & approve</button></a></p>`;
+      return `<div class="msg bot">${who(m)}${body}</div>`;
+    }
+    if (m.kind === "similar") {
+      return `<div class="msg bot">${who(m)}${renderAnswer(m.content)}<ul class="vlist">${(m.cases || []).map(s => `<li><span class="pill ${s.outcome === "unknown" ? "idle" : "amber"}">${esc(s.outcome)}</span><div><a href="#" data-chunk="${s.chunk_id}">${esc(s.label)}</a><div class="mute">${esc(s.court)} · ${s.year}</div></div></li>`).join("")}</ul></div>`;
+    }
+    if (m.kind === "verification") {
+      return `<div class="msg bot" data-m="${i}">${who(m)}${renderAnswer(m.content, m.verification)}
+        ${m.corrected_text ? `<div class="corrected"><div class="row"><b>Corrected text</b><button class="ghost small copy" style="margin-left:auto">Copy</button></div><div class="passage" style="font-family:var(--serif)">${esc(m.corrected_text)}</div></div>` : ""}
+        ${checkedLine(m)}</div>`;
+    }
+    return `<div class="msg bot" data-m="${i}">${who(m)}${renderAnswer(m.content, m.verification)}${checkedLine(m)}
+      ${(m.sources || []).length ? `<div class="meta">${m.sources.map(s => `<span class="src" data-chunk="${s.chunk_id}">⚖ ${esc(s.label.split(",")[0])}</span>`).join("")}</div>` : ""}</div>`;
+  }
+
+  function wire(t) {
+    t.querySelectorAll("[data-c]").forEach(el => el.onclick = ev => { ev.preventDefault(); showCitation(chatLog[el.closest("[data-m]").dataset.m], el.dataset.c); });
+    t.querySelectorAll("[data-chunk]").forEach(el => el.onclick = ev => { ev.preventDefault(); showChunk(el.dataset.chunk); });
+    t.querySelectorAll(".copy").forEach(b => b.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(b.closest(".corrected").querySelector(".passage").innerText); b.textContent = "Copied"; });
+    t.querySelectorAll(".file-it").forEach(b => b.onclick = async () => {
+      const box = b.closest("[data-m]"), idx = +box.dataset.m, m = chatLog[idx];
+      b.disabled = true; b.textContent = "Filing and reading dates…";
+      try {
+        const r = await paperConfirm(box, m.pv);
+        chatLog[idx] = {role: "assistant", kind: "filed", result: r, matter: r.matter.case_number || r.matter.title};
+        await refreshCases(); setCase(r.matter.id);
+      } catch (e) { chatLog.push({role: "assistant", error: e.message}); }
+      saveChat(); draw();
+    });
+  }
+  function showCitation(m, cid) {
+    const c = ((m && m.verification) || {citations: []}).citations.find(x => x.id === cid); if (!c) return;
+    const p = c.proposition || {};
+    $("#ev").classList.remove("mute");
+    $("#ev").innerHTML = `<b style="font-family:var(--serif)">${esc(c.raw)}</b><p class="mute">${esc(c.reason)}</p>
+      ${p.passage ? `<div class="passage">${esc(p.passage)}</div><p class="mute">Page ${p.page}.</p>` : ""}
+      ${c.good_law.length ? `<h3>Later treatment</h3>${c.good_law.map(g => `<p class="mute">${esc(g.signal)} by ${esc(g.by)} (${g.year})</p>`).join("")}` : ""}`;
+  }
+  async function showChunk(id) {
+    const p = await api("/chunks/" + id);
+    $("#ev").classList.remove("mute");
+    $("#ev").innerHTML = `<b style="font-family:var(--serif)">${esc(p.title)}</b><div class="mute">${esc(p.court)} · ${p.year} · page ${p.page}</div><div class="passage">${esc(p.text)}</div>`;
+  }
+  function pollDraft(m) {
+    const tick = async () => {
+      if (!location.hash.startsWith("#ask")) return;
+      try { m.draft = await api("/drafts/" + m.draft_id); } catch (e) { return; }
+      saveChat(); draw();
+      if (m.draft.status === "running") setTimeout(tick, 4000);
+    };
+    setTimeout(tick, 3000);
+  }
+
+  async function send() {
+    const text = q.value.trim(); if (!text) return;
+    q.value = ""; q.style.height = "auto"; $("#send").disabled = true;
+    chatLog.push({role: "user", content: text}); saveChat(); draw(true);
+    const history = chatLog.filter(m => (m.role === "user" && !m.content.startsWith("📎")) || (m.role === "assistant" && !m.kind && !m.error && m.content))
+      .map(m => ({role: m.role, content: m.content})).slice(-12);
+    try {
+      const r = await api("/ask", {method: "POST", json: {messages: history, matter_id: current || null, style: simple ? "simple" : "expert"}});
+      if (r.created_matter) { await refreshCases(); chatLog.push({role: "system", note: `Opened a new case file: ${r.matter}`}); }
+      else if (r.switched_matter) chatLog.push({role: "system", note: `Using case: ${r.matter}`});
+      if (r.matter_id && r.matter_id !== current) setCase(r.matter_id);
+      const msg = {role: "assistant", content: r.answer || "", kind: ["answer", "dates", "message"].includes(r.type) ? undefined : r.type,
+        verification: r.verification, corrections: r.corrections, corrected_text: r.corrected_text, sources: r.sources,
+        matter: r.matter, matter_id: r.matter_id, reminder: r.reminder, cases: r.cases, draft_id: r.draft_id};
+      chatLog.push(msg);
+      if (r.type === "draft_started") pollDraft(msg);
+    } catch (e) { chatLog.push({role: "assistant", error: e.message}); }
+    saveChat(); $("#send").disabled = false; draw(); q.focus();
+  }
+  draw();
+  let prefill = null; try { prefill = sessionStorage.getItem("dp_prefill"); sessionStorage.removeItem("dp_prefill"); } catch (e) {}
+  if (prefill) { q.value = prefill; q.focus(); q.oninput(); }
+  chatLog.filter(m => m.kind === "draft_started" && (!m.draft || m.draft.status === "running")).forEach(pollDraft);
+}
+
+// ---------- guide (simple English) ----------
+function viewGuide() {
+  const app = shell("guide");
+  const step = (n, title, body) => `<div class="gstep"><div class="gnum">${n}</div><div><h3 class="gh">${title}</h3>${body}</div></div>`;
+  const ex = s => `<span class="gex" data-ask="${esc(s)}">${esc(s)}</span>`;
+  app.innerHTML = head("Help", "How to use DocketPilot") + `
+  <div class="card tabbed" data-tab="In one minute"><h2>What DocketPilot does</h2>
+    <p>DocketPilot helps you with legal work. You give it your case papers or a question. It finds the right law and past judgments, writes drafts, and <b>checks every case and section it mentions</b> so you never cite something fake.</p>
+    <p>You are always in charge. Nothing is final until you approve it.</p></div>
+
+  <div class="card tabbed" data-tab="Start here"><h2>Your first case in 5 steps</h2>
+    ${step(1, "Open “Ask DocketPilot”", `<p>Click <b>Ask DocketPilot</b> in the left menu. This is the chat. You can do almost everything from here.</p>`)}
+    ${step(2, "Attach your case papers", `<p>Click the <b>📎 clip</b> next to the message box and choose your files (.pdf, .docx or .txt). DocketPilot reads the case number and files the paper under the right case (or opens a new case file). Every date in the papers, such as the next hearing, goes on your <b>Calendar</b> by itself.</p>`)}
+    ${step(3, "Check what was hidden", `<p>DocketPilot hides names, phone numbers, Aadhaar, PAN, bank accounts and addresses <b>before</b> anything goes to the AI. You will see a list. Untick anything that is not private. Type anything it missed. Then click <b>File it</b>.</p>`)}
+    ${step(4, "Ask for what you need", `<p>Type in plain words. For example: ${ex("Draft a bail application for this case")} or ${ex("What are the strengths and weaknesses of this case?")}</p>`)}
+    ${step(5, "Review, approve, download", `<p>Open the draft. Wrong citations are already corrected and unsupported ones removed. Tick any <b>amber</b> item you have checked, click <b>Approve</b>, and download the Word file. Real names come back only now.</p>`)}
+  </div>
+
+  <div class="grid"><div>
+  <div class="card tabbed" data-tab="The chat"><h2>Things you can type</h2>
+    <table><tbody>
+      <tr><td><b>Ask about the law</b></td><td>${ex("What must be proved for divorce on the ground of cruelty?")} ${ex("When can anticipatory bail be granted under the BNSS?")}</td></tr>
+      <tr><td><b>Make a draft</b></td><td>${ex("Draft a bail application for this case")} ${ex("Draft a reply to the legal notice")} ${ex("Draft a divorce petition")}</td></tr>
+      <tr><td><b>Find a section</b></td><td>Research → <b>Find the section</b>: type a topic like “specific performance”. 36 Central Acts, including BNS, BNSS, BSA, CPC, Contract, Hindu Marriage, DV, Consumer, Arbitration.</td></tr>
+      <tr><td><b>Check citations</b></td><td>${ex("Verify this: ")} then paste your text</td></tr>
+      <tr><td><b>Risk and strategy</b></td><td>${ex("What strategy should I use for this case?")}</td></tr>
+      <tr><td><b>Past cases</b></td><td>${ex("Show me similar past cases")}</td></tr>
+      <tr><td><b>Next hearing</b></td><td>${ex("When is my next hearing?")}</td></tr>
+      <tr><td><b>Set a reminder</b></td><td>${ex("Remind me about the hearing on 12 November")}</td></tr>
+    </tbody></table>
+    <p class="mute">Tip: switch on <b>Explain simply</b> at the top of the chat to get answers in easy words. Pick a <b>case file</b> at the top so answers use that case's papers.</p></div>
+
+  <div class="card tabbed" data-tab="Stamps"><h2>What the stamps mean</h2>
+    <ul class="vlist">
+      <li>${stamp("green")}<div><b>Verified.</b> We found this case or section, and the judgment really says what is claimed.</div></li>
+      <li>${stamp("amber")}<div><b>Check it yourself.</b> Something is not certain, for example the case is not in our library or a quote is slightly different. Look at it before you use it.</div></li>
+      <li>${stamp("red")}<div><b>Problem.</b> The citation points to a different case, the quote is not in the judgment, or the law was not in force on that date. Fix it before filing.</div></li>
+    </ul>
+    <p class="mute">In the chat you do not need to do anything: wrong citations are corrected and unsupported ones removed before you see the answer. A small line such as “✓ 4 checked · 1 corrected” tells you what was fixed. Click any citation to read the passage it comes from.</p></div>
+  </div><div>
+
+  <div class="card tabbed" data-tab="Deadlines"><h2>Deadlines and reminders</h2>
+    <p>When you add papers, DocketPilot puts every date in them on the <b>Calendar</b>: hearings, filing dates, notices and orders, each with the line from the paper it came from. Drafts also add the legal deadlines. You see them on the Dashboard, the Calendar and each case page.</p>
+    <p>You can also add your own: just type ${ex("Remind me about the hearing on 12 November")}. Click <b>Add to calendar</b> to put them on your phone or computer calendar.</p></div>
+
+  <div class="card tabbed" data-tab="Other pages"><h2>Other pages</h2>
+    <p><b>Dashboard</b>: your deadlines and drafts waiting for you, in one place.</p>
+    <p><b>Cases</b>: every case with its case number, petitioner, respondent, court and next hearing.</p>
+    <p><b>Calendar</b>: a month view of all hearings and deadlines. Click a date for details, mark it done, or add your own.</p>
+    <p><b>Research</b>: search judgments, see a section as it stood on any date, or check if a citation exists.</p>
+    <p><b>Check a document</b>: paste any document to check all its citations at once.</p></div>
+
+  <div class="card tabbed" data-tab="Good to know"><h2>Good to know</h2>
+    <ul>
+      <li><b>“Not found”</b> means the case is not in our library. It does not mean the case is fake. Check it yourself.</li>
+      <li>DocketPilot gives strengths, risks and strategy, but it <b>does not predict who will win</b>.</li>
+      <li>Scanned papers without text cannot be read yet. Use a text PDF, Word or .txt file.</li>
+      <li>If the AI is busy, wait a minute and try again. Search and checking still work.</li>
+      <li>This is a prototype. It is not legal advice, and the legal rules have not been reviewed by a lawyer.</li>
+    </ul></div>
+  </div></div>`;
+  app.querySelectorAll(".gex").forEach(el => el.onclick = () => {
+    try { sessionStorage.setItem("dp_prefill", el.dataset.ask); } catch (e) {}
+    location.hash = "#ask";
+  });
+}
+
+// ---------- research ----------
+function viewResearch() {
+  const app = shell("research");
+  app.innerHTML = head("Library", "Research") + `
+  <div class="card tabbed" data-tab="Judgments"><h2>Search the judgments</h2><form id="f" class="row"><input name="q" placeholder="e.g. presumption under section 139 can be rebutted" style="flex:1;min-width:260px">
+    <select name="mode"><option value="hybrid_rerank">Best match</option><option value="hybrid">Balanced</option><option value="lexical">Exact words</option></select>
+    <select name="cl"><option value="">All courts</option><option value="SC">Supreme Court</option><option value="HC">High Courts</option></select>
+    <button>Search</button></form><div id="r"></div></div>
+  <div class="card tabbed" data-tab="Acts"><h2>Find the section</h2><form id="k" class="row"><input name="q" placeholder="e.g. anticipatory bail · divorce cruelty · specific performance" style="flex:1;min-width:260px">
+    <select name="act" class="actsel"><option value="">All ${"Acts"}</option></select><button>Find</button></form><div id="kr"></div></div>
+  <div class="grid"><div class="card tabbed" data-tab="Statute"><h2>Section as on a date</h2><form id="g" class="row"><span>Section</span><input name="sec" placeholder="e.g. 13" size="6" required><span>of</span>
+    <select name="act" class="actsel" required></select><span>as on</span><input name="on" type="date"><button class="ghost">Look up</button></form><div id="sr"></div></div>
+  <div class="card tabbed" data-tab="Citation"><h2>Does this citation exist?</h2><form id="h" class="row"><input name="c" placeholder="[2020] 1 S.C.R. 395 · 2023 INSC 123" style="flex:1"><button class="ghost">Look up</button></form><div id="cr"></div></div></div>`;
+  $("#f").onsubmit = async ev => { ev.preventDefault(); const t = ev.target; $("#r").innerHTML = `<p class="mute">Searching…</p>`;
+    const qs = new URLSearchParams({q: t.q.value, mode: t.mode.value}); if (t.cl.value) qs.set("court_level", t.cl.value);
+    try { const r = await api("/search?" + qs); $("#r").innerHTML = `<p class="mute">${r.hits.length} passages · ${Object.entries(r.timings).map(([k,v]) => k.replace("_ms","") + " " + Math.round(v) + " ms").join(" · ")} ${r.notice?" · "+esc(r.notice):""}</p>` +
+      (r.hits.map(h => `<div style="margin:18px 0 6px"><b style="font:600 16px var(--serif)">${esc(h.title)}</b><div class="mute">${esc(h.court)} · ${h.year} · page ${h.page} ${(h.citations||[]).map(c => `<span class="chip">${esc(c)}</span>`).join(" ")}</div><div class="passage">${esc(h.text)}</div></div>`).join("") || `<div class="empty">No results.</div>`);
+    } catch (e) { $("#r").innerHTML = fail(e); } };
+  api("/acts").then(list => document.querySelectorAll(".actsel").forEach(sel => {
+    sel.insertAdjacentHTML("beforeend", list.map(a => `<option value="${esc(a.short_name)}">${esc(a.title.replace(/^The /, ""))}</option>`).join("")); })).catch(() => {});
+  $("#k").onsubmit = async ev => { ev.preventDefault(); const t = ev.target; $("#kr").innerHTML = `<p class="mute">Searching…</p>`;
+    try { const qs = new URLSearchParams({q: t.q.value}); if (t.act.value) qs.set("act", t.act.value);
+      const r = await api("/statutes/search?" + qs);
+      $("#kr").innerHTML = r.length ? r.map(x => `<details class="sec"><summary><b>Section ${esc(x.section)}</b>, ${esc(x.act_title.replace(/^The /, ""))} <span class="mute">· ${esc(x.heading || "")}</span></summary><div class="passage">${esc(x.text)}</div>${x.source_url ? `<p class="mute">Source: India Code · ${esc(x.source_url)}</p>` : ""}</details>`).join("")
+        : `<div class="empty">No section matched. Try other words.</div>`; } catch (e) { $("#kr").innerHTML = fail(e); } };
+  $("#g").onsubmit = async ev => { ev.preventDefault(); const t = ev.target; const on = t.on.value ? "?on=" + t.on.value : "";
+    try { const s = await api(`/statutes/${encodeURIComponent(t.act.value)}/${encodeURIComponent(t.sec.value.trim())}${on}`);
+      const c = s.status === "in_force" ? "green" : s.status === "not_found" ? "red" : "amber";
+      $("#sr").innerHTML = `<div class="row" style="margin-top:14px">${stamp(c)}<b style="font-family:var(--serif)">${esc(s.heading||"")}</b></div><p class="mute">${esc(s.message)}</p>
+      ${s.text?`<div class="passage">${esc(s.text)}</div>`:""}${s.amendments.length?`<h3>Amendment ledger · unverified</h3>${s.amendments.map(a => `<p class="mute"><span class="chip">${esc(a.effective||"—")}</span> ${esc(a.note)}</p>`).join("")}`:""}
+      ${s.source_url?`<p class="mute">Source: ${esc(s.source_url)}</p>`:""}`; } catch (e) { $("#sr").innerHTML = fail(e); } };
+  $("#h").onsubmit = async ev => { ev.preventDefault();
+    try { const r = await api("/citations/lookup?c=" + encodeURIComponent(ev.target.c.value));
+      $("#cr").innerHTML = r.found ? r.matches.map(m => `<div class="row" style="margin-top:14px">${stamp("green")}<div><b style="font-family:var(--serif)">${esc(m.title)}</b><div class="mute">${esc(m.court)} · ${esc(m.decision_date||m.year)} · via ${esc(m.origin)}</div></div></div>`).join("")
+        : `<div class="row" style="margin-top:14px">${stamp("amber")}<span>Not found in our corpus. That does not prove the case doesn't exist.</span></div>`; } catch (e) { $("#cr").innerHTML = fail(e); } };
+}
+
+// ---------- standalone verify ----------
+function viewVerify() {
+  const app = shell("verify");
+  app.innerHTML = head("Second pair of eyes", "Verify a draft") + `<div class="card tabbed" data-tab="Paste"><p class="mute" style="margin-top:0">Paste any draft. Every citation, quote and section gets stamped.</p>
+    <textarea id="t" placeholder="Paste the draft here…" style="min-height:220px"></textarea>
+    <div class="row" style="margin-top:12px"><label class="mute">Relevant date <input type="date" id="d"></label><label class="mute"><input type="checkbox" id="l" checked>use the AI judge for propositions</label><button id="go" style="margin-left:auto">Check this draft</button></div></div><div id="out"></div>`;
+  $("#go").onclick = async () => { $("#out").innerHTML = `<div class="card"><div class="working"><div class="dots"><span></span><span></span><span></span></div><b>Checking…</b></div></div>`;
+    try { const r = await api("/verify", {method:"POST", json:{text: $("#t").value, relevant_date: $("#d").value || null, use_llm: $("#l").checked}});
+      $("#out").innerHTML = `<div class="release ${r.release}">${stamp({clear:"green",needs_acknowledgement:"amber",blocked:"red"}[r.release])}<b>${RELEASE_TEXT[r.release] || esc(r.release)}</b></div>
+        <div class="card"><ul class="vlist">${r.citations.map(c => `<li>${stamp(c.colour)}<div><span style="font:500 13px var(--mono)">${esc(c.raw)}</span><div>${esc(c.reason)}</div>
+        ${c.quotes.map(q => `<div class="mute"><span class="chip">quote</span> ${esc(q.status.replace(/_/g," "))} ${esc(q.reason||"")}</div>`).join("")}${c.proposition?`<div class="mute"><span class="chip">supports?</span> ${esc(c.proposition.label.replace(/_/g," "))} ${esc(c.proposition.reason||"")}</div>${c.proposition.passage?`<div class="passage">${esc(c.proposition.passage)}</div>`:""}`:""}</div></li>`).join("")}
+        ${r.statutes.map(s => `<li>${stamp(s.colour)}<div><span style="font:500 13px var(--mono)">${esc(s.raw)}</span><div class="mute">${esc(statuteNote(s))}</div></div></li>`).join("")}</ul>
+        ${!r.citations.length && !r.statutes.length ? `<div class="empty">No citations or section references found.</div>` : ""}<p class="mute">${esc(r.notice)}</p></div>`;
+    } catch (e) { $("#out").innerHTML = fail(e); } };
+}
+
+function route() {
+  clearTimeout(pollTimer);
+  if (!token) return viewLogin();
+  const [view, id] = location.hash.replace("#", "").split("/");
+  ({dashboard: viewDashboard, matters: viewMatters, matter: () => viewMatter(id), draft: () => viewDraft(id),
+    research: viewResearch, verify: viewVerify, ask: viewAsk, guide: viewGuide, calendar: viewCalendar, account: viewAccount}[view] || viewDashboard)();
+}
+window.addEventListener("hashchange", route);
+renew().then(route);
+</script>
+</body>
+</html>

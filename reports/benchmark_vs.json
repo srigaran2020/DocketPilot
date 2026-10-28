@@ -1,0 +1,510 @@
+{
+ "generated": "2026-10-28T15:46:54.753615+00:00",
+ "model": "openai/gpt-oss-120b (Groq)",
+ "price_usd_per_m": {
+  "input": 0.15,
+  "output": 0.6
+ },
+ "summary": {
+  "cost_per_answer_usd": {
+   "docketpilot": 0.002845425,
+   "baseline_long_context": 0.0221508,
+   "reduction_pct": 87.15430142477925
+  },
+  "document_processing_seconds": {
+   "docketpilot": 3.01,
+   "baseline": 4.69875,
+   "speedup_pct": 35.94040968342645
+  },
+  "document_processing_cost_usd": {
+   "docketpilot": 0.00070430625,
+   "baseline": 0.00147163125
+  },
+  "case_number_accuracy": {
+   "docketpilot": 0.875,
+   "baseline": 0.875
+  },
+  "citations": {
+   "docketpilot": {
+    "total": 27,
+    "matched_real_judgment": 27,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0,
+    "fabricated_rate": 0.0,
+    "unverifiable_rate": 0.0,
+    "answers_with_citations": 7
+   },
+   "baseline_closed_book": {
+    "total": 125,
+    "matched_real_judgment": 55,
+    "fabricated": 7,
+    "outside_coverage": 63,
+    "unverifiable": 70,
+    "fabricated_rate": 0.056,
+    "unverifiable_rate": 0.56,
+    "answers_with_citations": 8
+   }
+  }
+ },
+ "answers": [
+  {
+   "question": "Is the presumption under Section 139 of the NI Act rebuttable, and what standard of proof does the accused need?",
+   "docketpilot": {
+    "seconds": 20.2,
+    "input_tokens": 13213,
+    "output_tokens": 1554,
+    "llm_calls": 8,
+    "usd": 0.00291435,
+    "corrections": 2,
+    "answer": "The presumption created by **Section\u202f139 of the Negotiable Instruments Act** is a **rebuttable presumption**; once the execution of the cheque is admitted, the law presumes the cheque was issued for the discharge of a debt or liability, but the accused may challenge that presumption (Rajaram S/O Sriramulu Naidu Through L.Rs, 2023INSC51; P.T.Rajan Amboori v. T.K.Viswambharan (2024); Triyambak S. Hegde v. Sripad, 2021INSC529).\n\nTo overturn the presumption, the accused must do so on a **standard of pre\u2011ponderance of probabilities** \u2013 i.e., the accused must show that it is more likely than not that the debt or liability did not exist or was not enforceable (Rajaram S/O Sriramulu Naidu Through L.Rs, 2023INSC51; P.T.Rajan Amboori v. T.K.Viswambharan (2024); M. Rajagopal, v. N.U. Vasanthy, (2024); Triyambak S. Hegde v. Sripad, 2021INSC529; Basalingappa v. Mudibasappa, 2019INSC500).",
+    "citations": 7,
+    "matched_real_judgment": 7,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 88761,
+    "output_tokens": 312,
+    "usd": 0.013501349999999999,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 8.6,
+    "answer": "**Short answer** \u2013  \n\nYes.  The statutory presumption created by **Section\u202f139 of the Negotiable Instruments Act, 1881** is *rebuttable*.  Once the prosecution has proved the ingredients of the offence (i.e. that the cheque was dishonoured for insufficiency of funds or because it was \u201cin respect of\u201d a liability that the holder is entitled to claim), the onus shifts to the accused\u2011drawer to show that the presumption does not apply.  The accused must do so **with the criminal standard of proof \u2013 i.e. \u201cbeyond reasonable doubt\u201d (or \u201cdischarge of the presumption beyond reasonable doubt\u201d)**.  The burden is therefore on the accused to prove the existence of a defence (sufficient funds at the date of the cheque, or that the cheque was not issued for consideration of any debt/ liability) and the proof must be of the same quality that the prosecution must meet.\n\n---\n\n### 1.  The presumption under S.\u202f139 is **rebuttable**\n\n| Case | Holding (relevant extract) |\n|------|----------------------------|\n| **M.\u202fL.\u202fAggarwal v. State of Rajasthan**, (2017)\u202f8\u202fSCC\u202f115 | \u201cThe presumption under Section\u202f139 is **rebuttable**. The legislature has deliberately placed the burden of proof on the accused to show that the cheque was honoured because of sufficient funds or that the cheque was not drawn in discharge of any liability.\u201d |\n| **Mohanlal v. State of Rajasthan**, (1995)\u202f3\u202fSCC\u202f229 | \u201cSection\u202f139 creates a statutory presumption in favour of the holder, but it is **not conclusive**; it can be overturned by the accused by proving the defence.\u201d |\n| **K.\u202fS.\u202fRadhakrishnan v. State of Karnataka**, (2002)\u202f8\u202fSCC\u202f378 | \u201cThe statutory presumption is **rebuttable**; the accused must lead evidence to defeat it.\u201d |\n| **M.\u202fP.\u202fSharma v. State of Uttar Pradesh**, (2001)\u202f3\u202fSCC\u202f451 | \u201cThe presumption under Section\u202f139 is a **shifting of the evidential burden**, which remains rebuttable on the part of the drawer.\u201d |\n| **M.\u202fS.\u202fChandra v. State of Tamil\u202fNadu**, (2003)\u202f9\u202fSCC\u202f317 | \u201cSection\u202f139 does not create a presumption that is irrebuttable; the drawer can disprove it by showing that the cheque was honoured because of sufficient funds.\u201d |\n\nThese decisions consistently describe the provision as a *presumption* that \u201cshifts the evidential burden\u201d to the accused, not as an *irrebuttable* inference.\n\n---\n\n### 2.  Standard of proof that the accused must satisfy\n\n| Case | Standard of proof articulated |\n|------|--------------------------------|\n| **M.\u202fL.\u202fAggarwal v. State of Rajasthan**, (2017)\u202f8\u202fSCC\u202f115 | \u201cThe defence must be proved **beyond reasonable doubt**; the accused cannot rest on mere suspicion or conjecture.\u201d |\n| **Mohanlal v. State of Rajasthan**, (1995)\u202f3\u202fSCC\u202f229 | \u201cEven though the presumption is on the holder, the drawer\u2019s defence must be established **with the same rigor as the prosecution\u2019s case**, i.e., beyond reasonable doubt.\u201d |\n| **K.\u202fS.\u202fRadhakrishnan v. State of Karnataka**, (2002)\u202f8\u202fSCC\u202f378 | \u201cThe onus on the accused is to **discharge the presumption beyond reasonable doubt**; failure to do so leads to conviction.\u201d |\n| **M.\u202fP.\u202fSharma v. State of Uttar Pradesh**, (2001)\u202f3\u202fSCC\u202f451 | \u201cThe burden placed on the accused is an evidential one, but the standard of proof remains the criminal standard \u2013 proof **beyond reasonable doubt**.\u201d |\n| **M.\u202fS.\u202fChandra v. State of Tamil\u202fNadu**, (2003)\u202f9\u202fSCC\u202f317 | \u201cThe accused must prove the existence of sufficient funds (or lack of consideration) on a **reasonable\u2011doubt** basis, not merely by a pre\u2011ponderance of probabilities.\u201d |\n\n> **Why \u201cbeyond reasonable doubt\u201d and not \u201cbalance of probabilities\u201d?**  \n> The offence under Section\u202f138 (and by implication Section\u202f139) is a *criminal* offence punishable with imprisonment and/or fine. The Constitution (Article\u202f21) and the principles laid down in *State of Maharashtra v.\u202fMohan* (1960\u202f1\u202fSCR\u202f739) require that a conviction in a criminal case be based on proof **beyond reasonable doubt**. The presumption created by Section\u202f139 merely *shifts* the evidential burden; it does not lower the substantive standard of proof required for a criminal conviction.\n\n---\n\n### 3.  Practical consequence for the accused\n\n1. **Evidence of funds** \u2013 The accused must produce bank statements, passbooks, or a certificate from the bank showing that the amount covered by the cheque was *actually available* on the date of the cheque.  Mere \u201caverage balance\u201d or \u201cfuture credit\u201d is insufficient.  (See **Mohanlal (1995)** and **M.\u202fL.\u202fAggarwal (2017)**.)\n\n2. **Evidence of consideration** \u2013 If the defence is that the cheque was not drawn for consideration of a debt, the accused must produce documentary proof of the transaction (e.g., receipts, agreements, payment vouchers) and must do so **so convincingly that the presumption is dispelled beyond reasonable doubt**.  (See **K.\u202fS.\u202fRadhakrishnan (2002)**.)\n\n3. **No \u201cpresumption of innocence\u201d reversal** \u2013 The presumption under Section\u202f139 is *evidential* (shifting the burden of proof), not *legal* (reversing the presumption of innocence).  Hence, the accused remains presumed innocent until the prosecution proves the offence *and* the accused fails to discharge the statutory presumption *beyond reasonable doubt*.  (See **M.\u202fP.\u202fSharma (2001)**.)\n\n---\n\n### 4.  Bottom line for an advocate\n\n* **Yes**, the presumption under S.\u202f139 is *rebuttable* \u2013 the drawer can overturn it by proving a defence.  \n* The **standard of proof** that the drawer must meet is the **criminal standard \u2013 proof beyond reasonable doubt**.  The defence must be supported by concrete, admissible evidence (bank records, receipts, contracts, etc.) that leaves the court with no reasonable doubt that the presumption does not apply.\n\nThese principles are now well\u2011settled law, as reflected in the Supreme Court judgments cited above.",
+    "input_tokens": 126,
+    "output_tokens": 2961,
+    "usd": 0.0017955,
+    "citations": 10,
+    "matched_real_judgment": 10,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   }
+  },
+  {
+   "question": "What must a wife prove to get divorce on the ground of cruelty under the Hindu Marriage Act?",
+   "docketpilot": {
+    "seconds": 14.1,
+    "input_tokens": 6979,
+    "output_tokens": 1625,
+    "llm_calls": 4,
+    "usd": 0.00202185,
+    "corrections": 2,
+    "answer": "A wife can obtain a decree of divorce on the ground of cruelty only if she **establishes that the husband, after the solemnisation of the marriage, has treated her with cruelty** as defined under the Hindu Marriage Act. The proof must satisfy the following requirements:\n\n- **Statutory basis:** The petition must rely on Section\u202f13(1)(ia) of the Hindu Marriage Act, 1955, which authorises divorce when the other party \u201chas, after the solemnisation of the marriage, treated the petitioner with cruelty\u201d (Section 13, Hindu Marriage Act, 1955).\n\n- **Nature of cruelty:** The court looks for either **physical** or **mental** cruelty. Physical cruelty is a factual question of degree, while mental cruelty requires an enquiry into the nature of the treatment and its impact on the spouse\u2019s mind (Sh. Rakesh Raman v. Smt. Kavita, 2023INSC433).\n\n- **Effect on the petitioner:** The treatment must be such that it creates a **reasonable apprehension** in the petitioner that co\u2011habitation would be harmful or injurious. \n- **Evidence of conduct:** The wife must adduce specific facts or incidents showing the husband\u2019s conduct that amount to cruelty. Merely proving that the marriage has broken down irretrievably is **not sufficient**; the breakdown must be shown to be a consequence of cruelty (Rinku Baheti v. Sandesh Sharda, 2024INSC1014; Shilpa Sailesh v. Varun Sreenivasan, 2023INSC468).\n\n- **Failure to prove leads to dismissal:** If the wife cannot substantiate the allegation of cruelty, the decree of divorce will be set aside, as held by the Telangana High Court where the wife \u201cfailed to prove the said ground\u201d and the decree was not justified Nishi (2023)).\n\nIn short, the wife must **demonstrate, with factual evidence, that the husband\u2019s conduct after marriage constitutes physical or mental cruelty that gives her a reasonable apprehension of harm**, thereby satisfying the statutory ground of cruelty under Section\u202f13(1)(ia).",
+    "citations": 3,
+    "matched_real_judgment": 3,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 92256,
+    "output_tokens": 865,
+    "usd": 0.0143574,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 6.6,
+    "answer": "**Ground of cruelty under Section\u202f13(1)(ia) of the Hindu Marriage Act, 1955**\n\nWhen a wife seeks a decree of divorce on the ground of *cruelty*, she must prove that the husband\u2019s conduct satisfies the legal test of cruelty as laid down by the Supreme Court and the High Courts.  The essential elements that must be established are:\n\n| Element | What the wife must show | Illustrative case law |\n|--------|------------------------|-----------------------|\n| **1. Conduct of a physical or mental nature** | The husband\u2019s acts must be either physical (e.g., assault, battery, forced confinement) or mental (e.g., verbal abuse, humiliation, intimidation, neglect, financial deprivation). | *V.\u202fBhavani v. D.\u202fRamasamy*, (1992)\u202f4\u202fSCC\u202f426; *Jasvir\u202fKaur v. Puran\u202fSingh*, (2005)\u202f7\u202fSCC\u202f241 |\n| **2. The conduct is of a serious and repeated character** | Isolated or trivial incidents are insufficient; the cruelty must be continuous, repeated or of such a grave nature that it cannot be ignored. | *Smt. Sarla\u202fVerma v. Sanjay\u202fKumar*, (1999)\u202f2\u202fSCC\u202f393; *M.\u202fL.\u202fSharma v. B.\u202fK.\u202fSharma*, (2005)\u202f2\u202fSCC\u202f351 |\n| **3. The conduct makes co\u2011habitation intolerable** | The cruelty must be of a degree that it is unreasonable for the wife to be expected to continue living with the husband.  The test is \u201cwhether the conduct has made it impossible for the parties to live together as husband and wife.\u201d | *Shashi v. Shiv\u202fKumar*, (2009)\u202f6\u202fSCC\u202f1; *N.\u202fB.\u202fBhatia v. N.\u202fG.\u202fBhatia*, (1995)\u202f2\u202fSCC\u202f388 |\n| **4. Proof by credible evidence** | The wife must adduce evidence such as: <br>\u2022 Oral testimony of herself and witnesses <br>\u2022 Medical reports/records of injuries <br>\u2022 Police FIRs, medical certificates, photographs <br>\u2022 Diaries, letters, e\u2011mails, messages showing harassment or threats <br>\u2022 Expert psychiatric opinion (if mental cruelty is alleged) | *R.\u202fB.\u202fSarada v. S.\u202fM.\u202fVenkatesh*, (1999)\u202f1\u202fSCC\u202f203 (use of police reports and medical certificates); *S.\u202fN.\u202fBedi v. C.\u202fK.\u202fBedi*, (2003)\u202f4\u202fSCC\u202f332 (reliance on diary entries and witness testimony) |\n\n### How the Supreme Court has defined *cruelty*\n\n1. **V.\u202fBhavani v. D.\u202fRamasamy**, (1992)\u202f4\u202fSCC\u202f426  \n   > \u201cCruelty includes any conduct which is of such a nature as to make it impossible for the parties to live together, and it may be either physical or mental.  The test is whether the conduct is such as to render the marriage intolerable.\u201d  \n\n2. **Jasvir\u202fKaur v. Puran\u202fSingh**, (2005)\u202f7\u202fSCC\u202f241  \n   > The Court held that *mental cruelty* can arise from \u201ccontinuous harassment, insult, humiliation, or depriving the spouse of basic necessities, even where there is no physical injury.\u201d\n\n3. **Shashi v. Shiv\u202fKumar**, (2009)\u202f6\u202fSCC\u202f1  \n   > The Court observed that \u201cthe true test is not the intensity of the physical injury but whether the acts of the husband have rendered the marital relationship untenable.\u201d\n\n### Practical steps for the wife\u2019s case\n\n1. **Identify the acts** \u2013 List each incident of physical assault, verbal abuse, financial neglect, or any other harassing behaviour.  \n2. **Gather documentary proof** \u2013 Medical certificates, police FIRs, photographs of injuries, e\u2011mail or SMS screenshots, diary entries, testimonies of relatives/neighbours.  \n3. **Show the pattern** \u2013 Demonstrate that the acts are not isolated; they form a continuing pattern that has made co\u2011habitation impossible.  \n4. **Link the acts to the ground of cruelty** \u2013 In the pleadings, explain how each act falls within the definition of cruelty as articulated by the Supreme Court.  \n\n### Summary of what the wife must prove\n\n- **That the husband has inflicted physical or mental cruelty**, as defined by *V.\u202fBhavani* and subsequent judgments.  \n- **That the cruelty is of a serious, repeated, or continuous nature**, not a one\u2011off or trivial incident (*Smt.\u202fSarla\u202fVerma*).  \n- **That the cruelty has made it unreasonable for her to continue living with the husband**, i.e., the marriage has become intolerable (*Shashi*).  \n- **That the allegations are supported by credible evidence** \u2013 medical reports, police records, witness statements, documentary proof, or expert opinion (*R.\u202fB.\u202fSarada*, *S.\u202fN.\u202fBedi*).  \n\nWhen these elements are proved on a **pre\u2011ponderance of probabilities**, the court is empowered under Section\u202f13(1)(ia) of the Hindu Marriage Act to grant a decree of divorce on the ground of cruelty.",
+    "input_tokens": 120,
+    "output_tokens": 2494,
+    "usd": 0.0015144,
+    "citations": 11,
+    "matched_real_judgment": 0,
+    "fabricated": 2,
+    "outside_coverage": 9,
+    "unverifiable": 11
+   }
+  },
+  {
+   "question": "When can a court grant anticipatory bail and what conditions can it impose?",
+   "docketpilot": {
+    "seconds": 59.9,
+    "input_tokens": 18209,
+    "output_tokens": 2849,
+    "llm_calls": 13,
+    "usd": 0.00444075,
+    "corrections": 7,
+    "answer": "A court may grant anticipatory bail when a person **has reason to believe that he may be arrested for a non\u2011bailable offence** and applies under Section\u202f438 of the Code of Criminal Procedure (or the analogous provision in the Bharatiya\u202fNagarik\u202fSuraksha\u202fSanhita,\u202fSection\u202f482). The power to grant lies only with a **Court of Session or a High Court** (Vijay Madanlal Choudhary, 2022INSC757). \n\nThe court\u2019s discretion is guided by three principal considerations: \n\n- **Role attributed to the applicant** \u2013 whether the applicant is a principal accused, a co\u2011accused or merely associated with the case (Sushila Aggarwal,; Sadhna Chaudhary v. The State Of Rajasthan, 2022INSC712). \n- **Facts of the case** \u2013 including the likelihood of the applicant fleeing, tampering with evidence or influencing witnesses (Sushila Aggarwal,; M/S. Supreme Bhiwandi Wada Manor Infrastructure Pvt. Ltd. v. The State Of Maharashtra, 2021INSC360). \n\n### Conditions the court may impose \n\nThe court may attach **special or restrictive conditions** but must avoid imposing them **routine\u2011ly or in a blanket manner** (Sushila Aggarwal, 2020INSC106; Sadhna Chaudhary v. The State Of Rajasthan, 2022INSC712). Conditions must be the minimum necessary to protect the administration of justice and cannot frustrate the purpose of bail (Sheikh Javed Iqbal @ Ashfaq Ansari @ Javed Ansari v. State Of Uttar Pradesh, 2024INSC534). Under the BNS, Section\u202f482(2) expressly permits the following types of conditions, subject to the facts of the case: \n\n- The accused must **make himself available for police interrogation** as and when required (Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023). \n- The accused must **not induc[e], threaten or promise any person acquainted with the facts** to dissuade disclosure to the court or police (Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023). \n- The accused must **not leave India without prior permission** of the court (Section 482, Bharatiya Nagarik Suraksha Sanhita, 2023). \n\n \n\nThus, anticipatory bail is granted at the discretion of a Session or High Court after weighing offence seriousness, the applicant\u2019s role and the case facts, and any conditions imposed must be narrowly tailored, reasonable, and grounded in the statutory powers listed above.",
+    "citations": 6,
+    "matched_real_judgment": 6,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 150432,
+    "output_tokens": 943,
+    "usd": 0.0231306,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 10.9,
+    "answer": "**Anticipatory Bail \u2013 When can it be granted and what conditions may the court impose?**  \n\n---\n\n## 1. Statutory provision  \n\n*Section\u202f438 of the Code of Criminal Procedure (CrPC)* authorises a person who **\u201chas reason to believe that he may be arrested for a non\u2011bailable offence\u201d** to apply to the High Court (or the Court of Session) for a direction that **no such arrest be made**. The direction may be for the grant of **anticipatory bail** \u2013 i.e. a bail order that takes effect **before the actual arrest**.\n\n> **Section\u202f438(1)** \u2013 \u201cAny person who has reason to believe that he may be arrested for a non\u2011bailable offence\u2026 may apply to the High Court\u2026 for a direction\u2026 that no such person be arrested\u2026 or that he be released on bail\u2026\u201d\n\n---\n\n## 2. When may a court *grant* anticipatory bail?  \n\n| Situation | Judicial pronouncement (key case) |\n|-----------|------------------------------------|\n| **(a) Reasonable apprehension of arrest** \u2013 The applicant must show a **genuine and reasonable fear** of being arrested for a *non\u2011bailable* offence.  | *Gurbaksh\u202fSingh\u202fSibbia v. State of Punjab*, (1996)\u202f3\u202fSCC\u202f569, para\u202f13 \u2013 \u201cThe power under \u00a7438 is to be exercised when the applicant has a genuine apprehension of being arrested for a non\u2011bailable offence.\u201d |\n| **(b) The offence is *non\u2011bailable*** \u2013 The provision does **not** apply to bailable offences. | *State of Rajasthan v. Kashi Ram*, (2006)\u202f8\u202fSCC\u202f273, para\u202f5 \u2013 \u201cOnly in case of a non\u2011bailable offence can an anticipatory bail be entertained.\u201d |\n| **(c) The court is satisfied that the bail will not *impair the investigation* or *the trial* (i.e. no danger of tampering with evidence or influencing witnesses).** | *Siddharam\u202fSatlingappa\u202fMhetre v. State of Maharashtra*, (2015)\u202f5\u202fSCC\u202f1, para\u202f12 \u2013 \u201cThe discretion must be exercised after ensuring that the grant of bail will not prejudice the investigation or the trial.\u201d |\n| **(d) The applicant is *not a habitual offender* or a *danger to society*.** | *B.\u202fS.\u202fB. v. State of Gujarat*, (2003)\u202f3\u202fSCC\u202f203, para\u202f8 \u2013 \u201cA person with a history of violence or a serious criminal record may be denied anticipatory bail.\u201d |\n| **(e) The court may also grant anticipatory bail **after** the issuance of a warrant if the applicant promptly applies and shows the above conditions.** | *State of Madhya Pradesh v. Kashi Ram*, (2010)\u202f12\u202fSCC\u202f263, para\u202f7 \u2013 \u201cEven after a warrant is issued, anticipatory bail can be granted if the applicant promptly files the petition and satisfies the criteria.\u201d |\n\n**Summarised test (as distilled from the above authorities):**  \n\n1. **Existence of a non\u2011bailable offence**;  \n2. **Reasonable apprehension of arrest**;  \n3. **No likelihood of the bail affecting the investigation, evidence or witnesses**;  \n4. **Absence of a serious criminal antecedent**; and  \n5. **Compliance with procedural requisites** (bond, surety, etc.).\n\n---\n\n## 3. Conditions that a court may impose on anticipatory bail  \n\nSection\u202f438(1) gives the court **wide discretion** to impose *\u201cany condition(s) as it thinks fit.\u201d* The Supreme Court and various High Courts have enumerated the kind of conditions that are normally imposed:\n\n| Condition | Illustrative case law |\n|-----------|----------------------|\n| **(i) Surrender of passport / no travel abroad without permission** | *Siddharam\u202fSatlingappa\u202fMhetre* (2015)\u202f5\u202fSCC\u202f1, para\u202f15 \u2013 \u201cThe applicant was directed to surrender his passport and obtain permission before any foreign travel.\u201d |\n| **(ii) Execution of a bond with surety** | *Gurbaksh\u202fSingh\u202fSibbia* (1996)\u202f3\u202fSCC\u202f569, para\u202f18 \u2013 \u201cA bail bond of Rs\u202f10,000 with two sureties is the usual practice.\u201d |\n| **(iii) Personal appearance before the investigating officer as and when required** | *State\u202fof\u202fRajasthan v. Kashi Ram* (2006)\u202f8\u202fSCC\u202f273, para\u202f9 \u2013 \u201cThe accused must make himself available for interrogation whenever the police call him.\u201d |\n| **(iv) Not to tamper with evidence, destroy documents or influence any witness (directly or indirectly)** | *B.\u202fS.\u202fB. v. State of Gujarat* (2003)\u202f3\u202fSCC\u202f203, para\u202f10 \u2013 \u201cThe court may expressly prohibit the accused from contacting or influencing witnesses.\u201d |\n| **(v) Not to commit any offence while the bail is in force** | *State\u202fof\u202fMaharashtra v. D.\u202fM. Patil* (2008)\u202f12\u202fSCC\u202f207, para\u202f6 \u2013 \u201cThe bail order may contain a condition that the accused shall not commit any offence.\u201d |\n| **(vi) Periodic reporting to the police station / to the court** | *P.\u202fChidambaram v. Union of India* (2020)\u202fSC\u202f(though not a bail case, the principle of reporting as a condition was reiterated) \u2013 \u201cReporting to the police on a monthly/weekly basis is permissible.\u201d |\n| **(vii) Not to leave the country / not to leave the jurisdiction of the court without permission** | *State\u202fof\u202fMadhya Pradesh v. Kashi Ram* (2010)\u202f12\u202fSCC\u202f263, para\u202f11 \u2013 \u201cThe accused cannot depart from the territorial jurisdiction without the court\u2019s permission.\u201d |\n| **(viii) Restriction to reside at a particular address or to obtain police permission before changing residence** | *Shri\u202fM.\u202fS.\u202fRaman v. State of Karnataka* (2019)\u202f5\u202fSCC\u202f384, para\u202f7 \u2013 \u201cThe applicant was ordered to reside only at the address notified to the police.\u201d |\n| **(ix) Any other condition the court deems necessary to secure the ends of justice** | *Gurucharan Singh v. State of Punjab* (2002)\u202f4\u202fSCC\u202f562, para\u202f14 \u2013 \u201cThe court may impose any condition it feels is essential.\u201d |\n\n### 3.1. *Nature of conditions \u2013 \u201cConditions of Bail\u201d vs. \u201cConditions of Anticipatory Bail\u201d  \n\n- **Conditions of bail** (under Section\u202f437) apply after arrest.  \n- **Conditions of anticipatory bail** (under Section\u202f438) are *pre\u2011emptive* and may include directions **to the police** (e.g., \u201cthe police shall not arrest the applicant\u201d) as well as personal obligations of the applicant (e.g., \u201cthe applicant shall not leave the country\u201d).\n\nThe Supreme Court has clarified that **the same categories of conditions that are permissible under ordinary bail may be imposed under anticipatory bail** (see *Gurbaksh\u202fSingh\u202fSibbia*, para\u202f19).\n\n### 3.2. *Revocation / Variation of Conditions*  \n\nIf the applicant **violates any condition**, the bail may be **cancelled** or **converted into an ordinary bail order** (which can lead to arrest). This principle was laid down in:\n\n- *State\u202fof\u202fMaharashtra v. Ramesh\u202fNath* (2004)\u202f5\u202fSCC\u202f260, para\u202f12 \u2013 \u201cNon\u2011compliance with a condition is a ground for cancellation of anticipatory bail.\u201d  \n- *Shri\u202fR.\u202fK.\u202fBansal v. State of Madhya Pradesh* (2018)\u202f4\u202fSCC\u202f485, para\u202f9 \u2013 \u201cThe court may vary or cancel the bail if the conditions are breached.\u201d\n\n---\n\n## 4. Practical checklist for counsel\n\n| Step | What to argue / present |\n|------|-------------------------|\n| **1. Identify a non\u2011bailable offence** | Cite the statutory provision (e.g., Section\u202f30 of the IPC for murder, etc.). |\n| **2. Show *reasonable apprehension*** | Provide copies of FIR, notice of investigation, threat letters, media reports, or prior arrests. |\n| **3. Demonstrate *absence of prejudice* to investigation** | Offer undertakings: \u201cI will not influence any witness; I will cooperate fully.\u201d |\n| **4. Offer *suitable conditions* proactively** | Suggest surrender of passport, bond, periodic reporting, etc., to pre\u2011empt the court\u2019s concerns. |\n| **5. Address *criminal antecedents*** | If any past convictions, argue they are unrelated or that the applicant has reformed; otherwise be prepared for possible denial. |\n| **6. Cite authority** | Quote *Sibbia* (1996)\u202f3\u202fSCC\u202f569, *Kashi\u202fRam* (2006)\u202f8\u202fSCC\u202f273, *Mhetre* (2015)\u202f5\u202fSCC\u202f1, *B.S.B.* (2003)\u202f3\u202fSCC\u202f203, and the latest relevant High Court rulings. |\n\n---\n\n## 5. Key citations (for quick reference)\n\n| Citation | Holding relevant to the question |\n|----------|-----------------------------------|\n| **Gurbaksh\u202fSingh\u202fSibbia v. State of Punjab**, (1996)\u202f3\u202fSCC\u202f569 | Laid down the *principle* of anticipatory bail, the need for \u201creasonable apprehension,\u201d and that **any condition** may be imposed. |\n| **State of Rajasthan v. Kashi Ram**, (2006)\u202f8\u202fSCC\u202f273 | Clarified that *only non\u2011bailable offences* are covered; enumerated typical conditions (passport surrender, no foreign travel). |\n| **B.\u202fS.\u202fB. v. State of Gujarat**, (2003)\u202f3\u202fSCC\u202f203 | Emphasised that the court can condition bail on *non\u2011influence of witnesses* and *execution of bond*. |\n| **Siddharam\u202fSatlingappa\u202fMhetre v. State of Maharashtra**, (2015)\u202f5\u202fSCC\u202f1 | Discussed *travel restrictions*, *passport surrender*, and the *necessity of ensuring investigation is not hampered*. |\n| **State of Madhya Pradesh v. Kashi Ram**, (2010)\u202f12\u202fSCC\u202f263 | Held that anticipatory bail may be granted even after a warrant if the applicant promptly applies and meets the criteria. |\n| **State of Maharashtra v. Ramesh\u202fNath**, (2004)\u202f5\u202fSCC\u202f260 | Stated that *breach of any condition* is a ground for cancellation of anticipatory bail. |\n| **Shri\u202fM.\u202fS.\u202fRaman v. State of Karnataka**, (2019)\u202f5\u202fSCC\u202f384 | Illustrated the condition of *residence restriction* and *regular reporting*. |\n| **Gurucharan\u202fSingh v. State of Punjab**, (2002)\u202f4\u202fSCC\u202f562 | Re\u2011affirmed that *any condition* deemed fit may be imposed. |\n\n---\n\n### Bottom line  \n\nA court may grant anticipatory bail **only when**:\n\n1. The applicant reasonably fears arrest for a **non\u2011bailable** offence;  \n2. The court is satisfied that the grant **will not jeopardise** the investigation, evidence or witnesses; and  \n3. The applicant is not a **dangerous** or habitual offender.\n\nThe court may, **at its discretion**, impose **any condition** it deems necessary \u2013 the most common being surrender of passport, execution of a bond, regular reporting to police, prohibition on contacting witnesses, restriction on travel, and a direction to cooperate with the investigation. Breach of any such condition can lead to cancellation of the anticipatory bail.  \n\nThese principles are consistently backed by the Supreme Court judgments cited above and have been followed by High Courts across India.",
+    "input_tokens": 116,
+    "output_tokens": 3445,
+    "usd": 0.0020843999999999997,
+    "citations": 27,
+    "matched_real_judgment": 21,
+    "fabricated": 2,
+    "outside_coverage": 4,
+    "unverifiable": 6
+   }
+  },
+  {
+   "question": "Can the High Court quash an FIR when the parties have settled a matrimonial dispute?",
+   "docketpilot": {
+    "seconds": 17.0,
+    "input_tokens": 11638,
+    "output_tokens": 1755,
+    "llm_calls": 7,
+    "usd": 0.0027987,
+    "corrections": 5,
+    "answer": "Yes.\u202fThe High Court may quash criminal proceedings \u2013 even when the respondent is an organisation such as\u202fFIR \u2013 if the parties to the matrimonial dispute have reached an amicable settlement and the court is satisfied that the likelihood of conviction is remote and that continuation of the case would cause oppression or injustice. \n\n- The Court again observed that, irrespective of the offence not being compoundable, \u201cthe High Court may \u2026 quash the criminal proceeding \u2026 if \u2026 there is hardly any likelihood of the offender being convicted and by not quashing the criminal proceedings, justice shall be casualty\u201d (Naushey Ali, 2025INSC182).\n\nThus, on the basis of the inherent powers under Section\u202f482\u202fCr.P.C. and the settled\u2011dispute principle articulated in the above judgments, the High Court can quash the criminal case against\u202fFIR when the matrimonial parties have settled.",
+    "citations": 1,
+    "matched_real_judgment": 1,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 75188,
+    "output_tokens": 656,
+    "usd": 0.011671799999999998,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 8.4,
+    "answer": "**Short answer:**  \nYes. A High Court can, in appropriate circumstances, order the *quash* of an FIR that arises out of a matrimonial dispute, but the power is **not automatic**. The court must be satisfied that (i) the matter is *compoundable* (or the parties have *compounded* the offence), (ii) there is no *prima\u2011facie* case of an offence, and (iii) the continuation of the criminal proceeding would be contrary to the interests of justice. The power is exercised under the inherent jurisdiction of the High Court under **Section\u202f482 of the Code of Criminal Procedure, 1973 (CrPC)** and, where the offence is compoundable, also under **Section\u202f321\u202fCrPC**.\n\nBelow is a synthesis of the governing legal principles together with the leading Indian judgments that illustrate how the High Courts have applied them in matrimonial\u2011dispute cases.\n\n---\n\n## 1.  Statutory framework\n\n| Provision | Relevance to a matrimonial FIR |\n|-----------|--------------------------------|\n| **Section\u202f321, CrPC** | Allows *compounding* of *compoundable* offences with the consent of the parties and the public prosecutor. Once compounded, the criminal proceeding must stand terminated. |\n| **Section\u202f320, CrPC** | Lists the offences that are *compoundable*. Many matrimonial\u2011dispute offences (e.g., *voluntarily causing hurt* under Sec.\u202f323, *simple assault* under Sec.\u202f352, *criminal breach of contract* under Sec.\u202f420) are compoundable. |\n| **Section\u202f482, CrPC** | Confers inherent powers on the High Court to *prevent abuse of the process of law* and to *quash* criminal proceedings when continuation would be an abuse of process or otherwise detrimental to justice. |\n| **Section\u202f138, CrPC** (now **Section\u202f167** after the 1973 amendment) | Allows the court to order a *dismissal* of a complaint when it is evident that the *complaint is frivolous or vexatious* (used by High Courts to quash FIRs in matrimonial settlements). |\n\n---\n\n## 2.  When the High Court may quash an FIR in a matrimonial dispute\n\n### a)  The offence is *compoundable* and the parties have *compounded* it\n\n* **State of Madhya Pradesh v. Ramesh**, 2004\u202f1\u202fSCC\u202f319  \n  > The Supreme Court held that where a *compoundable* offence has been *compounded* by the parties, the High Court can, under Section\u202f482, dismiss the FIR because the criminal process would otherwise be an abuse of law.\n\n* **M.\u202fC. Choudhary v. State of Rajasthan**, 2005\u202f4\u202fSCC\u202f274  \n  > The Court observed that a matrimonial dispute involving a charge of *voluntarily causing hurt* (Sec.\u202f323) is compoundable; once the parties have settled and the offence is compounded, the FIR may be quashed.\n\n### b)  No *prima\u2011facie* case exists (the FIR does not disclose any offence)\n\n* **State of Punjab v. Dalbir Singh**, (1997)\u202f1\u202fSCC\u202f663  \n  > The Supreme Court affirmed that the High Court may quash an FIR if the allegations, on the face of the complaint, do not constitute an offence. The same principle is applied in matrimonial disputes where the complaint merely narrates a civil grievance.\n\n* **V.\u202fC.\u202fShukla v. State of Madhya Pradesh**, (2008)\u202f1\u202fSCC\u202f698  \n  > The Court held that where the FIR is based solely on a *family dispute* and the allegations are insufficient to constitute a cognizable offence, the High Court may invoke its inherent powers under Section\u202f482 to quash the FIR.\n\n### c)  The offence is *non\u2011compoundable* but the settlement is *in the interest of justice* and the prosecution would be *harassment*\n\n* **Shyam Singh v. State of Haryana**, (1998)\u202f2\u202fSCC\u202f714  \n  > Although the offence (Sec.\u202f498A) is *non\u2011compoundable*, the Supreme Court said that a *genuine settlement* between the parties, where the allegations are found to be false or exaggerated, can justify the quash of the FIR under Section\u202f482 to prevent abuse of the process.\n\n* **K.\u202fR.\u202fK. v. State of Karnataka**, (2012)\u202f9\u202fSCC\u202f254  \n  > The Court observed that even for a non\u2011compoundable offence, if the prosecution is *malicious* and the settlement demonstrates that the complainant no longer wishes to pursue the case, the High Court may quash the FIR to protect the accused from harassment.\n\n### d)  The FIR is *malicious* or *vexatious* (e.g., filed as a pressure\u2011tactic in a matrimonial dispute)\n\n* **S.\u202fR. v. State**, (2013)\u202fSCC\u202fOnLine\u202fMad\u202f1205 (Madras High Court)  \n  > The Madras HC quashed an FIR filed under Sec.\u202f498A where the plaintiff\u2019s sole motive was to obtain a matrimonial settlement. The Court held that the FIR was *vexatious* and that quashing it was necessary to prevent misuse of criminal law.\n\n* **Nandini v. State of Delhi**, (2009)\u202fSCC\u202fOnLine\u202fDel\u202f1150 (Delhi HC)  \n  > The Delhi HC set aside an FIR for \u201ccruelty\u201d after the parties executed a *mutual settlement deed* and the complainant withdrew the complaint, holding that the continuation of criminal proceedings would amount to *harassment*.\n\n---\n\n## 3.  Practical steps for obtaining a quash order\n\n1. **Obtain a *settlement deed* or *compromise agreement* signed by both parties** and, where the offence is compoundable, a *compounding order* from the Public Prosecutor under Section\u202f320\u202fCrPC.  \n2. **File a petition under Section\u202f482 CrPC** in the appropriate High Court, attaching:  \n   * the FIR copy;  \n   * the settlement deed/compromise order;  \n   * affidavits of both parties confirming that the dispute has been resolved;  \n   * a *no\u2011objection certificate* (NOC) from the complainant (if still alive) or from the spouse;  \n   * a *statement of facts* showing that the allegations do not constitute a cognizable offence (or that the offence is compoundable).  \n3. **Cite the above precedents** (especially *State of MP v. Ramesh* and *Shyam Singh v. State of Haryana*) to demonstrate that the High Court\u2019s inherent jurisdiction has been exercised in analogous matrimonial\u2011settlement cases.  \n4. **If the offence is non\u2011compoundable**, stress that the FIR is *malicious, fabricated* or *vexatious* and that continuation would be a *gross abuse of process* \u2013 a ground recognized in *K.\u202fR.\u202fK. v. State of Karnataka*.\n\n---\n\n## 4.  Summary of the legal position\n\n| Situation | Power to quash FIR | Key case(s) |\n|-----------|-------------------|--------------|\n| **Offence is *compoundable* and parties have *compounded* it** | Yes \u2013 under Section\u202f482 (inherent) after compounding under Section\u202f321. | *State of MP v. Ramesh* (2004)\u202f1\u202fSCC\u202f319; *M.C. Choudhary v. State* (2005)\u202f4\u202fSCC\u202f274 |\n| **No prima\u2011facie case (FIR does not disclose an offence)** | Yes \u2013 inherent power under Section\u202f482. | *State of Punjab v. Dalbir Singh* (1997)\u202f1\u202fSCC\u202f663; *V.C. Shukla v. State* (2008)\u202f1\u202fSCC\u202f698 |\n| **Offence is *non\u2011compoundable* but settlement shows the case is *malicious / vexatious*** | Yes \u2013 the High Court may quash to prevent abuse of process, though the statutory right to prosecute remains. | *Shyam Singh v. State of Haryana* (1998)\u202f2\u202fSCC\u202f714; *K.R.K. v. State of Karnataka* (2012)\u202f9\u202fSCC\u202f254 |\n| **Offence is *non\u2011compoundable* and the State wishes to pursue the case despite settlement** | No \u2013 the court cannot quash merely because the parties have settled; the State may continue prosecution. | *S.\u202fR. v. State* (2013)\u202fMad\u202fHC (quash only where FIR is vexatious); *State v. R.\u202fK.* (2015)\u202fSC (upheld prosecution where the offence is serious). |\n\n---\n\n## 5.  Concluding observation for advocates\n\n- **Yes, the High Court can quash an FIR in a matrimonial dispute**, but the success of such a petition depends on the nature of the offence and the *quality of the settlement evidence*.  \n- For **compoundable offences**, a *compounding order* and a clear settlement deed are usually sufficient.  \n- For **non\u2011compoundable offences**, you must convince the Court that the FIR is *malicious, fabricated, or otherwise an abuse of process*\u2014the mere fact of settlement is not enough.  \n- Cite the **Supreme Court precedents** (*State of MP v. Ramesh*, *Shyam Singh v. State of Haryana*) and the **relevant High Court decisions** (*Madras HC in S.R. v. State*, *Delhi HC in Nandini v. State*) to demonstrate the established jurisprudence.\n\n**Recommended citation list for a petition:**\n\n1. **State of Madhya Pradesh v. Ramesh**, (2004)\u202f1\u202fSCC\u202f319.  \n2. **M.\u202fC. Choudhary v. State of Rajasthan**, (2005)\u202f4\u202fSCC\u202f274.  \n3. **Shyam Singh v. State of Haryana**, (1998)\u202f2\u202fSCC\u202f714.  \n4. **K.\u202fR.\u202fK. v. State of Karnataka**, (2012)\u202f9\u202fSCC\u202f254.  \n5. **S.\u202fR. v. State**, (2013)\u202fSCC\u202fOnLine\u202fMad\u202f1205.  \n6. **Nandini v. State of Delhi**, (2009)\u202fSCC\u202fOnLine\u202fDel\u202f1150.  \n7. **V.\u202fC.\u202fShukla v. State of Madhya Pradesh**, (2008)\u202f1\u202fSCC\u202f698.  \n\nThese authorities collectively support the proposition that the High Court, exercising its inherent powers under Section\u202f482 CrPC, may quash an FIR when the matrimonial dispute has been settled and the continuance of the criminal proceeding would be an abuse of process.",
+    "input_tokens": 118,
+    "output_tokens": 3233,
+    "usd": 0.0019575,
+    "citations": 15,
+    "matched_real_judgment": 13,
+    "fabricated": 0,
+    "outside_coverage": 2,
+    "unverifiable": 2
+   }
+  },
+  {
+   "question": "When is specific performance of an agreement to sell immovable property refused?",
+   "docketpilot": {
+    "seconds": 25.9,
+    "input_tokens": 14010,
+    "output_tokens": 3012,
+    "llm_calls": 9,
+    "usd": 0.0039087,
+    "corrections": 4,
+    "answer": "Specific performance of a contract for the sale of immovable property is not a matter of right; it is granted only when the contract is enforceable and no cogent ground exists to refuse it. The judgments in the library identify the following circumstances in which the court will refuse, or will be reluctant to grant, specific performance:\n\n- **Statutory limitation** \u2013 A suit for specific performance must be filed within the three\u2011year limitation period prescribed by the Limitation Act. \n- **Absence of a compulsory\u2011registration requirement** \u2013 An unregistered agreement to sell is inadmissible as evidence of title and cannot be the basis of a decree of specific performance. \n\n- **Escalation of price or change in consideration** \u2013 Where the price has materially increased after the contract was concluded, the court may refuse specific performance or may modify the decree to require the plaintiff to pay the higher amount. This is treated as a valid ground for refusal (Ferrodous Estates (Pvt.) Ltd. v. P. Gopirathnam (Dead), 2020INSC586).\n\n- **Delay in performance not justified by compelling circumstances** \u2013 Mere pendency of court proceedings does not, by itself, justify refusal. However, if there are compelling circumstances (e.g., the defendant\u2019s conduct makes performance inequitable), the court may decline the decree (Ferrodous Estates (Pvt.) Ltd. v. P. Gopirathnam (Dead), 2020INSC586).\n\n- **Arbitrability limitation** \u2013 An arbitrator cannot grant specific performance of a sale of immovable property because that power is reserved to courts under Sections\u202f10 and\u202f20 of the Specific Relief Act. If the dispute is referred to arbitration, the award for specific performance will be refused (Deccan Paper Mills Co. Ltd. v. Regency Mahavir Properties, 2020INSC497).\n\n- **Incorrect characterization of the transaction** \u2013 If the agreement is actually a mortgage or any arrangement other than a sale, it falls within the exception to Section\u202f92 of the Indian Evidence Act and the court will refuse to order specific performance of a \u201csale\u201d (Vinod Infra Developers Ltd. v. Mahaveer Lunia, 2025INSC772).\n\n- **Non\u2011compliance with CPC Rule\u202f12A** \u2013 A decree for specific performance must specify the period within which the purchase price is to be paid. Failure to do so, or refusal to grant an extension of time where the purchaser has not shown a valid reason, may lead the court to refuse the decree Through Its Lrs, 2025INSC301).\n\nIn summary, specific performance is refused when the contract is barred by limitation, is unregistered, is tainted by the plaintiff\u2019s own wrongdoing, involves a material change in price, lacks compelling circumstances to excuse delay, is improperly placed in arbitration, is mischaracterised as a sale, or does not comply with the procedural requirement of specifying a payment period. All the above points are drawn from the cited judgments.",
+    "citations": 5,
+    "matched_real_judgment": 5,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 96799,
+    "output_tokens": 1184,
+    "usd": 0.015230249999999999,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 9.8,
+    "answer": "**When a Court Refuses to grant Specific Performance of an Agreement to Sell Immovable Property**  \n\nUnder the Specific Relief Act, 1963 (the \u201cAct\u201d), a decree for specific performance of a contract for the sale of immovable property may be granted **\u201cunless\u201d** the decree is barred by law or is inequitable.  The Supreme Court and various High Courts have identified a series of concrete situations in which the decree is **refused**.  The principal grounds, together with the leading Indian judgments that illustrate each ground, are summarised below.\n\n---\n\n## 1.  The contract is **void, illegal or contrary to public policy**\n\n| Situation | Illustrative Case (Citation) |\n|-----------|------------------------------|\n| The seller does not have a marketable title; the contract is therefore void. | **Kanhaiyalal v. Gauri Shankar**, AIR\u202f1954 SC\u202f306. |\n| The sale is for a property that the seller is not authorised to dispose of (e.g., a co\u2011operative flat without required approvals). | **M. S. R. v. R. K.**, (1994) 2 SCC\u202f71. |\n| The agreement is entered into for an illegal purpose (e.g., sale of a property that is subject to a court\u2011issued stay). | **Mohan Lal v. R. B. R.**, AIR\u202f1965 SC\u202f1387. |\n\n**Principle:** A decree cannot be passed for performance of an illegal or void contract (Sec.\u202f53 of the Act).  \n\n---\n\n## 2.  The plaintiff (buyer) is **not ready, willing, or able to perform his side of the contract**\n\n| Situation | Illustrative Case (Citation) |\n|-----------|------------------------------|\n| The buyer has not paid the purchase price or the agreed instalment/ deposit. | **R.\u202fR. Bansal v. R.\u202fS. Sagar**, AIR\u202f1969 SC\u202f1525. |\n| The buyer has failed to comply with a condition precedent (e.g., obtaining financing or required clearances). | **Raghunath Rao v. Mahendra Prasad**, AIR\u202f1965 SC\u202f1387. |\n| The buyer is in default of a material stipulation, making the contract \u201cunreciprocated\u201d. | **S.\u202fK. Jha v. Gopal Das**, AIR\u202f1974 SC\u202f173. |\n| The plaintiff has abandoned the suit or shown unwillingness to take possession. | **Mahesh Kumar v. L.\u202fN. Ghosh**, (2003) 9 SCC\u202f571. |\n\n**Principle:** Section\u202f50 of the Act requires that the decree be made \u201csubject to the plaintiff\u2019s being ready and willing to perform his part\u201d.  If the plaintiff is not ready, the court may refuse specific performance.\n\n---\n\n## 3.  **Adequate alternate remedy** \u2013 monetary compensation is sufficient\n\n| Situation | Illustrative Case (Citation) |\n|-----------|------------------------------|\n| The property is not unique (e.g., a standard residential flat in a large housing scheme where identical units are available). | **Gopal Krishan v. Sukhbir**, AIR\u202f1978 SC\u202f1442. |\n| The plaintiff can be fully compensated by a simple award of damages. | **B.\u202fN. Reddy v. K.\u202fK. B.**, AIR\u202f1975 SC\u202f1015. |\n| The court finds that granting specific performance would be disproportionate to the loss suffered. | **M.\u202fR. Choudhary v. S.\u202fK. Singh**, (2013) 6 SCC\u202f574. |\n\n**Principle:** Although immovable property is generally considered \u201cunique\u201d, the Supreme Court has held that specific performance is not ordered where a **just and adequate** monetary award can compensate the plaintiff (see *Gopal Krishan*).  \n\n---\n\n## 4.  **Delay or laches** on the part of the plaintiff\n\n| Situation | Illustrative Case (Citation) |\n|-----------|------------------------------|\n| The plaintiff seeks performance after an unreasonable delay, causing prejudice to the defendant. | **K.\u202fVenkatesh Reddy v. N.\u202fS. Rao**, (2007) 10 SCC\u202f1. |\n| The plaintiff\u2019s inaction has rendered the subject\u2011matter of the contract substantially different (e.g., the property has been materially altered). | **M.\u202fS.\u202fVenkata Narayana v. S.\u202fR. Rao**, (2005) 4 SCC\u202f158. |\n\n**Principle:** Equity demands that a party who has slept on its rights may be barred by laches; the court may refuse specific performance where the delay defeats the purpose of the decree.\n\n---\n\n## 5.  **Statutory or procedural bars**\n\n| Situation | Illustrative Case (Citation) |\n|-----------|------------------------------|\n| The suit is filed beyond the limitation period prescribed under the Limitation Act. | **P.\u202fNarayana Rao v. M.\u202fRamaswamy**, AIR\u202f1993 SC\u202f1723. |\n| The contract is not enforceable because it is not in writing/registered where registration is mandatory (e.g., sale of land above Rs\u202f100). | **Kanhaiyalal v. Gauri Shankar**, AIR\u202f1954 SC\u202f306 (re\u2011affirmed in *K.\u202fR.\u202fS. v. K.\u202fR.\u202fS.*, (2004) 2 SCC\u202f395). |\n| The decree is barred by Section\u202f55 of the Act (e.g., the plaintiff seeks specific performance of a contract of guarantee). | **S.\u202fK. Jha v. Gopal Das**, AIR\u202f1974 SC\u202f173 (para\u202f7). |\n\n**Principle:** The Act expressly bars specific performance where the contract is not enforceable under the law (e.g., lack of registration, limitation).  \n\n---\n\n## 6.  **Equity \u2013 hardship, unconscionability or undue prejudice to the defendant**\n\n| Situation | Illustrative Case (Citation) |\n|-----------|------------------------------|\n| The decree would impose a hardship on the defendant disproportionate to the benefit to the plaintiff. | **B.\u202fN.\u202fReddy v. K.\u202fK.\u202fB.**, AIR\u202f1975 SC\u202f1015. |\n| The contract was entered into under coercion, fraud or misrepresentation, making specific performance inequitable. | **Satyabrata v. Satyajit**, (1993) 2 SCC\u202f349. |\n| The plaintiff has acted in bad\u2011faith, e.g., to obtain a windfall or to defeat a third\u2011party right. | **Mohan Lal v. R.\u202fB.\u202fR.**, AIR\u202f1965 SC\u202f1387. |\n\n**Principle:** Even if the statutory conditions are met, the court retains a discretionary power to refuse specific performance on equitable grounds (see *B.\u202fN.\u202fReddy*).\n\n---\n\n## 7.  **Non\u2011existence or destruction of the subject\u2011matter**\n\n| Situation | Illustrative Case (Citation) |\n|-----------|------------------------------|\n| The immovable property has been destroyed or no longer exists (e.g., demolished building). | **S.\u202fK. Jha v. Gopal Das**, AIR\u202f1974 SC\u202f173 (para\u202f9). |\n| The property has been transferred to a bona\u2011fide third party, and specific performance would prejudice that third party. | **M.\u202fS.\u202fR. v. R.\u202fK.**, (1994) 2 SCC\u202f71. |\n\n**Principle:** Where performance is impossible because the subject\u2011matter no longer exists, the decree is barred (Sec.\u202f53, Act).\n\n---\n\n### **Summary of the Core Test**\n\nThe Supreme Court in **K.\u202fVenkatesh Reddy v. N.\u202fS. Rao**, (2007) 10 SCC\u202f1, distilled the test for granting specific performance of a contract for sale of immovable property as follows:\n\n1. **Legal validity** of the contract (title, registration, no illegality).  \n2. **Readiness and willingness** of both parties to perform.  \n3. **Absence of an adequate alternative remedy**.  \n4. **No statutory or procedural bar** (e.g., limitation, non\u2011registration).  \n5. **Equitable considerations** \u2013 no undue hardship, no laches, no fraud.  \n6. **Existence of the subject\u2011matter** at the time of decree.\n\nIf any of the above is missing, the court is empowered \u2013 and, in many authorities, *obliged* \u2013 to **refuse specific performance**.\n\n---\n\n### **Key Judgments to Cite in a Legal Opinion**\n\n| No. | Case | Citation |\n|-----|------|----------|\n| 1 | **Kanhaiyalal v. Gauri Shankar** | AIR\u202f1954 SC\u202f306 |\n| 2 | **R.\u202fR. Bansal v. R.\u202fS. Sagar** | AIR\u202f1969 SC\u202f1525 |\n| 3 | **Raghunath Rao v. Mahendra Prasad** | AIR\u202f1965 SC\u202f1387 |\n| 4 | **S.\u202fK. Jha v. Gopal Das** | AIR\u202f1974 SC\u202f173 |\n| 5 | **Gopal Krishan v. Sukhbir** | AIR\u202f1978 SC\u202f1442 |\n| 6 | **B.\u202fN. Reddy v. K.\u202fK. B.** | AIR\u202f1975 SC\u202f1015 |\n| 7 | **K.\u202fVenkatesh Reddy v. N.\u202fS. Rao** | (2007) 10 SCC\u202f1 |\n| 8 | **M.\u202fR. Choudhary v. S.\u202fK. Singh** | (2013) 6 SCC\u202f574 |\n| 9 | **P.\u202fNarayana Rao v. M.\u202fRamaswamy** | AIR\u202f1993 SC\u202f1723 |\n|10| **Satyabrata v. Satyajit** | (1993) 2 SCC\u202f349 |\n|11| **Mahajan v. K.\u202fD. Nair** | AIR\u202f1979 SC\u202f2073 |\n|12| **Mohan Lal v. R.\u202fB.\u202fR.** | AIR\u202f1965 SC\u202f1387 |\n|13| **M.\u202fS.\u202fR. v. R.\u202fK.** | (1994) 2 SCC\u202f71 |\n\nThese authorities together provide a comprehensive framework for when a court will *refuse* to order specific performance of an agreement to sell immovable property in India.",
+    "input_tokens": 115,
+    "output_tokens": 3649,
+    "usd": 0.0022066499999999997,
+    "citations": 35,
+    "matched_real_judgment": 0,
+    "fabricated": 0,
+    "outside_coverage": 35,
+    "unverifiable": 35
+   }
+  },
+  {
+   "question": "What is the limitation period to file a suit for recovery of money lent, and when does it start?",
+   "docketpilot": {
+    "seconds": 10.9,
+    "input_tokens": 6226,
+    "output_tokens": 571,
+    "llm_calls": 3,
+    "usd": 0.0012764999999999999,
+    "corrections": 2,
+    "answer": "The limitation for a suit to recover money that has been lent is **three years**.\u202fThe period begins **when the loan is made (i.e., when the cause of action accrues)** \u2013 the moment the money is advanced or becomes payable\u202f\u2014 not when the plaintiff discovers the default. (M/S. Radha Exports (India) Pvt.",
+    "citations": 0,
+    "matched_real_judgment": 0,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 222326,
+    "output_tokens": 351,
+    "usd": 0.0335595,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 4.3,
+    "answer": "**Limitation period \u2013 3\u202fyears**\n\nThe suit for recovery of money lent is treated as a suit \u201cfor the enforcement of a simple contract\u201d.  \nSection\u202f55 of the *Limitation Act, 1963* provides that a suit for the enforcement of a simple contract must be instituted **within three years** from the date on which the cause of action accrues.\n\n> \u201c*Section\u202f55 \u2013 Simple contract* \u2013 Where a suit is for the recovery of a sum of money or for the enforcement of a simple contract, the period of limitation is three years\u2026\u201d  \n> \u2014 *Limitation Act, 1963*, s.\u202f55.\n\n**When does the limitation period start?**\n\nThe limitation period begins on the date the *cause of action* arises \u2013 i.e., the date when the right to sue first accrues.  For a money\u2011lending transaction this is the date on which the loan becomes **due for repayment** (or, where the loan is payable on demand, the date on which a demand is first made).  The rule is laid down in Section\u202f2(1)(g) of the Act and has been explained by the courts in several decisions, e.g.:\n\n| Case | Citation | Holding on the start of limitation |\n|------|----------|--------------------------------------|\n| **Mohanlal\u202fv.\u202fM.K.\u202fGhosh** | (1995)\u202f2\u202fSCC\u202f408 | The limitation period for a money\u2011loan suit starts when the money becomes due, not when the loan was originally advanced. |\n| **M.\u202fP.\u202fJain\u202fv.\u202fK.B.\u202fJindal** | (1991)\u202f1\u202fSCC\u202f113 | The cause of action for a debt suit accrues on the date of default or on the date of the first demand, whichever is earlier. |\n| **J.\u202fP.\u202fDutta\u202fv.\u202fB.\u202fGhosh** | (1992)\u202f4\u202fSCC\u202f632 | A suit for recovery of a sum payable on demand cannot be filed before a demand is made; the limitation clock starts from the date of that demand. |\n| **K.\u202fS.\u202fNarasimhan\u202fv.\u202fM.\u202fKrishnan** | (1975)\u202f3\u202fSCC\u202f274 | The limitation period runs from the date the plaintiff became entitled to sue \u2013 i.e. the date of default under the loan agreement. |\n| **State of Uttar\u202fPradesh\u202fv.\u202fGirdhari\u202fLal** | (1971)\u202f2\u202fSCC\u202f592 | The \u201ccause of action\u201d is deemed to arise when the plaintiff\u2019s right to enforce payment arises, not when the contract was executed. |\n\n**Practical consequence**\n\n1. **If the loan agreement specifies a fixed maturity date** \u2013 the limitation period starts on that date.  \n2. **If the loan is payable on demand** \u2013 the plaintiff must first make a lawful demand; the three\u2011year period starts from the date of that demand (or from the date of the borrower\u2019s default if a default date is fixed).  \n\n**Summary**\n\n- **Limitation period:** 3\u202fyears (Sec.\u202f55, *Limitation Act*).  \n- **Commencement:** The day on which the loan becomes due for repayment, or the day a demand for repayment is first made (the date the cause of action accrues).  \n\nIf the suit is filed after the expiry of the three\u2011year period, the defendant can raise the defence of limitation under Section\u202f29 of the *Limitation Act*, and the suit will be dismissed unless a recognised exception (e.g., *condonation of delay* under Section\u202f5) applies.",
+    "input_tokens": 122,
+    "output_tokens": 1741,
+    "usd": 0.0010628999999999999,
+    "citations": 5,
+    "matched_real_judgment": 1,
+    "fabricated": 0,
+    "outside_coverage": 4,
+    "unverifiable": 4
+   }
+  },
+  {
+   "question": "When can an arbitral award be set aside under Section 34 of the Arbitration and Conciliation Act?",
+   "docketpilot": {
+    "seconds": 30.8,
+    "input_tokens": 13092,
+    "output_tokens": 1896,
+    "llm_calls": 8,
+    "usd": 0.0031014,
+    "corrections": 3,
+    "answer": "**Grounds for setting aside an arbitral award** \n\n- That **the award deals with a dispute not contemplated by, or not falling within, the terms of the submission to arbitration, or it contains decisions on matters beyond the scope of that submission**\u202f[i] (In Re: Interplay Between Arbitration Agreements Under The Arbitration And Conciliation Act 1996 And The Indian Stamp Act 1899 v.., 2023INSC1066; Section 34, Arbitration and Conciliation Act, 1996). \n- For **domestic awards**, a further ground exists: the award may be set aside if the court finds it is vitiated by **\u201cpatent illegality\u201d appearing on the face of the award** (Delhi Metro Rail Corporation Ltd. v. Delhi Airport Metro Express Pvt. Ltd., 2024INSC292).\n\n**Procedural time\u2011limit** \n\n- An application for setting aside must be filed **within three months of the date the party received the award** (or, if a Section\u202f33 application was made, within three months of the tribunal\u2019s disposal of that request) (Superintending Engineer/ Dehar Power House Circle Bhakra Beas Management Board (Pw) Slapper, 2019INSC1200). \n- If the court is satisfied that the applicant was **prevented by sufficient cause** from filing within the three\u2011month period, it may entertain the application **within a further thirty days**, but not thereafter (Superintending Engineer/ Dehar Power House Circle Bhakra Beas Management Board (Pw) Slapper, 2019INSC1200).\n\n**Formal requirement** \n\n- Recourse to a court is only by an **application for setting aside** in accordance with sub\u2011section\u202f(2) and sub\u2011section\u202f(3) of Section\u202f34 (Section 34, Arbitration and Conciliation Act, 1996).\n\nThese are the circumstances under which an arbitral award can be set aside under Section\u202f34 of the Arbitration and Conciliation Act, 1996.",
+    "citations": 4,
+    "matched_real_judgment": 4,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 180641,
+    "output_tokens": 716,
+    "usd": 0.027525749999999998,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 7.4,
+    "answer": "**When can an arbitral award be set\u2011aside under Section\u202f34 of the Arbitration and Conciliation Act,\u202f1996?**  \n\nSection\u202f34 (2) spells out the limited grounds on which a Court may annul an arbitral award.  A party may file an application (within three months of receipt of the award, extendable by the Court) only if **any one** of the following conditions is satisfied.  The Supreme Court and the High Courts have repeatedly interpreted each ground \u2013 the leading authorities are listed after the explanation.\n\n| Ground under S.\u202f34(2) | What the ground means (with judicial illustration) |\n|-----------------------|---------------------------------------------------|\n| **(a) The award is not a \u2018valid award\u2019 under Section\u202f30** | \u2022 The arbitration agreement is **void, voidable or non\u2011existent**; or the arbitral tribunal was not properly constituted; or the award is not in writing, not signed or not dated.  <br>**Case law**: *M/s. Kesoram Industries Ltd. v. M/s. Shree Durga Cement* (2013) 5 SCC 1 \u2013 award set aside because the arbitration agreement was held to be **void for lack of a proper arbitration clause**.  <br>\u2022 *Satyam Computer Services Ltd. v. Union of India* (2005) 6 SCC 388 \u2013 the Court annulled the award on the ground that the **arbitration agreement was ultra vires the Companies Act** and therefore not a \u201clawful\u201d agreement within the meaning of S.\u202f30. |\n| **(b) The party was **unable to present his case** or was **prevented from doing so** in the arbitral proceedings** | The principle of natural justice requires that each party be given a reasonable opportunity to be heard.  <br>**Case law**: *M/s. Hindustan Copper Ltd. v. M/s. S.N. Sinha* (2014) 8 SCC 1 \u2013 the award was set aside because the respondent was **denied a chance to file a written statement** and to adduce evidence.  <br>\u2022 *M/s. Rajiv Gandhi Mahila Vikas Samiti v. State of Rajasthan* (2012) 7 SCC 453 \u2013 annulled for **failure to give the claimant a hearing on a material issue**. |\n| **(c) The award deals with a matter **outside the scope of the arbitration agreement** (i.e., excess of jurisdiction)** | If the arbitral tribunal decides issues that the parties did not agree to submit, the award can be vacated.  <br>**Case law**: *Sumitomo Heavy Industries Ltd. v. Steel Authority of India Ltd.* (2000) 9 SCC 263 \u2013 the award was set aside because the tribunal decided on a **matter that was not covered by the arbitration clause** (the question of ownership of the land).  <br>\u2022 *M/s. M. N. D. Ltd. v. State of Gujarat* (2006) 4 SCC 317 \u2013 award annulled for **exercising jurisdiction over a claim not referred to arbitration**. |\n| **(d) The award is **in conflict with the public policy of India** (see also S.\u202f34(2)(e) \u2013 \u201ccontrary to the law of India\u201d)** | The Supreme Court has given a three\u2011part test: (i) violation of a fundamental policy of law; (ii) violation of the basic principles of natural justice; or (iii) an award that is **patently illegal or irrational**.  <br>**Case law**: *Bharat Aluminium Co. v. Kaiser Aluminium Ltd.* (2002) 4 SCC 105 \u2013 set aside because the award **favoured a foreign party in contravention of India\u2019s export\u2011import policy**, thus violating public policy.  <br>\u2022 *M/s. ONGC Ltd. v. Sawhney* (2013) 10 SCC 1 \u2013 award annulled for **flagrant disregard of a statutory provision** (the Companies Act) and hence contrary to public policy.  <br>\u2022 *K. B. Batra v. B. K. B. & Ors.* (2021) 10 SCC 1 \u2013 clarified that an award that is \u201c**patently illegal**\u201d (e.g., granting a remedy that the law does not permit) falls under this ground. |\n| **(e) The award is **contrary to the law of India** (i.e., violates a substantive legal provision)** | This ground overlaps with (d) but is expressed separately in the Act.  The award may be set aside if it **conflicts with a mandatory provision of any law**.  <br>**Case law**: *M/s. Hindustan Petroleum Corp. Ltd. v. K. B. (2008) 8 SCC 123* \u2013 the award ordered the appellant to **pay a sum that was prohibited under the Foreign Exchange Management Act**, and the Court vacated it on this ground.  <br>\u2022 *M/s. K. D. Singh v. R. N.* (2020) 14 SCC 567 \u2013 award set aside because it **directly violated the provisions of the Competition Act**. |\n\n### Procedural prerequisites (also part of the \u201cwhen\u201d)\n\n1. **Time\u2011limit** \u2013 An application under S.\u202f34 must be filed **within three months** from the date of receipt of the award (or any arbitral statement).  The Court may extend this period **on a sufficient cause** (see *M/s. DLF Ltd. v. H. K. Narayanan* (2011) 12 SCC 442).  \n\n2. **Court of jurisdiction** \u2013  \n   * For **domestic arbitrations** (Part\u202fI of the Act) the application lies in the **High Court** of the seat of arbitration (or where the award is to be enforced).  \n   * For **international commercial arbitrations** (Part\u202fII) the application is filed in the **High Court** of the place of seat of arbitration (see *M/s. Bharat Petroleum Corp. Ltd. v. S. P. Singh* (2011) 3 SCC 1).  \n\n3. **No fresh evidence** \u2013 The Court\u2019s review is **limited to the record of the arbitration**; it cannot entertain new evidence (see *B. K. R. v. N. K. R.* (2018) 4 SCC 1).  \n\n4. **No second appeal** \u2013 The decision of the Court under S.\u202f34 is **final**; a further appeal is permissible only on a substantial question of law to the Supreme Court under Article\u202f136 (see *M/s. M. B. Enterprises v. M. N. Enterprises* (2019) 2 SCC 567).\n\n---\n\n## Summary of the \u201cwhen\u201d\n\nAn arbitral award may be set aside **only** when, within the statutory period, a party demonstrates that the award:\n\n1. **Fails to qualify as a \u201cvalid award\u201d** because of a defect in the arbitration agreement or the constitution of the tribunal;  \n2. **Deprived a party of a fair hearing**;  \n3. **Exceeds the jurisdiction** conferred by the arbitration agreement;  \n4. **Contravenes the public policy of India** (including violation of fundamental legal principles, natural justice, or patently illegal award); or  \n5. **Contradicts a substantive provision of Indian law**.\n\nThe Supreme Court\u2019s pronouncements in *Bharat Aluminium*, *Sumitomo Heavy Industries*, *Kesoram Industries*, *M/s. Hindustan Copper*, *M/s. ONGC*, *M/s. DLF* and the numerous High Court decisions cited above form the authoritative judicial map of when Section\u202f34 can be invoked.",
+    "input_tokens": 122,
+    "output_tokens": 2751,
+    "usd": 0.0016688999999999999,
+    "citations": 15,
+    "matched_real_judgment": 3,
+    "fabricated": 3,
+    "outside_coverage": 9,
+    "unverifiable": 12
+   }
+  },
+  {
+   "question": "Who can claim maintenance under Section 144 of the BNSS and what must be shown?",
+   "docketpilot": {
+    "seconds": 30.0,
+    "input_tokens": 7909,
+    "output_tokens": 1858,
+    "llm_calls": 4,
+    "usd": 0.00230115,
+    "corrections": 2,
+    "answer": "The judgments and statutes you have provided do **not** contain any passage dealing with \u201cSection\u202f144 of the\u202fBNSS\u201d or the criteria that must be satisfied to invoke it. \n\n-\u202fThe Supreme Court decisions discuss a wife\u2019s right to claim maintenance under the D.V.\u202fAct, Section\u202f125\u202fCrPC and the Hindu Marriage Act, and they outline the duty of a claimant to disclose earlier maintenance awards (Rajnesh v. Neha, 2020INSC631). \n-\u202fThe Supreme Court also notes that parents and senior citizens may seek maintenance under a special act, describing the entitlement in Section\u202f4(i) and the procedure in Sections\u202f5\u20118\u202fand\u202f11. \n-\u202fNo judgment or statutory excerpt in the supplied material mentions a Section\u202f144 of any \u201cBNSS\u201d or sets out the class of persons who may claim under it, nor the evidential requirements.\n\n**What to do next**\n\n-\u202fLocate the text of **Section\u202f144 of the\u202fBNSS** (e.g., by consulting the official Gazette, the act\u2019s printed version, or a reliable legal database). \n-\u202fCheck whether the provision mirrors the language of the Maintenance of Parents and Senior Citizens Act, 2007 (which defines eligibility in Section\u202f4) or the Domestic Violence Act, 2005 (which provides for maintenance of a wife). \n-\u202fIdentify the statutory conditions \u2013 such as the claimant\u2019s relationship to the respondent, inability to maintain themselves, and the need to file an application before the appropriate tribunal \u2013 that the section prescribes. \n-\u202fIf you obtain the statutory wording, you can then match it against the facts of your case to determine who is eligible and what proof must be produced.",
+    "citations": 1,
+    "matched_real_judgment": 1,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   },
+   "baseline_long_context": {
+    "input_tokens": 251725,
+    "output_tokens": 785,
+    "usd": 0.03822975,
+    "judgments": 6
+   },
+   "baseline_closed_book": {
+    "seconds": 7.6,
+    "answer": "**Who can claim maintenance under Section\u202f144 of the BNSS?**  \n\nSection\u202f144 of the *Bengal Nursing Service (Regulation) Act, 1938* (hereinafter \u201cBNSS\u201d) makes provision for a *maintenance allowance* to be paid to the dependants of a member who dies while in service.  The courts have held that \u201cdependants\u201d for the purpose of this provision are limited to those persons who, by law or by fact, were dependent on the deceased member for their livelihood at the time of his death.  The following categories have been consistently recognised:\n\n| Category of claimant | Description (as laid down by the courts) |\n|----------------------|-------------------------------------------|\n| **Widow / Wife** | The legally married or, where the marriage is proved to be genuine, the *de facto* spouse of the deceased.  (see *Mohan\u202fLal v. Union of India*, AIR\u202f1975\u202fSC\u202f1234). |\n| **Children** | Legitimate, illegitimate (if acknowledged by the father) and adopted children, who were minor or who, even if adult, were unable to maintain themselves because of infirmity, disability or lack of means.  (see *K.R.\u202fLakshmi v. State of Tamil\u202fNadu*, (2001)\u202f22\u202fSCC\u202f345). |\n| **Parents** (including step\u2011parents) | Natural parents or step\u2011parents who were wholly or substantially dependent on the member for maintenance.  (see *M.\u202fG.\u202fK. v. State of Tamil\u202fNadu*, AIR\u202f1992\u202fSC\u202f1290). |\n| **Other Dependants** | Siblings, grandchildren or any other person who can prove an actual subsistence relationship with the member (e.g. a disabled brother who was wholly dependent).  (see *G.K.\u202fReddy v. State of Andhra\u202fPradesh*, 1996\u202fSCC\u202f(Cri)\u202f225). |\n\n**What must be shown to succeed?**  \n\nThe claimant must establish **four essential elements**:\n\n1. **Existence of a subsistence relationship** \u2013 a real, factual dependence on the member for livelihood.  The burden of proof lies on the claimant.  (*Mohan\u202fLal v. Union of India*, supra).  \n\n2. **Service status of the deceased** \u2013 that the member was *in active service* (or on a recognized leave) at the time of death.  A mere appointment or posting that had not yet taken effect does not satisfy this requirement.  (*K.R.\u202fLakshmi v. State of Tamil\u202fNadu*, supra).  \n\n3. **Absence of any other source of maintenance** \u2013 the claimant must show that there is no other statutory or private source of maintenance (e.g., pension under a different rule, family settlement, etc.).  (*M.\u202fG.\u202fK. v. State of Tamil\u202fNadu*, supra).  \n\n4. **Proof of identity and relationship** \u2013 documentary proof (marriage certificate, birth certificate, adoption deed, affidavit of acknowledgment, etc.) or, where documents are unavailable, competent secondary evidence (witness testimony, school records, medical certificates, etc.).  (*G.K.\u202fReddy v. State of Andhra\u202fPradesh*, supra).\n\nOnly when **all the above** are satisfactorily proved will the tribunal, department or court award the maintenance allowance under Section\u202f144 BNSS.\n\n---\n\n### Key judgments cited\n\n| Case | Citation | Ruling relevant to Section\u202f144 BNSS |\n|------|----------|--------------------------------------|\n| **Mohan\u202fLal v. Union of India** | AIR\u202f1975\u202fSC\u202f1234 | Defined \u201cwidow/wife\u201d as a rightful claimant and laid down the necessity of a subsistence relationship. |\n| **K.R.\u202fLakshmi v. State of Tamil\u202fNadu** | (2001)\u202f22\u202fSCC\u202f345 | Clarified that children (legitimate, illegitimate if acknowledged, and adopted) are covered, and emphasized the requirement that the member be *in service* at death. |\n| **M.\u202fG.\u202fK. v. State of Tamil\u202fNadu** | AIR\u202f1992\u202fSC\u202f1290 | Extended the definition of \u201cparents\u201d to step\u2011parents where dependence is proved; highlighted the need to show no alternative source of maintenance. |\n| **G.K.\u202fReddy v. State of Andhra\u202fPradesh** | 1996\u202fSCC\u202f(Cri)\u202f225 | Recognised \u201cother dependants\u201d (e.g., disabled siblings) and stressed the evidentiary burden on claimants to prove actual dependence. |\n| **Ramachandra v. State of Karnataka** | 2002\u202fSCC\u202fOnLine\u202fKER\u202f345 | Re\u2011affirmed that documentary proof of relationship is prima facie evidence, but secondary evidence is admissible where documents are lacking. |\n\nThese authorities collectively lay down the *who* (the dependants) and the *what* (the four elements) that must be demonstrated to obtain maintenance under Section\u202f144 of the BNSS.",
+    "input_tokens": 119,
+    "output_tokens": 2257,
+    "usd": 0.0013720499999999999,
+    "citations": 7,
+    "matched_real_judgment": 7,
+    "fabricated": 0,
+    "outside_coverage": 0,
+    "unverifiable": 0
+   }
+  }
+ ],
+ "processing": [
+  {
+   "file": "HBHC010104482004_1_2023-08-16.txt",
+   "court": "High Court  for State of Telangana",
+   "docketpilot": {
+    "seconds": 4.7,
+    "input_tokens": 3242,
+    "output_tokens": 367,
+    "usd": 0.0007065,
+    "events": 0,
+    "case_number_correct": false,
+    "case_number": "A. NO: 1 OF 2004",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 7.99,
+    "input_tokens": 4033,
+    "output_tokens": 3081,
+    "usd": 0.0024535499999999997,
+    "case_number_correct": false,
+    "names_sent_to_ai": 96
+   }
+  },
+  {
+   "file": "KLHC010956772024_1_2024-05-20.txt",
+   "court": "High Court of Kerala",
+   "docketpilot": {
+    "seconds": 2.67,
+    "input_tokens": 2038,
+    "output_tokens": 687,
+    "usd": 0.0007179,
+    "events": 3,
+    "case_number_correct": true,
+    "case_number": "BAIL APPL. NO. 2612 OF 2024",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 3.8,
+    "input_tokens": 1982,
+    "output_tokens": 1603,
+    "usd": 0.0012591,
+    "case_number_correct": true,
+    "names_sent_to_ai": 26
+   }
+  },
+  {
+   "file": "KLHC010847512023_1_2023-11-21.txt",
+   "court": "High Court of Kerala",
+   "docketpilot": {
+    "seconds": 2.88,
+    "input_tokens": 1962,
+    "output_tokens": 676,
+    "usd": 0.0006999,
+    "events": 6,
+    "case_number_correct": true,
+    "case_number": "BAIL APPL. NO. 10196 OF 2023",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 3.96,
+    "input_tokens": 1551,
+    "output_tokens": 1610,
+    "usd": 0.0011986499999999999,
+    "case_number_correct": true,
+    "names_sent_to_ai": 17
+   }
+  },
+  {
+   "file": "HCMA010837872024_1_2024-07-12.txt",
+   "court": "Madras High Court",
+   "docketpilot": {
+    "seconds": 3.32,
+    "input_tokens": 3273,
+    "output_tokens": 716,
+    "usd": 0.00092055,
+    "events": 6,
+    "case_number_correct": true,
+    "case_number": "WP.No.14938 of 2024",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 4.5,
+    "input_tokens": 3453,
+    "output_tokens": 1766,
+    "usd": 0.00157755,
+    "case_number_correct": true,
+    "names_sent_to_ai": 50
+   }
+  },
+  {
+   "file": "HBHC010147202023_1_2023-04-11.txt",
+   "court": "High Court  for State of Telangana",
+   "docketpilot": {
+    "seconds": 3.36,
+    "input_tokens": 2770,
+    "output_tokens": 594,
+    "usd": 0.0007719,
+    "events": 3,
+    "case_number_correct": true,
+    "case_number": "CRIMINAL PETITION NO: 2968 OF 2023",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 5.88,
+    "input_tokens": 3094,
+    "output_tokens": 2180,
+    "usd": 0.0017721,
+    "case_number_correct": true,
+    "names_sent_to_ai": 58
+   }
+  },
+  {
+   "file": "HBHC010133832022_1_2023-12-14.txt",
+   "court": "High Court  for State of Telangana",
+   "docketpilot": {
+    "seconds": 2.93,
+    "input_tokens": 1773,
+    "output_tokens": 847,
+    "usd": 0.0007741499999999999,
+    "events": 6,
+    "case_number_correct": true,
+    "case_number": "WRIT PETITION NO: 10537 OF 2022",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 4.47,
+    "input_tokens": 1351,
+    "output_tokens": 1946,
+    "usd": 0.00137025,
+    "case_number_correct": true,
+    "names_sent_to_ai": 25
+   }
+  },
+  {
+   "file": "HBHC010648812012_1_2024-02-26.txt",
+   "court": "High Court  for State of Telangana",
+   "docketpilot": {
+    "seconds": 2.2,
+    "input_tokens": 1538,
+    "output_tokens": 478,
+    "usd": 0.0005175,
+    "events": 3,
+    "case_number_correct": true,
+    "case_number": "CRIMINAL REVISION CASE NO: 2499 OF 2012",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 4.41,
+    "input_tokens": 1137,
+    "output_tokens": 1928,
+    "usd": 0.00132735,
+    "case_number_correct": true,
+    "names_sent_to_ai": 38
+   }
+  },
+  {
+   "file": "KLHC010467392023_1_2023-07-25.txt",
+   "court": "High Court of Kerala",
+   "docketpilot": {
+    "seconds": 2.02,
+    "input_tokens": 1715,
+    "output_tokens": 448,
+    "usd": 0.0005260499999999999,
+    "events": 3,
+    "case_number_correct": true,
+    "case_number": "WP(C) NO. 21378 OF 2023",
+    "names_sent_to_ai": 0
+   },
+   "baseline": {
+    "seconds": 2.58,
+    "input_tokens": 1330,
+    "output_tokens": 1025,
+    "usd": 0.0008145,
+    "case_number_correct": true,
+    "names_sent_to_ai": 37
+   }
+  }
+ ]
+}

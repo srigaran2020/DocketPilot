@@ -1,0 +1,38 @@
+# template: complaint_v1
+# status: unverified (decision 11) - wording not reviewed by a lawyer
+IN THE COURT OF THE JUDICIAL MAGISTRATE {{court_place}}
+
+COMPLAINT UNDER SECTION 138 READ WITH SECTION 142 OF THE NEGOTIABLE INSTRUMENTS ACT, 1881
+
+{{payee}}
+                                                        ... Complainant
+                        Versus
+{{drawer}}
+{{drawer_address}}
+                                                        ... Accused
+
+The complainant above named respectfully submits as follows:
+
+1. FACTS OF THE CASE
+[[LLM:facts]]
+
+2. The cheque bearing No. {{cheque_number}} dated {{cheque_date_display}} for Rs. {{amount_display}} was presented and returned unpaid with the reason "{{return_reason}}".
+
+3. The complainant issued a written demand notice dated {{notice_date_display}}, received by the accused on {{notice_received_date_display}}. The accused has failed to pay the amount within fifteen days of receipt of the notice.
+
+4. GROUNDS
+[[LLM:grounds]]
+
+5. JURISDICTION
+This Court has jurisdiction as the cheque was delivered for collection through the complainant's account maintained at a branch situated at {{payee_bank_branch_city}}, within the local limits of this Court.
+
+6. LIMITATION
+The complaint is filed within one month of the date on which the cause of action arose.
+
+PRAYER
+[[LLM:prayer]]
+
+Place: {{court_place}}
+Date:
+                                                        Complainant
+                                                        Through Counsel

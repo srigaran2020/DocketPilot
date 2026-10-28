@@ -1,0 +1,38 @@
+[project]
+name = "docketpilot"
+version = "0.1.0"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 150
+target-version = "py311"
+extend-exclude = ["discovery"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "ASYNC"]
+ignore = ["S101"]  # assert is fine in tests
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S105", "S106"]  # fake passwords in tests
+"docketpilot/evaluation/*" = ["S311"]  # random is for synthetic test data, not security
+
+[tool.mypy]
+python_version = "3.11"
+packages = ["docketpilot"]
+ignore_missing_imports = true
+check_untyped_defs = true
+warn_unused_ignores = true
+
+[tool.coverage.run]
+concurrency = ["greenlet", "thread"]  # SQLAlchemy async runs code in greenlets
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+markers = [
+    "integration: needs the Docker stack running (docker compose up -d)",
+    "live: calls the real Groq API (uses quota); run with  pytest -m live",
+]
+addopts = "-m 'not live'"

@@ -1,0 +1,154 @@
+{
+ "benchmark": "fake_citations_v1",
+ "run_at": "2026-10-27T17:00:22.287686+00:00",
+ "seed": 13,
+ "n_cases": 150,
+ "llm_cases": 0,
+ "per_type": {
+  "real": {
+   "n": 150,
+   "false_alarm_rate": 0.027
+  },
+  "wrong_page": {
+   "n": 150,
+   "caught_rate": 1.0
+  },
+  "wrong_year": {
+   "n": 150,
+   "caught_rate": 1.0
+  },
+  "swapped_names": {
+   "n": 150,
+   "caught_rate": 0.98
+  },
+  "wrong_court": {
+   "n": 150,
+   "caught_rate": 1.0
+  },
+  "invented": {
+   "n": 150,
+   "caught_rate": 1.0
+  }
+ },
+ "overall": {
+  "fakes": 750,
+  "reals": 150,
+  "recall": 0.996,
+  "precision": 0.995,
+  "f1": 0.995
+ },
+ "verdict_counts": {
+  "invented": {
+   "NOT_FOUND": 150
+  },
+  "real": {
+   "PARTIAL": 4,
+   "VERIFIED": 146
+  },
+  "swapped_names": {
+   "CONFLICT": 142,
+   "PARTIAL": 5,
+   "VERIFIED": 3
+  },
+  "wrong_court": {
+   "NOT_FOUND": 6,
+   "PARTIAL": 144
+  },
+  "wrong_page": {
+   "CONFLICT": 11,
+   "NOT_FOUND": 6,
+   "PARTIAL": 133
+  },
+  "wrong_year": {
+   "CONFLICT": 4,
+   "NOT_FOUND": 12,
+   "PARTIAL": 134
+  }
+ },
+ "examples": [
+  {
+   "type": "real",
+   "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, [1963] 3 S.C.R. 183",
+   "verdict": "VERIFIED",
+   "flagged": false
+  },
+  {
+   "type": "wrong_page",
+   "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, [1963] 3 S.C.R. 202",
+   "verdict": "PARTIAL",
+   "flagged": true
+  },
+  {
+   "type": "wrong_year",
+   "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, [1965] 3 S.C.R. 183",
+   "verdict": "PARTIAL",
+   "flagged": true
+  },
+  {
+   "type": "swapped_names",
+   "text": "Shankar Balwant Lokhande v. Chandrakant Shanker Lokhande, [1963] 3 S.C.R. 183",
+   "verdict": "CONFLICT",
+   "flagged": true
+  },
+  {
+   "type": "wrong_court",
+   "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, 1963:KER:89918",
+   "verdict": "PARTIAL",
+   "flagged": true
+  },
+  {
+   "type": "invented",
+   "text": "Arjun Textiles v. Meena Textiles, (1999) 4 SCC 657",
+   "verdict": "NOT_FOUND",
+   "flagged": true
+  },
+  {
+   "type": "real",
+   "text": "Balkrishna Ram v. Union Of India, [2020] 2 S.C.R. 581",
+   "verdict": "VERIFIED",
+   "flagged": false
+  },
+  {
+   "type": "wrong_page",
+   "text": "Balkrishna Ram v. Union Of India, [2020] 2 S.C.R. 595",
+   "verdict": "PARTIAL",
+   "flagged": true
+  },
+  {
+   "type": "wrong_year",
+   "text": "Balkrishna Ram v. Union Of India, [2018] 2 S.C.R. 581",
+   "verdict": "PARTIAL",
+   "flagged": true
+  },
+  {
+   "type": "swapped_names",
+   "text": "A.P. Aggrawal v. Govt. Of National Capital Territory Of Delhi, [2020] 2 S.C.R. 581",
+   "verdict": "CONFLICT",
+   "flagged": true
+  },
+  {
+   "type": "wrong_court",
+   "text": "Balkrishna Ram v. Union Of India, 2020:KER:9383",
+   "verdict": "PARTIAL",
+   "flagged": true
+  },
+  {
+   "type": "invented",
+   "text": "Meena Textiles v. Suresh Traders, (2017) 3 SCC 858",
+   "verdict": "NOT_FOUND",
+   "flagged": true
+  },
+  {
+   "type": "real",
+   "text": "Devkaran Nenshi Tanna (Dead) By Lrs v. Manharlal Nenshi, [1994] SUPP. 1 S.C.R. 679",
+   "verdict": "VERIFIED",
+   "flagged": false
+  },
+  {
+   "type": "wrong_page",
+   "text": "Devkaran Nenshi Tanna (Dead) By Lrs v. Manharlal Nenshi, [1994] SUPP. 1 S.C.R. 682",
+   "verdict": "PARTIAL",
+   "flagged": true
+  }
+ ]
+}

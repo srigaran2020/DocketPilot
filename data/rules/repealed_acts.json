@@ -1,0 +1,12 @@
+{
+  "_status": "unverified (decision 11: nobody double-checks legal data in the prototype)",
+  "_source": "docs/SPEC.md Section 5.5 (the 1 July 2024 criminal-law change). Not independently confirmed.",
+  "acts": [
+    {"pattern": "\\b(?:IPC|I\\.P\\.C\\.?|Indian Penal Code)\\b", "name": "Indian Penal Code, 1860",
+     "replaced_by": "Bharatiya Nyaya Sanhita, 2023", "repealed_on": "2024-07-01"},
+    {"pattern": "\\b(?:Cr\\.?\\s?P\\.?\\s?C\\.?|Code of Criminal Procedure)\\b", "name": "Code of Criminal Procedure, 1973",
+     "replaced_by": "Bharatiya Nagarik Suraksha Sanhita, 2023", "repealed_on": "2024-07-01"},
+    {"pattern": "\\b(?:Indian Evidence Act|Evidence Act)\\b", "name": "Indian Evidence Act, 1872",
+     "replaced_by": "Bharatiya Sakshya Adhiniyam, 2023", "repealed_on": "2024-07-01"}
+  ]
+}

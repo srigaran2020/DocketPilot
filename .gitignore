@@ -1,0 +1,33 @@
+# --- Secrets: never commit ---
+.env
+.env.*
+!.env.example
+
+# --- Client data ---
+vault/
+data/outputs/
+data/server*.log
+
+# --- Downloaded knowledge base (re-download with docketpilot.ingestion.download) ---
+data/raw/
+
+# --- Python environments and caches ---
+.venv/
+.venv-gpu/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Logs and run output ---
+*.log
+reports/*.log
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

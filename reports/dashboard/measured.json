@@ -1,0 +1,82 @@
+[
+ {
+  "key": "m0",
+  "system": "DocketPilot",
+  "metric": "Cost reduction vs baseline AI model (research answer)",
+  "value": "87.2",
+  "unit": "%",
+  "how": "gpt-oss-120b on Groq both sides; DocketPilot $0.00285 incl. every verifier call vs long-context baseline $0.02215 per answer"
+ },
+ {
+  "key": "m1",
+  "system": "DocketPilot",
+  "metric": "Document processing speed improvement vs baseline AI model",
+  "value": "35.9",
+  "unit": "%",
+  "how": "3.0s vs 4.7s per real High Court judgment, same model, fresh rate-limit window per run"
+ },
+ {
+  "key": "m2",
+  "system": "DocketPilot",
+  "metric": "Document processing cost reduction",
+  "value": "52.1",
+  "unit": "%",
+  "how": "same documents as above"
+ },
+ {
+  "key": "m3",
+  "system": "DocketPilot",
+  "metric": "Case number read correctly (real HC judgments)",
+  "value": "87.5",
+  "unit": "%",
+  "how": "baseline model 88%"
+ },
+ {
+  "key": "m4",
+  "system": "DocketPilot",
+  "metric": "Fabricated citations in answers",
+  "value": "0.0",
+  "unit": "%",
+  "how": "0 of 27 citations; 0 outside the store's coverage (not counted)"
+ },
+ {
+  "key": "m5",
+  "system": "Same model, no DocketPilot",
+  "metric": "Fabricated citations in answers",
+  "value": "5.6",
+  "unit": "%",
+  "how": "7 of 125 citations; 63 outside the store's coverage (not counted)"
+ },
+ {
+  "key": "m6",
+  "system": "DocketPilot",
+  "metric": "Recall of citation errors (fake-citation benchmark)",
+  "value": "99.6",
+  "unit": "%",
+  "how": "756 injected fakes, 156 real citations; precision 99.3%"
+ },
+ {
+  "key": "m7",
+  "system": "DocketPilot",
+  "metric": "F1 of citation-error detection",
+  "value": "99.5",
+  "unit": "%",
+  "how": "same benchmark"
+ },
+ {
+  "key": "m8",
+  "system": "DocketPilot",
+  "metric": "Personal data hidden from the AI (held-out recall)",
+  "value": "96.8",
+  "unit": "%",
+  "how": "synthetic Indian PII"
+ },
+ {
+  "key": "m9",
+  "system": "DocketPilot",
+  "metric": "Retrieval Recall@5 (hybrid + rerank)",
+  "value": "95.7",
+  "unit": "%",
+  "how": "headnote -> own judgment, s.138 SC"
+ }
+]

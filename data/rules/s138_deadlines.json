@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "status": "unverified (decision 11): computed periods have not been checked by a lawyer",
+  "last_confirmed": null,
+  "rules": [
+    {
+      "id": "presentation",
+      "title": "Present the cheque to the bank",
+      "anchor_fact": "cheque_date",
+      "months": 6,
+      "days": 0,
+      "warn_days_before": 15,
+      "note": "Or within the cheque's own validity period, whichever is earlier.",
+      "source": {"act": "NI Act", "section": "138", "clause": "proviso (a)",
+                 "quote": "the cheque has been presented to the bank within a period of six months from the date on which it is drawn or within the period of its validity, whichever is earlier"}
+    },
+    {
+      "id": "demand_notice",
+      "title": "Send the written demand notice to the drawer",
+      "anchor_fact": "return_information_date",
+      "months": 0,
+      "days": 30,
+      "warn_days_before": 7,
+      "note": "Counted from receipt of information from the bank about the return.",
+      "source": {"act": "NI Act", "section": "138", "clause": "proviso (b)",
+                 "quote": "within thirty days of the receipt of information by him from the bank regarding the return of the cheque as unpaid"}
+    },
+    {
+      "id": "payment_window",
+      "title": "Drawer's time to pay after receiving the notice ends",
+      "anchor_fact": "notice_received_date",
+      "months": 0,
+      "days": 15,
+      "warn_days_before": 3,
+      "note": "If the drawer pays within this time, no offence arises.",
+      "source": {"act": "NI Act", "section": "138", "clause": "proviso (c)",
+                 "quote": "fails to make the payment of the said amount of money to the payee or, as the case may be, to the holder in due course of the cheque, within fifteen days of the receipt of the said notice"}
+    },
+    {
+      "id": "complaint",
+      "title": "File the complaint",
+      "anchor_rule": "payment_window",
+      "anchor_offset_days": 1,
+      "months": 1,
+      "days": 0,
+      "warn_days_before": 10,
+      "note": "The cause of action is taken to arise the day after the payment window ends (computation method unverified). The court may condone delay for sufficient cause.",
+      "source": {"act": "NI Act", "section": "142", "clause": "(1)(b)",
+                 "quote": "such complaint is made within one month of the date on which the cause of action arises under clause (c) of the proviso to section 138"}
+    }
+  ]
+}

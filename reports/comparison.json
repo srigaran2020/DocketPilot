@@ -1,0 +1,165 @@
+{
+ "ours": [
+  {
+   "system": "DocketPilot",
+   "metric": "Cost reduction vs baseline AI model (research answer)",
+   "value": 87.2,
+   "unit": "%",
+   "how": "gpt-oss-120b on Groq both sides; DocketPilot $0.00285 incl. every verifier call vs long-context baseline $0.02215 per answer"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "Document processing speed improvement vs baseline AI model",
+   "value": 35.9,
+   "unit": "%",
+   "how": "3.0s vs 4.7s per real High Court judgment, same model, fresh rate-limit window per run"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "Document processing cost reduction",
+   "value": 52.1,
+   "unit": "%",
+   "how": "same documents as above"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "Case number read correctly (real HC judgments)",
+   "value": 87.5,
+   "unit": "%",
+   "how": "baseline model 88%"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "Fabricated citations in answers",
+   "value": 0.0,
+   "unit": "%",
+   "how": "0 of 27 citations; 0 outside the store's coverage (not counted)"
+  },
+  {
+   "system": "Same model, no DocketPilot",
+   "metric": "Fabricated citations in answers",
+   "value": 5.6,
+   "unit": "%",
+   "how": "7 of 125 citations; 63 outside the store's coverage (not counted)"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "Recall of citation errors (fake-citation benchmark)",
+   "value": 99.6,
+   "unit": "%",
+   "how": "756 injected fakes, 156 real citations; precision 99.3%"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "F1 of citation-error detection",
+   "value": 99.5,
+   "unit": "%",
+   "how": "same benchmark"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "Personal data hidden from the AI (held-out recall)",
+   "value": 96.8,
+   "unit": "%",
+   "how": "synthetic Indian PII"
+  },
+  {
+   "system": "DocketPilot",
+   "metric": "Retrieval Recall@5 (hybrid + rerank)",
+   "value": 95.7,
+   "unit": "%",
+   "how": "headnote -> own judgment, s.138 SC"
+  }
+ ],
+ "published": [
+  {
+   "system": "LegalMind (DeepSeek R1, agentic)",
+   "metric": "Cost reduction vs baseline AI models",
+   "value": 42.6,
+   "unit": "%",
+   "source": "LegalMind, IEEE Access 2025, DOI 10.1109/ACCESS.2025.3586781, abstract",
+   "comparable": "Same metric name; their baseline and tasks are not public in the abstract."
+  },
+  {
+   "system": "LegalMind (DeepSeek R1, agentic)",
+   "metric": "Document processing speed improvement vs baseline AI models",
+   "value": 60.8,
+   "unit": "%",
+   "source": "DOI 10.1109/ACCESS.2025.3586781 (IEEE Access, 2025), abstract",
+   "comparable": "Same metric name; their documents and baseline are not public in the abstract."
+  },
+  {
+   "system": "Lexis+ AI",
+   "metric": "Hallucination rate (legal research answers)",
+   "value": 17,
+   "unit": "%",
+   "source": "Magesh et al., 'Hallucination-Free?', arXiv:2405.20362 (Stanford RegLab/HAI); figures as reported by LawSites, June 2024",
+   "comparable": "US law, 200+ preregistered queries, human-graded; ours is an automatic existence check on Indian law."
+  },
+  {
+   "system": "Westlaw AI-Assisted Research",
+   "metric": "Hallucination rate (legal research answers)",
+   "value": 33,
+   "unit": "%",
+   "source": "Magesh et al., arXiv:2405.20362; LawSites, June 2024",
+   "comparable": "As above."
+  },
+  {
+   "system": "Lexis+ AI",
+   "metric": "Accurate answers",
+   "value": 65,
+   "unit": "%",
+   "source": "Magesh et al., arXiv:2405.20362; LawSites, June 2024",
+   "comparable": "Human-graded accuracy; not measured for DocketPilot."
+  },
+  {
+   "system": "Westlaw AI-Assisted Research",
+   "metric": "Accurate answers",
+   "value": 42,
+   "unit": "%",
+   "source": "Magesh et al., arXiv:2405.20362; LawSites, June 2024",
+   "comparable": "As above."
+  },
+  {
+   "system": "GPT-5, agentic citation checker",
+   "metric": "Recall of citation errors (hallucination detection)",
+   "value": 84.4,
+   "unit": "%",
+   "source": "Liu, Stammbach & Henderson, 'Who Checks the Citations?', arXiv:2606.21155 (2026)",
+   "comparable": "Same metric (share of bad citations caught); their 1,300 US brief excerpts are harder and more varied than our fakes."
+  },
+  {
+   "system": "GPT-5, agentic citation checker",
+   "metric": "F1 of citation-error detection",
+   "value": 55.0,
+   "unit": "%",
+   "source": "arXiv:2606.21155",
+   "comparable": "Same metric; different data (see above)."
+  },
+  {
+   "system": "Best of 21 LLMs, closed book",
+   "metric": "Citation retrieval/completion score",
+   "value": 7,
+   "unit": "/100 (below)",
+   "source": "Chen, Yin & Zhou, 'LegalCiteBench', arXiv:2605.10186 (ICML 2026)",
+   "comparable": "Shows why closed-book models cannot be trusted with citations; misleading-answer rate >94% for 20 of 21 models."
+  },
+  {
+   "system": "4 commercial LLMs (Ukrainian law)",
+   "metric": "Hallucinated citations, sparse vs dense reference store",
+   "value": "15-21 vs ~0.1-1.1",
+   "unit": "%",
+   "source": "Ovcharov, 'Citation Grounding Measures the Oracle', arXiv:2606.00898 (2026)",
+   "comparable": "Methodological: the measured rate depends on the reference store's coverage. We therefore count only formats our store covers completely as fabricated."
+  },
+  {
+   "system": "Falkor-IRAC (Indian judicial AI)",
+   "metric": "Verified answers via graph verifier",
+   "value": "qualitative",
+   "unit": "",
+   "source": "Bose, arXiv:2605.14665 (2026); proof of concept on 51 SC judgments",
+   "comparable": "Closest Indian system; reports no hallucination or retrieval metric to compare."
+  }
+ ],
+ "benchmark_generated": "2026-10-28T15:46:54.753615+00:00"
+}

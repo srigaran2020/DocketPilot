@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DocketPilot Workflow Slide</title>
+<style>html,body{margin:0;background:#fff}svg{display:block}</style>
+</head>
+<body>
+<!-- Simple 16:9 slide version of the DocketPilot workflow (1920x1080). The detailed one is workflow_swimlane.html. -->
+<svg id="d" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+<script>
+"use strict";
+const C = {ink:"#16231f", mute:"#55615c", rule:"#e2dccf", seal:"#c2410c", brass:"#b08a2e", spine:"#0f3b33", spine2:"#15514a",
+  warn:"#9a6400", ok:"#17663f", bad:"#b4231b"};
+const LANES = [
+  {t:"LAWYER", y:100, h:150, fill:"#fff", acc:C.seal, nf:"#fff", ns:C.seal},
+  {t:"BACKEND", y:262, h:150, fill:"#fff", acc:C.spine2, nf:"#fff", ns:C.spine2},
+  {t:"LANGGRAPH", y:424, h:182, fill:"#fff", acc:C.spine, nf:"#fff", ns:C.spine},
+  {t:"VERIFY", y:618, h:150, fill:"#fff", acc:C.warn, nf:"#fff", ns:C.warn},
+  {t:"DATA & AI", y:780, h:150, fill:"#fff", acc:C.brass, nf:"#fff", ns:C.brass},
+];
+const LX = 16, LW = 1888, LBL = 140;
+const N = {}, node = (id, shape, x, y, w, h, lines, o = {}) => (N[id] = {id, shape, x, y, w, h, lines, ...o});
+
+// Lawyer: 5 steps
+node("U1", "pill", 180, 138, 300, 76, ["📎 Attach papers"]);
+node("U2", "pill", 540, 138, 300, 76, ["Ask or command"]);
+node("U3", "pill", 1000, 138, 360, 76, ["Review result", "✓ ! ✕ stamps + proof"]);
+node("U4", "pill", 1500, 138, 200, 76, ["Approve"]);
+node("U5", "pill", 1730, 138, 160, 76, ["⬇ Word"]);
+
+// Backend
+node("B1", "box", 180, 297, 300, 82, ["Privacy gateway", "Redaction"]);
+node("B2", "diamond", 560, 284, 260, 108, ["Router"]);
+node("B3", "box", 880, 297, 480, 82, ["Tools", "answer + strategy + schedule + verify + draft"]);
+node("B4", "box", 1500, 297, 200, 82, ["Approve", "advocate only"]);
+
+// LangGraph agents
+const AX = i => 180 + i * 192, AW = 174, AY = 468, AH = 94;
+[["① Orchestrator", "plans"], ["② Doc Analysis", "reads facts"], ["③ Research", "finds law"], ["④ Drafting", "writes draft"],
+ ["⑤ Verification", "checks it"], ["⑥ Strategy", "risks + cases"], ["⑦ Monitoring", "deadlines"]]
+  .forEach((l, i) => node("A" + i, "dark", AX(i), AY, AW, AH, l));
+node("A7", "approval", AX(7), AY - 4, AW, AH + 8, ["⏸ Approval", "you decide"]);
+node("A8", "dark", AX(8), AY, 1888 - AX(8), AH, ["Finalize", "real names"]);
+
+// Verification: one strip
+node("V1", "strip", 180, 648, 1710, 90, ["Anti-hallucination check : on every answer and draft"]);
+
+// Data & AI
+const DX = i => 180 + i * 430, DW = 410;
+[["Knowledge base", "India Code"], ["PostgreSQL + Qdrant", "storage + search (RAG)"],
+ ["Groq gpt-oss-120b", "sees masked text only"], ["Encrypted vault", "real names stay local"]]
+  .forEach((l, i) => node("D" + i, i === 1 || i === 3 ? "cyl" : "box", DX(i), 808, DW, 98, l));
+
+const E = [
+  ["U1", "U2"], ["U2", "U3", {dash: true}], ["U3", "U4"], ["U4", "U5"],
+  ["U1", "B1", {v: true, dash: true}], ["U2", "B2", {v: true, dash: true}], ["B3", "U3", {v: true, at: 1180}],
+  ["U4", "B4", {v: true, dash: true}],
+  ["B1", "B2"], ["B2", "B3"],
+  ["B3", "A0", {elbow: true}],
+  ["A0", "A1"], ["A1", "A2"], ["A2", "A3"], ["A3", "A4"], ["A4", "A5"], ["A5", "A6"], ["A6", "A7"], ["A7", "A8"],
+  ["A7", "A4", {loopBottom: true, label: "edit → re-check"}],
+  ["B4", "A7", {v: true, at: AX(7) + AW / 2}],
+  ["A8", "U5", {v: true, up: true, at: 1810}],
+  ["A4", "V1", {v: true, at: AX(4) + 36}],
+];
+
+// ---------------- render ----------------
+const svg = document.getElementById("d"), NS = "http://www.w3.org/2000/svg";
+const el = (t, a, p = svg) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+const txt = (x, y, s, o = {}) => { const t = el("text", {x, y, "font-family": o.serif ? "Georgia, serif" : "'Segoe UI', Arial, sans-serif",
+  "font-size": o.size || 18, "font-weight": o.bold ? 700 : 400, fill: o.fill || C.ink, "text-anchor": o.anchor || "middle",
+  "dominant-baseline": "middle", "letter-spacing": o.ls || 0}); t.textContent = s; return t; };
+const defs = el("defs", {});
+[["a", C.ink], ["m", "#8a948f"], ["s", C.seal], ["w", C.warn]].forEach(([id, col]) => {
+  const m = el("marker", {id, viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: "auto-start-reverse"}, defs);
+  el("path", {d: "M0,0 L10,5 L0,10 z", fill: col}, m); });
+
+el("rect", {x: 0, y: 0, width: 1920, height: 1080, fill: "#fff"});
+txt(LX + 2, 46, "DocketPilot — how it works", {serif: true, bold: true, size: 42, anchor: "start"});
+txt(1904, 50, "every citation is checked before it reaches the lawyer", {size: 21, fill: C.mute, anchor: "end"});
+el("rect", {x: LX, y: 80, width: LW, height: 2, fill: C.ink});
+
+LANES.forEach(l => {
+  el("line", {x1: LX, y1: l.y + l.h + 6, x2: LX + LW, y2: l.y + l.h + 6, stroke: "#dcdcdc", "stroke-width": 1});
+  el("rect", {x: LX, y: l.y + 14, width: 5, height: l.h - 28, fill: l.acc});
+  txt(LX + 18, l.y + l.h / 2, l.t, {bold: true, size: l.t.length > 8 ? 17 : 19, fill: l.acc, anchor: "start", ls: 1});
+});
+const laneOf = cy => LANES.find(l => cy >= l.y && cy <= l.y + l.h);
+
+function drawNode(n) {
+  const cx = n.x + n.w / 2, cy = n.y + n.h / 2, L = laneOf(cy);
+  let fill = L.nf, stroke = L.ns, fg = C.ink, sub = C.mute;
+  if (n.shape === "dark") { fg = C.spine; sub = C.mute; }
+  if (n.shape === "approval") { fill = C.seal; stroke = C.seal; fg = "#fff"; sub = "#ffe6d8"; }
+  if (n.shape === "diamond") fill = "#fff";
+  if (n.shape === "pill") el("rect", {x: n.x, y: n.y, width: n.w, height: n.h, rx: n.h / 2, fill, stroke, "stroke-width": 2.5});
+  else if (n.shape === "diamond") el("polygon", {points: `${cx},${n.y} ${n.x + n.w},${cy} ${cx},${n.y + n.h} ${n.x},${cy}`, fill, stroke, "stroke-width": 2.5});
+  else if (n.shape === "approval") { const k = 18; el("polygon", {points: `${n.x + k},${n.y} ${n.x + n.w - k},${n.y} ${n.x + n.w},${cy} ${n.x + n.w - k},${n.y + n.h} ${n.x + k},${n.y + n.h} ${n.x},${cy}`, fill, stroke, "stroke-width": 2.5}); }
+  else if (n.shape === "cyl") { const ry = 12;
+    el("path", {d: `M${n.x},${n.y + ry} L${n.x},${n.y + n.h - ry} A${n.w / 2},${ry} 0 0 0 ${n.x + n.w},${n.y + n.h - ry} L${n.x + n.w},${n.y + ry}`, fill, stroke, "stroke-width": 2.2});
+    el("ellipse", {cx, cy: n.y + ry, rx: n.w / 2, ry, fill: "#fff", stroke, "stroke-width": 2.2}); }
+  else if (n.shape === "strip") { el("rect", {x: n.x, y: n.y, width: n.w, height: n.h, rx: 8, fill: "#fff", stroke, "stroke-width": 2.2}); drawStrip(n); return; }
+  else el("rect", {x: n.x, y: n.y, width: n.w, height: n.h, rx: 8, fill, stroke, "stroke-width": n.shape === "dark" ? 2.5 : 2.2});
+  const lh = 27, off = n.shape === "cyl" ? 7 : 0, top = cy + off - (n.lines.length - 1) * lh / 2;
+  const big = (n.shape === "dark" || n.shape === "approval") ? 19 : 22;  // agent boxes are narrow
+  n.lines.forEach((s, i) => txt(cx, top + i * lh, s, {bold: i === 0, size: i === 0 ? big : 17, fill: i === 0 ? fg : sub, serif: i === 0}));
+}
+function drawStrip(n) {
+  txt(n.x + 22, n.y + 24, n.lines[0], {bold: true, size: 19, anchor: "start", fill: C.warn});
+  const checks = ["Case exists", "Quote matches", "Judgment supports the claim", "Law in force on that date"];
+  let x = n.x + 22; const y = n.y + 62;
+  checks.forEach((c, i) => { const w = c.length * 10.5 + 56;
+    el("rect", {x, y: y - 17, width: w, height: 34, rx: 17, fill: "#fff", stroke: C.warn, "stroke-width": 1.5});
+    txt(x + 22, y + 1, String(i + 1), {bold: true, size: 17, fill: C.warn}); txt(x + 36, y + 1, c, {size: 18, anchor: "start"});
+    x += w + 14; if (i < checks.length - 1) {} });
+  const res = [["✓ verified", C.ok, "#fff"], ["! check", C.warn, "#fff"], ["✕ blocked", C.bad, "#fff"]];
+  let rx = n.x + n.w - 22;
+  res.reverse().forEach(([s, col, bg]) => { const w = s.length * 11 + 30; rx -= w;
+    el("rect", {x: rx, y: y - 17, width: w, height: 34, rx: 17, fill: bg, stroke: col, "stroke-width": 1.8});
+    txt(rx + w / 2, y + 1, s, {bold: true, size: 18, fill: col}); rx -= 12; });
+  txt(rx - 4, y + 1, "→", {size: 24, fill: C.warn, anchor: "end", bold: true});
+}
+const P = (n, s) => ({r: [n.x + n.w, n.y + n.h / 2], l: [n.x, n.y + n.h / 2], t: [n.x + n.w / 2, n.y], b: [n.x + n.w / 2, n.y + n.h]}[s]);
+const path = (d, o = {}) => el("path", {d, fill: "none", stroke: o.dash ? "#8a948f" : (o.col || C.ink), "stroke-width": o.dash ? 2.2 : 2.6,
+  "stroke-dasharray": o.dash ? "8 7" : "", "marker-end": `url(#${o.dash ? "m" : (o.mk || "a")})`});
+function tag(x, y, s, col) { const w = s.length * 9.4 + 22;
+  el("rect", {x: x - w / 2, y: y - 14, width: w, height: 28, rx: 14, fill: "#fff", stroke: col, "stroke-width": 1.6});
+  txt(x, y + 1, s, {size: 16, fill: col, bold: true}); }
+function drawEdge([a, b, o = {}]) {
+  const A = N[a], B = N[b];
+  if (o.loopBottom) { const [x1, y1] = P(A, "b"), [x2, y2] = P(B, "b");
+    path(`M${x1},${y1 + 4} C${x1},${y1 + 34} ${x2},${y2 + 34} ${x2},${y2}`, {col: C.seal, mk: "s"}); tag((x1 + x2) / 2, y1 + 28, o.label, C.seal); return; }
+  if (o.elbow) { const x1 = 940, y1 = A.y + A.h, [x2, y2] = P(B, "t"), my = y1 + 28;
+    path(`M${x1},${y1} L${x1},${my} L${x2},${my} L${x2},${y2}`); tag((x1 + x2) / 2, my, "draft request", C.spine); return; }
+  if (o.v) { const up = o.up || A.y > B.y, x = o.at || (A.x + A.w / 2), y1 = up ? A.y : A.y + A.h, y2 = up ? B.y + B.h : B.y;
+    path(`M${x},${y1} L${x},${y2}`, o); return; }
+  const [x1, y1] = P(A, "r"), [x2, y2] = P(B, "l");
+  path(`M${x1},${y1} L${x2},${y2}`, o);
+}
+E.forEach(drawEdge);
+Object.values(N).forEach(drawNode);
+
+// footer
+txt(LX + 4, 980, "Names are masked before the AI sees them · nothing is final until the lawyer approves · LangGraph saves every step and pauses for approval",
+  {size: 19, anchor: "start", fill: C.mute});
+txt(1904, 980, "Prototype · not legal advice", {size: 16, anchor: "end", fill: C.mute});
+document.body.setAttribute("data-done", "1");
+</script>
+</body>
+</html>

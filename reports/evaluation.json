@@ -1,0 +1,447 @@
+{
+ "generated_at": "2026-10-27T18:12:37+00:00",
+ "versions": {
+  "corpus": {
+   "cases": 41397,
+   "with_full_text": 8074,
+   "s138_cases": 174,
+   "hc_cases": 3000,
+   "chunks": 301977,
+   "citation_edges": 62811,
+   "edges_resolved": 29012,
+   "mined_aliases": 3752,
+   "sources": "AWS Open Data: indian-supreme-court-judgments (metadata 1950-2026, text 2020-2026 partial), indian-high-court-judgments (sample 2023-2024); India Code (NI Act)"
+  },
+  "models": {
+   "llm": "openai/gpt-oss-120b (Groq)",
+   "embedding": "BAAI/bge-small-en-v1.5",
+   "reranker": "Xenova/ms-marco-MiniLM-L-6-v2"
+  },
+  "prompts_sha256": {
+   "drafting_v1.md": "27b8320adfdb",
+   "extraction_v1.md": "9eb77e9e4dd8",
+   "verification_judge_v1.md": "ef964f2b4694"
+  }
+ },
+ "fake_citations": {
+  "benchmark": "fake_citations_v1",
+  "run_at": "2026-10-27T18:14:21.141785+00:00",
+  "seed": 13,
+  "n_cases": 150,
+  "llm_cases": 6,
+  "per_type": {
+   "real": {
+    "n": 150,
+    "false_alarm_rate": 0.027
+   },
+   "wrong_page": {
+    "n": 150,
+    "caught_rate": 1.0
+   },
+   "wrong_year": {
+    "n": 150,
+    "caught_rate": 1.0
+   },
+   "swapped_names": {
+    "n": 150,
+    "caught_rate": 0.98
+   },
+   "wrong_court": {
+    "n": 150,
+    "caught_rate": 1.0
+   },
+   "invented": {
+    "n": 150,
+    "caught_rate": 1.0
+   },
+   "proposition_real": {
+    "n": 6,
+    "false_alarm_rate": 0.167
+   },
+   "wrong_proposition": {
+    "n": 6,
+    "caught_rate": 1.0
+   }
+  },
+  "overall": {
+   "fakes": 756,
+   "reals": 156,
+   "recall": 0.996,
+   "precision": 0.993,
+   "f1": 0.995
+  },
+  "verdict_counts": {
+   "invented": {
+    "NOT_FOUND": 150
+   },
+   "proposition_real": {
+    "does_not_support": 1,
+    "supports": 5
+   },
+   "real": {
+    "PARTIAL": 4,
+    "VERIFIED": 146
+   },
+   "swapped_names": {
+    "CONFLICT": 142,
+    "PARTIAL": 5,
+    "VERIFIED": 3
+   },
+   "wrong_court": {
+    "NOT_FOUND": 6,
+    "PARTIAL": 144
+   },
+   "wrong_page": {
+    "CONFLICT": 11,
+    "NOT_FOUND": 6,
+    "PARTIAL": 133
+   },
+   "wrong_proposition": {
+    "unsupported": 6
+   },
+   "wrong_year": {
+    "CONFLICT": 4,
+    "NOT_FOUND": 12,
+    "PARTIAL": 134
+   }
+  },
+  "examples": [
+   {
+    "type": "real",
+    "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, [1963] 3 S.C.R. 183",
+    "verdict": "VERIFIED",
+    "flagged": false
+   },
+   {
+    "type": "wrong_page",
+    "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, [1963] 3 S.C.R. 202",
+    "verdict": "PARTIAL",
+    "flagged": true
+   },
+   {
+    "type": "wrong_year",
+    "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, [1965] 3 S.C.R. 183",
+    "verdict": "PARTIAL",
+    "flagged": true
+   },
+   {
+    "type": "swapped_names",
+    "text": "Shankar Balwant Lokhande v. Chandrakant Shanker Lokhande, [1963] 3 S.C.R. 183",
+    "verdict": "CONFLICT",
+    "flagged": true
+   },
+   {
+    "type": "wrong_court",
+    "text": "Khardah Company Ltd v. Raymon & Co. (India) Private Ltd, 1963:KER:89918",
+    "verdict": "PARTIAL",
+    "flagged": true
+   },
+   {
+    "type": "invented",
+    "text": "Arjun Textiles v. Meena Textiles, (1999) 4 SCC 657",
+    "verdict": "NOT_FOUND",
+    "flagged": true
+   },
+   {
+    "type": "real",
+    "text": "Balkrishna Ram v. Union Of India, [2020] 2 S.C.R. 581",
+    "verdict": "VERIFIED",
+    "flagged": false
+   },
+   {
+    "type": "wrong_page",
+    "text": "Balkrishna Ram v. Union Of India, [2020] 2 S.C.R. 595",
+    "verdict": "PARTIAL",
+    "flagged": true
+   },
+   {
+    "type": "wrong_year",
+    "text": "Balkrishna Ram v. Union Of India, [2018] 2 S.C.R. 581",
+    "verdict": "PARTIAL",
+    "flagged": true
+   },
+   {
+    "type": "swapped_names",
+    "text": "A.P. Aggrawal v. Govt. Of National Capital Territory Of Delhi, [2020] 2 S.C.R. 581",
+    "verdict": "CONFLICT",
+    "flagged": true
+   },
+   {
+    "type": "wrong_court",
+    "text": "Balkrishna Ram v. Union Of India, 2020:KER:9383",
+    "verdict": "PARTIAL",
+    "flagged": true
+   },
+   {
+    "type": "invented",
+    "text": "Meena Textiles v. Suresh Traders, (2017) 3 SCC 858",
+    "verdict": "NOT_FOUND",
+    "flagged": true
+   },
+   {
+    "type": "real",
+    "text": "Devkaran Nenshi Tanna (Dead) By Lrs v. Manharlal Nenshi, [1994] SUPP. 1 S.C.R. 679",
+    "verdict": "VERIFIED",
+    "flagged": false
+   },
+   {
+    "type": "wrong_page",
+    "text": "Devkaran Nenshi Tanna (Dead) By Lrs v. Manharlal Nenshi, [1994] SUPP. 1 S.C.R. 682",
+    "verdict": "PARTIAL",
+    "flagged": true
+   }
+  ]
+ },
+ "pii": {
+  "with_ner": {
+   "per_type_recall": {
+    "AADHAAR": 1.0,
+    "ADDRESS": 1.0,
+    "BANK_ACCOUNT": 1.0,
+    "EMAIL": 1.0,
+    "IFSC": 1.0,
+    "ORG": 1.0,
+    "PAN": 1.0,
+    "PERSON": 1.0,
+    "PHONE": 1.0,
+    "VEHICLE": 1.0
+   },
+   "recall": 1.0,
+   "leakage_rate": 0.0,
+   "precision": 0.8223,
+   "planted_values": 2400,
+   "masks": 2870,
+   "false_masks": 510
+  },
+  "rules_only": {
+   "per_type_recall": {
+    "AADHAAR": 1.0,
+    "ADDRESS": 1.0,
+    "BANK_ACCOUNT": 1.0,
+    "EMAIL": 1.0,
+    "IFSC": 1.0,
+    "ORG": 1.0,
+    "PAN": 1.0,
+    "PERSON": 1.0,
+    "PHONE": 1.0,
+    "VEHICLE": 1.0
+   },
+   "recall": 1.0,
+   "leakage_rate": 0.0,
+   "precision": 1.0,
+   "planted_values": 2400,
+   "masks": 2400,
+   "false_masks": 0
+  },
+  "heldout_with_ner": {
+   "per_type_recall": {
+    "AADHAAR": 1.0,
+    "BANK_ACCOUNT": 1.0,
+    "ORG": 0.98,
+    "PERSON": 0.915,
+    "PHONE": 1.0
+   },
+   "recall": 0.9683,
+   "leakage_rate": 0.0317,
+   "precision": 0.8115,
+   "planted_values": 1200,
+   "masks": 2111,
+   "false_masks": 398
+  }
+ },
+ "retrieval": {
+  "n_queries": 93,
+  "task": "SCR headnote -> same judgment's body (s.138 SC cases)",
+  "lexical": {
+   "recall@1": 0.366,
+   "recall@5": 0.882,
+   "mrr@10": 0.589,
+   "p50_ms": 1234.6,
+   "p95_ms": 1414.4
+  },
+  "dense": {
+   "recall@1": 0.699,
+   "recall@5": 0.871,
+   "mrr@10": 0.772,
+   "p50_ms": 446.7,
+   "p95_ms": 530.9
+  },
+  "hybrid": {
+   "recall@1": 0.806,
+   "recall@5": 0.935,
+   "mrr@10": 0.87,
+   "p50_ms": 1657.8,
+   "p95_ms": 1909.2
+  },
+  "hybrid_rerank": {
+   "recall@1": 0.806,
+   "recall@5": 0.957,
+   "mrr@10": 0.861,
+   "p50_ms": 8180.3,
+   "p95_ms": 9397.8
+  }
+ },
+ "statutes": {
+  "sections": 155,
+  "boundary_checks": 18,
+  "passed": 18,
+  "failures": [],
+  "note": "Checks the lookup logic against the ledger parsed from India Code footnotes. Older wordings are not stored, so 'as on' dates before the latest amendment return 'earlier_version_not_stored'."
+ },
+ "latency": {
+  "exact_citation_lookup": {
+   "n": 200,
+   "p50_ms": 1.2,
+   "p95_ms": 1.9,
+   "target_p95_ms": 50
+  },
+  "statute_as_on": {
+   "n": 100,
+   "p50_ms": 2.1,
+   "p95_ms": 3.1,
+   "target_p95_ms": 50
+  },
+  "lexical_search_all_courts": {
+   "n": 30,
+   "p50_ms": 7.0,
+   "p95_ms": 40.1,
+   "target_p95_ms": 150
+  },
+  "verify_20_citation_draft_without_llm": {
+   "citations": 20,
+   "seconds": 0.09,
+   "target_seconds": 20,
+   "note": "Step 6 (AI judge) adds roughly 2-6 s per citation with text."
+  }
+ },
+ "e2e": {
+  "run_at": "2026-10-27T17:47:41.637757+00:00",
+  "steps": [
+   {
+    "step": "preview return_memo.txt",
+    "masked": 7,
+    "leaked_values": []
+   },
+   {
+    "step": "preview client_statement.txt",
+    "masked": 7,
+    "leaked_values": []
+   },
+   {
+    "step": "draft",
+    "status": "awaiting_approval",
+    "release": "clear",
+    "facts": {
+     "drawer": "PERSON_1",
+     "drawer_address": "ADDRESS_1",
+     "payee": "PERSON_2",
+     "payee_bank_branch_city": "ORG_3",
+     "drawee_bank": "ORG_1, ORG_2, ORG_3",
+     "cheque_number": "004512",
+     "cheque_date": "2025-06-10",
+     "amount": 250000,
+     "presentation_date": "2025-07-01",
+     "return_reason": "FUNDS INSUFFICIENT",
+     "return_information_date": "2025-07-03",
+     "notice_date": "2025-07-15",
+     "notice_received_date": "2025-07-18",
+     "payment_received": false,
+     "debt_description": "hand loan"
+    },
+    "error": null,
+    "trace": [
+     {
+      "node": "orchestrator",
+      "ms": 0,
+      "workflow": "complaint"
+     },
+     {
+      "node": "document_analysis",
+      "ms": 3030,
+      "accepted": 15,
+      "rejected_no_source": [],
+      "model": "openai/gpt-oss-120b",
+      "input_tokens": 1607,
+      "output_tokens": 924
+     },
+     {
+      "node": "research",
+      "ms": 4755,
+      "passages": 5,
+      "search_mode": "hybrid_rerank"
+     },
+     {
+      "node": "drafting",
+      "ms": 12122,
+      "unknown_tags_removed": [],
+      "model": "openai/gpt-oss-120b",
+      "input_tokens": 3245,
+      "output_tokens": 1957
+     },
+     {
+      "node": "verification",
+      "ms": 21667,
+      "release": "clear"
+     },
+     {
+      "node": "strategy_risk",
+      "ms": 458,
+      "similar": 5
+     },
+     {
+      "node": "monitoring",
+      "ms": 9,
+      "reminders": 4
+     }
+    ]
+   },
+   {
+    "step": "approve",
+    "http": 200,
+    "body": {
+     "status": "approved",
+     "approval": {
+      "action": "approve",
+      "user_id": "466e9123-85ce-47d6-98d9-9efa293ee64a",
+      "acknowledged": []
+     }
+    }
+   },
+   {
+    "step": "download docx",
+    "http": 200,
+    "bytes": 38791,
+    "real_names_restored": true
+   },
+   {
+    "step": "calendar .ics",
+    "http": 200,
+    "events": 4
+   }
+  ],
+  "draft_seconds": 43.2,
+  "reminders": [
+   {
+    "title": "Send the written demand notice to the drawer",
+    "due": "2025-08-02"
+   },
+   {
+    "title": "Drawer's time to pay after receiving the notice ends",
+    "due": "2025-08-02"
+   },
+   {
+    "title": "File the complaint",
+    "due": "2025-09-03"
+   },
+   {
+    "title": "Present the cheque to the bank",
+    "due": "2025-12-10"
+   }
+  ],
+  "gate_check": {
+   "release": "blocked",
+   "approve_http": 409,
+   "blocked_as_expected": true
+  }
+ }
+}

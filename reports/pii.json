@@ -1,0 +1,92 @@
+{
+ "benchmark": "synthetic_indian_pii_v1",
+ "run_at": "2026-10-27T19:39:36.741416+00:00",
+ "seed": 7,
+ "docs": 200,
+ "with_ner": {
+  "per_type_recall": {
+   "AADHAAR": 1.0,
+   "ADDRESS": 1.0,
+   "BANK_ACCOUNT": 1.0,
+   "EMAIL": 1.0,
+   "IFSC": 1.0,
+   "ORG": 1.0,
+   "PAN": 1.0,
+   "PERSON": 1.0,
+   "PHONE": 1.0,
+   "VEHICLE": 1.0
+  },
+  "recall": 1.0,
+  "leakage_rate": 0.0,
+  "precision": 0.8223,
+  "planted_values": 2400,
+  "masks": 2870,
+  "false_masks": 510,
+  "examples": [
+   {
+    "original": "COMPLAINT. The complainant Senthil Reddy (Lakshmi Hardware Stores) knows the accused Rahul Thomas, son of Kavitha Natarajan, of No. 290, Gandhi Road, Madurai - 682658. The accused gave his PAN SJRPV2199U and Aadhaar No. 8030 8246 2817. The cheque was drawn on account no. 83016613186, IFSC HDFC0967017. Phone: +91 64926 55486. Email: senthil.84@example.com. The accused owns vehicle TN 81 BX 2013.",
+    "redacted": "ORG_1. The complainant PERSON_1 (ORG_2) knows the accused PERSON_2, son of PERSON_3, of ADDRESS_1. The accused gave his ORG_3 PAN_1 and Aadhaar No. AADHAAR_1. The cheque was drawn on account no. BANK_ACCOUNT_1, ORG_4 IFSC_1. Phone: PHONE_1. Email: EMAIL_1. The accused owns vehicle VEHICLE_1."
+   },
+   {
+    "original": "COMPLAINT. The complainant Meenakshi Singh (Kaveri Textiles Pvt. Ltd.) knows the accused Arjun Rao, son of Kavitha Rao, of No. 176, Temple Street, Kochi - 679818. The accused gave his PAN KWLPT7971C and Aadhaar No. 8252 7601 8955. The cheque was drawn on account no. 579754323194, IFSC IOBA0619167. Phone: +91 98305 73909. Email: meenakshi.78@example.com. The accused owns vehicle TN 10 AB 9387.",
+    "redacted": "ORG_1. The complainant PERSON_1 (ORG_2) knows the accused PERSON_2, son of PERSON_3, of ADDRESS_1. The accused gave his ORG_3 PAN_1 and PERSON_4. AADHAAR_1. The cheque was drawn on account no. BANK_ACCOUNT_1, ORG_4 IFSC_1. Phone: PHONE_1. Email: EMAIL_1. The accused owns vehicle VEHICLE_1."
+   }
+  ]
+ },
+ "rules_only": {
+  "per_type_recall": {
+   "AADHAAR": 1.0,
+   "ADDRESS": 1.0,
+   "BANK_ACCOUNT": 1.0,
+   "EMAIL": 1.0,
+   "IFSC": 1.0,
+   "ORG": 1.0,
+   "PAN": 1.0,
+   "PERSON": 1.0,
+   "PHONE": 1.0,
+   "VEHICLE": 1.0
+  },
+  "recall": 1.0,
+  "leakage_rate": 0.0,
+  "precision": 1.0,
+  "planted_values": 2400,
+  "masks": 2400,
+  "false_masks": 0,
+  "examples": [
+   {
+    "original": "COMPLAINT. The complainant Senthil Reddy (Lakshmi Hardware Stores) knows the accused Rahul Thomas, son of Kavitha Natarajan, of No. 290, Gandhi Road, Madurai - 682658. The accused gave his PAN SJRPV2199U and Aadhaar No. 8030 8246 2817. The cheque was drawn on account no. 83016613186, IFSC HDFC0967017. Phone: +91 64926 55486. Email: senthil.84@example.com. The accused owns vehicle TN 81 BX 2013.",
+    "redacted": "COMPLAINT. The complainant PERSON_1 (ORG_1) knows the accused PERSON_2, son of PERSON_3, of ADDRESS_1. The accused gave his PAN PAN_1 and Aadhaar No. AADHAAR_1. The cheque was drawn on account no. BANK_ACCOUNT_1, IFSC IFSC_1. Phone: PHONE_1. Email: EMAIL_1. The accused owns vehicle VEHICLE_1."
+   },
+   {
+    "original": "COMPLAINT. The complainant Meenakshi Singh (Kaveri Textiles Pvt. Ltd.) knows the accused Arjun Rao, son of Kavitha Rao, of No. 176, Temple Street, Kochi - 679818. The accused gave his PAN KWLPT7971C and Aadhaar No. 8252 7601 8955. The cheque was drawn on account no. 579754323194, IFSC IOBA0619167. Phone: +91 98305 73909. Email: meenakshi.78@example.com. The accused owns vehicle TN 10 AB 9387.",
+    "redacted": "COMPLAINT. The complainant PERSON_1 (ORG_1) knows the accused PERSON_2, son of PERSON_3, of ADDRESS_1. The accused gave his PAN PAN_1 and Aadhaar No. AADHAAR_1. The cheque was drawn on account no. BANK_ACCOUNT_1, IFSC IFSC_1. Phone: PHONE_1. Email: EMAIL_1. The accused owns vehicle VEHICLE_1."
+   }
+  ]
+ },
+ "heldout_with_ner": {
+  "per_type_recall": {
+   "AADHAAR": 1.0,
+   "BANK_ACCOUNT": 1.0,
+   "ORG": 0.98,
+   "PERSON": 0.915,
+   "PHONE": 1.0
+  },
+  "recall": 0.9683,
+  "leakage_rate": 0.0317,
+  "precision": 0.8115,
+  "planted_values": 1200,
+  "masks": 2111,
+  "false_masks": 398,
+  "examples": [
+   {
+    "original": "Nandini Chettiar runs Sundaram Brothers in Salem. In March he lent money to Muthu Varghese, who later handed over a cheque from his savings account 238360777679. When it bounced, Nandini Chettiar called Muthu Varghese at 6191466984 several times. Muthu Varghese's Aadhaar (5617 3048 6762) is on the loan papers.",
+    "redacted": "ORG_1 Chettiar runs PERSON_1 in PLACE_1. In March he lent money to ORG_2, who later handed over a cheque from his savings account BANK_ACCOUNT_1. When it bounced, ORG_1 Chettiar called ORG_2 at PHONE_1 several times. ORG_2's ORG_3 (AADHAAR_1) is on the loan papers."
+   },
+   {
+    "original": "Revathi Naidu runs Royal Furnishings in Thrissur. In March he lent money to Revathi Krishnan, who later handed over a cheque from his savings account 053178392918. When it bounced, Revathi Naidu called Revathi Krishnan at 9215673040 several times. Revathi Krishnan's Aadhaar (2732 9797 4852) is on the loan papers.",
+    "redacted": "PERSON_1 runs ORG_1 in PLACE_1. In March he lent money to PERSON_2, who later handed over a cheque from his savings account BANK_ACCOUNT_1. When it bounced, PERSON_1 called PERSON_2 at PHONE_1 several times. PERSON_2's ORG_2 (AADHAAR_1) is on the loan papers."
+   }
+  ]
+ },
+ "note": "with_ner/rules_only use templates the rules were tuned on (optimistic). heldout_with_ner uses unseen wording and names: report this as the realistic figure."
+}

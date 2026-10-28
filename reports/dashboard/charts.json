@@ -1,0 +1,128 @@
+[
+ {
+  "bar": "legalmind:0",
+  "chart": "legalmind",
+  "label": "Cost reduction",
+  "system": "LegalMind",
+  "value": 42.6,
+  "unit": "%",
+  "role": "named"
+ },
+ {
+  "bar": "legalmind:1",
+  "chart": "legalmind",
+  "label": "Cost reduction",
+  "system": "DocketPilot",
+  "value": 87.2,
+  "unit": "%",
+  "role": "ours"
+ },
+ {
+  "bar": "legalmind:2",
+  "chart": "legalmind",
+  "label": "Processing speed-up",
+  "system": "LegalMind",
+  "value": 60.8,
+  "unit": "%",
+  "role": "named"
+ },
+ {
+  "bar": "legalmind:3",
+  "chart": "legalmind",
+  "label": "Processing speed-up",
+  "system": "DocketPilot",
+  "value": 35.9,
+  "unit": "%",
+  "role": "ours"
+ },
+ {
+  "bar": "checking:4",
+  "chart": "checking",
+  "label": "Recall",
+  "system": "GPT-5 agentic checker",
+  "value": 84.4,
+  "unit": "%",
+  "role": "named"
+ },
+ {
+  "bar": "checking:5",
+  "chart": "checking",
+  "label": "Recall",
+  "system": "DocketPilot",
+  "value": 99.6,
+  "unit": "%",
+  "role": "ours"
+ },
+ {
+  "bar": "checking:6",
+  "chart": "checking",
+  "label": "F1",
+  "system": "GPT-5 agentic checker",
+  "value": 55.0,
+  "unit": "%",
+  "role": "named"
+ },
+ {
+  "bar": "checking:7",
+  "chart": "checking",
+  "label": "F1",
+  "system": "DocketPilot",
+  "value": 99.5,
+  "unit": "%",
+  "role": "ours"
+ },
+ {
+  "bar": "hallucination:8",
+  "chart": "hallucination",
+  "label": "Fabricated citations",
+  "system": "DocketPilot",
+  "value": 0.0,
+  "unit": "%",
+  "role": "ours"
+ },
+ {
+  "bar": "hallucination:9",
+  "chart": "hallucination",
+  "label": "Fabricated citations",
+  "system": "Same LLM, closed book",
+  "value": 5.6,
+  "unit": "%",
+  "role": "named"
+ },
+ {
+  "bar": "hallucination:10",
+  "chart": "hallucination",
+  "label": "Hallucination (human-graded, US law)",
+  "system": "Westlaw AI-Assisted Research",
+  "value": 33.0,
+  "unit": "%",
+  "role": "other"
+ },
+ {
+  "bar": "hallucination:11",
+  "chart": "hallucination",
+  "label": "Hallucination (human-graded, US law)",
+  "system": "Lexis+ AI",
+  "value": 17.0,
+  "unit": "%",
+  "role": "other"
+ },
+ {
+  "bar": "cost:12",
+  "chart": "cost",
+  "label": "US$ per 1,000 answers",
+  "system": "Long-context LLM",
+  "value": 22.1508,
+  "unit": "$",
+  "role": "named"
+ },
+ {
+  "bar": "cost:13",
+  "chart": "cost",
+  "label": "US$ per 1,000 answers",
+  "system": "DocketPilot",
+  "value": 2.8454,
+  "unit": "$",
+  "role": "ours"
+ }
+]

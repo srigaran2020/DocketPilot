@@ -1,0 +1,30 @@
+# template: demand_notice_v1
+# status: unverified (decision 11) - wording not reviewed by a lawyer
+# {{name}} = fact from the documents (redacted placeholders until approval); [[LLM:section]] = written by the model
+LEGAL NOTICE
+(under Section 138 of the Negotiable Instruments Act, 1881)
+
+Date: {{notice_date_display}}
+
+To,
+{{drawer}}
+{{drawer_address}}
+
+Sir/Madam,
+
+Under instructions from and on behalf of my client, {{payee}}, I hereby serve upon you the following notice:
+
+1. FACTS
+[[LLM:facts]]
+
+2. The said cheque was returned unpaid by the bank with the reason "{{return_reason}}", which my client came to know on {{return_information_date_display}}.
+
+3. LEGAL POSITION
+[[LLM:grounds]]
+
+4. DEMAND
+I therefore call upon you to pay the said amount of Rs. {{amount_display}} to my client within fifteen days of the receipt of this notice, failing which my client will be constrained to initiate proceedings against you under Section 138 read with Section 142 of the Negotiable Instruments Act, 1881, at your risk as to costs and consequences.
+
+A copy of this notice is retained in my office for further action.
+
+Advocate for {{payee}}
