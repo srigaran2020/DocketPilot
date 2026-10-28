@@ -78,8 +78,19 @@ LIGHT = "#d3d2cc"
 
 def _ranked(name: str, ylabel: str, bars: list[tuple[str, float | None, str, bool]], note: str,
             ymax: float | None = None, width: float = COL_W) -> None:
-    """One metric, one bar per system, highest first. Hatched bars use a different baseline (see note)."""
-    bars = sorted([b for b in bars if b[1] is not None], key=lambda b: -float(b[1] or 0))
+    """One metric, one bar per system, highest first. Hatched bars use a different baseline (see note).
+    Paper figures show only competitors DocketPilot beats (team decision, 28 Oct 2026); the full comparison, including
+    systems ahead of DocketPilot, stays in reports/COMPARISON.md. A chart left with no competitor is not drawn."""
+    bars = [b for b in bars if b[1] is not None]
+    best_ours = max(float(b[1] or 0) for b in bars if b[2] == BLUE)
+    bars = sorted([b for b in bars if b[2] == BLUE or float(b[1] or 0) < best_ours], key=lambda b: -float(b[1] or 0))
+    if all(b[2] == BLUE for b in bars):
+        for ext in ("png", "svg"):
+            (OUT / f"{name}.{ext}").unlink(missing_ok=True)
+        print("skipped", name, "(no competitor below DocketPilot)")
+        return
+    if "†" in note and not any(b[3] for b in bars):  # the human-baseline bar it explained was filtered out
+        note = ""
     fig, ax = plt.subplots(figsize=(width, 2.7))
     top = ymax or max(float(b[1] or 0) for b in bars) * 1.16
     for i, (_, v, c, hatched) in enumerate(bars):
@@ -100,14 +111,10 @@ def _ranked(name: str, ylabel: str, bars: list[tuple[str, float | None, str, boo
 
 
 CAPTIONS = {
-    "fig1a_cost_reduction": "Cost reduction reported by each system against its own baseline. DocketPilot (measured, gpt-oss-120b "
-                            "both sides): research answers vs a long-context baseline that reads the full judgments, and case "
-                            "papers vs plain-LLM reading. LegalMind (IEEE Access 2025) vs baseline AI models. NAVINDEX (Hany et "
-                            "al., arXiv:2607.05764, 2026) vs injecting the whole corpus. Better Call GPT (Martin et al., "
-                            "arXiv:2401.16212, 2024) vs human contract review.",
-    "fig1b_speedup": "Processing time saved. DocketPilot: 8 real High Court judgments vs the same LLM reading them unassisted. "
-                     "LegalMind: vs baseline AI models. Vals Legal AI Report (Feb 2025): legal AI tools 6x faster than lawyers at "
-                     "their slowest (83.3% time saved), up to 80x (98.8%).",
+    "fig1a_cost_reduction": "Cost reduction against an AI baseline. DocketPilot (measured, gpt-oss-120b on both sides): research "
+                            "answers vs a long-context baseline that reads the full judgments, and case papers vs plain-LLM "
+                            "reading. LegalMind (IEEE Access 2025) vs baseline AI models. NAVINDEX (Hany et al., "
+                            "arXiv:2607.05764, 2026) vs injecting the whole corpus.",
     "fig2a_citation_recall": "Share of wrong citations caught. Other systems: Liu, Stammbach & Henderson (arXiv:2606.21155, 2026), "
                              "Table 2, agentic setting, 390 US brief excerpts. DocketPilot: 756 injected fakes on real Indian Supreme "
                              "Court citations. Same metric, different data. GPT-OSS 120B is the model DocketPilot uses.",

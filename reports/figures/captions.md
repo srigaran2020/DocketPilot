@@ -1,8 +1,6 @@
 # Figure captions
 
-**fig1a_cost_reduction**: Cost reduction reported by each system against its own baseline. DocketPilot (measured, gpt-oss-120b both sides): research answers vs a long-context baseline that reads the full judgments, and case papers vs plain-LLM reading. LegalMind (IEEE Access 2025) vs baseline AI models. NAVINDEX (Hany et al., arXiv:2607.05764, 2026) vs injecting the whole corpus. Better Call GPT (Martin et al., arXiv:2401.16212, 2024) vs human contract review.
-
-**fig1b_speedup**: Processing time saved. DocketPilot: 8 real High Court judgments vs the same LLM reading them unassisted. LegalMind: vs baseline AI models. Vals Legal AI Report (Feb 2025): legal AI tools 6x faster than lawyers at their slowest (83.3% time saved), up to 80x (98.8%).
+**fig1a_cost_reduction**: Cost reduction against an AI baseline. DocketPilot (measured, gpt-oss-120b on both sides): research answers vs a long-context baseline that reads the full judgments, and case papers vs plain-LLM reading. LegalMind (IEEE Access 2025) vs baseline AI models. NAVINDEX (Hany et al., arXiv:2607.05764, 2026) vs injecting the whole corpus.
 
 **fig2a_citation_recall**: Share of wrong citations caught. Other systems: Liu, Stammbach & Henderson (arXiv:2606.21155, 2026), Table 2, agentic setting, 390 US brief excerpts. DocketPilot: 756 injected fakes on real Indian Supreme Court citations. Same metric, different data. GPT-OSS 120B is the model DocketPilot uses.
 
