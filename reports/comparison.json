@@ -89,6 +89,22 @@
    "comparable": "Same metric name; their documents and baseline are not public in the abstract."
   },
   {
+   "system": "NAVEMBED (Hany et al., 2026)",
+   "metric": "Cost reduction vs whole-corpus injection",
+   "value": 67.5,
+   "unit": "%",
+   "source": "arXiv:2607.05764, RUN-005: US$0.611 vs US$1.881",
+   "comparable": "Same baseline type as DocketPilot (full documents in context)."
+  },
+  {
+   "system": "NAVINDEX (Hany et al., 2026)",
+   "metric": "Cost reduction vs whole-corpus injection",
+   "value": 25,
+   "unit": "%",
+   "source": "arXiv:2607.05764: US$1.21 vs US$1.61",
+   "comparable": "Same baseline type as DocketPilot."
+  },
+  {
    "system": "Lexis+ AI",
    "metric": "Hallucination rate (legal research answers)",
    "value": 17,

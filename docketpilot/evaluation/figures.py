@@ -113,7 +113,7 @@ def _ranked(name: str, ylabel: str, bars: list[tuple[str, float | None, str, boo
 CAPTIONS = {
     "fig1a_cost_reduction": "Cost reduction against an AI baseline. DocketPilot (measured, gpt-oss-120b on both sides): research "
                             "answers vs a long-context baseline that reads the full judgments. LegalMind (IEEE Access 2025) "
-                            "vs baseline AI models. NAVINDEX (Hany et al., "
+                            "vs baseline AI models. NAVEMBED and NAVINDEX (Hany et al., "
                             "arXiv:2607.05764, 2026) vs injecting the whole corpus.",
     "fig2a_citation_recall": "Share of wrong citations caught. Other systems: Liu, Stammbach & Henderson (arXiv:2606.21155, 2026), "
                              "Table 2, agentic setting, 390 US brief excerpts. DocketPilot: 756 injected fakes on real Indian Supreme "
@@ -137,7 +137,7 @@ def main() -> None:
     if cost is not None:
         _ranked("fig1a_cost_reduction", "Cost reduction vs baseline (%)", [
             ("Better Call\nGPT†", 99.97, LIGHT, True), ("Docket\nPilot", cost, BLUE, False),
-            ("Legal\nMind", 42.6, GREY, False), ("NAVINDEX", 25.0, GREY, False)],
+            ("NAVEMBED", 67.5, GREY, False), ("Legal\nMind", 42.6, GREY, False), ("NAVINDEX", 25.0, GREY, False)],
             "† vs human lawyers; others vs an AI baseline")
     if speed is not None:
         _ranked("fig1b_speedup", "Processing time saved (%)", [
@@ -214,6 +214,9 @@ METHODS: dict[str, list[tuple[str, str]]] = {
         ("LegalMind", "published figure (IEEE Access, 2025): an agentic framework built on a fine-tuned DeepSeek R1 with a "
          "structured legal dataset, reporting 42.6% cost reduction over baseline AI models. Not re-run by us; the abstract does "
          "not give its task set or baseline in detail."),
+        ("NAVEMBED", "published figure, same paper as NAVINDEX (Hany et al., arXiv:2607.05764, 2026), run RUN-005: "
+         "embedding retrieval with reranking instead of injecting the whole document corpus into the context; 15 questions; "
+         "US$0.611 vs US$1.881 recorded dollar cost, i.e. 67.5% lower. Same type of baseline as DocketPilot."),
         ("NAVINDEX", "published figure (Hany et al., arXiv:2607.05764, 2026): transactional legal documents; the model navigates "
          "a compact structured index instead of having the whole document corpus injected into its context on every query. "
          "25% lower dollar cost, with answers judged tied with full injection on all 18 document-bound questions. Same type of "

@@ -23,6 +23,8 @@ Our numbers: measured on this build (benchmark run 2026-10-28T15:46:54.753615+00
 |---|---|---|---|---|
 | LegalMind (DeepSeek R1, agentic) | Cost reduction vs baseline AI models | 42.6% | LegalMind, IEEE Access 2025, DOI 10.1109/ACCESS.2025.3586781, abstract | Same metric name; their baseline and tasks are not public in the abstract. |
 | LegalMind (DeepSeek R1, agentic) | Document processing speed improvement vs baseline AI models | 60.8% | DOI 10.1109/ACCESS.2025.3586781 (IEEE Access, 2025), abstract | Same metric name; their documents and baseline are not public in the abstract. |
+| NAVEMBED (Hany et al., 2026) | Cost reduction vs whole-corpus injection | 67.5% | arXiv:2607.05764, RUN-005: US$0.611 vs US$1.881 | Same baseline type as DocketPilot (full documents in context). |
+| NAVINDEX (Hany et al., 2026) | Cost reduction vs whole-corpus injection | 25% | arXiv:2607.05764: US$1.21 vs US$1.61 | Same baseline type as DocketPilot. |
 | Lexis+ AI | Hallucination rate (legal research answers) | 17% | Magesh et al., 'Hallucination-Free?', arXiv:2405.20362 (Stanford RegLab/HAI); figures as reported by LawSites, June 2024 | US law, 200+ preregistered queries, human-graded; ours is an automatic existence check on Indian law. |
 | Westlaw AI-Assisted Research | Hallucination rate (legal research answers) | 33% | Magesh et al., arXiv:2405.20362; LawSites, June 2024 | As above. |
 | Lexis+ AI | Accurate answers | 65% | Magesh et al., arXiv:2405.20362; LawSites, June 2024 | Human-graded accuracy; not measured for DocketPilot. |

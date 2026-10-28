@@ -19,6 +19,24 @@
  },
  {
   "key": "p2",
+  "system": "NAVEMBED (Hany et al., 2026)",
+  "metric": "Cost reduction vs whole-corpus injection",
+  "value": "67.5",
+  "unit": "%",
+  "source": "arXiv:2607.05764, RUN-005: US$0.611 vs US$1.881",
+  "comparable": "Same baseline type as DocketPilot (full documents in context)."
+ },
+ {
+  "key": "p3",
+  "system": "NAVINDEX (Hany et al., 2026)",
+  "metric": "Cost reduction vs whole-corpus injection",
+  "value": "25",
+  "unit": "%",
+  "source": "arXiv:2607.05764: US$1.21 vs US$1.61",
+  "comparable": "Same baseline type as DocketPilot."
+ },
+ {
+  "key": "p4",
   "system": "Lexis+ AI",
   "metric": "Hallucination rate (legal research answers)",
   "value": "17",
@@ -27,7 +45,7 @@
   "comparable": "US law, 200+ preregistered queries, human-graded; ours is an automatic existence check on Indian law."
  },
  {
-  "key": "p3",
+  "key": "p5",
   "system": "Westlaw AI-Assisted Research",
   "metric": "Hallucination rate (legal research answers)",
   "value": "33",
@@ -36,7 +54,7 @@
   "comparable": "As above."
  },
  {
-  "key": "p4",
+  "key": "p6",
   "system": "Lexis+ AI",
   "metric": "Accurate answers",
   "value": "65",
@@ -45,7 +63,7 @@
   "comparable": "Human-graded accuracy; not measured for DocketPilot."
  },
  {
-  "key": "p5",
+  "key": "p7",
   "system": "Westlaw AI-Assisted Research",
   "metric": "Accurate answers",
   "value": "42",
@@ -54,7 +72,7 @@
   "comparable": "As above."
  },
  {
-  "key": "p6",
+  "key": "p8",
   "system": "Ask Practical Law AI",
   "metric": "Accurate answers",
   "value": "20",
@@ -63,7 +81,7 @@
   "comparable": "Human-graded accuracy; not measured for DocketPilot."
  },
  {
-  "key": "p7",
+  "key": "p9",
   "system": "GPT-3.5 (closed book)",
   "metric": "Hallucination rate (legal queries)",
   "value": "69",
@@ -72,7 +90,7 @@
   "comparable": "Closed-book model on verifiable questions about US federal cases; like our closed-book baseline, other law."
  },
  {
-  "key": "p8",
+  "key": "p10",
   "system": "Llama 2 (closed book)",
   "metric": "Hallucination rate (legal queries)",
   "value": "88",
@@ -81,7 +99,7 @@
   "comparable": "As above."
  },
  {
-  "key": "p9",
+  "key": "p11",
   "system": "Harvey Assistant",
   "metric": "Document Q&A score (lawyer baseline 70.1)",
   "value": "94.8",
@@ -90,7 +108,7 @@
   "comparable": "Task accuracy vs lawyers; not a DocketPilot metric."
  },
  {
-  "key": "p10",
+  "key": "p12",
   "system": "CoCounsel",
   "metric": "Document Q&A score (lawyer baseline 70.1)",
   "value": "89.6",
@@ -99,7 +117,7 @@
   "comparable": "As above."
  },
  {
-  "key": "p11",
+  "key": "p13",
   "system": "GPT-5, agentic citation checker",
   "metric": "Recall of citation errors (hallucination detection)",
   "value": "84.4",
@@ -108,7 +126,7 @@
   "comparable": "Same metric (share of bad citations caught); their 1,300 US brief excerpts are harder and more varied than our fakes."
  },
  {
-  "key": "p12",
+  "key": "p14",
   "system": "GPT-5, agentic citation checker",
   "metric": "F1 of citation-error detection",
   "value": "55.0",
@@ -117,7 +135,7 @@
   "comparable": "Same metric; different data (see above)."
  },
  {
-  "key": "p13",
+  "key": "p15",
   "system": "Best of 21 LLMs, closed book",
   "metric": "Citation retrieval/completion score",
   "value": "7",
@@ -126,7 +144,7 @@
   "comparable": "Shows why closed-book models cannot be trusted with citations; misleading-answer rate >94% for 20 of 21 models."
  },
  {
-  "key": "p14",
+  "key": "p16",
   "system": "4 commercial LLMs (Ukrainian law)",
   "metric": "Hallucinated citations, sparse vs dense reference store",
   "value": "15-21 vs ~0.1-1.1",
@@ -135,7 +153,7 @@
   "comparable": "Methodological: the measured rate depends on the reference store's coverage. We therefore count only formats our store covers completely as fabricated."
  },
  {
-  "key": "p15",
+  "key": "p17",
   "system": "Falkor-IRAC (Indian judicial AI)",
   "metric": "Verified answers via graph verifier",
   "value": "qualitative",

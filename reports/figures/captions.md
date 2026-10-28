@@ -2,13 +2,14 @@
 
 ## fig1a_cost_reduction
 
-**Caption.** Cost reduction against an AI baseline. DocketPilot (measured, gpt-oss-120b on both sides): research answers vs a long-context baseline that reads the full judgments. LegalMind (IEEE Access 2025) vs baseline AI models. NAVINDEX (Hany et al., arXiv:2607.05764, 2026) vs injecting the whole corpus.
+**Caption.** Cost reduction against an AI baseline. DocketPilot (measured, gpt-oss-120b on both sides): research answers vs a long-context baseline that reads the full judgments. LegalMind (IEEE Access 2025) vs baseline AI models. NAVEMBED and NAVINDEX (Hany et al., arXiv:2607.05764, 2026) vs injecting the whole corpus.
 
 **How each comparison was made.**
 
 - **Metric**: cost reduction = 1 - (system's cost / its baseline's cost), each against the baseline its own authors chose.
 - **DocketPilot**: 8 legal research questions across practice areas (bail, divorce, specific performance, limitation, arbitration, maintenance, consumer, motor accident). DocketPilot retrieves 6 reranked judgment passages and up to 5 statute sections, answers, then checks every citation (including AI-judge calls). Every token was counted from Groq's API responses and priced at the list price of gpt-oss-120b (US$0.15 per million input, US$0.60 per million output tokens). Baseline: the same model given the full text of the same judgments and the same statute sections; its input was counted with the o200k tokenizer and its output assumed equal to DocketPilot's answer, which favours the baseline. Result: US$0.00285 vs US$0.02215 per answer.
 - **LegalMind**: published figure (IEEE Access, 2025): an agentic framework built on a fine-tuned DeepSeek R1 with a structured legal dataset, reporting 42.6% cost reduction over baseline AI models. Not re-run by us; the abstract does not give its task set or baseline in detail.
+- **NAVEMBED**: published figure, same paper as NAVINDEX (Hany et al., arXiv:2607.05764, 2026), run RUN-005: embedding retrieval with reranking instead of injecting the whole document corpus into the context; 15 questions; US$0.611 vs US$1.881 recorded dollar cost, i.e. 67.5% lower. Same type of baseline as DocketPilot.
 - **NAVINDEX**: published figure (Hany et al., arXiv:2607.05764, 2026): transactional legal documents; the model navigates a compact structured index instead of having the whole document corpus injected into its context on every query. 25% lower dollar cost, with answers judged tied with full injection on all 18 document-bound questions. Same type of baseline as DocketPilot (whole documents in context).
 
 ## fig2a_citation_recall
