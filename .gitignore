@@ -31,3 +31,8 @@ reports/*.log
 .idea/
 Thumbs.db
 .DS_Store
+
+# Project report (kept local only)
+docs/report/
+docs/DocketPilot_sample.docx
+docs/diagrams/DocketPilot_sample*.docx
