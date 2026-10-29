@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DocketPilot Research Handbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a bound case file. A court-green spine (sticky contents) beside a white page; gold marks what was measured. */
+:root{
+  --bg:#f3f5f2; --page:#ffffff; --ink:#14231d; --ink2:#3e4c46; --mute:#6c7973; --rule:#dde3df;
+  --spine:#123c33; --spine-ink:#d9e7e1; --gold:#a97c1c; --gold-soft:#f6eed9; --seal:#b4440f; --code:#eef2ef;
+  --ok:#1f7a4d; --warn:#a36500;
+  --display:"Cinzel","Trajan Pro",Georgia,serif; --sans:"IBM Plex Sans","Segoe UI",system-ui,sans-serif; --mono:"IBM Plex Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1714; --page:#13201c; --ink:#e7eee9; --ink2:#bccbc4; --mute:#8d9d96; --rule:#263732;
+  --spine:#0a2a23; --spine-ink:#cfe0d9; --gold:#e0b45a; --gold-soft:#2b2615; --seal:#ef7a45; --code:#1a2a25; --ok:#5fc795; --warn:#e3a54a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1714; --page:#13201c; --ink:#e7eee9; --ink2:#bccbc4; --mute:#8d9d96; --rule:#263732;
+  --spine:#0a2a23; --spine-ink:#cfe0d9; --gold:#e0b45a; --gold-soft:#2b2615; --seal:#ef7a45; --code:#1a2a25; --ok:#5fc795; --warn:#e3a54a; color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans)}
+.wrap{display:grid;grid-template-columns:240px minmax(0,1fr);max-width:1240px;margin:0 auto;gap:0}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;overflow:auto;background:var(--spine);color:var(--spine-ink);padding:22px 18px;font-size:13px}
+nav.toc img{width:64px;height:64px;border-radius:50%;display:block;margin-bottom:10px}
+nav.toc b{font:700 18px var(--display);letter-spacing:.05em;color:#fff;display:block}
+nav.toc a{display:block;color:var(--spine-ink);text-decoration:none;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+nav.toc a:hover,nav.toc a:focus-visible{color:#fff}
+main{background:var(--page);padding-block:36px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));min-width:0}
+main>section{max-width:900px;margin:0 auto 46px;padding:0 clamp(0px,3vw,32px)}
+h1{font:700 clamp(26px,4vw,40px)/1.15 var(--display);letter-spacing:.03em;margin:0 0 10px;text-wrap:balance}
+.cap{font:italic 500 clamp(17px,2.2vw,21px)/1.4 var(--sans);color:var(--gold);margin:0 0 16px;text-wrap:balance}
+h2{font:700 21px/1.25 var(--display);letter-spacing:.04em;margin:0 0 6px;padding-top:8px;border-top:3px solid var(--spine);text-wrap:balance}
+h3{font-size:15.5px;margin:22px 0 6px}
+p,li{max-width:70ch;color:var(--ink2)} .lede{color:var(--ink)}
+code,.path{font:13px var(--mono);background:var(--code);padding:1px 5px;border-radius:3px;color:var(--ink);word-break:break-word}
+.tbl{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--rule)}
+th{font-weight:600;color:var(--mute);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.stat{border:1px solid var(--rule);border-top:3px solid var(--gold);padding:12px 14px;background:var(--page)}
+.stat .v{font:700 26px var(--display);font-variant-numeric:tabular-nums} .stat .l{font-size:12.5px;color:var(--mute)}
+.flow{display:flex;gap:0;overflow-x:auto;padding:6px 0 12px;margin:14px 0}
+.step{flex:0 0 172px;border:1px solid var(--rule);background:var(--page);padding:12px;position:relative;margin-right:26px}
+.step::after{content:"→";position:absolute;right:-22px;top:42%;color:var(--gold);font-weight:700}
+.step:last-child::after{content:none} .step:last-child{margin-right:0}
+.step .k{font:600 11px var(--mono);color:var(--seal);letter-spacing:.08em}
+.step b{display:block;margin:4px 0;font-size:14px} .step span{font-size:12.5px;color:var(--mute);display:block}
+.step.ai{border-top:3px solid var(--seal)} .step.local{border-top:3px solid var(--spine)}
+.legend{font-size:12.5px;color:var(--mute);display:flex;gap:16px;flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:5px}
+pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overflow-x:auto;color:var(--ink)}
+.fig{margin:16px 0;border:1px solid var(--rule);padding:10px;background:#fff}
+.fig img{display:block;width:100%;max-width:520px;height:auto;margin:0 auto} .fig figcaption{font-size:12.5px;color:#52514e;margin-top:6px}
+.win{color:var(--ok);font-weight:600} .lose{color:var(--warn);font-weight:600}
+.note{border-left:3px solid var(--gold);background:var(--gold-soft);padding:10px 14px;margin:14px 0;font-size:14px;color:var(--ink)}
+.cmd{display:flex;gap:8px;align-items:flex-start;margin:6px 0}
+.cmd code{flex:1;display:block;padding:8px 10px;overflow-x:auto;white-space:pre}
+.cmd button{font:12px var(--sans);border:1px solid var(--rule);background:var(--page);color:var(--ink);padding:6px 10px;cursor:pointer}
+.cmd button:focus-visible,nav.toc a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (max-width:860px){.wrap{grid-template-columns:1fr} nav.toc{position:static;max-height:none} nav.toc .links{display:flex;flex-wrap:wrap;gap:4px 14px} nav.toc a{border:0}}
+.method{border-left:3px solid var(--gold);background:var(--gold-soft);padding:10px 14px 4px;margin:-6px 0 22px;font-size:13.5px}
+.method .mh{display:block;margin-bottom:4px;color:var(--ink)}
+.method ul{margin:0;padding-left:18px}.method li{margin-bottom:6px;color:var(--ink2);max-width:none}
+</style>
+</head><body>
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <img src="{{LOGO}}" alt="DocketPilot emblem">
+  <b>DocketPilot</b>
+  <div style="margin:4px 0 14px;font-size:12px;opacity:.8">Research handbook · 28 Oct 2026</div>
+  <div class="links">
+  <a href="#overview">Overview</a><a href="#workflow">End-to-end workflow</a><a href="#agents">The seven agents</a>
+  <a href="#chat">Ask DocketPilot path</a><a href="#retrieval">Retrieval tiers</a><a href="#verify">Verification</a>
+  <a href="#privacy">Privacy gateway</a><a href="#stack">Tools and purpose</a><a href="#files">File map</a>
+  <a href="#data">Knowledge base</a><a href="#bench">Benchmarks</a><a href="#compare">Comparison</a>
+  <a href="#figs">Figures for the paper</a><a href="#run">Commands</a><a href="#limits">Limitations</a><a href="#refs">References</a>
+  </div>
+</nav>
+<main>
+
+<section id="overview">
+  <h1>DocketPilot</h1>
+  <p class="cap">An Agentic AI System for Indian Legal Research, Drafting, Anti-Hallucination Verification and Case Management</p>
+  <p class="lede">DocketPilot reads an advocate's case papers, finds the governing statute sections and judgments, drafts documents, and checks every citation against a store of real judgments before the advocate sees it. Client names are masked on the advocate's machine before any text reaches the language model. Hearing dates read from the papers go onto a built-in calendar.</p>
+  <p>Students: Srigaran N and team. Supervisor: Dr. Saravanan R. Code: <span class="path">github.com/srigaran2020/DocketPilot</span> (private).</p>
+  <div class="stats">
+    <div class="stat"><div class="v">16,318</div><div class="l">judgments with full text (SC + 5 HC benches)</div></div>
+    <div class="stat"><div class="v">48,168</div><div class="l">cases in the citation store (SC 1950-2026)</div></div>
+    <div class="stat"><div class="v">372,122</div><div class="l">passages in the vector index</div></div>
+    <div class="stat"><div class="v">35</div><div class="l">Central Acts, 4,832 sections (India Code)</div></div>
+    <div class="stat"><div class="v">7</div><div class="l">agents in a LangGraph pipeline</div></div>
+    <div class="stat"><div class="v">242</div><div class="l">automated tests passing</div></div>
+  </div>
+</section>
+
+<section id="workflow">
+  <h2>End-to-end workflow</h2>
+  <p>What happens from the advocate's first click to a filed-ready Word file. Green-topped steps run locally with no AI; red-topped steps call the language model, always on masked text.</p>
+  <div class="legend"><span><i style="background:var(--spine)"></i>local, deterministic</span><span><i style="background:var(--seal)"></i>uses the LLM (masked text only)</span></div>
+  <div class="flow" role="list">
+    <div class="step local" role="listitem"><div class="k">1 · SIGN IN</div><b>Account</b><span>Sign-up, Google sign-in, 7-day renewing session. <code>api/auth.py</code></span></div>
+    <div class="step local" role="listitem"><div class="k">2 · UPLOAD</div><b>Case papers</b><span>PDF/DOCX/TXT text extracted. <code>api/casefiles.py</code></span></div>
+    <div class="step local" role="listitem"><div class="k">3 · MASK</div><b>Privacy gateway</b><span>Names, Aadhaar, PAN, phones → PERSON_1… Lawyer reviews. <code>privacy/redact.py</code></span></div>
+    <div class="step local" role="listitem"><div class="k">4 · FILE</div><b>Smart filing</b><span>Case number read locally; paper goes to its case file. <code>casefile.py</code></span></div>
+    <div class="step ai" role="listitem"><div class="k">5 · READ</div><b>Dates &amp; parties</b><span>Every dated event, kept only if its quote is in the paper → calendar.</span></div>
+    <div class="step ai" role="listitem"><div class="k">6 · ASK / DRAFT</div><b>Chat or draft</b><span>Rules route the request; agents research and write with source tags.</span></div>
+    <div class="step local" role="listitem"><div class="k">7 · VERIFY</div><b>9-step check</b><span>Citations resolved, quotes matched; wrong ones corrected or removed.</span></div>
+    <div class="step local" role="listitem"><div class="k">8 · APPROVE</div><b>Word file</b><span>Advocate signs off; real names restored from the vault. <code>drafting/docx_out.py</code></span></div>
+  </div>
+  <figure class="fig" style="max-width:none"><img src="{{F:SLIDE}}" style="max-width:100%" alt="DocketPilot workflow across five lanes: lawyer, backend, LangGraph agents, verification, data and AI"><figcaption>Workflow slide · docs/diagrams/workflow_slide.png</figcaption></figure>
+</section>
+
+<section id="agents">
+  <h2>The seven agents</h2>
+  <p>A LangGraph <code>StateGraph</code> in <span class="path">docketpilot/agents/graph.py</span>; each step is a function in <span class="path">docketpilot/agents/nodes.py</span>. State is checkpointed in PostgreSQL after every step, so a paused or interrupted draft resumes. The graph pauses at <b>approval</b> until the advocate decides.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Agent</th><th>What it does</th><th>LLM?</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Orchestrator</td><td>Picks the workflow: Section 138 notice/complaint (fixed templates) or <i>general</i> (any document type).</td><td>No</td></tr>
+      <tr><td>2</td><td>Document analysis</td><td>Extracts facts from masked papers and instructions; a fact is kept only if its quote is found in the source.</td><td>Yes</td></tr>
+      <tr><td>3</td><td>Research</td><td>Statute sections (named + topic search over 35 Acts) and reranked judgment passages.</td><td>No</td></tr>
+      <tr><td>4</td><td>Drafting</td><td>Writes the document; every legal statement must carry a source tag <code>[P1]</code> / <code>[S2]</code>; gaps become <code>[missing: …]</code>.</td><td>Yes</td></tr>
+      <tr><td>5</td><td>Verification</td><td>Runs the 9-step verifier, then auto-corrects (replace wrong citations, remove unsupported ones).</td><td>Judge only</td></tr>
+      <tr><td>6</td><td>Strategy &amp; risk</td><td>Checklist (s.138 ingredients, or missing facts) and similar past cases with outcomes as signals.</td><td>No</td></tr>
+      <tr><td>7</td><td>Monitoring</td><td>Statutory deadlines from rule files (s.138) as calendar reminders.</td><td>No</td></tr>
+      <tr><td>—</td><td>Approval → Finalize</td><td>Human sign-off; blocked drafts cannot be approved; Word file written with names restored.</td><td>No</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="chat">
+  <h2>Ask DocketPilot request path</h2>
+  <p>One chat routes to every feature by rules, not by the LLM (<span class="path">docketpilot/api/assistant.py</span>): <b>dates</b> (answered from the calendar, no AI), <b>schedule</b>, <b>draft</b>, <b>verify</b>, <b>similar cases</b>, <b>risk &amp; strategy</b>, otherwise a verified answer (<span class="path">docketpilot/chat.py</span>).</p>
+  <ol>
+    <li>Mask every turn of the conversation with one shared placeholder map.</li>
+    <li>Resolve the case: a case number or party name in the message selects the right case file.</li>
+    <li>Retrieve up to 6 judgment passages (hybrid + rerank) and up to 5 statute sections; fit them into Groq's request budget (decision 31).</li>
+    <li>The model answers only from tagged sources; tags become real citations (<code>swap_tags</code>).</li>
+    <li>Verify every citation and section, auto-correct, restore real names, show one quiet line: "✓ 4 checked · 1 corrected".</li>
+  </ol>
+</section>
+
+<section id="retrieval">
+  <h2>Retrieval tiers</h2>
+  <p><span class="path">docketpilot/retrieval/search.py</span>, deterministic tiers before fuzzy ones.</p>
+  <div class="tbl"><table><thead><tr><th>Tier</th><th>Method</th><th>Store</th></tr></thead><tbody>
+    <tr><td>1</td><td>Exact citation lookup (neutral, SCR, SCC, AIR, HC neutral)</td><td>PostgreSQL <code>case_citations</code></td></tr>
+    <tr><td>2</td><td>Statute "as on date" with amendment ledger</td><td>PostgreSQL <code>section_versions</code>, <code>amendments</code></td></tr>
+    <tr><td>2b</td><td>Statute topic search (weighted heading, synonyms)</td><td>PostgreSQL full-text index (migration 0004)</td></tr>
+    <tr><td>3</td><td>Lexical search <code>ts_rank_cd</code></td><td>PostgreSQL full-text over 430,882 chunks</td></tr>
+    <tr><td>4</td><td>Dense search, bge-small-en-v1.5 (384-d, int8)</td><td>Qdrant collection <code>chunks_all</code> (372,122 vectors)</td></tr>
+    <tr><td>5</td><td>Hybrid: reciprocal rank fusion of 3 + 4</td><td>—</td></tr>
+    <tr><td>6</td><td>Cross-encoder rerank, ms-marco-MiniLM-L-6-v2</td><td>fastembed (ONNX, CPU)</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="verify">
+  <h2>Verification and auto-correction</h2>
+  <p><span class="path">docketpilot/verification/</span>: <code>extract.py</code> (find citations, quotes, section references), <code>engine.py</code> (steps 2-9), <code>quotes.py</code>, <code>correct.py</code> (auto-correction).</p>
+  <ol>
+    <li><b>Extract</b> citations with case names, direct quotes and "Section N of &lt;Act&gt;" references (35 Acts + repealed IPC/CrPC/Evidence Act).</li>
+    <li><b>Normalise</b> each citation to a canonical key.</li>
+    <li><b>Resolve</b> against 48,168 cases (exact key, then name + year).</li>
+    <li><b>Verdict</b>: VERIFIED, PARTIAL, CONFLICT (cites a different case) or NOT_FOUND.</li>
+    <li><b>Quotes</b> matched against the judgment text (exact / near-exact / not found / headnote only).</li>
+    <li><b>AI judge</b>: does the passage support the proposition? Separate strict prompt, 2 at a time.</li>
+    <li><b>Good law</b> signals: later treatment found in the citation graph.</li>
+    <li><b>Statutes</b>: section exists, in force on the relevant date, quoted text identical; repealed codes flagged after 1 July 2024.</li>
+    <li><b>Gate</b>: red items block approval; amber items need sign-off.</li>
+  </ol>
+  <p><b>Auto-correction</b> then replaces a wrong citation with the real one when the named case exists, removes citations whose case is missing, whose quote is not in the judgment or that do not support the point (with the sentence that relied on them), and removes case names written without any citation.</p>
+</section>
+
+<section id="privacy">
+  <h2>Privacy gateway</h2>
+  <p>Three layers, all on the advocate's machine (<span class="path">docketpilot/privacy/</span>):</p>
+  <ul>
+    <li><b>Redaction</b>: rule recognisers for Aadhaar (Verhoeff checksum), PAN, phone, IFSC, bank account, vehicle number, address, plus spaCy <code>en_core_web_sm</code> for names and organisations.</li>
+    <li><b>Masking</b>: consistent placeholders (PERSON_1 is the same person in every paper of a case), reviewed by the advocate before saving.</li>
+    <li><b>Encryption</b>: the placeholder → real-name map is stored per case in a Fernet-encrypted vault (<span class="path">vault/&lt;case&gt;.vault</span>). Real names return only on screen and in the approved Word file.</li>
+  </ul>
+</section>
+
+<section id="stack">
+  <h2>Tools and their purpose</h2>
+  <div class="tbl"><table><thead><tr><th>Tool</th><th>Version</th><th>Purpose in DocketPilot</th><th>Where</th></tr></thead><tbody>
+    <tr><td>Python</td><td class="n">3.11.9</td><td>Everything server-side</td><td><code>.venv\</code></td></tr>
+    <tr><td>FastAPI + Uvicorn</td><td class="n">0.162 / 0.54</td><td>Web API and serving the web app</td><td><code>docketpilot/api/</code></td></tr>
+    <tr><td>LangGraph (+ Postgres checkpointer)</td><td class="n">1.2.18</td><td>The seven-agent pipeline with pause for approval</td><td><code>docketpilot/agents/</code></td></tr>
+    <tr><td>Groq API, <code>openai/gpt-oss-120b</code></td><td class="n">groq 1.7.0</td><td>The only LLM: extraction, drafting, chat, AI judge. Up to 4 keys with failover</td><td><code>docketpilot/llm/</code></td></tr>
+    <tr><td>PostgreSQL</td><td class="n">16.6</td><td>Cases, citations, chunks, statutes, matters, calendar, users, audit log, agent checkpoints</td><td>Docker <code>docketpilot-postgres-1</code></td></tr>
+    <tr><td>Qdrant</td><td class="n">1.12.5</td><td>Vector search over judgment passages</td><td>Docker <code>docketpilot-qdrant-1</code></td></tr>
+    <tr><td>Redis</td><td class="n">7.4.1</td><td>Reserved for cache / job queue</td><td>Docker</td></tr>
+    <tr><td>SeaweedFS (S3)</td><td class="n">3.80</td><td>Reserved for file storage</td><td>Docker</td></tr>
+    <tr><td>SQLAlchemy + Alembic</td><td class="n">2.1.6 / 1.20.1</td><td>Database models and migrations 0001-0004</td><td><code>migrations/versions/</code></td></tr>
+    <tr><td>psycopg 3 + pool</td><td class="n">3.3.6</td><td>Fast synchronous queries for retrieval and agents</td><td><code>docketpilot/knowledge/pool.py</code></td></tr>
+    <tr><td>fastembed (ONNX)</td><td class="n">0.9.1</td><td>Embeddings (bge-small-en-v1.5) and reranker (MiniLM) on CPU</td><td><code>docketpilot/retrieval/models.py</code></td></tr>
+    <tr><td>onnxruntime-gpu + CUDA 12</td><td class="n">1.22.0</td><td>One-off GPU indexing on the RTX 3050 (~430 passages/s)</td><td><code>.venv-gpu\</code></td></tr>
+    <tr><td>spaCy</td><td class="n">3.8.18</td><td>Name and organisation detection for masking</td><td><code>docketpilot/privacy/redact.py</code></td></tr>
+    <tr><td>cryptography (Fernet)</td><td class="n">50.0.2</td><td>Encrypted vault of real names</td><td><code>docketpilot/privacy/vault.py</code></td></tr>
+    <tr><td>argon2-cffi, PyJWT</td><td class="n">25.1 / 2.15</td><td>Password hashing, session tokens</td><td><code>docketpilot/security.py</code></td></tr>
+    <tr><td>Google Identity Services</td><td>—</td><td>Google sign-in (ID token checked with Google)</td><td><code>api/auth.py</code>, <code>web/index.html</code></td></tr>
+    <tr><td>pypdf, python-docx</td><td class="n">6.21 / 1.2</td><td>Reading PDFs, writing the Word output</td><td><code>ingestion/</code>, <code>drafting/docx_out.py</code></td></tr>
+    <tr><td>pandas, pyarrow, boto3</td><td class="n">3.1 / 26.0</td><td>Reading AWS Open Data metadata, downloading judgments</td><td><code>docketpilot/ingestion/</code></td></tr>
+    <tr><td>tiktoken, matplotlib</td><td>—</td><td>Token counts and paper figures in the benchmark</td><td><code>docketpilot/evaluation/</code></td></tr>
+    <tr><td>Plain HTML + JavaScript</td><td>—</td><td>The whole browser app, one file, no build step</td><td><code>docketpilot/web/index.html</code></td></tr>
+    <tr><td>Docker Desktop / Compose</td><td>—</td><td>Runs the four databases</td><td><code>docker-compose.yml</code></td></tr>
+    <tr><td>ruff, mypy, pytest</td><td>—</td><td>Lint, type check, 242 tests</td><td><code>check.ps1</code>, <code>tests/</code></td></tr>
+    <tr><td>Git + GitHub</td><td class="n">2.53</td><td>Version control, private repository</td><td><code>.gitignore</code></td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="files">
+  <h2>File map</h2>
+  <p>Project root: <span class="path">D:\docket pilot\</span></p>
+<pre class="tree">docketpilot/
+  api/            main.py (app, logo, start-up clean-up) · auth.py (sign-in, sign-up, Google, password)
+                  assistant.py (chat router) · matters.py (cases, drafts, approval) · casefiles.py (filing, calendar)
+                  research.py (search, Acts, statutes, citation lookup) · deps.py · health.py
+  agents/         graph.py (LangGraph wiring, approval, finalize) · nodes.py (the seven agents)
+  chat.py         verified chat: masking, sources, tags, verify, auto-correct
+  casefile.py     case-number reader, date extraction, smart filing
+  llm/            groq_provider.py (token cap, rate-limit waits, multi-key failover) · base.py
+  retrieval/      search.py (all tiers) · index.py (Qdrant indexer, --gpu) · models.py (embeddings, reranker)
+  verification/   extract.py · engine.py · quotes.py · correct.py
+  privacy/        redact.py (recognisers + spaCy) · vault.py (Fernet)
+  knowledge/      statutes.py (35 Acts, aliases, as-on-date) · citations.py · parse.py · models.py
+  ingestion/      download.py (AWS Open Data) · load.py (texts, citations, statutes into PostgreSQL)
+  drafting/       templates.py (s.138 templates) · docx_out.py (Word file)
+  rules/          engine.py (s.138 deadlines and checklist)
+  evaluation/     run_all.py · fake_citations.py · pii.py · retrieval_latency.py · e2e.py
+                  benchmark_vs.py (vs baseline LLM) · comparison.py (report) · figures.py (paper charts)
+  web/            index.html (the app) · logo.png
+prompts/          chat_v1 · drafting_v1 · drafting_general_v1 · extraction_v1 · extraction_general_v1
+                  casefile_v1 · verification_judge_v1
+data/rules/       s138_deadlines.json · s138_elements.json · repealed_acts.json
+data/templates/   demand_notice_v1.txt · complaint_v1.txt
+data/raw/         downloaded judgments and India Code JSON (not on GitHub)
+migrations/       0001_foundations · 0002_knowledge · 0003_matters · 0004_general
+tests/            25 test files, 242 tests
+reports/          EVALUATION_REPORT.md · COMPARISON.md · benchmark_vs.json · comparison.json
+                  figures/fig1-fig4 (.png 600 dpi + .svg) · captions.md · dashboard/*.json
+docs/             SPEC.md · DECISIONS.md (decisions 1-33) · diagrams/ · phase0/DATA_REPORT.md
+vault/            encrypted name maps (not on GitHub)
+.env              keys and passwords (not on GitHub) · .env.example (blank template)
+start.ps1 · check.ps1 · docker-compose.yml · requirements.txt · constraints.txt · README.md · CLAUDE.md</pre>
+</section>
+
+<section id="data">
+  <h2>Knowledge base</h2>
+  <div class="tbl"><table><thead><tr><th>Source</th><th>What we took</th><th>Licence</th></tr></thead><tbody>
+    <tr><td>AWS Open Data: Indian Supreme Court judgments</td><td>Metadata 1950-2026 (citation existence checks); English full text 2015-2026</td><td>CC-BY-4.0</td></tr>
+    <tr><td>AWS Open Data: Indian High Court judgments</td><td>Kerala, Karnataka (Bengaluru), Telangana, Madras and Madurai benches, 2023-2024: 300 criminal + 500 civil / family / writ per bench per year</td><td>CC-BY-4.0</td></tr>
+    <tr><td>India Code (DSpace REST API)</td><td>35 Central Acts, 4,832 sections with amendment footnotes, e.g. BNS, BNSS, BSA, CPC, Contract, Specific Relief, Limitation, Hindu Marriage, DV, Consumer Protection, Arbitration, IBC, POCSO, NDPS, RERA</td><td>Government of India</td></tr>
+  </tbody></table></div>
+  <p>SCR headnotes are stored as a separate <code>headnote</code> segment and never used as evidence. Everything legal is marked <i>unverified</i>; no lawyer reviewed the data (decision 11).</p>
+</section>
+
+<section id="bench">
+  <h2>Benchmarks</h2>
+  <p>Measured on this build on 27-28 Oct 2026. Every comparison with a baseline uses the <b>same model</b> (gpt-oss-120b on Groq) on both sides, so the difference comes from DocketPilot's design. Raw rows: <span class="path">reports/benchmark_vs.json</span>, <span class="path">reports/evaluation.json</span>.</p>
+  <h3>Head-to-head with the same LLM</h3>
+  <div class="tbl"><table><thead><tr><th>Metric</th><th>DocketPilot</th><th>Baseline</th><th>Result</th><th>Method</th></tr></thead><tbody>
+    <tr><td>Cost per research answer</td><td class="n">$0.00285</td><td class="n">$0.02215</td><td class="win">87.2% cheaper</td><td>8 questions across practice areas. DocketPilot tokens counted from API responses including every verifier call; baseline reads the full text of the same judgments (o200k tokenizer), output assumed equal.</td></tr>
+    <tr><td>Document processing time</td><td class="n">3.0 s</td><td class="n">4.7 s</td><td class="win">35.9% faster</td><td>8 real High Court judgments: case number, parties, dated events. Fresh rate-limit window per run; throttled runs discarded.</td></tr>
+    <tr><td>Document processing cost</td><td class="n">$0.00070</td><td class="n">$0.00147</td><td class="win">52.1% cheaper</td><td>Same documents. DocketPilot sends the cause title plus date-bearing sentences only.</td></tr>
+    <tr><td>Case number read correctly</td><td class="n">87.5%</td><td class="n">87.5%</td><td>equal</td><td>Against the court's own metadata. DocketPilot reads it locally with no AI.</td></tr>
+    <tr><td>Fabricated citations</td><td class="n">0 of 27 (0%)</td><td class="n">7 of 125 (5.6%)</td><td class="win">none fabricated</td><td>Closed-book baseline asked to cite Indian judgments. Only SC neutral/SCR citations (formats the store covers completely) count as fabricated; 63 baseline citations in other formats were excluded as uncheckable.</td></tr>
+    <tr><td>Names sent to the AI</td><td class="n">0</td><td class="n">all</td><td class="win">masked</td><td>Baseline reads unmasked text.</td></tr>
+  </tbody></table></div>
+  <h3>Component benchmarks</h3>
+  <div class="tbl"><table><thead><tr><th>Benchmark</th><th>Result</th><th>Method</th></tr></thead><tbody>
+    <tr><td>Fake-citation detection</td><td class="n">recall 99.6% · precision 99.3% · F1 99.5%</td><td>756 fakes (wrong page, wrong year, swapped names, wrong court, invented, wrong proposition) + 156 real SC citations, seed 13</td></tr>
+    <tr><td>Retrieval (hybrid + rerank)</td><td class="n">R@1 80.6% · R@5 95.7% · MRR@10 0.861</td><td>93 SCR headnotes → the same judgment's body (s.138). Lexical R@5 88.2%, dense 87.1%, hybrid 93.5%</td></tr>
+    <tr><td>Privacy (held-out synthetic PII)</td><td class="n">recall 96.8% · leakage 3.2%</td><td>1,200 planted values; misses are mostly names without cues. Target &lt;1% not met; the advocate's preview step is the safeguard</td></tr>
+    <tr><td>Statute date logic</td><td class="n">18 / 18</td><td>Boundary checks around amendment dates (e.g. s.143A NI Act)</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="compare">
+  <h2>Comparison with other systems</h2>
+  <p>Figures for other systems are copied from their papers. Rows marked "same metric" use our definition, but the data differs; present them as context, not as a head-to-head result.</p>
+  <div class="tbl"><table><thead><tr><th>System</th><th>Metric</th><th>Theirs</th><th>DocketPilot</th><th>Comparable?</th></tr></thead><tbody>
+    <tr><td>LegalMind (DeepSeek R1), IEEE Access 2025</td><td>Cost reduction vs baseline AI</td><td class="n">42.6%</td><td class="n win">87.2%</td><td>Same metric; their baseline and tasks are not public</td></tr>
+    <tr><td>LegalMind</td><td>Document processing speed-up</td><td class="n">60.8%</td><td class="n lose">35.9%</td><td>Same metric; LegalMind is ahead</td></tr>
+    <tr><td>GPT-5 agentic checker (Liu et al., 2026)</td><td>Recall of citation errors</td><td class="n">84.4%</td><td class="n win">99.6%</td><td>Same metric; their 1,300 US brief excerpts are harder</td></tr>
+    <tr><td>GPT-5 agentic checker</td><td>F1 of citation-error detection</td><td class="n">55.0%</td><td class="n win">99.5%</td><td>Same metric; different data</td></tr>
+    <tr><td>Westlaw AI-Assisted Research (Magesh et al.)</td><td>Hallucination rate</td><td class="n">33%</td><td class="n win">0% fabricated</td><td>Human-graded, US law; different protocol</td></tr>
+    <tr><td>Lexis+ AI (Magesh et al.)</td><td>Hallucination rate</td><td class="n">17%</td><td class="n win">0% fabricated</td><td>As above</td></tr>
+    <tr><td>NAVEMBED (Hany et al., 2026)</td><td>Cost reduction vs whole-corpus injection</td><td class="n">67.5%</td><td class="n win">87.2%</td><td>Same baseline type as ours; US$0.611 vs US$1.881</td></tr>
+    <tr><td>NAVINDEX (Hany et al., 2026)</td><td>Cost reduction vs whole-corpus injection</td><td class="n">25%</td><td class="n win">87.2%</td><td>Same baseline type as ours (full documents in context)</td></tr>
+    <tr><td>Better Call GPT (Martin et al., 2024)</td><td>Cost reduction vs human contract review</td><td class="n">99.97%</td><td class="n">87.2% vs AI</td><td>Different baseline: human lawyers</td></tr>
+    <tr><td>Legal AI tools (Vals VLAIR, 2025)</td><td>Time saved vs lawyers</td><td class="n">83.3%-98.8%</td><td class="n">35.9% vs AI</td><td>Different baseline: lawyers (6x-80x faster)</td></tr>
+    <tr><td>Claude Code / Qwen3.6-27B / Gemini 2.5 Flash / GPT-OSS-120B / Qwen3-8B (Liu et al., 2026)</td><td>Recall / F1 of citation errors</td><td class="n">62.8/68.8 · 65/40 · 66.9/27 · 55.1/30.5 · 41.1/18.6</td><td class="n win">99.6 / 99.5</td><td>Same metric, different data; GPT-OSS-120B is DocketPilot's own model</td></tr>
+    <tr><td>GPT-3.5, closed book (Dahl et al., 2024)</td><td>Hallucination rate, legal queries</td><td class="n">69%</td><td class="n win">0% fabricated</td><td>Closed book on US federal cases; like our closed-book baseline (5.6%)</td></tr>
+    <tr><td>Llama 2, closed book (Dahl et al., 2024)</td><td>Hallucination rate, legal queries</td><td class="n">88%</td><td class="n win">0% fabricated</td><td>As above</td></tr>
+    <tr><td>Lexis+ AI / Westlaw / Ask Practical Law AI (Magesh et al.)</td><td>Accurate answers</td><td class="n">65% / 42% / 20%</td><td>not measured</td><td>Human-graded; DocketPilot accuracy not yet graded by lawyers</td></tr>
+    <tr><td>Harvey Assistant / CoCounsel (Vals VLAIR 2025)</td><td>Document Q&amp;A score (lawyers 70.1)</td><td class="n">94.8 / 89.6</td><td>not measured</td><td>Task accuracy vs lawyers; context only</td></tr>
+    <tr><td>Best of 21 LLMs, closed book (LegalCiteBench)</td><td>Citation retrieval score</td><td class="n">&lt; 7/100</td><td>—</td><td>Shows why closed-book models need verification</td></tr>
+    <tr><td>Falkor-IRAC (Indian judicial AI)</td><td>Graph-verified answers</td><td>qualitative</td><td>—</td><td>Closest Indian system; no comparable metric</td></tr>
+  </tbody></table></div>
+  <div class="note">Methodological caution (Ovcharov, 2026): a measured hallucination rate depends on how complete the reference store is. That is why DocketPilot counts only citation formats its store covers completely as fabricated, and reports the rest as uncheckable.</div>
+</section>
+
+<section id="figs">
+  <h2>Figures for the paper</h2>
+  <p>Files in <span class="path">reports/figures/</span> as 600 dpi PNG and SVG, sized for one IEEE column (3.5 in). Suggested captions: <span class="path">reports/figures/captions.md</span>. Regenerate with the commands below after re-running the benchmark.</p>
+  <figure class="fig"><img src="{{F:fig1a_cost_reduction}}" alt="Cost reduction vs an AI baseline: DocketPilot 87.2%, NAVEMBED 67.5%, LegalMind 42.6%, NAVINDEX 25%."><figcaption>Figure 1a · fig1a_cost_reduction.png</figcaption></figure>
+  <div class="method"><b class="mh">How this comparison was made</b><ul><li><b>Metric</b>: cost reduction = 1 - (system&#x27;s cost / its baseline&#x27;s cost), each against the baseline its own authors chose.</li><li><b>DocketPilot</b>: 8 legal research questions across practice areas (bail, divorce, specific performance, limitation, arbitration, maintenance, consumer, motor accident). DocketPilot retrieves 6 reranked judgment passages and up to 5 statute sections, answers, then checks every citation (including AI-judge calls). Every token was counted from Groq&#x27;s API responses and priced at the list price of gpt-oss-120b (US$0.15 per million input, US$0.60 per million output tokens). Baseline: the same model given the full text of the same judgments and the same statute sections; its input was counted with the o200k tokenizer and its output assumed equal to DocketPilot&#x27;s answer, which favours the baseline. Result: US$0.00285 vs US$0.02215 per answer.</li><li><b>LegalMind</b>: published figure (IEEE Access, 2025): an agentic framework built on a fine-tuned DeepSeek R1 with a structured legal dataset, reporting 42.6% cost reduction over baseline AI models. Not re-run by us; the abstract does not give its task set or baseline in detail.</li><li><b>NAVEMBED</b>: published figure, same paper as NAVINDEX (Hany et al., arXiv:2607.05764, 2026), run RUN-005: embedding retrieval with reranking instead of injecting the whole document corpus into the context; 15 questions; US$0.611 vs US$1.881 recorded dollar cost, i.e. 67.5% lower. Same type of baseline as DocketPilot.</li><li><b>NAVINDEX</b>: published figure (Hany et al., arXiv:2607.05764, 2026): transactional legal documents; the model navigates a compact structured index instead of having the whole document corpus injected into its context on every query. 25% lower dollar cost, with answers judged tied with full injection on all 18 document-bound questions. Same type of baseline as DocketPilot (whole documents in context).</li></ul></div><!--m-->
+  <figure class="fig"><img src="{{F:fig2a_citation_recall}}" alt="Recall of bad citations: DocketPilot 99.6% vs six agentic checkers from Liu et al. 2026 (GPT-5 84.4%, Gemini 2.5 Flash 66.9%, Qwen3.6-27B 65%, Claude Code 62.8%, GPT-OSS-120B 55.1%, Qwen3-8B 41.1%)."><figcaption>Figure 2a · fig2a_citation_recall.png</figcaption></figure>
+  <div class="method"><b class="mh">How this comparison was made</b><ul><li><b>Metric</b>: recall = share of wrong citations the system flags; precision = share of its flags that really are wrong; F1 = their harmonic mean. Same definitions for every bar.</li><li><b>DocketPilot</b>: 150 real Supreme Court of India cases; 756 wrong citations generated from them (wrong page, wrong year, swapped party names, wrong court, invented case, citation that does not support the stated proposition) mixed with 156 correct citations (seed 13). Each was run through DocketPilot&#x27;s verifier against its store of 48,168 cases. Recall 99.6%, precision 99.3%.</li><li><b>Claude Code, GPT-5, Qwen3.6-27B, GPT-OSS-120B, Gemini 2.5 Flash, Qwen3-8B</b>: published figures (Liu, Stammbach &amp; Henderson, arXiv:2606.21155, 2026, Table 2): excerpts of US legal briefs with injected citation errors drawn from a taxonomy of 1,000+ real court filings with fabricated citations; 390-example test set. Each model ran as a tool-using agent (up to 30 steps) that can look up case law; Claude Code used its own agent harness. Agentic results shown.</li><li><b>Same LLM</b>: GPT-OSS-120B is the model DocketPilot uses, so the gap between its bar and DocketPilot&#x27;s shows what the verification pipeline adds over the model alone.</li><li><b>Caveat</b>: same metric, different data: US briefs vs Indian Supreme Court citations; their errors include subtler types.</li></ul></div><!--m-->
+  <figure class="fig"><img src="{{F:fig2b_citation_f1}}" alt="F1 of citation checking: DocketPilot 99.5%, Claude Code 68.8%, GPT-5 55%, Qwen3.6-27B 40%, GPT-OSS-120B 30.5%, Gemini 2.5 Flash 27%, Qwen3-8B 18.6%."><figcaption>Figure 2b · fig2b_citation_f1.png</figcaption></figure>
+  <div class="method"><b class="mh">How this comparison was made</b><ul><li><b>Metric</b>: recall = share of wrong citations the system flags; precision = share of its flags that really are wrong; F1 = their harmonic mean. Same definitions for every bar.</li><li><b>DocketPilot</b>: 150 real Supreme Court of India cases; 756 wrong citations generated from them (wrong page, wrong year, swapped party names, wrong court, invented case, citation that does not support the stated proposition) mixed with 156 correct citations (seed 13). Each was run through DocketPilot&#x27;s verifier against its store of 48,168 cases. Recall 99.6%, precision 99.3%.</li><li><b>Claude Code, GPT-5, Qwen3.6-27B, GPT-OSS-120B, Gemini 2.5 Flash, Qwen3-8B</b>: published figures (Liu, Stammbach &amp; Henderson, arXiv:2606.21155, 2026, Table 2): excerpts of US legal briefs with injected citation errors drawn from a taxonomy of 1,000+ real court filings with fabricated citations; 390-example test set. Each model ran as a tool-using agent (up to 30 steps) that can look up case law; Claude Code used its own agent harness. Agentic results shown.</li><li><b>Same LLM</b>: GPT-OSS-120B is the model DocketPilot uses, so the gap between its bar and DocketPilot&#x27;s shows what the verification pipeline adds over the model alone.</li><li><b>Caveat</b>: same metric, different data: US briefs vs Indian Supreme Court citations; their errors include subtler types.</li></ul></div><!--m-->
+  <figure class="fig"><img src="{{F:fig3_hallucination}}" alt="Unreliable citations: DocketPilot 0%, same LLM closed book 5.6%, Lexis+ AI 17%, Westlaw 33%, GPT-3.5 69%, Llama 2 88%."><figcaption>Figure 3 · fig3_hallucination.png</figcaption></figure>
+  <div class="method"><b class="mh">How this comparison was made</b><ul><li><b>Metric</b>: share of citations (or answers) a lawyer cannot rely on: fabricated, or not supported by the cited source.</li><li><b>DocketPilot</b>: the same 8 research questions as Fig. 1a; its released answers contained 27 citations. Every citation was checked for existence against a store holding every Supreme Court judgment 1950-2026 (neutral and SCR citations). 0 fabricated.</li><li><b>Same LLM, closed book</b>: gpt-oss-120b asked the same 8 questions and told to cite Indian judgments, with no retrieval; 125 citations, same check. 7 fabricated (5.6%); 63 citations in formats the store does not fully cover (SCC, AIR, High Court reporters) were excluded as uncheckable rather than counted as fabricated.</li><li><b>Lexis+ AI, Westlaw AI-Assisted Research</b>: published figures (Magesh et al., Journal of Empirical Legal Studies, 2025): 200+ preregistered US legal research queries; answers graded by people; a hallucination is an answer that is wrong or cites a source that does not support it. 17% and 33%.</li><li><b>GPT-3.5, Llama 2</b>: published figures (Dahl et al., Journal of Legal Analysis, 2024): closed-book questions with verifiable answers about randomly sampled US federal court cases, checked against court metadata. 69% and 88%.</li><li><b>Caveat</b>: different protocols and jurisdictions; DocketPilot&#x27;s check is automatic existence checking, the Stanford studies used human grading or ground-truth metadata.</li></ul></div><!--m-->
+  <figure class="fig"><img src="{{F:fig4_cost}}" alt="US$ per 1,000 research answers: long-context LLM 22.15, DocketPilot 2.85."><figcaption>Figure 4 · fig4_cost.png</figcaption></figure>
+  <div class="method"><b class="mh">How this comparison was made</b><ul><li><b>Metric</b>: US dollars per 1,000 research answers at Groq list price for gpt-oss-120b.</li><li><b>Both bars</b>: the same 8 questions and token accounting as Fig. 1a; DocketPilot includes every verification call.</li></ul></div><!--m-->
+</section>
+
+<section id="run">
+  <h2>Commands</h2>
+  <p>Run from <span class="path">D:\docket pilot</span> in PowerShell, with Docker Desktop open.</p>
+  <h3>Use the app</h3>
+  <div class="cmd"><code>powershell -ExecutionPolicy Bypass -File .\start.ps1</code><button type="button">Copy</button></div>
+  <h3>Checks and benchmarks</h3>
+  <div class="cmd"><code>.\check.ps1</code><button type="button">Copy</button></div>
+  <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.evaluation.run_all --e2e</code><button type="button">Copy</button></div>
+  <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.evaluation.benchmark_vs --n-docs 8 --n-questions 8</code><button type="button">Copy</button></div>
+  <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.evaluation.comparison</code><button type="button">Copy</button></div>
+  <div class="cmd"><code>.\.venv-gpu\Scripts\python.exe -m docketpilot.evaluation.figures</code><button type="button">Copy</button></div>
+  <h3>Rebuild the knowledge base</h3>
+  <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.ingestion.download --sc-from 2015</code><button type="button">Copy</button></div>
+  <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.ingestion.load</code><button type="button">Copy</button></div>
+  <div class="cmd"><code>.\.venv-gpu\Scripts\python.exe -m docketpilot.retrieval.index --gpu --scope all --collection chunks_all</code><button type="button">Copy</button></div>
+  <h3>Save to GitHub</h3>
+  <div class="cmd"><code>git add -A; git commit -m "describe the change"; git push</code><button type="button">Copy</button></div>
+</section>
+
+<section id="limits">
+  <h2>Limitations and future work</h2>
+  <ul>
+    <li>No lawyer reviewed the legal data, rules or templates; all marked unverified.</li>
+    <li>Held-out PII leakage is 3.2% against a 1% target; the advocate's preview is the safeguard.</li>
+    <li>Benchmarks are small (8 questions, 8 judgments) because of the Groq free tier (8,000 tokens/minute, 200,000/day per key).</li>
+    <li>Coverage: SC full text 2015-2026 and five HC benches 2023-2024; IPC, CrPC and the old Evidence Act are absent from India Code's API.</li>
+    <li>No OCR for scanned papers; Word output only.</li>
+    <li>Database is not encrypted at rest; no HTTPS until hosted (planned: Oracle Cloud Always Free with Docker Compose).</li>
+    <li>Strategy advice never predicts outcomes.</li>
+  </ul>
+</section>
+
+<section id="refs">
+  <h2>References</h2>
+  <ol style="font-size:13.5px">
+    <li>LegalMind: Agentic AI-Driven Process Optimization and Cost Reduction in Legal Services Using DeepSeek. <i>IEEE Access</i>, 2025. DOI 10.1109/ACCESS.2025.3586781.</li>
+    <li>V. Magesh, F. Surani, M. Dahl, M. Suzgun, C. D. Manning, D. E. Ho. Hallucination-Free? Assessing the Reliability of Leading AI Legal Research Tools. arXiv:2405.20362, 2024.</li>
+    <li>M. Dahl, V. Magesh, M. Suzgun, D. E. Ho. Large Legal Fictions: Profiling Legal Hallucinations in Large Language Models. <i>Journal of Legal Analysis</i> 16, 2024. arXiv:2401.01301.</li>
+    <li>Vals AI. Vals Legal AI Report (VLAIR), 27 February 2025.</li>
+    <li>M. Hany, M. ElSheraey, M. Said, P. Naoum. Inject or Navigate? Token-Efficient Retrieval for LLM Analysis of Transactional Legal Documents. arXiv:2607.05764, 2026.</li>
+    <li>L. Martin et al. Better Call GPT: Comparing Large Language Models Against Lawyers. arXiv:2401.16212, 2024.</li>
+    <li>P. Liu, D. Stammbach, P. Henderson. Who Checks the Citations? Benchmarking Legal Hallucination Detection. arXiv:2606.21155, 2026.</li>
+    <li>S. Chen, H. Yin, S. Zhou. LegalCiteBench: Evaluating Citation Reliability in Legal Language Models. arXiv:2605.10186 (ICML 2026).</li>
+    <li>V. Ovcharov. Citation Grounding Measures the Oracle: Graph Coverage Determines Reported LLM Hallucination Rates in Law. arXiv:2606.00898, 2026.</li>
+    <li>J. Bose. Falkor-IRAC: Graph-Constrained Generation for Verified Legal Reasoning in Indian Judicial AI. arXiv:2605.14665, 2026.</li>
+    <li>Indian Supreme Court and High Court Judgments, AWS Open Data Registry (CC-BY-4.0). India Code, Legislative Department, Government of India.</li>
+  </ol>
+</section>
+</main>
+</div>
+<script>
+document.querySelectorAll(".cmd button").forEach(b => b.addEventListener("click", () => {
+  const t = b.previousElementSibling.textContent;
+  const done = () => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1500); };
+  if (navigator.clipboard) navigator.clipboard.writeText(t).then(done).catch(() => { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); getSelection().removeAllRanges(); getSelection().addRange(r); });
+}));
+</script>
+</body></html>

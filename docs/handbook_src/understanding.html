@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DocketPilot Project Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a guided tour of the project folder. Green spine for contents, white pages, gold for "where to point". */
+:root{--bg:#f3f5f2;--page:#fff;--ink:#14231d;--ink2:#3e4c46;--mute:#6c7973;--rule:#dde3df;--spine:#123c33;--spine-ink:#d9e7e1;
+  --gold:#a97c1c;--gold-soft:#f6eed9;--seal:#b4440f;--code:#eef2ef;--blue:#2a6fc0;--blue-soft:#e8f0fa;
+  --display:"Cinzel",Georgia,serif;--sans:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1714;--page:#13201c;--ink:#e7eee9;--ink2:#bccbc4;--mute:#8d9d96;--rule:#263732;
+  --spine:#0a2a23;--gold:#e0b45a;--gold-soft:#2b2615;--seal:#ef7a45;--code:#1a2a25;--blue:#7fb0ea;--blue-soft:#16263a;color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans)}
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);max-width:1260px;margin:0 auto}
+nav{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;background:var(--spine);color:var(--spine-ink);padding:22px 18px;font-size:13px}
+nav img{width:60px;height:60px;border-radius:50%;display:block;margin-bottom:8px}
+nav b.t{font:700 18px var(--display);color:#fff;display:block;letter-spacing:.04em}
+nav a{display:block;color:var(--spine-ink);text-decoration:none;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+nav a:hover{color:#fff}
+main{background:var(--page);padding:34px max(16px,3vw) 70px;min-width:0}
+section{max-width:940px;margin:0 auto 46px}
+h1{font:700 clamp(26px,4vw,38px)/1.15 var(--display);margin:0 0 8px}
+h2{font:700 21px/1.3 var(--display);margin:0 0 8px;padding-top:8px;border-top:3px solid var(--spine)}
+h3{font-size:16px;margin:24px 0 6px}
+p,li{color:var(--ink2);max-width:75ch}
+code,.p{font:13px var(--mono);background:var(--code);padding:1px 5px;border-radius:3px;color:var(--ink);word-break:break-word}
+.tbl{overflow-x:auto;margin:10px 0 16px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--rule)}
+th{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);font-weight:600}
+td:first-child{white-space:nowrap}
+.where{border-left:4px solid var(--gold);background:var(--gold-soft);padding:10px 14px;margin:12px 0;color:var(--ink)}
+.plain{border-left:4px solid var(--blue);background:var(--blue-soft);padding:10px 14px;margin:12px 0;color:var(--ink)}
+.folder{border:1px solid var(--rule);margin:18px 0;padding:14px 16px;background:var(--page)}
+.folder h3{margin:0 0 4px;font:600 16px var(--mono)} .folder .what{margin:0 0 8px;color:var(--ink)}
+.layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:14px 0}
+.layer{border:1px solid var(--rule);border-top:3px solid var(--gold);padding:10px 12px}
+.layer b{display:block} .layer span{font-size:13px;color:var(--mute)}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding:6px 0 6px 38px;border-bottom:1px dashed var(--rule)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--spine);color:#fff;font:600 13px/26px var(--sans);text-align:center}
+details.qa{border:1px solid var(--rule);margin:8px 0;padding:8px 12px;background:var(--page)}
+details.qa summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details.qa p{margin:8px 0 2px}
+@media (max-width:860px){.wrap{grid-template-columns:1fr} nav{position:static;max-height:none} td:first-child{white-space:normal}}
+</style></head><body>
+<div class="wrap">
+<nav aria-label="Contents">
+  <img src="{{LOGO}}" alt="DocketPilot emblem"><b class="t">DocketPilot</b>
+  <div style="font-size:12px;opacity:.8;margin-bottom:12px">Project guide for beginners</div>
+  <a href="#minute">1. The project in one minute</a>
+  <a href="#layers">2. The parts, like an office</a>
+  <a href="#storage">3. Where everything is stored</a>
+  <a href="#root">4. Files in the main folder</a>
+  <a href="#code">5. The code folder, file by file</a>
+  <a href="#other">6. The other folders</a>
+  <a href="#db">7. The database tables</a>
+  <a href="#journeys">8. Follow one request</a>
+  <a href="#tools">9. The tools, in plain words</a>
+  <a href="#qa">10. Examiner questions</a>
+  <a href="#words">11. Words to know</a>
+</nav>
+<main>
+
+<section id="minute">
+  <h1>DocketPilot project guide</h1>
+  <p style="color:var(--gold);font-style:italic">An Agentic AI System for Indian Legal Research, Drafting, Anti-Hallucination Verification and Case Management</p>
+  <div class="plain"><b>In one sentence:</b> DocketPilot is a web app where a lawyer uploads case papers or asks a question, and a team of AI "agents" finds the right Acts and judgments, writes the answer or draft, and <b>checks every citation against real judgments</b> before the lawyer sees it, while hiding client names from the AI.</div>
+  <p>The whole project lives in one folder on the laptop: <code>D:\docket pilot\</code>. A copy of the code (not the data or secrets) is on GitHub: <code>github.com/srigaran2020/DocketPilot</code>.</p>
+  <p>Three things run when the app is on:</p>
+  <ol>
+    <li><b>Docker Desktop</b> runs four storage programs (databases) in the background.</li>
+    <li><b>The DocketPilot server</b> (Python) runs the web app at <code>http://127.0.0.1:8000</code>. Started by <code>start.ps1</code>.</li>
+    <li><b>Groq</b>, a cloud AI service on the internet, answers when DocketPilot asks it to read or write. It only ever receives masked text.</li>
+  </ol>
+</section>
+
+<section id="layers">
+  <h2>2. The parts, like an office</h2>
+  <p>Think of DocketPilot as a small law office. Each part of the office is one folder of code.</p>
+  <div class="layers">
+    <div class="layer"><b>Reception (the screen)</b><span>What the lawyer sees and clicks. <code>docketpilot/web/</code></span></div>
+    <div class="layer"><b>Front desk (the server)</b><span>Takes each request and sends it to the right person. <code>docketpilot/api/</code></span></div>
+    <div class="layer"><b>Privacy officer</b><span>Hides client names before anything leaves. <code>docketpilot/privacy/</code></span></div>
+    <div class="layer"><b>The team of agents</b><span>Seven workers who read, research, draft, check and plan. <code>docketpilot/agents/</code></span></div>
+    <div class="layer"><b>Library</b><span>Judgments and Acts, and the search over them. <code>docketpilot/knowledge/</code>, <code>retrieval/</code></span></div>
+    <div class="layer"><b>Fact-checker</b><span>Checks every citation; fixes or removes wrong ones. <code>docketpilot/verification/</code></span></div>
+    <div class="layer"><b>Phone line to the AI</b><span>Talks to Groq's AI model. <code>docketpilot/llm/</code></span></div>
+    <div class="layer"><b>Filing cabinet</b><span>PostgreSQL and Qdrant databases (in Docker).</span></div>
+    <div class="layer"><b>Locked safe</b><span>Real client names, encrypted. <code>vault/</code></span></div>
+  </div>
+</section>
+
+<section id="storage">
+  <h2>3. Where everything is stored</h2>
+  <p>The most common examiner question is "where is X?". This table answers it.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>What</th><th>Where it is stored</th><th>How to show it</th></tr></thead>
+    <tbody>
+      <tr><td><b>Knowledge base: judgments</b> (16,318 with full text, 48,168 cases in total)</td><td>PostgreSQL database, tables <code>cases</code>, <code>chunks</code>, <code>case_citations</code>. The database files live inside Docker in a storage volume named <code>docketpilot_pgdata</code>.</td><td>Docker Desktop → Volumes → <code>docketpilot_pgdata</code>. Or Research page → search judgments.</td></tr>
+      <tr><td><b>Knowledge base: Acts</b> (35 Central Acts, 4,832 sections)</td><td>PostgreSQL tables <code>acts</code>, <code>section_versions</code>, <code>amendments</code> (same volume).</td><td>Research page → "Find the section".</td></tr>
+      <tr><td><b>Search index</b> (372,122 passages as number lists, "vectors")</td><td>Qdrant database inside Docker, collection <code>chunks_all</code>, volume <code>docketpilot_qdrantdata</code>.</td><td>With the app running, open <code>http://127.0.0.1:6333/dashboard</code>.</td></tr>
+      <tr><td><b>Original downloaded judgments</b> (PDFs and their text)</td><td>On the laptop: <code>data\raw\sc_pdf\</code> (Supreme Court) and <code>data\raw\hc_pdf\</code> (High Courts). Not on GitHub (too big).</td><td>Open the folder in File Explorer.</td></tr>
+      <tr><td><b>Original downloaded Acts</b></td><td><code>data\raw\india_code\</code>, one JSON file per Act from India Code.</td><td>File Explorer.</td></tr>
+      <tr><td><b>Rules</b> (deadlines, cheque-bounce ingredients, repealed laws)</td><td><code>data\rules\</code> (3 JSON files)</td><td>Open in VS Code.</td></tr>
+      <tr><td><b>Draft templates</b> (cheque-bounce notice and complaint)</td><td><code>data\templates\</code></td><td>Open in VS Code.</td></tr>
+      <tr><td><b>Lawyers' cases, uploaded papers</b> (masked text only), drafts, calendar</td><td>PostgreSQL tables <code>matters</code>, <code>matter_documents</code>, <code>drafts</code>, <code>reminders</code>.</td><td>Cases page and Calendar page in the app.</td></tr>
+      <tr><td><b>Real client names</b></td><td><code>vault\</code>: one encrypted file per case (<code>&lt;case id&gt;.vault</code>). Unreadable without the key.</td><td>File Explorer (files look like random characters, which proves the encryption).</td></tr>
+      <tr><td><b>Approved Word drafts</b></td><td><code>data\outputs\&lt;case id&gt;\&lt;draft id&gt;.docx</code></td><td>File Explorer, or "Download .docx" in the app.</td></tr>
+      <tr><td><b>User accounts</b> (email, hashed password)</td><td>PostgreSQL tables <code>users</code>, <code>firms</code>. Passwords are stored only as Argon2 hashes, never as plain text.</td><td>Sign-in page.</td></tr>
+      <tr><td><b>Audit log</b> (who did what, when)</td><td>PostgreSQL table <code>audit_log</code>; the database refuses edits or deletes on it.</td><td>—</td></tr>
+      <tr><td><b>Agent progress</b> (each step of a draft)</td><td>PostgreSQL tables created by LangGraph (<code>checkpoints</code> and related).</td><td>Draft page shows the steps.</td></tr>
+      <tr><td><b>Secrets</b> (4 Groq keys, database password, encryption key)</td><td><code>.env</code> in the main folder. Never uploaded to GitHub. <code>.env.example</code> shows the names with blank values.</td><td>Open <code>.env.example</code> (never show <code>.env</code> itself).</td></tr>
+      <tr><td><b>Chat history</b></td><td>In the user's own browser (localStorage), not on the server. Cleared on sign-out.</td><td>—</td></tr>
+      <tr><td><b>The AI model</b> (gpt-oss-120b)</td><td>Not on the laptop. It runs on Groq's servers on the internet.</td><td><code>docketpilot\llm\groq_provider.py</code></td></tr>
+      <tr><td><b>Search models</b> (embeddings, reranker)</td><td>Downloaded once by fastembed into its cache in the Windows temp folder; run on the laptop.</td><td><code>docketpilot\retrieval\models.py</code></td></tr>
+      <tr><td><b>Benchmark results and charts</b></td><td><code>reports\</code> (results) and <code>reports\figures\</code> (charts).</td><td>Open <code>reports\COMPARISON.md</code>.</td></tr>
+      <tr><td><b>Server log</b></td><td><code>data\server.log</code>, <code>data\server.err.log</code></td><td>—</td></tr>
+    </tbody></table></div>
+  <div class="where"><b>Short answer for "where is the knowledge base?":</b> "In a PostgreSQL database running in Docker (tables <code>cases</code>, <code>chunks</code>, <code>acts</code>, <code>section_versions</code>), with a vector search index in Qdrant (collection <code>chunks_all</code>). The original PDFs it was built from are in <code>data\raw\</code>. The code that builds it is <code>docketpilot\ingestion\</code>, and the code that searches it is <code>docketpilot\retrieval\search.py</code>."</div>
+</section>
+
+<section id="docker">
+  <h2>Docker: containers, volumes and files</h2>
+  <div class="plain"><b>Docker in one line:</b> Docker runs ready-made programs (here, four databases) inside sealed boxes called <b>containers</b>, so nothing has to be installed on Windows by hand. Each container keeps its data in a <b>volume</b>, a storage area Docker manages. Stopping or deleting a container does not delete its volume, so the data survives.</div>
+  <p>DocketPilot needs <b>Docker Desktop</b> to be running. The DocketPilot server itself does not run inside Docker; it runs from Python on the laptop (<code>.venv</code>) and talks to the containers through ports on <code>127.0.0.1</code> (this computer only).</p>
+
+  <h3>The Docker files in the project</h3>
+  <div class="tbl"><table><thead><tr><th>File</th><th>What it does</th><th>Used when</th></tr></thead><tbody>
+    <tr><td><code>docker-compose.yml</code></td><td>The main Docker file. Lists the four containers, which ready-made image each uses, its port, and its volume. The project name inside it is <code>docketpilot</code>, which is why every container and volume name starts with <code>docketpilot</code>.</td><td>Every start (<code>start.ps1</code> runs <code>docker compose up -d</code>).</td></tr>
+    <tr><td><code>infra\postgres\init\01-test-db.sql</code></td><td>A one-line SQL script that creates a second, separate database <code>docketpilot_test</code> for the automated tests, so tests never touch real data. Docker runs it only once, the very first time the PostgreSQL volume is created.</td><td>First ever start.</td></tr>
+    <tr><td><code>Dockerfile</code></td><td>Recipe to package the DocketPilot server itself into a container (Python 3.11, install libraries, copy code, run as a non-admin user). Not used day to day; kept ready for hosting on a cloud server.</td><td>Only for hosting: <code>docker compose --profile container up -d --build</code></td></tr>
+    <tr><td><code>.dockerignore</code></td><td>Tells Docker what to leave out when packaging the server: secrets (<code>.env</code>), data, tests, docs, caches.</td><td>With the <code>Dockerfile</code>.</td></tr>
+    <tr><td><code>start.ps1</code></td><td>Starts the four containers, waits until PostgreSQL is ready, updates the database tables, then starts the server.</td><td>Every start.</td></tr>
+    <tr><td><code>.env</code></td><td>Supplies the database password and storage keys that <code>docker-compose.yml</code> reads (written there as <code>${POSTGRES_PASSWORD}</code>).</td><td>Every start.</td></tr>
+  </tbody></table></div>
+
+  <h3>The four containers</h3>
+  <div class="tbl"><table><thead><tr><th>Container name</th><th>Program and version</th><th>Port</th><th>What DocketPilot uses it for</th></tr></thead><tbody>
+    <tr><td><code>docketpilot-postgres-1</code></td><td>PostgreSQL 16.6</td><td><code>5432</code></td><td>The main database: all judgments, Acts, passages, cases, drafts, calendar, users, audit log. The most important container.</td></tr>
+    <tr><td><code>docketpilot-qdrant-1</code></td><td>Qdrant 1.12.5</td><td><code>6333</code></td><td>Meaning-based (vector) search over 372,122 passages, collection <code>chunks_all</code>. Has a web dashboard at <code>http://127.0.0.1:6333/dashboard</code>.</td></tr>
+    <tr><td><code>docketpilot-redis-1</code></td><td>Redis 7.4.1</td><td><code>6379</code></td><td>Fast temporary storage, kept ready for caching and job queues. Checked by <code>/health</code>; not essential yet.</td></tr>
+    <tr><td><code>docketpilot-objectstore-1</code></td><td>SeaweedFS 3.80 (works like Amazon S3)</td><td><code>8333</code></td><td>File storage kept ready for storing documents when hosted. Not essential yet. (Replaced MinIO, whose free images stopped being published.)</td></tr>
+  </tbody></table></div>
+  <p>All ports listen on <code>127.0.0.1</code> only, so no other computer on the network can reach the databases.</p>
+
+  <h3>The four volumes (where the data really is)</h3>
+  <div class="tbl"><table><thead><tr><th>Volume name</th><th>Belongs to</th><th>Folder inside the container</th><th>What is in it</th></tr></thead><tbody>
+    <tr><td><code>docketpilot_pgdata</code></td><td>PostgreSQL</td><td><code>/var/lib/postgresql/data</code></td><td><b>The knowledge base</b> (judgments, Acts, passages, citations) and all app data (cases, masked papers, drafts, calendar, users, audit log, agent progress), plus the test database. About 2-3 GB.</td></tr>
+    <tr><td><code>docketpilot_qdrantdata</code></td><td>Qdrant</td><td><code>/qdrant/storage</code></td><td><b>The search index</b>: 372,122 passage vectors (collections <code>chunks_all</code>, and the older cheque-bounce-only <code>chunks</code>).</td></tr>
+    <tr><td><code>docketpilot_redisdata</code></td><td>Redis</td><td><code>/data</code></td><td>Redis's save file; almost empty.</td></tr>
+    <tr><td><code>docketpilot_objectdata</code></td><td>SeaweedFS</td><td><code>/data</code></td><td>Stored files; almost empty.</td></tr>
+  </tbody></table></div>
+  <div class="where"><b>Where are the volumes on the laptop?</b> Docker Desktop on Windows keeps all volumes inside its own virtual Linux disk (WSL 2), a single large file under <code>C:\Users\&lt;you&gt;\AppData\Local\Docker\wsl\</code>. They are not normal Windows folders, so you cannot open them in File Explorer. To see them, use <b>Docker Desktop → Volumes</b>, click a volume (e.g. <code>docketpilot_pgdata</code>) and open its <b>Stored data</b> or <b>Data</b> tab, which lists the files and their sizes.</div>
+
+  <h3>How to show Docker to an examiner (app running)</h3>
+  <ol class="steps">
+    <li>Open <b>Docker Desktop → Containers</b>: the group <code>docketpilot</code> with four green (running) containers.</li>
+    <li>Click <code>docketpilot-postgres-1</code> → <b>Logs</b> to show the database working, or <b>Exec</b> to open a terminal inside it.</li>
+    <li>Open <b>Volumes</b>: the four <code>docketpilot_…</code> volumes with their sizes. <code>docketpilot_pgdata</code> is the knowledge base.</li>
+    <li>Open <code>http://127.0.0.1:6333/dashboard</code> in a browser: the Qdrant search index, collection <code>chunks_all</code>.</li>
+    <li>Open <code>http://127.0.0.1:8000/health</code>: the server reports all four storage services as <code>ok</code>.</li>
+  </ol>
+
+  <h3>Useful Docker commands (PowerShell, in the project folder)</h3>
+  <div class="tbl"><table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><code>docker ps</code></td><td>Lists running containers.</td></tr>
+    <tr><td><code>docker compose up -d postgres qdrant redis objectstore</code></td><td>Starts the four containers (what <code>start.ps1</code> does).</td></tr>
+    <tr><td><code>docker compose stop</code></td><td>Stops them. Data is kept.</td></tr>
+    <tr><td><code>docker volume ls</code></td><td>Lists the volumes.</td></tr>
+    <tr><td><code>docker compose exec postgres psql -U docketpilot -d docketpilot -c "select count(*) from cases"</code></td><td>Asks the database a question directly, e.g. how many cases it holds.</td></tr>
+    <tr><td><code>docker compose exec postgres pg_dump -U docketpilot docketpilot &gt; backup.sql</code></td><td>Makes a backup copy of the whole database.</td></tr>
+    <tr><td><code>docker compose down -v</code></td><td><b>Danger:</b> deletes the containers <b>and their volumes</b>, which erases the knowledge base. Never run this unless you mean to rebuild everything.</td></tr>
+  </tbody></table></div>
+  <div class="where"><b>Short answer for "what is Docker doing here?":</b> "Docker runs our four storage services (PostgreSQL, Qdrant, Redis, SeaweedFS) as containers defined in <code>docker-compose.yml</code>. Their data is kept in Docker volumes; the knowledge base is in the <code>docketpilot_pgdata</code> volume and the search index in <code>docketpilot_qdrantdata</code>. The DocketPilot server runs outside Docker and connects to them on 127.0.0.1."</div>
+</section>
+
+<section id="root">
+  <h2>4. Files in the main folder</h2>
+  <div class="tbl"><table><thead><tr><th>File</th><th>What it is for</th></tr></thead><tbody>
+    <tr><td><code>start.ps1</code></td><td>The one command that starts everything: databases (Docker), database updates, then the web server.</td></tr>
+    <tr><td><code>check.ps1</code></td><td>Runs the quality checks: style (ruff), type checks (mypy) and the 242 automated tests (pytest).</td></tr>
+    <tr><td><code>docker-compose.yml</code></td><td>The recipe telling Docker which four databases to run (PostgreSQL, Qdrant, Redis, SeaweedFS) and where to keep their data.</td></tr>
+    <tr><td><code>Dockerfile</code></td><td>Recipe to package the server itself into Docker (kept for future hosting; not used day to day).</td></tr>
+    <tr><td><code>.env</code></td><td>Secrets: Groq keys, passwords, encryption key. Local only.</td></tr>
+    <tr><td><code>.env.example</code></td><td>Template of <code>.env</code> with blank values, safe to share.</td></tr>
+    <tr><td><code>.gitignore</code></td><td>List of things Git must never upload (secrets, client data, downloads, libraries).</td></tr>
+    <tr><td><code>.dockerignore</code></td><td>Same idea for Docker packaging.</td></tr>
+    <tr><td><code>requirements.txt</code></td><td>List of Python libraries the app needs, with exact versions.</td></tr>
+    <tr><td><code>constraints.txt</code></td><td>Full locked list of every library version, so installs are repeatable.</td></tr>
+    <tr><td><code>requirements-dev.txt</code></td><td>Extra libraries only for testing and checking.</td></tr>
+    <tr><td><code>pyproject.toml</code></td><td>Settings for the checking tools (line length, test options).</td></tr>
+    <tr><td><code>alembic.ini</code></td><td>Settings for Alembic, the tool that creates and updates database tables.</td></tr>
+    <tr><td><code>README.md</code></td><td>How to start, use and rebuild the project.</td></tr>
+    <tr><td><code>CLAUDE.md</code></td><td>Working rules for the AI coding assistant used to build the project.</td></tr>
+    <tr><td><code>.venv\</code>, <code>.venv-gpu\</code></td><td>Installed Python libraries (main app; and a separate one for GPU indexing and charts). Rebuilt from the requirements files; not on GitHub.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="code">
+  <h2>5. The code folder, file by file</h2>
+  <p>All the application code is in <code>docketpilot\</code>. Each sub-folder is one part of the "office".</p>
+
+  <div class="folder"><h3>docketpilot\web\</h3><p class="what">The screen. Everything the lawyer sees.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>index.html</code></td><td>The entire web app in one file: sign-in, dashboard, chat, cases, calendar, research, drafts, guide. Plain HTML and JavaScript; no build step.</td><td>Served by <code>api/main.py</code></td></tr>
+      <tr><td><code>logo.png</code></td><td>The round emblem, also the browser-tab icon.</td><td><code>index.html</code></td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\api\</h3><p class="what">The front desk. Each file is a group of web addresses ("endpoints") the screen calls.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>main.py</code></td><td>Starts the server, connects all endpoint groups, serves the web page and logo, cleans up drafts interrupted by a restart.</td><td>Run by <code>start.ps1</code></td></tr>
+      <tr><td><code>auth.py</code></td><td>Sign-in, create account, Google sign-in, staying signed in, change password, blocking repeated wrong passwords.</td><td>Sign-in page, account page</td></tr>
+      <tr><td><code>deps.py</code></td><td>Shared helpers: "who is signed in?", "is this person allowed?".</td><td>All endpoints</td></tr>
+      <tr><td><code>assistant.py</code></td><td>The chat ("Ask DocketPilot"). Reads the message and routes it: question, draft, verify, dates, reminder, similar cases, strategy.</td><td>Chat page</td></tr>
+      <tr><td><code>casefiles.py</code></td><td>Uploading papers, filing them into the right case, cases list, calendar and reminders.</td><td>Cases, Calendar, chat 📎</td></tr>
+      <tr><td><code>matters.py</code></td><td>Case files, drafts (start, view, edit, approve, download Word), dashboard numbers.</td><td>Case page, draft page, dashboard</td></tr>
+      <tr><td><code>research.py</code></td><td>Search judgments, list Acts, find a section by topic, section "as on a date", citation look-up, check a document.</td><td>Research page, Check a document</td></tr>
+      <tr><td><code>health.py</code></td><td>"Are all databases up?" check at <code>/health</code>.</td><td>Monitoring</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\agents\</h3><p class="what">The team of seven AI agents, built with LangGraph.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>graph.py</code></td><td>Connects the agents in order, pauses for the lawyer's approval, then writes the Word file with real names.</td><td>Started by <code>api/matters.py</code></td></tr>
+      <tr><td><code>nodes.py</code></td><td>The seven agents themselves: Orchestrator, Document analysis, Research, Drafting, Verification, Strategy &amp; risk, Monitoring.</td><td><code>graph.py</code></td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\chat.py and casefile.py</h3><p class="what">Two important single files at the top of the code folder.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>chat.py</code></td><td>How a chat answer is made: mask names → find judgments and sections → ask the AI → turn source tags into real citations → check and fix every citation → put names back.</td><td><code>api/assistant.py</code></td></tr>
+      <tr><td><code>casefile.py</code></td><td>Reads the case number from a paper (on the laptop, no AI), files the paper into the right case, extracts every hearing date onto the calendar.</td><td><code>api/casefiles.py</code></td></tr>
+      <tr><td><code>config.py</code></td><td>Reads all settings from <code>.env</code>.</td><td>Everywhere</td></tr>
+      <tr><td><code>db.py</code>, <code>models.py</code></td><td>Database connection, and the account tables (firms, users, audit log).</td><td><code>api/</code></td></tr>
+      <tr><td><code>security.py</code></td><td>Password hashing (Argon2) and sign-in tokens (JWT).</td><td><code>api/auth.py</code></td></tr>
+      <tr><td><code>audit.py</code></td><td>Writes the audit log.</td><td><code>api/</code></td></tr>
+      <tr><td><code>cli.py</code></td><td>Command-line tool, e.g. create an admin account.</td><td>Run by hand</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\privacy\</h3><p class="what">The privacy officer.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>redact.py</code></td><td>Finds names, Aadhaar, PAN, phone, bank account, IFSC, vehicle numbers and addresses, and replaces them with placeholders like PERSON_1.</td><td>Uploads, chat, drafts</td></tr>
+      <tr><td><code>vault.py</code></td><td>Saves the placeholder → real name list for each case, encrypted, in <code>vault\</code>.</td><td>Uploads, final Word file</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\knowledge\ and ingestion\</h3><p class="what">Building the library (run once, or when adding more judgments).</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>ingestion\download.py</code></td><td>Downloads judgment PDFs from the free AWS Open Data collections and extracts their text into <code>data\raw\</code>.</td><td>Run by hand</td></tr>
+      <tr><td><code>ingestion\load.py</code></td><td>Loads judgments, citations and the 35 Acts into PostgreSQL.</td><td>Run by hand</td></tr>
+      <tr><td><code>knowledge\statutes.py</code></td><td>The list of 35 Acts, their short names (BNS, CPC, HMA…), fetching them from India Code, and "law as on a date".</td><td><code>load.py</code>, search, verifier</td></tr>
+      <tr><td><code>knowledge\citations.py</code></td><td>Recognises citation formats (2023 INSC 123, [2020] 3 S.C.R. 1, (2010) 11 SCC 441, AIR…).</td><td>Loader, verifier</td></tr>
+      <tr><td><code>knowledge\parse.py</code></td><td>Splits a judgment into parts (headnote, body) and small passages ("chunks").</td><td><code>load.py</code></td></tr>
+      <tr><td><code>knowledge\models.py</code></td><td>Describes the library tables.</td><td>Migrations</td></tr>
+      <tr><td><code>knowledge\pool.py</code></td><td>Fast shared connections to the database.</td><td>Search, agents</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\retrieval\</h3><p class="what">Searching the library (this is the "RAG" part: retrieval-augmented generation).</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>search.py</code></td><td>All search methods: exact citation, statute by section or topic, keyword search, meaning-based (vector) search, combining both, and re-ranking.</td><td>Chat, agents, Research page</td></tr>
+      <tr><td><code>models.py</code></td><td>The two small search models: one turns text into numbers (embeddings), one re-ranks results.</td><td><code>search.py</code>, <code>index.py</code></td></tr>
+      <tr><td><code>index.py</code></td><td>Builds the Qdrant search index from all passages (on the GPU).</td><td>Run by hand</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\verification\</h3><p class="what">The fact-checker: the anti-hallucination part.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>extract.py</code></td><td>Finds every citation, quote and "Section N of the X Act" in a text.</td><td><code>engine.py</code></td></tr>
+      <tr><td><code>engine.py</code></td><td>The 9 checks: does the case exist, is it the right case, does the quote match, does the judgment support the claim (AI judge), is the section real and in force.</td><td>Chat, drafts, Check a document</td></tr>
+      <tr><td><code>quotes.py</code></td><td>Compares quoted words with the judgment text.</td><td><code>engine.py</code></td></tr>
+      <tr><td><code>correct.py</code></td><td>Auto-correction: replaces a wrong citation with the right one, removes unsupported ones.</td><td>Chat, drafts</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\llm\</h3><p class="what">The phone line to the AI.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>groq_provider.py</code></td><td>Sends masked text to Groq's gpt-oss-120b, keeps each request under the free-tier limit, waits when busy, switches between the 4 keys when one runs out.</td><td>Everything that uses AI</td></tr>
+      <tr><td><code>base.py</code>, <code>__init__.py</code></td><td>Common definitions; trims very long papers before sending.</td><td>—</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\drafting\ and rules\</h3><p class="what">Making documents and applying fixed legal rules.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>drafting\templates.py</code></td><td>Fills the cheque-bounce templates with facts.</td><td>Drafting agent</td></tr>
+      <tr><td><code>drafting\docx_out.py</code></td><td>Writes the Word file: court-style headings, missing facts highlighted yellow, verification page at the end.</td><td>After approval</td></tr>
+      <tr><td><code>rules\engine.py</code></td><td>Cheque-bounce deadlines (30-day notice, 15-day wait, limitation) and the ingredients checklist.</td><td>Strategy and Monitoring agents</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\evaluation\</h3><p class="what">Measuring how well DocketPilot works (for the research paper).</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>run_all.py</code></td><td>Runs all the main tests and writes <code>reports\EVALUATION_REPORT.md</code>.</td><td>Run by hand</td></tr>
+      <tr><td><code>fake_citations.py</code></td><td>Makes 756 fake citations and checks the verifier catches them (99.6%).</td><td><code>run_all.py</code></td></tr>
+      <tr><td><code>pii.py</code></td><td>Tests how many planted personal details the masking catches.</td><td><code>run_all.py</code></td></tr>
+      <tr><td><code>retrieval_latency.py</code></td><td>Tests search accuracy and speed.</td><td><code>run_all.py</code></td></tr>
+      <tr><td><code>e2e.py</code></td><td>Runs one full draft from upload to approval, end to end.</td><td><code>run_all.py</code></td></tr>
+      <tr><td><code>benchmark_vs.py</code></td><td>Compares DocketPilot with the same AI used without DocketPilot (cost, speed, fake citations).</td><td>Run by hand</td></tr>
+      <tr><td><code>comparison.py</code></td><td>Puts our results beside other published systems → <code>reports\COMPARISON.md</code>.</td><td>Run by hand</td></tr>
+      <tr><td><code>figures.py</code></td><td>Draws the paper charts → <code>reports\figures\</code>.</td><td>Run by hand</td></tr>
+    </tbody></table></div></div>
+</section>
+
+<section id="other">
+  <h2>6. The other folders</h2>
+  <div class="tbl"><table><thead><tr><th>Folder</th><th>What is in it</th><th>Purpose</th></tr></thead><tbody>
+    <tr><td><code>prompts\</code></td><td>7 text files, e.g. <code>chat_v1.md</code>, <code>drafting_general_v1.md</code>, <code>verification_judge_v1.md</code></td><td>The written instructions given to the AI for each job ("use only the sources; tag every legal statement…"). Kept separate so they can be improved without touching code.</td></tr>
+    <tr><td><code>data\rules\</code></td><td><code>s138_deadlines.json</code>, <code>s138_elements.json</code>, <code>repealed_acts.json</code></td><td>Legal rules stored as data, each with the statute quote it comes from.</td></tr>
+    <tr><td><code>data\templates\</code></td><td><code>demand_notice_v1.txt</code>, <code>complaint_v1.txt</code></td><td>Court-format templates for cheque-bounce documents.</td></tr>
+    <tr><td><code>data\raw\</code></td><td><code>sc_pdf\</code>, <code>hc_pdf\</code>, <code>india_code\</code>, metadata files</td><td>Everything downloaded to build the library (~4 GB). Local only.</td></tr>
+    <tr><td><code>data\outputs\</code></td><td>Approved Word files</td><td>Local only (has real names).</td></tr>
+    <tr><td><code>vault\</code></td><td>Encrypted <code>.vault</code> files</td><td>Real names per case. Local only.</td></tr>
+    <tr><td><code>migrations\versions\</code></td><td><code>0001_foundations.py</code> … <code>0004_general.py</code></td><td>Step-by-step instructions to create and update the database tables (run by Alembic in <code>start.ps1</code>).</td></tr>
+    <tr><td><code>infra\postgres\init\</code></td><td><code>01-test-db.sql</code></td><td>Creates a separate test database so tests never touch real data.</td></tr>
+    <tr><td><code>tests\</code></td><td>21 test files (242 tests)</td><td>Automatic checks that each part works. Run with <code>check.ps1</code>.</td></tr>
+    <tr><td><code>docs\</code></td><td><code>SPEC.md</code>, <code>DECISIONS.md</code>, <code>DocketPilot_Handbook.html</code>, this guide</td><td>The design (SPEC), every decision and why (DECISIONS 1-33), the research handbook.</td></tr>
+    <tr><td><code>docs\diagrams\</code></td><td><code>workflow_slide.png/.svg/.html</code>, <code>workflow_swimlane.html</code>, <code>workflow.png</code></td><td>Workflow diagrams for slides and the paper.</td></tr>
+    <tr><td><code>docs\phase0\</code></td><td><code>DATA_REPORT.md</code></td><td>The first study of which courts and data to use.</td></tr>
+    <tr><td><code>discovery\</code></td><td>11 small scripts</td><td>One-time exploration scripts from the start of the project (looking at the AWS data and India Code). Not used by the app.</td></tr>
+    <tr><td><code>reports\</code></td><td><code>EVALUATION_REPORT.md</code>, <code>COMPARISON.md</code>, <code>benchmark_vs.json</code>, …</td><td>All measured results.</td></tr>
+    <tr><td><code>reports\figures\</code></td><td><code>fig1a_cost_reduction.png</code> … <code>fig4_cost.png</code>, <code>captions.md</code></td><td>Charts for the paper, with captions and method notes.</td></tr>
+    <tr><td><code>reports\dashboard\</code></td><td>3 JSON files</td><td>Data behind the online comparison dashboard.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="db">
+  <h2>7. The database tables</h2>
+  <p>PostgreSQL holds 15 main tables (plus LangGraph's own). Think of each as a spreadsheet.</p>
+  <div class="tbl"><table><thead><tr><th>Table</th><th>One row is…</th><th>Group</th></tr></thead><tbody>
+    <tr><td><code>cases</code></td><td>one judgment (title, court, date, judges)</td><td>Library</td></tr>
+    <tr><td><code>case_citations</code></td><td>one way to cite a judgment (e.g. 2020 INSC 631)</td><td>Library</td></tr>
+    <tr><td><code>segments</code></td><td>one part of a judgment (headnote or body)</td><td>Library</td></tr>
+    <tr><td><code>chunks</code></td><td>one small passage of a judgment (430,882 in total), with its page</td><td>Library</td></tr>
+    <tr><td><code>citation_edges</code></td><td>"judgment A cites judgment B"</td><td>Library</td></tr>
+    <tr><td><code>acts</code></td><td>one Act (35)</td><td>Library</td></tr>
+    <tr><td><code>section_versions</code></td><td>one section of an Act with its text (4,832)</td><td>Library</td></tr>
+    <tr><td><code>amendments</code></td><td>one amendment footnote with its date</td><td>Library</td></tr>
+    <tr><td><code>firms</code></td><td>one private workspace (each account gets one)</td><td>Accounts</td></tr>
+    <tr><td><code>users</code></td><td>one user (email, hashed password, role)</td><td>Accounts</td></tr>
+    <tr><td><code>audit_log</code></td><td>one action (sign-in, upload, approval…); cannot be edited</td><td>Accounts</td></tr>
+    <tr><td><code>matters</code></td><td>one case file of a lawyer (case number, court, parties as placeholders)</td><td>Lawyer's work</td></tr>
+    <tr><td><code>matter_documents</code></td><td>one uploaded paper (masked text only)</td><td>Lawyer's work</td></tr>
+    <tr><td><code>drafts</code></td><td>one draft with its verification report and status</td><td>Lawyer's work</td></tr>
+    <tr><td><code>reminders</code></td><td>one calendar date (hearing, deadline, reminder)</td><td>Lawyer's work</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="journeys">
+  <h2>8. Follow one request through the files</h2>
+  <h3>A. The lawyer asks a legal question in the chat</h3>
+  <ol class="steps">
+    <li>Typed in the chat on <code>web\index.html</code>, sent to the server.</li>
+    <li><code>api\assistant.py</code> decides it is a question (not a draft or a date).</li>
+    <li><code>chat.py</code> masks names using <code>privacy\redact.py</code>.</li>
+    <li><code>retrieval\search.py</code> finds the 6 best judgment passages (PostgreSQL + Qdrant) and the matching Act sections.</li>
+    <li><code>llm\groq_provider.py</code> sends the masked question and sources to Groq; the AI must tag every legal statement with a source.</li>
+    <li><code>verification\engine.py</code> checks every citation; <code>verification\correct.py</code> fixes or removes wrong ones.</li>
+    <li>Real names are put back and the answer appears with "✓ N checked".</li>
+  </ol>
+  <h3>B. The lawyer uploads a case paper</h3>
+  <ol class="steps">
+    <li>📎 in the chat or case page → <code>api\casefiles.py</code> reads the text.</li>
+    <li><code>privacy\redact.py</code> masks names; the lawyer reviews and confirms.</li>
+    <li><code>casefile.py</code> reads the case number on the laptop and files the paper into the right case (table <code>matters</code>).</li>
+    <li>Real names go to <code>vault\</code> (encrypted); masked text goes to table <code>matter_documents</code>.</li>
+    <li><code>casefile.py</code> asks the AI for every dated event; each date is kept only if its words appear in the paper → table <code>reminders</code> → Calendar.</li>
+  </ol>
+  <h3>C. The lawyer asks for a draft</h3>
+  <ol class="steps">
+    <li><code>api\matters.py</code> starts the agent team in <code>agents\graph.py</code>.</li>
+    <li><code>agents\nodes.py</code> runs: Orchestrator → Document analysis → Research → Drafting → Verification → Strategy &amp; risk → Monitoring.</li>
+    <li>The graph pauses; the lawyer reviews on the draft page and approves.</li>
+    <li><code>drafting\docx_out.py</code> writes the Word file with real names from <code>vault\</code> into <code>data\outputs\</code>.</li>
+  </ol>
+</section>
+
+<section id="tools">
+  <h2>9. The tools, in plain words</h2>
+  <div class="tbl"><table><thead><tr><th>Tool</th><th>In plain words</th></tr></thead><tbody>
+    <tr><td>Python</td><td>The programming language of the whole server.</td></tr>
+    <tr><td>FastAPI + Uvicorn</td><td>Turn Python functions into web addresses the screen can call, and run the web server.</td></tr>
+    <tr><td>LangGraph</td><td>Connects the seven agents in order, saves progress after each step, and pauses for approval.</td></tr>
+    <tr><td>Groq (gpt-oss-120b)</td><td>The AI model that reads and writes. Runs in the cloud; receives masked text only.</td></tr>
+    <tr><td>PostgreSQL</td><td>The main database: judgments, Acts, cases, users, calendar.</td></tr>
+    <tr><td>Qdrant</td><td>A database for meaning-based search ("find passages that mean the same thing").</td></tr>
+    <tr><td>Redis, SeaweedFS</td><td>Extra storage kept ready for future use (cache, file storage).</td></tr>
+    <tr><td>Docker Desktop</td><td>Runs the databases as ready-made packages, so nothing needs a manual install.</td></tr>
+    <tr><td>fastembed (bge-small, MiniLM)</td><td>Small local models that turn text into numbers for search and re-rank results.</td></tr>
+    <tr><td>spaCy</td><td>Recognises people's and organisations' names, for masking.</td></tr>
+    <tr><td>Fernet (cryptography)</td><td>Encrypts the vault of real names.</td></tr>
+    <tr><td>Argon2, JWT</td><td>Safe password storage, and sign-in passes that keep you signed in.</td></tr>
+    <tr><td>Alembic</td><td>Creates and updates the database tables in numbered steps.</td></tr>
+    <tr><td>pytest, ruff, mypy</td><td>Automatic tests, style checks, type checks.</td></tr>
+    <tr><td>Git + GitHub</td><td>Saves versions of the code and keeps a copy online.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="qa">
+  <h2>10. Examiner questions, with where to point</h2>
+  <details class="qa" open><summary>Where is the knowledge base stored?</summary><p>In PostgreSQL (tables <code>cases</code>, <code>chunks</code>, <code>acts</code>, <code>section_versions</code>) inside Docker, plus a vector index in Qdrant (collection <code>chunks_all</code>). Source PDFs: <code>data\raw\</code>. Built by <code>docketpilot\ingestion\</code>.</p></details>
+  <details class="qa"><summary>What is Docker used for? Where are its files?</summary><p>Docker runs the four storage services (PostgreSQL, Qdrant, Redis, SeaweedFS) as containers defined in <code>docker-compose.yml</code>. Their data lives in Docker volumes: knowledge base in <code>docketpilot_pgdata</code>, search index in <code>docketpilot_qdrantdata</code>. Show them in Docker Desktop → Containers and → Volumes. See section "Docker: containers, volumes and files".</p></details>
+  <details class="qa"><summary>Where did the data come from? Is it legal to use?</summary><p>Supreme Court and High Court judgments from the AWS Open Data Registry (CC-BY-4.0 licence); Acts from India Code (Government of India). Code: <code>ingestion\download.py</code>, <code>knowledge\statutes.py</code>.</p></details>
+  <details class="qa"><summary>How many judgments and Acts?</summary><p>16,318 judgments with full text (Supreme Court 2015-2026 and five High Court benches 2023-2024), 48,168 Supreme Court cases for citation checks, 35 Central Acts with 4,832 sections, 430,882 passages, 372,122 in the vector index.</p></details>
+  <details class="qa"><summary>Where are the agents? How many?</summary><p>Seven, in <code>docketpilot\agents\nodes.py</code>, connected in <code>agents\graph.py</code> using LangGraph.</p></details>
+  <details class="qa"><summary>How do you stop the AI from inventing cases (hallucination)?</summary><p>Three ways: (1) the AI may only use retrieved sources and must tag each legal statement (<code>prompts\chat_v1.md</code>); (2) every citation is checked against real judgments (<code>verification\engine.py</code>); (3) wrong ones are corrected or removed before the lawyer sees them (<code>verification\correct.py</code>). Result: 0 fabricated citations in our test vs 5.6% for the same AI alone.</p></details>
+  <details class="qa"><summary>Which AI model do you use? Where does it run?</summary><p>openai/gpt-oss-120b on Groq's cloud. Code: <code>llm\groq_provider.py</code>. Up to 4 keys with automatic switching.</p></details>
+  <details class="qa"><summary>How is client data protected?</summary><p>Names and ID numbers are masked on the laptop before any AI call (<code>privacy\redact.py</code>); real names are encrypted in <code>vault\</code> (<code>privacy\vault.py</code>); only masked text is stored in the database; passwords are Argon2-hashed; every account has its own private workspace.</p></details>
+  <details class="qa"><summary>What is RAG and where is it?</summary><p>Retrieval-augmented generation: first find relevant documents, then let the AI answer only from them. Retrieval is <code>retrieval\search.py</code>; generation is in <code>chat.py</code> and <code>agents\nodes.py</code>.</p></details>
+  <details class="qa"><summary>What is the "vector index" and why a GPU?</summary><p>Each passage is turned into a list of 384 numbers that captures its meaning, so similar meanings can be found even with different words. Built once with <code>retrieval\index.py</code> on the laptop's RTX 3050 GPU (~430 passages per second, versus ~5 on the CPU).</p></details>
+  <details class="qa"><summary>Where is the front end? Which framework?</summary><p><code>docketpilot\web\index.html</code>, one file of plain HTML and JavaScript (no React), served by FastAPI.</p></details>
+  <details class="qa"><summary>Where is the database structure defined?</summary><p><code>migrations\versions\0001</code> to <code>0004</code>, applied by Alembic when <code>start.ps1</code> runs.</p></details>
+  <details class="qa"><summary>How do you test it? Where are the results?</summary><p>242 automated tests in <code>tests\</code> (run <code>check.ps1</code>). Benchmarks in <code>docketpilot\evaluation\</code>; results in <code>reports\EVALUATION_REPORT.md</code> and <code>reports\COMPARISON.md</code>; charts in <code>reports\figures\</code>.</p></details>
+  <details class="qa"><summary>How does the calendar get hearing dates?</summary><p><code>casefile.py</code> asks the AI for every dated event in a paper and keeps a date only if its exact words appear in the paper; dates are saved in table <code>reminders</code>. "When is my next hearing?" is answered from that table with no AI.</p></details>
+  <details class="qa"><summary>Can it draft any document?</summary><p>Yes: any document type through the general workflow in <code>agents\nodes.py</code> (prompt <code>prompts\drafting_general_v1.md</code>); cheque-bounce notice and complaint use fixed templates in <code>data\templates\</code>.</p></details>
+  <details class="qa"><summary>How do you start the project?</summary><p>Open Docker Desktop, then run <code>start.ps1</code>, then open <code>http://127.0.0.1:8000</code>.</p></details>
+  <details class="qa"><summary>Why were design choices made (e.g. why Groq, why no React)?</summary><p>Every decision and its reason is in <code>docs\DECISIONS.md</code> (decisions 1 to 33).</p></details>
+  <details class="qa"><summary>What are the limitations?</summary><p>No lawyer reviewed the legal data; 3.2% of personal details slip through masking in tests (the lawyer's review step is the safeguard); free AI tier limits daily use; no OCR for scanned papers; not yet hosted online.</p></details>
+</section>
+
+<section id="words">
+  <h2>11. Words to know</h2>
+  <div class="tbl"><table><tbody>
+    <tr><td><b>Agent</b></td><td>A program step that does one job (read, research, draft, check) and passes its result on.</td></tr>
+    <tr><td><b>Hallucination</b></td><td>When an AI states something false with confidence, e.g. a case that does not exist.</td></tr>
+    <tr><td><b>Citation</b></td><td>The reference to a judgment, e.g. "2020 INSC 631".</td></tr>
+    <tr><td><b>Chunk / passage</b></td><td>A small piece of a judgment, about a paragraph or two, used for search.</td></tr>
+    <tr><td><b>Embedding / vector</b></td><td>A list of numbers that represents the meaning of a text.</td></tr>
+    <tr><td><b>RAG</b></td><td>Retrieval-augmented generation: search first, then answer from what was found.</td></tr>
+    <tr><td><b>Masking / redaction</b></td><td>Replacing personal details with placeholders like PERSON_1.</td></tr>
+    <tr><td><b>Endpoint</b></td><td>A web address on the server that does one thing (e.g. <code>/auth/login</code>).</td></tr>
+    <tr><td><b>Docker volume</b></td><td>A storage area managed by Docker where a database keeps its files.</td></tr>
+    <tr><td><b>Migration</b></td><td>A numbered step that creates or changes database tables.</td></tr>
+    <tr><td><b>Token</b></td><td>A piece of a word; AI services count and charge by tokens.</td></tr>
+  </tbody></table></div>
+</section>
+</main></div>
+</body></html>
