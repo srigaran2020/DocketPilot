@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* DocketPilot design tokens. Court green, seal vermilion and brass on warm paper; a deep, quiet dark theme. */
+@layer base {
+  :root {
+    --bg: 246 244 239; --surface: 255 255 255; --raised: 251 250 247;
+    --line: 232 228 219; --line-2: 214 208 194;
+    --ink: 20 33 29; --ink-2: 61 74 69; --mute: 112 122 117;
+    --brand: 15 59 51; --brand-2: 21 94 82; --brand-soft: 229 240 236; --brand-ink: 216 230 223; --on-brand: 255 255 255;
+    --seal: 194 65 12; --seal-soft: 253 238 229;
+    --brass: 176 138 46; --brass-soft: 248 240 218;
+    --ok: 22 117 70; --ok-soft: 228 244 234;
+    --warn: 160 98 0; --warn-soft: 253 243 217;
+    --bad: 186 36 28; --bad-soft: 252 232 229;
+    color-scheme: light;
+  }
+  .dark {
+    --bg: 10 16 15; --surface: 16 24 22; --raised: 21 31 29;
+    --line: 34 46 43; --line-2: 50 64 60;
+    --ink: 233 239 236; --ink-2: 192 203 198; --mute: 134 148 142;
+    --brand: 104 204 176; --brand-2: 132 220 196; --brand-soft: 20 46 40; --brand-ink: 216 230 223; --on-brand: 8 22 18;
+    --seal: 246 126 76; --seal-soft: 56 27 17;
+    --brass: 224 186 96; --brass-soft: 50 40 17;
+    --ok: 86 204 140; --ok-soft: 17 46 32;
+    --warn: 240 184 76; --warn-soft: 54 40 13;
+    --bad: 246 112 100; --bad-soft: 58 22 20;
+    color-scheme: dark;
+  }
+  html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body { @apply bg-bg text-ink font-sans text-[15px] leading-relaxed; font-feature-settings: "cv11", "ss01"; }
+  ::selection { background: rgb(var(--brass) / .28); }
+  :focus-visible { outline: 2px solid rgb(var(--brand-2)); outline-offset: 2px; border-radius: 6px; }
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--line-2)) transparent; }
+}
+
+@layer components {
+  .card { @apply bg-surface border border-line rounded-xl shadow-card; }
+  .eyebrow { @apply font-mono text-[11px] uppercase tracking-[.16em] text-seal; }
+  .h-display { @apply font-display font-semibold tracking-[-.015em]; }
+  .field { @apply w-full rounded-lg border border-line-2 bg-surface px-3.5 py-2.5 text-[14.5px] text-ink placeholder:text-mute
+           transition focus:outline-none focus:border-brand-2 focus:shadow-glow; }
+  .legalpad {
+    background:
+      linear-gradient(90deg, transparent 52px, rgb(var(--seal) / .45) 52px, rgb(var(--seal) / .45) 53.5px, transparent 53.5px),
+      repeating-linear-gradient(180deg, rgb(var(--surface)) 0, rgb(var(--surface)) 27px, rgb(var(--line) / .9) 27px, rgb(var(--line) / .9) 28px);
+    @apply font-display text-[15.5px] leading-[28px] whitespace-pre-wrap pl-[72px] pr-6 py-3.5;
+  }
+  .prose-answer p { @apply mb-3 last:mb-0; }
+  .prose-answer ul { @apply mb-3 list-disc pl-5 space-y-1.5 marker:text-brass; }
+  .prose-answer b { @apply font-semibold text-ink; }
+}
+
+.grain::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+}

@@ -11,5 +11,6 @@ Read docs/SPEC.md first, then docs/DECISIONS.md (it records where the prototype 
 - SCR headnotes are a separate `headnote` segment, never used as evidence.
 - Status 2026-10-28: general-purpose (35 Acts, any document type, decisions 27-32); open sign-up + Google sign-in. Groq free tier: one request must stay under 8,000 tokens (decision 31).
 - GPU embedding: `.venv-gpu\Scripts\python -m docketpilot.retrieval.index --gpu --scope all --collection chunks_all` (after loading new texts). Never `pip install` GPU packages into `.venv`.
+- Interface (since 2026-10-29): React 18 + TypeScript in `frontend/` (Vite, Tailwind, Radix UI). After changing it: `cd frontend; npm run build` (writes `docketpilot/web/dist/`, which is committed so the app runs without Node). Old one-file UI stays at `/classic`. Screens: `python tools/ui_screenshots.py OUT PAPER.txt`; usability check: `python tools/ui_usability_test.py PAPER.txt`.
 - Benchmarks vs other systems: `python -m docketpilot.evaluation.benchmark_vs` -> reports/benchmark_vs.json; report in reports/COMPARISON.md.
 - Never run the test suite with TEST_DATABASE_URL pointing at the main database: the test fixture rebuilds the schema.

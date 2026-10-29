@@ -9,7 +9,8 @@ from PIL import Image, ImageDraw, ImageFont
 SHOT = Path(__file__).resolve().parents[2] / "reports" / "screenshots"
 PANELS = [("s2_masking_review.png", "(a) Masking review"), ("s3_verified_answer.png", "(b) Verified answer"),
           ("s6_draft_verification.png", "(c) Draft and verification"), ("s4_calendar.png", "(d) Calendar")]
-SIDEBAR = 0.15  # share of the screenshot width taken by the left menu, cropped away
+SIDEBAR = 252 / 1440  # share of the screenshot width taken by the left menu, cropped away
+TOPBAR = 64 * 2  # the top bar (search, theme, account) in screenshot pixels, cropped away
 W, H = 1200, 900  # each panel
 
 
@@ -20,7 +21,7 @@ def main() -> None:
         if not p.exists():
             continue
         im = Image.open(p).convert("RGB")
-        im = im.crop((int(im.width * SIDEBAR), 0, im.width, min(im.height, int((im.width * (1 - SIDEBAR)) * H / W))))
+        im = im.crop((int(im.width * SIDEBAR), TOPBAR, im.width, min(im.height, TOPBAR + int((im.width * (1 - SIDEBAR)) * H / W))))
         im = im.resize((W, H), Image.LANCZOS)
         canvas = Image.new("RGB", (W, H + 70), "white")
         canvas.paste(im, (0, 70))

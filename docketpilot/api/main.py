@@ -7,6 +7,7 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from docketpilot import __version__
 from docketpilot.api import assistant, auth, casefiles, health, matters, research
@@ -42,11 +43,19 @@ app.include_router(matters.router)
 app.include_router(assistant.router)
 app.include_router(casefiles.router)
 
-WEB = Path(__file__).resolve().parents[1] / "web" / "index.html"
+WEB = Path(__file__).resolve().parents[1] / "web" / "index.html"  # original single-file interface
+DIST = WEB.parent / "dist"  # React interface, built by `npm run build` in frontend/
+if (DIST / "assets").is_dir():
+    app.mount("/assets", StaticFiles(directory=DIST / "assets"), name="assets")
 
 
 @app.get("/", include_in_schema=False)
 async def web_app() -> FileResponse:
+    return FileResponse(DIST / "index.html" if (DIST / "index.html").exists() else WEB)
+
+
+@app.get("/classic", include_in_schema=False)
+async def classic_app() -> FileResponse:
     return FileResponse(WEB)
 
 

@@ -79,7 +79,7 @@ details.qa p{margin:8px 0 2px}
   <h2>2. The parts, like an office</h2>
   <p>Think of DocketPilot as a small law office. Each part of the office is one folder of code.</p>
   <div class="layers">
-    <div class="layer"><b>Reception (the screen)</b><span>What the lawyer sees and clicks. <code>docketpilot/web/</code></span></div>
+    <div class="layer"><b>Reception (the screen)</b><span>What the lawyer sees and clicks. React app in <code>frontend/</code>, built into <code>docketpilot/web/dist/</code></span></div>
     <div class="layer"><b>Front desk (the server)</b><span>Takes each request and sends it to the right person. <code>docketpilot/api/</code></span></div>
     <div class="layer"><b>Privacy officer</b><span>Hides client names before anything leaves. <code>docketpilot/privacy/</code></span></div>
     <div class="layer"><b>The team of agents</b><span>Seven workers who read, research, draft, check and plan. <code>docketpilot/agents/</code></span></div>
@@ -201,10 +201,21 @@ details.qa p{margin:8px 0 2px}
   <h2>5. The code folder, file by file</h2>
   <p>All the application code is in <code>docketpilot\</code>. Each sub-folder is one part of the "office".</p>
 
-  <div class="folder"><h3>docketpilot\web\</h3><p class="what">The screen. Everything the lawyer sees.</p>
+  <div class="folder"><h3>frontend\</h3><p class="what">The screen, written in React. Everything the lawyer sees. You edit files here, then run <code>npm run build</code>.</p>
     <div class="tbl"><table><tbody>
-      <tr><td><code>index.html</code></td><td>The entire web app in one file: sign-in, dashboard, chat, cases, calendar, research, drafts, guide. Plain HTML and JavaScript; no build step.</td><td>Served by <code>api/main.py</code></td></tr>
-      <tr><td><code>logo.png</code></td><td>The round emblem, also the browser-tab icon.</td><td><code>index.html</code></td></tr>
+      <tr><td><code>package.json</code></td><td>The list of JavaScript libraries (React 18, TypeScript, Vite, Tailwind CSS, Radix UI, TanStack Query, Framer Motion, cmdk, lucide icons) with exact versions, and the <code>dev</code> / <code>build</code> commands.</td><td>npm</td></tr>
+      <tr><td><code>src\main.tsx</code>, <code>src\App.tsx</code></td><td>Start-up and the list of pages (routes): sign-in, dashboard, chat, cases, case page, draft, calendar, research, check a document, guide, account.</td><td>Vite</td></tr>
+      <tr><td><code>src\pages\</code></td><td>One file per screen, for example <code>Ask.tsx</code> (the chat), <code>Draft.tsx</code> (review and approve), <code>Calendar.tsx</code>.</td><td><code>App.tsx</code></td></tr>
+      <tr><td><code>src\components\</code></td><td>Shared building blocks: <code>ui.tsx</code> (buttons, cards, dialogs), <code>legal.tsx</code> (stamps, date tiles, citation pop-ups), <code>papers.tsx</code> (upload and masking review), <code>shell.tsx</code> (sidebar, top bar, Ctrl+K search).</td><td>pages</td></tr>
+      <tr><td><code>src\lib\</code></td><td><code>api.ts</code> (talks to the server), <code>auth.tsx</code> (sign-in state), <code>theme.tsx</code> (light and dark mode), <code>utils.ts</code>.</td><td>everywhere</td></tr>
+      <tr><td><code>src\index.css</code>, <code>tailwind.config.js</code></td><td>The design system: colours (court green, seal vermilion, brass), fonts, light and dark themes.</td><td>Tailwind</td></tr>
+    </tbody></table></div></div>
+
+  <div class="folder"><h3>docketpilot\web\</h3><p class="what">What the server sends to the browser.</p>
+    <div class="tbl"><table><tbody>
+      <tr><td><code>dist\</code></td><td>The built React app (made by <code>npm run build</code>; committed so the app runs without Node.js).</td><td>Served by <code>api/main.py</code> at <code>/</code></td></tr>
+      <tr><td><code>index.html</code></td><td>The original one-file interface, kept as a fallback at <code>/classic</code>.</td><td><code>api/main.py</code></td></tr>
+      <tr><td><code>logo.png</code></td><td>The round emblem, also the browser-tab icon.</td><td>both interfaces</td></tr>
     </tbody></table></div></div>
 
   <div class="folder"><h3>docketpilot\api\</h3><p class="what">The front desk. Each file is a group of web addresses ("endpoints") the screen calls.</p>
@@ -342,7 +353,7 @@ details.qa p{margin:8px 0 2px}
   <h2>8. Follow one request through the files</h2>
   <h3>A. The lawyer asks a legal question in the chat</h3>
   <ol class="steps">
-    <li>Typed in the chat on <code>web\index.html</code>, sent to the server.</li>
+    <li>Typed in the chat (<code>frontend\src\pages\Ask.tsx</code>), sent to the server.</li>
     <li><code>api\assistant.py</code> decides it is a question (not a draft or a date).</li>
     <li><code>chat.py</code> masks names using <code>privacy\redact.py</code>.</li>
     <li><code>retrieval\search.py</code> finds the 6 best judgment passages (PostgreSQL + Qdrant) and the matching Act sections.</li>
@@ -400,7 +411,8 @@ details.qa p{margin:8px 0 2px}
   <details class="qa"><summary>How is client data protected?</summary><p>Names and ID numbers are masked on the laptop before any AI call (<code>privacy\redact.py</code>); real names are encrypted in <code>vault\</code> (<code>privacy\vault.py</code>); only masked text is stored in the database; passwords are Argon2-hashed; every account has its own private workspace.</p></details>
   <details class="qa"><summary>What is RAG and where is it?</summary><p>Retrieval-augmented generation: first find relevant documents, then let the AI answer only from them. Retrieval is <code>retrieval\search.py</code>; generation is in <code>chat.py</code> and <code>agents\nodes.py</code>.</p></details>
   <details class="qa"><summary>What is the "vector index" and why a GPU?</summary><p>Each passage is turned into a list of 384 numbers that captures its meaning, so similar meanings can be found even with different words. Built once with <code>retrieval\index.py</code> on the laptop's RTX 3050 GPU (~430 passages per second, versus ~5 on the CPU).</p></details>
-  <details class="qa"><summary>Where is the front end? Which framework?</summary><p><code>docketpilot\web\index.html</code>, one file of plain HTML and JavaScript (no React), served by FastAPI.</p></details>
+  <details class="qa"><summary>Where is the front end? Which framework?</summary><p>React 18 with TypeScript in <code>frontend\</code>, styled with Tailwind CSS and Radix UI components, built by Vite into <code>docketpilot\web\dist\</code> and served by FastAPI. The AI pipeline did not change when the screen moved to React: it calls the same API. The original one-file interface is still at <code>/classic</code>.</p></details>
+  <details class="qa"><summary>Was the interface tested for usability?</summary><p>Yes, automatically: <code>tools\ui_usability_test.py</code> walks through common tasks (sign up, file papers, find the next hearing, open a case with Ctrl+K, find a section, add a reminder, dark mode, check citations), runs the axe-core accessibility audit (WCAG 2.1 AA) on every page and checks every page on a phone-sized screen. Results are in <code>reports\ui_usability.json</code> and section B of this handbook. It is not a study with real lawyers; that is future work.</p></details>
   <details class="qa"><summary>Where is the database structure defined?</summary><p><code>migrations\versions\0001</code> to <code>0004</code>, applied by Alembic when <code>start.ps1</code> runs.</p></details>
   <details class="qa"><summary>How do you test it? Where are the results?</summary><p>242 automated tests in <code>tests\</code> (run <code>check.ps1</code>). Benchmarks in <code>docketpilot\evaluation\</code>; results in <code>reports\EVALUATION_REPORT.md</code> and <code>reports\COMPARISON.md</code>; charts in <code>reports\figures\</code>.</p></details>
   <details class="qa"><summary>How does the calendar get hearing dates?</summary><p><code>casefile.py</code> asks the AI for every dated event in a paper and keeps a date only if its exact words appear in the paper; dates are saved in table <code>reminders</code>. "When is my next hearing?" is answered from that table with no AI.</p></details>

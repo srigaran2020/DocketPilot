@@ -200,16 +200,22 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
     <tr><td>spaCy</td><td class="n">3.8.18</td><td>Name and organisation detection for masking</td><td><code>docketpilot/privacy/redact.py</code></td></tr>
     <tr><td>cryptography (Fernet)</td><td class="n">50.0.2</td><td>Encrypted vault of real names</td><td><code>docketpilot/privacy/vault.py</code></td></tr>
     <tr><td>argon2-cffi, PyJWT</td><td class="n">25.1 / 2.15</td><td>Password hashing, session tokens</td><td><code>docketpilot/security.py</code></td></tr>
-    <tr><td>Google Identity Services</td><td>—</td><td>Google sign-in (ID token checked with Google)</td><td><code>api/auth.py</code>, <code>web/index.html</code></td></tr>
+    <tr><td>Google Identity Services</td><td>—</td><td>Google sign-in (ID token checked with Google)</td><td><code>api/auth.py</code>, <code>frontend/src/pages/Login.tsx</code></td></tr>
     <tr><td>pypdf, python-docx</td><td class="n">6.21 / 1.2</td><td>Reading PDFs, writing the Word output</td><td><code>ingestion/</code>, <code>drafting/docx_out.py</code></td></tr>
     <tr><td>pandas, pyarrow, boto3</td><td class="n">3.1 / 26.0</td><td>Reading AWS Open Data metadata, downloading judgments</td><td><code>docketpilot/ingestion/</code></td></tr>
     <tr><td>tiktoken, matplotlib</td><td>—</td><td>Token counts and paper figures in the benchmark</td><td><code>docketpilot/evaluation/</code></td></tr>
-    <tr><td>Plain HTML + JavaScript</td><td>—</td><td>The whole browser app, one file, no build step</td><td><code>docketpilot/web/index.html</code></td></tr>
+    <tr><td>React + TypeScript</td><td class="n">18.3 / 5.6</td><td>The browser app: pages, components, routing (hash router)</td><td><code>frontend/src/</code></td></tr>
+    <tr><td>Vite, Tailwind CSS</td><td class="n">5.4 / 3.4</td><td>Build tool; design system with light and dark themes</td><td><code>frontend/vite.config.ts</code>, <code>tailwind.config.js</code></td></tr>
+    <tr><td>Radix UI, cmdk, Framer Motion</td><td>—</td><td>Accessible dialogs, tabs, tooltips, hover cards; Ctrl+K command palette; animation</td><td><code>frontend/src/components/</code></td></tr>
+    <tr><td>TanStack Query, sonner</td><td class="n">5.59 / 1.5</td><td>Data fetching and caching; toast notifications</td><td><code>frontend/src/</code></td></tr>
+    <tr><td>Node.js</td><td class="n">24 LTS</td><td>Only to build the interface (<code>npm run build</code>); not needed to run the app</td><td><code>frontend/package.json</code></td></tr>
     <tr><td>Docker Desktop / Compose</td><td>—</td><td>Runs the four databases</td><td><code>docker-compose.yml</code></td></tr>
     <tr><td>ruff, mypy, pytest</td><td>—</td><td>Lint, type check, 242 tests</td><td><code>check.ps1</code>, <code>tests/</code></td></tr>
     <tr><td>Git + GitHub</td><td class="n">2.53</td><td>Version control, private repository</td><td><code>.gitignore</code></td></tr>
   </tbody></table></div>
 </section>
+
+<section id="ui"><h2>The interface</h2><p>Filled in by build.py from reports/screenshots and reports/ui_usability.json.</p></section>
 
 <section id="files">
   <h2>File map</h2>
@@ -231,7 +237,9 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
   rules/          engine.py (s.138 deadlines and checklist)
   evaluation/     run_all.py · fake_citations.py · pii.py · retrieval_latency.py · e2e.py
                   benchmark_vs.py (vs baseline LLM) · comparison.py (report) · figures.py (paper charts)
-  web/            index.html (the app) · logo.png
+  web/            dist/ (built React app, served at /) · index.html (original interface, at /classic) · logo.png
+frontend/         React + TypeScript source: src/pages (one file per screen) · src/components · src/lib · package.json
+tools/            ui_screenshots.py (screens for the paper and report) · ui_usability_test.py (usability check)
 prompts/          chat_v1 · drafting_v1 · drafting_general_v1 · extraction_v1 · extraction_general_v1
                   casefile_v1 · verification_judge_v1
 data/rules/       s138_deadlines.json · s138_elements.json · repealed_acts.json

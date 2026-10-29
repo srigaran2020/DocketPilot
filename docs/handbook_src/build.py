@@ -21,8 +21,18 @@ sys.path.insert(0, str(ROOT))
 from docketpilot.evaluation.figures import METHODS  # noqa: E402
 
 PART_A = ["minute", "layers", "storage", "docker", "root", "code", "other", "db", "journeys", "tools", "qa", "words"]
-PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "stack", "data", "bench", "compare", "figs", "run",
+PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "stack", "ui", "data", "bench", "compare", "figs", "run",
           "limits", "refs"]
+SHOTS = [("s1_signin", "Sign in", "Split screen: the product promise and six feature cards on the left; sign-in, sign-up and Google sign-in on the right."),
+         ("s7_dashboard", "Dashboard", "Greeting, four quick actions, three headline numbers, a timeline of coming dates, drafts waiting for review and recent cases."),
+         ("s2_masking_review", "Masking review in the chat", "After a paper is dropped in, every identifier is listed with the placeholder that replaces it. The lawyer can untick or add items, then files it."),
+         ("s3_verified_answer", "Verified research answer", "Citations are underlined; hovering one previews its passage, clicking pins it in the Source panel. The green line says how many references were checked and removed."),
+         ("s6b_draft_progress", "Draft in progress", "A live stepper shows which of the seven agents has finished."),
+         ("s6_draft_verification", "Draft review", "The draft on ruled legal paper with colour-coded citations, the evidence panel, the sign-off card and tabs for checks, the checklist and precedent."),
+         ("s4_calendar", "Calendar", "Month grid colour-coded by kind of date; the details panel shows the sentence each date came from."),
+         ("s5_find_section", "Find a section", "Central Acts searched by topic; each result opens to the section text from India Code."),
+         ("s8_dashboard_dark", "Dark mode", "The same dashboard in the dark theme (toggle in the top bar; remembered per device)."),
+         ("s9_mobile_chat", "Phone layout", "The chat on a 390-pixel-wide phone screen; the menu becomes a slide-out drawer.")]
 
 EXTRA_CSS = """
 .explain{border-left:4px solid #2a6fc0;background:var(--code);padding:8px 14px 2px;margin:4px 0 10px;font-size:13.5px}.explain ul{margin:0;padding-left:18px}.explain li{margin-bottom:6px;max-width:none}
@@ -88,6 +98,48 @@ def _figures_section() -> str:
     return "\n".join(parts)
 
 
+def _ui_section() -> str:
+    """Screens of the React interface and the automated usability check."""
+    import json
+
+    parts = ['<section id="ui"><h2>The interface</h2>',
+             '<p>The screen is a React 18 + TypeScript app (<span class="path">frontend/</span>) with Tailwind CSS, Radix UI components, '
+             'a Ctrl+K command palette, light and dark themes and a phone layout. It calls the same API as before, so the AI pipeline is unchanged. '
+             'Screens below were captured from the running system with a synthetic case paper.</p>']
+    for name, title, text in SHOTS:
+        p = ROOT / "reports" / "screenshots" / f"{name}.png"
+        if p.exists():
+            parts.append(f'<h3>{html.escape(title)}</h3><figure class="fig"><img src="{{{{S:{name}}}}}" alt="{html.escape(title)}">'
+                         f'<figcaption>{html.escape(text)}</figcaption></figure>')
+    rp = ROOT / "reports" / "ui_usability.json"
+    if rp.exists():
+        r = json.loads(rp.read_text(encoding="utf-8"))
+        tasks = r.get("tasks", [])
+        ok = sum(t["success"] for t in tasks)
+        rows = "".join(f'<tr><td>{html.escape(t["task"])}</td><td class="n">{"✓" if t["success"] else "✕"}</td>'
+                       f'<td class="n">{t["user_actions"]}</td><td class="n">{t["seconds"]:.1f} s</td></tr>' for t in tasks)
+        axe = r.get("axe", {})
+        detail = {pg: ", ".join("{} ({}, {})".format(x["id"], x["impact"], x["nodes"]) for x in v) or "none" for pg, v in axe.items()}
+        arow = "".join(f'<tr><td>{html.escape(pg)}</td><td class="n">{len(v)}</td><td>{html.escape(detail[pg])}</td></tr>' for pg, v in axe.items())
+        resp = r.get("responsive", {})
+        phone = [k.split("@")[0] for k, v in resp.items() if k.endswith("@390") and not v["ok"]]
+        sp = r.get("speed", {})
+        parts.append(f'<h3>Usability check</h3><p><b>{ok} of {len(tasks)}</b> tasks completed. "Actions" counts the clicks, key presses and '
+                     'typed fields a person needs; times measure the interface only (no AI call).</p>'
+                     f'<div class="tbl"><table><thead><tr><th>Task</th><th>Done</th><th>Actions</th><th>Time</th></tr></thead><tbody>{rows}</tbody></table></div>'
+                     '<p>Accessibility: axe-core with the WCAG 2.1 A and AA rules on every page (rule, impact, number of elements).</p>'
+                     f'<div class="tbl"><table><thead><tr><th>Page</th><th>Rules failed</th><th>Details</th></tr></thead><tbody>{arow}</tbody></table></div>'
+                     f'<p>Phone width (390 px): {"no page scrolls sideways" if not phone else "sideways scrolling on " + ", ".join(phone)}. '
+                     f'Reload to an interactive dashboard: {sp.get("reload_to_interactive_dashboard_s", "?")} s on the laptop.</p>'
+                     '<div class="method"><b class="mh">How this check was made</b><ul>'
+                     '<li><b>Script</b>: tools/ui_usability_test.py drives Microsoft Edge (headless) through the Chrome DevTools Protocol on a fresh account with the synthetic case paper.</li>'
+                     '<li><b>Success</b>: each task passes only if the expected result appears on screen within 25 seconds.</li>'
+                     '<li><b>Limits</b>: this is an automated check, not a study with real lawyers. A study with practising advocates (task time, errors, '
+                     'System Usability Scale) is planned.</li></ul></div>')
+    parts.append("</section>")
+    return "\n".join(parts)
+
+
 def main() -> None:
     hb = (SRC / "research.html").read_text(encoding="utf-8")
     gd = (SRC / "understanding.html").read_text(encoding="utf-8")
@@ -98,6 +150,7 @@ def main() -> None:
     for i, k in enumerate(PART_A, 1):
         G[k] = re.sub(r"<h2>(?:\d+\.\s*)?(.*?)</h2>", lambda m, i=i: f"<h2>A{i}. {m.group(1)}</h2>", G[k], count=1)
     H["figs"] = _figures_section()
+    H["ui"] = _ui_section()
     for i, k in enumerate(PART_B, 1):
         H[k] = re.sub(r"<h2>(.*?)</h2>", lambda m, i=i: f"<h2>B{i}. {m.group(1)}</h2>", H[k], count=1)
     part = lambda t, sub: f'<section class="part"><div class="partlabel">{t}</div><p>{sub}</p></section>'  # noqa: E731
@@ -124,6 +177,7 @@ def main() -> None:
     page = page.replace("{{LOGO}}", _uri(ROOT / "docketpilot" / "web" / "logo.png", 160))
     page = page.replace("{{F:SLIDE}}", _uri(ROOT / "docs" / "diagrams" / "workflow_slide.png", 1800))
     page = re.sub(r"\{\{F:(\w+)\}\}", lambda m: _uri(ROOT / "reports" / "figures" / f"{m.group(1)}.png", 1000), page)
+    page = re.sub(r"\{\{S:(\w+)\}\}", lambda m: _uri(ROOT / "reports" / "screenshots" / f"{m.group(1)}.png", 1400), page)
     out = ROOT / "docs" / "DocketPilot_Handbook.html"
     out.write_text(page, encoding="utf-8")
     print(f"wrote {out} ({len(page) // 1024} KB, {page.count('<section')} sections)")

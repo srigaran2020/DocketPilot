@@ -14,6 +14,14 @@ Write-Host "`n== Type check (mypy)" -ForegroundColor Cyan
 & $py -m mypy
 if ($LASTEXITCODE -ne 0) { $failed += "types" }
 
+if (Get-Command npm -ErrorAction SilentlyContinue) {
+    Write-Host "`n== Interface type check (TypeScript)" -ForegroundColor Cyan
+    Push-Location frontend
+    npm run --silent typecheck
+    if ($LASTEXITCODE -ne 0) { $failed += "interface types" }
+    Pop-Location
+}
+
 Write-Host "`n== Tests (pytest)" -ForegroundColor Cyan
 $marker = if ($Live) { "live or not live" } else { "not live" }
 & $py -m pytest -m $marker --cov=docketpilot --cov-report=term-missing:skip-covered -q

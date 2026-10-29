@@ -215,7 +215,7 @@ table("TABLE I. Positioning against related systems (Cite: citation check; Fix: 
 
 # ================= III. System =================
 heading("III", "System Architecture")
-para("Fig. 1 shows the end-to-end flow. A single-page web client talks to a FastAPI service; PostgreSQL stores the knowledge base, user data and agent checkpoints, and Qdrant stores dense vectors. The only generative model is the open-weight gpt-oss-120b [18], served through Groq; it never receives unmasked text.")
+para("Fig. 1 shows the end-to-end flow. A React single-page client talks to a FastAPI service; PostgreSQL stores the knowledge base, user data and agent checkpoints, and Qdrant stores dense vectors. The only generative model is the open-weight gpt-oss-120b [18], served through Groq; it never receives unmasked text.")
 wide_figure(ROOT / "docs" / "diagrams" / "workflow_slide.png", "Fig. 1. DocketPilot workflow across five lanes: the lawyer, the backend, the agent graph, verification, and data and models.", width=6.6)
 sub("A", "Knowledge base")
 para(f"Judgments come from the open Indian Supreme Court and High Court collections released under CC-BY-4.0, and statutes from India Code. The store holds {n_cases} cases for citation resolution (Supreme Court 1950–2026 and five High Court benches 2022–2025), {n_judg} judgments with full text, {n_acts} Central Acts with {n_secs} sections and their amendment footnotes, and {n_chunks} passages, of which {n_vec} are embedded with bge-small-en-v1.5 [14]. Headnotes are stored as a separate segment and never used as evidence.")
