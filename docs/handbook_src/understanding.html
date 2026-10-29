@@ -97,9 +97,9 @@ details.qa p{margin:8px 0 2px}
   <div class="tbl"><table>
     <thead><tr><th>What</th><th>Where it is stored</th><th>How to show it</th></tr></thead>
     <tbody>
-      <tr><td><b>Knowledge base: judgments</b> (16,318 with full text, 48,168 cases in total)</td><td>PostgreSQL database, tables <code>cases</code>, <code>chunks</code>, <code>case_citations</code>. The database files live inside Docker in a storage volume named <code>docketpilot_pgdata</code>.</td><td>Docker Desktop → Volumes → <code>docketpilot_pgdata</code>. Or Research page → search judgments.</td></tr>
+      <tr><td><b>Knowledge base: judgments</b> (22,767 with full text, 52,166 cases in total)</td><td>PostgreSQL database, tables <code>cases</code>, <code>chunks</code>, <code>case_citations</code>. The database files live inside Docker in a storage volume named <code>docketpilot_pgdata</code>.</td><td>Docker Desktop → Volumes → <code>docketpilot_pgdata</code>. Or Research page → search judgments.</td></tr>
       <tr><td><b>Knowledge base: Acts</b> (79 Central Acts, 8,558 sections)</td><td>PostgreSQL tables <code>acts</code>, <code>section_versions</code>, <code>amendments</code> (same volume).</td><td>Research page → "Find the section".</td></tr>
-      <tr><td><b>Search index</b> (372,122 passages as number lists, "vectors")</td><td>Qdrant database inside Docker, collection <code>chunks_all</code>, volume <code>docketpilot_qdrantdata</code>.</td><td>With the app running, open <code>http://127.0.0.1:6333/dashboard</code>.</td></tr>
+      <tr><td><b>Search index</b> (503,701 passages as number lists, "vectors")</td><td>Qdrant database inside Docker, collection <code>chunks_all</code>, volume <code>docketpilot_qdrantdata</code>.</td><td>With the app running, open <code>http://127.0.0.1:6333/dashboard</code>.</td></tr>
       <tr><td><b>Original downloaded judgments</b> (PDFs and their text)</td><td>On the laptop: <code>data\raw\sc_pdf\</code> (Supreme Court) and <code>data\raw\hc_pdf\</code> (High Courts). Not on GitHub (too big).</td><td>Open the folder in File Explorer.</td></tr>
       <tr><td><b>Original downloaded Acts</b></td><td><code>data\raw\india_code\</code>, one JSON file per Act from India Code.</td><td>File Explorer.</td></tr>
       <tr><td><b>Rules</b> (deadlines, cheque-bounce ingredients, repealed laws)</td><td><code>data\rules\</code> (3 JSON files)</td><td>Open in VS Code.</td></tr>
@@ -138,7 +138,7 @@ details.qa p{margin:8px 0 2px}
   <h3>The four containers</h3>
   <div class="tbl"><table><thead><tr><th>Container name</th><th>Program and version</th><th>Port</th><th>What DocketPilot uses it for</th></tr></thead><tbody>
     <tr><td><code>docketpilot-postgres-1</code></td><td>PostgreSQL 16.6</td><td><code>5432</code></td><td>The main database: all judgments, Acts, passages, cases, drafts, calendar, users, audit log. The most important container.</td></tr>
-    <tr><td><code>docketpilot-qdrant-1</code></td><td>Qdrant 1.12.5</td><td><code>6333</code></td><td>Meaning-based (vector) search over 372,122 passages, collection <code>chunks_all</code>. Has a web dashboard at <code>http://127.0.0.1:6333/dashboard</code>.</td></tr>
+    <tr><td><code>docketpilot-qdrant-1</code></td><td>Qdrant 1.12.5</td><td><code>6333</code></td><td>Meaning-based (vector) search over 503,701 passages, collection <code>chunks_all</code>. Has a web dashboard at <code>http://127.0.0.1:6333/dashboard</code>.</td></tr>
     <tr><td><code>docketpilot-redis-1</code></td><td>Redis 7.4.1</td><td><code>6379</code></td><td>Fast temporary storage, kept ready for caching and job queues. Checked by <code>/health</code>; not essential yet.</td></tr>
     <tr><td><code>docketpilot-objectstore-1</code></td><td>SeaweedFS 3.80 (works like Amazon S3)</td><td><code>8333</code></td><td>File storage kept ready for storing documents when hosted. Not essential yet. (Replaced MinIO, whose free images stopped being published.)</td></tr>
   </tbody></table></div>
@@ -147,7 +147,7 @@ details.qa p{margin:8px 0 2px}
   <h3>The four volumes (where the data really is)</h3>
   <div class="tbl"><table><thead><tr><th>Volume name</th><th>Belongs to</th><th>Folder inside the container</th><th>What is in it</th></tr></thead><tbody>
     <tr><td><code>docketpilot_pgdata</code></td><td>PostgreSQL</td><td><code>/var/lib/postgresql/data</code></td><td><b>The knowledge base</b> (judgments, Acts, passages, citations) and all app data (cases, masked papers, drafts, calendar, users, audit log, agent progress), plus the test database. About 2-3 GB.</td></tr>
-    <tr><td><code>docketpilot_qdrantdata</code></td><td>Qdrant</td><td><code>/qdrant/storage</code></td><td><b>The search index</b>: 372,122 passage vectors (collections <code>chunks_all</code>, and the older cheque-bounce-only <code>chunks</code>).</td></tr>
+    <tr><td><code>docketpilot_qdrantdata</code></td><td>Qdrant</td><td><code>/qdrant/storage</code></td><td><b>The search index</b>: 503,701 passage vectors (collections <code>chunks_all</code>, and the older cheque-bounce-only <code>chunks</code>).</td></tr>
     <tr><td><code>docketpilot_redisdata</code></td><td>Redis</td><td><code>/data</code></td><td>Redis's save file; almost empty.</td></tr>
     <tr><td><code>docketpilot_objectdata</code></td><td>SeaweedFS</td><td><code>/data</code></td><td>Stored files; almost empty.</td></tr>
   </tbody></table></div>
@@ -323,7 +323,7 @@ details.qa p{margin:8px 0 2px}
     <tr><td><code>cases</code></td><td>one judgment (title, court, date, judges)</td><td>Library</td></tr>
     <tr><td><code>case_citations</code></td><td>one way to cite a judgment (e.g. 2020 INSC 631)</td><td>Library</td></tr>
     <tr><td><code>segments</code></td><td>one part of a judgment (headnote or body)</td><td>Library</td></tr>
-    <tr><td><code>chunks</code></td><td>one small passage of a judgment (430,882 in total), with its page</td><td>Library</td></tr>
+    <tr><td><code>chunks</code></td><td>one small passage of a judgment (583,931 in total), with its page</td><td>Library</td></tr>
     <tr><td><code>citation_edges</code></td><td>"judgment A cites judgment B"</td><td>Library</td></tr>
     <tr><td><code>acts</code></td><td>one Act (35)</td><td>Library</td></tr>
     <tr><td><code>section_versions</code></td><td>one section of an Act with its text (8,558)</td><td>Library</td></tr>
@@ -393,7 +393,7 @@ details.qa p{margin:8px 0 2px}
   <details class="qa" open><summary>Where is the knowledge base stored?</summary><p>In PostgreSQL (tables <code>cases</code>, <code>chunks</code>, <code>acts</code>, <code>section_versions</code>) inside Docker, plus a vector index in Qdrant (collection <code>chunks_all</code>). Source PDFs: <code>data\raw\</code>. Built by <code>docketpilot\ingestion\</code>.</p></details>
   <details class="qa"><summary>What is Docker used for? Where are its files?</summary><p>Docker runs the four storage services (PostgreSQL, Qdrant, Redis, SeaweedFS) as containers defined in <code>docker-compose.yml</code>. Their data lives in Docker volumes: knowledge base in <code>docketpilot_pgdata</code>, search index in <code>docketpilot_qdrantdata</code>. Show them in Docker Desktop → Containers and → Volumes. See section "Docker: containers, volumes and files".</p></details>
   <details class="qa"><summary>Where did the data come from? Is it legal to use?</summary><p>Supreme Court and High Court judgments from the AWS Open Data Registry (CC-BY-4.0 licence); Acts from India Code (Government of India). Code: <code>ingestion\download.py</code>, <code>knowledge\statutes.py</code>.</p></details>
-  <details class="qa"><summary>How many judgments and Acts?</summary><p>16,318 judgments with full text (Supreme Court 2015-2026 and five High Court benches 2023-2024), 48,168 Supreme Court cases for citation checks, 79 Central Acts with 8,558 sections, 430,882 passages, 372,122 in the vector index.</p></details>
+  <details class="qa"><summary>How many judgments and Acts?</summary><p>22,767 judgments with full text (Supreme Court 2015-2026 and five High Court benches 2022-2025), 52,166 cases for citation checks (Supreme Court 1950-2026 and High Courts), 79 Central Acts with 8,558 sections, 583,931 passages, 503,701 in the vector index.</p></details>
   <details class="qa"><summary>Where are the agents? How many?</summary><p>Seven, in <code>docketpilot\agents\nodes.py</code>, connected in <code>agents\graph.py</code> using LangGraph.</p></details>
   <details class="qa"><summary>How do you stop the AI from inventing cases (hallucination)?</summary><p>Three ways: (1) the AI may only use retrieved sources and must tag each legal statement (<code>prompts\chat_v1.md</code>); (2) every citation is checked against real judgments (<code>verification\engine.py</code>); (3) wrong ones are corrected or removed before the lawyer sees them (<code>verification\correct.py</code>). Result: 0 fabricated citations in our test vs 5.6% for the same AI alone.</p></details>
   <details class="qa"><summary>Which AI model do you use? Where does it run?</summary><p>openai/gpt-oss-120b on Groq's cloud. Code: <code>llm\groq_provider.py</code>. Up to 4 keys with automatic switching.</p></details>

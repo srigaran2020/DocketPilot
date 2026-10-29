@@ -1,16 +1,16 @@
 {
- "cases_total": 48168,
- "judgments_total": 16318,
+ "cases_total": 52166,
+ "judgments_total": 22767,
  "judgments_by_court": {
-  "Supreme\nCourt": 6547,
-  "Madras\n(Madurai)": 2192,
-  "Madras": 2191,
-  "Kerala": 2188,
-  "Telangana": 1600,
-  "Karnataka": 1600
+  "Supreme\nCourt": 8998,
+  "Madras\n(Madurai)": 2992,
+  "Madras": 2991,
+  "Kerala": 2987,
+  "Telangana": 2400,
+  "Karnataka": 2399
  },
- "chunks": 430882,
- "vectors": 372122,
+ "chunks": 583931,
+ "vectors": 503701,
  "acts": 79,
  "sections": 8558
 }
