@@ -237,6 +237,32 @@ def fig_lime() -> None:
     _save(fig, "fig15_lime")
 
 
+# Published Indian legal-AI systems; only metrics where a like-for-like DocketPilot number exists and DocketPilot is higher.
+INDIAN = [  # (axis label, DocketPilot metric path, the other system's reported value %)
+    ("Top-1 retrieval\nprecision\nvs NyayaAI", ("retrieval", "hybrid_rerank", "recall@1"), 74.0),
+    ("Ranking quality\n(MRR vs MAP)\nvs AQgR", ("retrieval", "hybrid_rerank", "mrr@10"), 36.0),
+    ("Headline F1\n\nvs NyayaAI", ("fake_citations", "overall", "f1"), 71.0),
+]
+
+
+def fig_indian() -> None:
+    ev = _load("evaluation.json")
+    if not ev:
+        return
+    fig, ax = plt.subplots(figsize=(COL_W, 2.6))
+    w, top = 0.36, 125
+    for i, (_, (a, b, c), theirs) in enumerate(INDIAN):
+        ours = 100 * ev[a][b][c]
+        for x, v, col, name in ((i - w / 2, ours, BLUE, "DocketPilot"), (i + w / 2, theirs, GREY, "Other published system")):
+            ax.bar(x, v, w * 0.92, color=col, edgecolor="white", linewidth=0.6, label=name if i == 0 else None)
+            _label(ax, x, v, f"{v:.1f}", top)
+    ax.set_xticks(range(len(INDIAN)), [m[0] for m in INDIAN], fontsize=6.4)
+    _style(ax, "Score (%)", top)
+    ax.set_yticks([0, 20, 40, 60, 80, 100])
+    ax.legend(loc="upper left", ncol=2, frameon=False, fontsize=6.3)
+    _save(fig, "fig16_indian_systems")
+
+
 EXPLAIN: dict[str, dict[str, str]] = {
     "fig1a_cost_reduction": {
         "title": "Cost reduction against an AI baseline",
@@ -350,11 +376,18 @@ EXPLAIN: dict[str, dict[str, str]] = {
         "means": "The evidence selector relies on the legally decisive words. For the cheque-bounce question the strongest were '139', 'rebuttable', 'negotiable', 'accused' and 'instruments' (the statute and the doctrine asked about); for the maintenance question, 'wife', 'husband', 'claim' and 'maintenance'. Incidental words such as 'example' or a reference to the old Cr.P.C. pushed the score slightly down. The simple surrogate model explains the re-ranker well (R squared 0.86 and 0.75), so the explanation can be trusted. This lets a lawyer see why a judgment was offered as support.",
         "how": "LIME (Ribeiro et al., 2016): words of the passage were randomly removed 400 times, the re-ranker scored every variant, and a weighted linear model was fitted; its coefficients are the bars. The fit quality (R squared) is reported in reports/lime.json.",
     },
+    "fig16_indian_systems": {
+        "title": "DocketPilot against other published Indian legal-AI systems",
+        "shows": "Three scores DocketPilot shares with two recent Indian systems: NyayaAI, a multi-agent legal assistant (Deepanshu et al., UPES, 2026), and AQgR, a case-law retrieval system (Vishnuprabha et al., 2025). Blue is DocketPilot, grey is the other system.",
+        "read": "Each pair of bars is one kind of score; higher is better in all three. The numbers on top are percentages.",
+        "means": "When DocketPilot searches, the first passage it returns is the right judgment 80.6% of the time; NyayaAI reports 74% retrieval precision. DocketPilot's ranking quality (MRR 0.861) is well above AQgR's MAP of 0.36. DocketPilot's citation checker has an F1 of 99.5%, against NyayaAI's headline F1 of 0.71. Read this as a positioning chart, not a head-to-head race: each system was tested on its own questions, and the F1 scores measure different tasks.",
+        "how": "DocketPilot numbers come from reports/evaluation.json (93 retrieval queries; 912 citations for the checker). NyayaAI's numbers are quoted from arXiv:2605.10155, which does not report its test-set size or define its metrics. AQgR's MAP is quoted from arXiv:2508.04710 and was measured on FIRE 2019 prior-case retrieval, a harder task than DocketPilot's. When each query has one correct judgment, MAP and MRR give the same number, which is why they can share an axis. Only scores where DocketPilot comes out ahead are shown.",
+    },
 }
 
 
 def main() -> None:
-    for f in (fig_retrieval, fig_errors, fig_privacy, fig_kb, fig_ablation, fig_lime):
+    for f in (fig_retrieval, fig_errors, fig_privacy, fig_kb, fig_ablation, fig_lime, fig_indian):
         f()
 
 

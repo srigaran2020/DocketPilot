@@ -299,6 +299,10 @@ start.ps1 · check.ps1 · docker-compose.yml · requirements.txt · constraints.
     <tr><td>Harvey Assistant / CoCounsel (Vals VLAIR 2025)</td><td>Document Q&amp;A score (lawyers 70.1)</td><td class="n">94.8 / 89.6</td><td>not measured</td><td>Task accuracy vs lawyers; context only</td></tr>
     <tr><td>Best of 21 LLMs, closed book (LegalCiteBench)</td><td>Citation retrieval score</td><td class="n">&lt; 7/100</td><td>—</td><td>Shows why closed-book models need verification</td></tr>
     <tr><td>Falkor-IRAC (Indian judicial AI)</td><td>Graph-verified answers</td><td>qualitative</td><td>—</td><td>Closest Indian system; no comparable metric</td></tr>
+    <tr><td>NyayaAI (Deepanshu et al., 2026)</td><td>Retrieval precision</td><td class="n">74%</td><td class="n win">80.6% (top-1)</td><td>Indian multi-agent RAG assistant; own test set, size not reported</td></tr>
+    <tr><td>NyayaAI (Deepanshu et al., 2026)</td><td>Headline F1</td><td class="n">0.71</td><td class="n win">0.995 (citation checker)</td><td>Different tasks; positioning only</td></tr>
+    <tr><td>AQgR (Vishnuprabha et al., 2025)</td><td>Ranking quality (MAP vs our MRR)</td><td class="n">0.36</td><td class="n win">0.861</td><td>FIRE 2019 prior-case retrieval, a harder task than ours</td></tr>
+    <tr><td>Domain-partitioned hybrid RAG (Goel et al., 2025)</td><td>LLM-judged pass rate, 40 questions</td><td class="n">70%</td><td>not measured</td><td>Answer quality; DocketPilot not yet graded this way</td></tr>
   </tbody></table></div>
   <div class="note">Methodological caution (Ovcharov, 2026): a measured hallucination rate depends on how complete the reference store is. That is why DocketPilot counts only citation formats its store covers completely as fabricated, and reports the rest as uncheckable.</div>
 </section>
@@ -363,6 +367,9 @@ start.ps1 · check.ps1 · docker-compose.yml · requirements.txt · constraints.
     <li>S. Chen, H. Yin, S. Zhou. LegalCiteBench: Evaluating Citation Reliability in Legal Language Models. arXiv:2605.10186 (ICML 2026).</li>
     <li>V. Ovcharov. Citation Grounding Measures the Oracle: Graph Coverage Determines Reported LLM Hallucination Rates in Law. arXiv:2606.00898, 2026.</li>
     <li>J. Bose. Falkor-IRAC: Graph-Constrained Generation for Verified Legal Reasoning in Indian Judicial AI. arXiv:2605.14665, 2026.</li>
+    <li>Deepanshu, D. Saxena, D. Rana, A. Varshney, S. R. Laskar. NyayaAI: An AI-Powered Legal Assistant Using Multi-Agent Architecture and Retrieval-Augmented Generation. arXiv:2605.10155, 2026.</li>
+    <li>V. Vishnuprabha, D. M. Viswanathan, R. Rajesh, A. V. Pillai. Augmented Question-guided Retrieval (AQgR) of Indian Case Law with LLM, RAG, and Structured Summaries. arXiv:2508.04710, 2025.</li>
+    <li>R. Goel, S. P. Kumar, A. Agrawal, D. Poddar, P. Narang, D. Kumar. Domain-Partitioned Hybrid RAG for Legal Reasoning: Toward Modular and Explainable Legal AI for India. arXiv:2602.23371, 2025.</li>
     <li>Indian Supreme Court and High Court Judgments, AWS Open Data Registry (CC-BY-4.0). India Code, Legislative Department, Government of India.</li>
   </ol>
 </section>

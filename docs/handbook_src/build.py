@@ -63,7 +63,7 @@ def _method(name: str) -> str:
 FIG_ORDER = ["fig11_pipeline_ablation", "fig3_hallucination", "fig2a_citation_recall", "fig2b_citation_f1", "fig1a_cost_reduction",
              "fig4_cost", "fig5_retrieval_modes", "fig6_speed_accuracy", "fig7_error_types", "fig8_confusion_matrix",
              "fig9_privacy_types", "fig10_knowledge_base", "fig12_time_breakdown", "fig13_token_breakdown",
-             "fig14_autocorrect_outcomes", "fig15_lime"]
+             "fig14_autocorrect_outcomes", "fig15_lime", "fig16_indian_systems"]
 
 
 def _figures_section() -> str:

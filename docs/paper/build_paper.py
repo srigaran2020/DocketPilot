@@ -199,7 +199,7 @@ para("Dahl et al. [3] queried general models on verifiable facts about US federa
 sub("B", "Citation checking and retrieval")
 para("Liu et al. [4] benchmark citation-error detection on excerpts of US briefs; their best agentic configuration reaches 84.4% recall and the best F1 is 68.8%. Retrieval-augmented generation [11] grounds answers in documents, and hybrid lexical–dense retrieval with reciprocal rank fusion [13] and cross-encoder re-ranking [15] is now a common recipe. For legal documents, Hany et al. [8] show that navigating a structured index instead of injecting the whole corpus can cut cost by 25–67.5%.")
 sub("C", "Indian legal NLP")
-para("ILDC [24] and IL-TUR [23] provide judgment-prediction and understanding tasks, and InLegalBERT [25] adapts encoders to Indian legal text. Falkor-IRAC [7] constrains generation with a graph of Indian judgments but reports qualitative results on a small corpus. To our knowledge no prior Indian system combines retrieval, generation, automatic citation repair, local privacy masking and case management in one deployable application.")
+para("ILDC [24] and IL-TUR [23] provide judgment-prediction and understanding tasks, and InLegalBERT [25] adapts encoders to Indian legal text. Falkor-IRAC [7] constrains generation with a graph of Indian judgments but reports qualitative results on a small corpus. NyayaAI [26] routes queries through a multi-agent pipeline with FAISS retrieval and a compliance check, reporting 74% retrieval precision and 72% response accuracy; AQgR [27] adds question-guided retrieval and structured summaries for prior-case search, reaching a MAP of 0.36 on FIRE 2019; and a domain-partitioned hybrid RAG with a knowledge graph [28] passes 70% of 40 synthetic questions judged by an LLM. None of these verify the citations they emit. To our knowledge no prior Indian system combines retrieval, generation, automatic citation repair, local privacy masking and case management in one deployable application.")
 
 table("TABLE I. Positioning against related systems (Cite: citation check; Fix: automatic repair; PII: privacy masking; Cal.: hearing calendar; ✓ reported in the cited source; – not reported)",
       ["System", "Scope", "RAG", "Cite", "Fix", "PII", "Cal."],
@@ -209,6 +209,7 @@ table("TABLE I. Positioning against related systems (Cite: citation check; Fix: 
        ["Westlaw AI-AR [2]", "US", "✓", "–", "–", "–", "–"],
        ["Agentic checker [4]", "US", "✓", "✓", "–", "–", "–"],
        ["Falkor-IRAC [7]", "India", "✓", "✓", "–", "–", "–"],
+       ["NyayaAI [26]", "India", "✓", "–", "–", "–", "–"],
        ["NAVINDEX [8]", "Contracts", "✓", "–", "–", "–", "–"]],
       [1.02, 0.6, 0.42, 0.36, 0.34, 0.34, 0.38])
 
@@ -241,15 +242,14 @@ sub("B", "Comparison with published systems")
 para(f"Fig. 4 places the full pipeline beside published hallucination rates. The figures for other systems were obtained under different protocols and jurisdictions and are given for context only. Fig. 5 reports citation-error detection: on our benchmark the verifier reaches {pct(100 * fake['recall'])} recall and {pct(100 * fake['precision'])} precision. The same base model used as an agentic checker in [4] reaches 55.1% recall, so the gain comes from grounding verification in a complete case store rather than from the model itself. Swapped party names are the hardest corruption (98% caught), because the rest of the citation is correct; Fig. 6 gives the full confusion matrix.")
 figure(FIG / "fig3_hallucination.png", "Fig. 4. Unreliable citations: DocketPilot and the same model answering from memory (measured), against published figures for commercial tools [2] and general models [3].")
 figure(FIG / "fig2b_citation_f1.png", "Fig. 5. F1 of citation-error detection. Other systems from [4] (agentic setting, US briefs); DocketPilot on the Indian benchmark.")
-figure(FIG / "fig8_confusion_matrix.png", "Fig. 6. Confusion matrix of the citation verifier on 756 fake and 156 genuine citations.", width=COL * 0.8)
+figure(FIG / "fig8_confusion_matrix.png", "Fig. 6. Confusion matrix of the citation verifier on 756 fake and 156 genuine citations.", width=COL * 0.62)
 sub("C", "Cost and speed")
-para(f"Because only the best passages are sent, a verified research answer costs US${cost['docketpilot']:.5f} against US${cost['baseline_long_context']:.5f} when the same model reads the full judgments, a {pct(cost['reduction_pct'])} reduction that includes every verification call (Fig. 8). Verification is not free (Fig. 7): in the ablation run retrieval took {tm.get('retrieval', 0):.1f} s on a laptop CPU, generation {tm.get('llm_answer', 0):.1f} s and verification {tm.get('verification', 0):.1f} s per answer, and the verifier consumed {tok.get('judge_in', 0):,.0f} of the {tok.get('judge_in', 0) + tok.get('answer_in', 0):,.0f} input tokens per answer. Reading a case paper took {speed['docketpilot']:.1f} s versus {speed['baseline']:.1f} s for the unassisted model, a {pct(speed['speedup_pct'])} saving that is smaller than the 60.8% reported for LegalMind [1]; DocketPilot trades raw speed for checking.")
-figure(FIG / "fig12_time_breakdown.png", "Fig. 7. Mean time per research answer by pipeline stage (retrieval on a laptop CPU; generation and verification on Groq).")
-figure(FIG / "fig1a_cost_reduction.png", "Fig. 8. Cost reduction against an AI baseline: DocketPilot (measured) and published systems [1], [8].")
+para(f"Because only the best passages are sent, a verified research answer costs US${cost['docketpilot']:.5f} against US${cost['baseline_long_context']:.5f} when the same model reads the full judgments, a {pct(cost['reduction_pct'])} reduction that includes every verification call (Fig. 7). Verification is not free: in the ablation run retrieval took {tm.get('retrieval', 0):.1f} s on a laptop CPU, generation {tm.get('llm_answer', 0):.1f} s and verification {tm.get('verification', 0):.1f} s per answer, and the verifier consumed {tok.get('judge_in', 0):,.0f} of the {tok.get('judge_in', 0) + tok.get('answer_in', 0):,.0f} input tokens per answer. Reading a case paper took {speed['docketpilot']:.1f} s versus {speed['baseline']:.1f} s for the unassisted model, a {pct(speed['speedup_pct'])} saving that is smaller than the 60.8% reported for LegalMind [1]; DocketPilot trades raw speed for checking.")
+figure(FIG / "fig1a_cost_reduction.png", "Fig. 7. Cost reduction against an AI baseline: DocketPilot (measured) and published systems [1], [8].")
 sub("D", "Retrieval and privacy")
 lex, hyb, hr = RET.get("lexical", {}), RET.get("hybrid", {}), RET.get("hybrid_rerank", {})
-para(f"Fig. 9 confirms that neither lexical nor dense search suffices alone: Recall@5 rises from {pct(100 * lex.get('recall@5', 0))} for lexical search to {pct(100 * hyb.get('recall@5', 0))} with fusion and {pct(100 * hr.get('recall@5', 0))} after re-ranking, at the cost of extra latency. The privacy gateway masked every structured identifier in the held-out set; overall recall was {pct(100 * pii['recall'])}, with person names the main source of misses, which the review screen is designed to catch.")
-figure(FIG / "fig5_retrieval_modes.png", "Fig. 9. Retrieval methods on 93 headnote-to-judgment queries.")
+para(f"Fig. 8 confirms that neither lexical nor dense search suffices alone: Recall@5 rises from {pct(100 * lex.get('recall@5', 0))} for lexical search to {pct(100 * hyb.get('recall@5', 0))} with fusion and {pct(100 * hr.get('recall@5', 0))} after re-ranking, at the cost of extra latency. The privacy gateway masked every structured identifier in the held-out set; overall recall was {pct(100 * pii['recall'])}, with person names the main source of misses, which the review screen is designed to catch.")
+figure(FIG / "fig5_retrieval_modes.png", "Fig. 8. Retrieval methods on 93 headnote-to-judgment queries.")
 table("TABLE II. Component results", ["Component", "Metric", "Result"],
       [["Citation verifier", "Recall / precision / F1", f"{100 * fake['recall']:.1f} / {100 * fake['precision']:.1f} / {100 * fake['f1']:.1f}%"],
        ["Retrieval (hybrid + re-rank)", "Recall@1 / Recall@5 / MRR@10", f"{100 * hr.get('recall@1', 0):.1f} / {100 * hr.get('recall@5', 0):.1f}% / {hr.get('mrr@10', 0):.3f}"],
@@ -257,9 +257,11 @@ table("TABLE II. Component results", ["Component", "Metric", "Result"],
        ["Statute date logic", "Boundary checks passed", f"{EV.get('statutes', {}).get('passed', 18)} / {EV.get('statutes', {}).get('boundary_checks', 18)}"],
        ["Released answers", "Unreliable citations", pct(D_tot)]],
       [1.25, 1.25, 0.95])
+para(f"Fig. 9 sets these numbers beside the Indian systems that report comparable scores. The first passage returned is the correct judgment in {pct(100 * hr.get('recall@1', 0))} of queries, above the 74% retrieval precision of NyayaAI [26]; the ranking quality (MRR {hr.get('mrr@10', 0):.3f}) exceeds the MAP of 0.36 reported by AQgR [27] (with one relevant judgment per query MAP equals MRR); and the verifier's F1 of {pct(100 * fake['f1'])} exceeds NyayaAI's headline F1 of 0.71. Test sets differ, so the comparison positions rather than ranks the systems.")
+figure(FIG / "fig16_indian_systems.png", "Fig. 9. DocketPilot against published Indian legal-AI systems on the scores they report [26], [27]; each system on its own test set.", width=COL * 0.74)
 sub("E", "Explainability")
 para("To make evidence selection inspectable we apply LIME [12] to the re-ranker: words of the selected passage are removed at random 400 times, each variant is scored, and a weighted linear surrogate is fitted. Fig. 10 shows that, for a question on the presumption under Section 139 of the Negotiable Instruments Act, the decisive terms are the section number, “rebuttable” and the Act's name, while for a maintenance question they are “wife”, “husband”, “claim” and “maintenance”. The surrogate fits well (R² of 0.86 and 0.75), so a lawyer can see why a judgment was offered as support.")
-figure(FIG / "fig15_lime.png", "Fig. 10. LIME attributions of the evidence re-ranker for two queries; blue words raise and red words lower the relevance score.", width=COL * 0.92)
+figure(FIG / "fig15_lime.png", "Fig. 10. LIME attributions of the evidence re-ranker for two queries; blue words raise and red words lower the relevance score.", width=COL * 0.8)
 
 # ================= VI. Limitations and future work =================
 heading("VI", "Limitations and Future Work")
@@ -297,6 +299,9 @@ REFS = [
     "A. Joshi et al., “IL-TUR: Benchmark for Indian legal text understanding and reasoning,” in Proc. ACL, 2024.",
     "V. Malik et al., “ILDC for CJPE: Indian legal documents corpus for court judgment prediction and explanation,” in Proc. ACL-IJCNLP, 2021, pp. 4046–4062.",
     "S. Paul, A. Mandal, P. Goyal, and S. Ghosh, “Pre-trained language models for the legal domain: A case study on Indian law,” in Proc. ICAIL, 2023, pp. 187–196.",
+    "Deepanshu, D. Saxena, D. Rana, A. Varshney, and S. R. Laskar, “NyayaAI: An AI-powered legal assistant using multi-agent architecture and retrieval-augmented generation,” arXiv:2605.10155, 2026.",
+    "V. Vishnuprabha, D. M. Viswanathan, R. Rajesh, and A. V. Pillai, “Augmented question-guided retrieval (AQgR) of Indian case law with LLM, RAG, and structured summaries,” arXiv:2508.04710, 2025.",
+    "R. Goel, S. P. Kumar, A. Agrawal, D. Poddar, P. Narang, and D. Kumar, “Domain-partitioned hybrid RAG for legal reasoning: Toward modular and explainable legal AI for India,” arXiv:2602.23371, 2025.",
 ]
 for i, ref in enumerate(REFS, 1):
     q = para(f"[{i}]  {ref}", size=8, indent=False, align=WD_ALIGN_PARAGRAPH.LEFT)
