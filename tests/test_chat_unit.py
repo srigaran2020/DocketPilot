@@ -71,6 +71,13 @@ def test_swap_tags_accepts_asterisk_and_paren_forms():
     assert "A v. B, 2020 INSC 1" in out and "C v. D, 2021 INSC 2" in out and used == ["P1", "P2", "P1"]
 
 
+def test_swap_tags_accepts_spaces_inside_brackets():
+    labels = {"P1": "A v. B, 2020 INSC 1", "S3": "Section 13, Hindu Marriage Act, 1955"}
+    out, used = chat.swap_tags("Cruelty is a ground [ S3 ]. The court agreed [ P1 ].", labels)
+    assert "[ S3 ]" not in out and "P1" not in out
+    assert "Section 13, Hindu Marriage Act, 1955" in out and "A v. B, 2020 INSC 1" in out and used == ["S3", "P1"]
+
+
 def test_last_message_must_be_user(patched):
     with pytest.raises(ValueError):
         asyncio.run(chat.answer(None, FakeLLM(), [{"role": "assistant", "content": "hi"}]))  # type: ignore[arg-type]

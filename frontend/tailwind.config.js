@@ -11,7 +11,7 @@ export default {
         ink: v("ink"), "ink-2": v("ink-2"), mute: v("mute"),
         brand: { DEFAULT: v("brand"), 2: v("brand-2"), soft: v("brand-soft"), ink: v("brand-ink") },
         seal: { DEFAULT: v("seal"), soft: v("seal-soft") },
-        brass: { DEFAULT: v("brass"), soft: v("brass-soft") },
+        brass: { DEFAULT: v("brass"), soft: v("brass-soft"), ink: v("brass-ink") },
         ok: { DEFAULT: v("ok"), soft: v("ok-soft") },
         warn: { DEFAULT: v("warn"), soft: v("warn-soft") },
         bad: { DEFAULT: v("bad"), soft: v("bad-soft") },

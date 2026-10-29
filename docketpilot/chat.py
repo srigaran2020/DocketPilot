@@ -140,6 +140,8 @@ def swap_tags(text: str, labels: dict[str, str]) -> tuple[str, list[str]]:
     # other ways the model sometimes writes a tag: *P1*, **P1**, (P1), {P1}; normalise them to [P1]
     text = re.sub(r"\*{1,2}\s*(P\d+|S\d+)\s*\*{1,2}", r"[\1]", text)
     text = re.sub(r"[({]\s*(P\d+|S\d+)\s*[)}]", r"[\1]", text)
+    # "[ P1 ]" with spaces (including no-break spaces) inside the brackets
+    text = re.sub(r"\[[\s  ]*(P\d+|S\d+)[\s  ]*\]", r"[\1]", text)
     used: list[str] = []
 
     def run(m: re.Match[str]) -> str:

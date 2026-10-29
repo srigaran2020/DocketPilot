@@ -93,7 +93,7 @@ export default function Login({ mode }: { mode: "signin" | "signup" }) {
             ))}
           </div>
         </motion.div>
-        <p className="relative mt-10 text-[12px] uppercase tracking-[.16em] text-[#6f948a]">Research prototype</p>
+        <p className="relative mt-10 text-[12px] uppercase tracking-[.16em] text-[#86a99d]">Research prototype</p>
       </section>
 
       <section className="flex items-center justify-center bg-surface px-6 py-12">

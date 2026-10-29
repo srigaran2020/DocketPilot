@@ -127,7 +127,7 @@ async def main(paper: Path) -> None:
                 await asyncio.sleep(0.3)
                 await click("[...document.querySelectorAll('a')].find(a => a.textContent.trim() === 'Dashboard')")
                 return 1
-            await task("See the next hearing date", [s_next], "document.body.innerText.includes('Next hearing for enquiry')")
+            await task("See the next hearing date", [s_next], "[...document.querySelectorAll('ol li')].some(li => /hearing/i.test(li.innerText) && /19/.test(li.innerText))")
 
             async def s_palette():
                 await key("k", "KeyK", 2)  # Ctrl+K
@@ -141,8 +141,9 @@ async def main(paper: Path) -> None:
             async def s_section():
                 await click("[...document.querySelectorAll('a')].find(a => a.textContent.trim() === 'Research')")
                 await until("!!document.querySelector('[role=tab]')")
-                await click("[...document.querySelectorAll('[role=tab]')].find(t => t.textContent.includes('Find a section'))")
-                await until("!!document.querySelector('input[name=q]')")
+                # Radix tabs switch on focus / mouse-down (a scripted .click() alone does not), like a real click
+                await js("[...document.querySelectorAll('[role=tab]')].find(t => t.textContent.includes('Find a section')).focus()")
+                await until("!!document.querySelector('input[placeholder*=\"anticipatory bail\"]')")
                 await typ("input[name=q]", "anticipatory bail")
                 await click("document.querySelector('input[name=q]').form.querySelector('button[type=submit]')")
                 return 4
@@ -180,7 +181,7 @@ async def main(paper: Path) -> None:
                 await asyncio.sleep(1.8)
                 if not await js("typeof axe !== 'undefined'"):
                     await js(AXE)
-                r = await js("axe.run(document, {runOnly: {type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa']}}).then(r => r.violations.map(v => ({id: v.id, impact: v.impact, nodes: v.nodes.length, help: v.help})))")
+                r = await js("axe.run(document, {runOnly: {type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa']}}).then(r => r.violations.map(v => ({id: v.id, impact: v.impact, nodes: v.nodes.length, help: v.help, targets: v.nodes.slice(0, 4).map(n => [n.target.join(' '), (n.any[0] || {}).message || ''])})))")
                 res["axe"][p] = r or []
                 print(f"axe {p}: {len(r or [])} rule(s) violated", [(v['id'], v['impact'], v['nodes']) for v in (r or [])], flush=True)
 
@@ -197,7 +198,7 @@ async def main(paper: Path) -> None:
             # speed: reload to an interactive dashboard
             await cmd("Emulation.setDeviceMetricsOverride", width=1440, height=900, deviceScaleFactor=1, mobile=False)
             t0 = time.perf_counter()
-            await cmd("Page.navigate", url=BASE + "/#/dashboard")
+            await cmd("Page.navigate", url=BASE + f"/?reload={time.time():.0f}#/dashboard")  # a new URL forces a full page load
             await until("!!document.querySelector('[data-testid=quick-0]') && !document.querySelector('.animate-shimmer')", 30)
             res["speed"]["reload_to_interactive_dashboard_s"] = round(time.perf_counter() - t0, 2)
             res["speed"]["navigation_timing_ms"] = await js("(()=>{const n=performance.getEntriesByType('navigation')[0]; return {dom_content_loaded: Math.round(n.domContentLoadedEventEnd), load: Math.round(n.loadEventEnd)};})()")

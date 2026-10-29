@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, CalendarDays, Download, FilePen, FileText, Lock, RefreshCcw, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "@/components/toast";
 import { DateTile, DaysChip, StatusPill } from "@/components/legal";
 import { PaperIntake } from "@/components/papers";
 import { Badge, Button, Card, CardHeader, Empty, ErrorNote, Input, Label, PageHeader, Skeleton, Textarea } from "@/components/ui";

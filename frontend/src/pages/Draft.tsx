@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, BookMarked, Check, ClipboardCheck, Download, FileSearch, Gavel, ListChecks, Loader2, Pencil, ScrollText, ShieldCheck } from "lucide-react";
 import { Fragment, useMemo, useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "@/components/toast";
 import { CitationHover, Passage, ReleaseBanner, Stamp, StatusPill, statuteNote, whyColour } from "@/components/legal";
 import { Badge, Button, Card, CardHeader, ErrorNote, PageHeader, Skeleton, Tabs, TabList, TabPanel, Textarea } from "@/components/ui";
 import { api, download } from "@/lib/api";
@@ -48,7 +48,7 @@ function DraftText({ text, citations, onPick }: { text: string; citations: any[]
   const nodes = useMemo(() => {
     const raws = citations.map(c => c.raw).filter(Boolean).sort((a, b) => b.length - a.length);
     const ph = (s: string, k: string) => s.split(/\b([A-Z]+(?:_[A-Z]+)*_\d+)\b/g).map((p, i) => (i % 2
-      ? <mark key={k + i} className="rounded bg-brass-soft px-1 font-mono text-[12.5px] text-[rgb(var(--brass))]">{p}</mark> : <Fragment key={k + i}>{p}</Fragment>));
+      ? <mark key={k + i} className="rounded bg-brass-soft px-1 font-mono text-[12.5px] text-brass-ink">{p}</mark> : <Fragment key={k + i}>{p}</Fragment>));
     const out: ReactNode[] = [];
     let rest = text, n = 0;
     while (rest) {

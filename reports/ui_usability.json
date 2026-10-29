@@ -1,0 +1,139 @@
+{
+ "tasks": [
+  {
+   "task": "Create an account and reach the dashboard",
+   "success": true,
+   "user_actions": 5,
+   "seconds": 0.28
+  },
+  {
+   "task": "Add case papers, review masking and file them",
+   "success": true,
+   "user_actions": 4,
+   "seconds": 4.9
+  },
+  {
+   "task": "See the next hearing date",
+   "success": true,
+   "user_actions": 1,
+   "seconds": 0.48
+  },
+  {
+   "task": "Open a case from the command palette (Ctrl+K)",
+   "success": true,
+   "user_actions": 3,
+   "seconds": 0.59
+  },
+  {
+   "task": "Find a section of an Act by topic",
+   "success": true,
+   "user_actions": 4,
+   "seconds": 0.17
+  },
+  {
+   "task": "Add a reminder to the calendar",
+   "success": true,
+   "user_actions": 4,
+   "seconds": 0.18
+  },
+  {
+   "task": "Switch to dark mode",
+   "success": true,
+   "user_actions": 1,
+   "seconds": 0.02
+  },
+  {
+   "task": "Check the citations in a pasted text",
+   "success": true,
+   "user_actions": 3,
+   "seconds": 0.16
+  }
+ ],
+ "axe": {
+  "dashboard": [],
+  "ask": [],
+  "cases": [],
+  "calendar": [],
+  "research": [],
+  "verify": [],
+  "guide": [],
+  "account": []
+ },
+ "responsive": {
+  "dashboard@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "ask@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "cases@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "calendar@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "research@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "verify@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "guide@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "account@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "dashboard@1440": {
+   "overflow_px": -10,
+   "ok": true
+  },
+  "ask@1440": {
+   "overflow_px": -10,
+   "ok": true
+  },
+  "cases@1440": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "calendar@1440": {
+   "overflow_px": -10,
+   "ok": true
+  },
+  "research@1440": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "verify@1440": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "guide@1440": {
+   "overflow_px": -10,
+   "ok": true
+  },
+  "account@1440": {
+   "overflow_px": 0,
+   "ok": true
+  }
+ },
+ "speed": {
+  "reload_to_interactive_dashboard_s": 0.44,
+  "navigation_timing_ms": {
+   "dom_content_loaded": 170,
+   "load": 170
+  }
+ },
+ "bundle_kb": {
+  "index-DGjygioe.css": 50,
+  "index-XdKLV28c.js": 631
+ }
+}

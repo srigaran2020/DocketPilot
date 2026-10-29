@@ -7,12 +7,12 @@
   :root {
     --bg: 246 244 239; --surface: 255 255 255; --raised: 251 250 247;
     --line: 232 228 219; --line-2: 214 208 194;
-    --ink: 20 33 29; --ink-2: 61 74 69; --mute: 112 122 117;
+    --ink: 20 33 29; --ink-2: 61 74 69; --mute: 98 107 102;
     --brand: 15 59 51; --brand-2: 21 94 82; --brand-soft: 229 240 236; --brand-ink: 216 230 223; --on-brand: 255 255 255;
     --seal: 194 65 12; --seal-soft: 253 238 229;
-    --brass: 176 138 46; --brass-soft: 248 240 218;
+    --brass: 176 138 46; --brass-soft: 248 240 218; --brass-ink: 130 96 22;
     --ok: 22 117 70; --ok-soft: 228 244 234;
-    --warn: 160 98 0; --warn-soft: 253 243 217;
+    --warn: 138 84 0; --warn-soft: 253 243 217;
     --bad: 186 36 28; --bad-soft: 252 232 229;
     color-scheme: light;
   }
@@ -22,7 +22,7 @@
     --ink: 233 239 236; --ink-2: 192 203 198; --mute: 134 148 142;
     --brand: 104 204 176; --brand-2: 132 220 196; --brand-soft: 20 46 40; --brand-ink: 216 230 223; --on-brand: 8 22 18;
     --seal: 246 126 76; --seal-soft: 56 27 17;
-    --brass: 224 186 96; --brass-soft: 50 40 17;
+    --brass: 224 186 96; --brass-soft: 50 40 17; --brass-ink: 224 186 96;
     --ok: 86 204 140; --ok-soft: 17 46 32;
     --warn: 240 184 76; --warn-soft: 54 40 13;
     --bad: 246 112 100; --bad-soft: 58 22 20;

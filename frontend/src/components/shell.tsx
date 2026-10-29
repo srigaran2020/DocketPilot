@@ -77,7 +77,7 @@ function Sidebar({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed
           className={cn("flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[13px] text-[#86a99d] hover:bg-white/[.05] hover:text-white", collapsed && "justify-center px-0")}>
           {collapsed ? <ChevronsRight className="h-[18px] w-[18px]" /> : <><ChevronsLeft className="h-[18px] w-[18px]" />Collapse</>}
         </button>
-        {!collapsed && <p className="px-3 pt-2 text-[11px] uppercase tracking-[.14em] text-[#6f948a]">Research prototype</p>}
+        {!collapsed && <p className="px-3 pt-2 text-[11px] uppercase tracking-[.14em] text-[#86a99d]">Research prototype</p>}
       </div>
     </aside>
   );

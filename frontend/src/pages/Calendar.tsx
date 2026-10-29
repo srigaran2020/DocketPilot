@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { CalendarPlus, Check, ChevronLeft, ChevronRight, MousePointerClick, Trash2, Undo2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "@/components/toast";
 import { DateTile, DaysChip, KIND_BAR, KindPill, Passage } from "@/components/legal";
 import { Badge, Button, Card, CardHeader, ErrorNote, Input, PageHeader, Select, Skeleton } from "@/components/ui";
 import { api } from "@/lib/api";
@@ -61,7 +61,7 @@ export default function CalendarPage() {
                 const k = isoDay(d), evs = byDay[k] || [], other = d.getMonth() !== month.getMonth(), today = k === todayIso;
                 return (
                   <div key={k} className={cn("min-h-[108px] border-b border-r border-line p-1.5 transition [&:nth-child(7n+7)]:border-r-0", other ? "bg-raised/40" : "bg-surface hover:bg-raised/50")}>
-                    <div className={cn("mb-1 grid h-7 w-7 place-items-center rounded-full text-[13px] font-semibold", today ? "bg-seal text-white" : other ? "text-line-2" : "text-ink-2")}>{d.getDate()}</div>
+                    <div className={cn("mb-1 grid h-7 w-7 place-items-center rounded-full text-[13px] font-semibold", today ? "bg-seal text-white" : other ? "text-mute" : "text-ink-2")}>{d.getDate()}</div>
                     <div className="space-y-1">
                       {evs.slice(0, 3).map(e => (
                         <motion.button layout key={e.id} onClick={() => { setSelId(e.id); setDayList(null); }} title={`${e.case} · ${e.title}`}

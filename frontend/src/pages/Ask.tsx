@@ -240,7 +240,7 @@ export default function Ask() {
           <div className="mt-3 flex flex-wrap gap-2">{m.sources.map((s: any) => (
             <button key={s.chunk_id} onClick={() => showChunk(s.chunk_id)} data-testid="source-chip"
               className="inline-flex max-w-[260px] items-center gap-1.5 rounded-full border border-line bg-raised px-3 py-1 text-[12.5px] text-ink-2 transition hover:border-brass/60 hover:text-ink">
-              <BookMarked className="h-3.5 w-3.5 text-[rgb(var(--brass))]" /><span className="truncate">{String(s.label).split(",")[0]}</span></button>))}</div>)}
+              <BookMarked className="h-3.5 w-3.5 text-brass-ink" /><span className="truncate">{String(s.label).split(",")[0]}</span></button>))}</div>)}
       </BotCard>);
   };
 
@@ -294,7 +294,7 @@ export default function Ask() {
         <aside className="hidden xl:block">
           <div className="sticky top-24 space-y-4">
             <Card className="overflow-hidden">
-              <div className="flex items-center gap-2 border-b border-line px-4 py-3"><BookMarked className="h-4 w-4 text-[rgb(var(--brass))]" /><p className="h-display text-[15px]">Source</p></div>
+              <div className="flex items-center gap-2 border-b border-line px-4 py-3"><BookMarked className="h-4 w-4 text-brass-ink" /><p className="h-display text-[15px]">Source</p></div>
               <div className="p-4">
                 <AnimatePresence mode="wait">
                   {side ? (

@@ -4,7 +4,7 @@ import { CalendarPlus, EyeOff, FileText, FolderOpen, Lock, Plus, UploadCloud } f
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "@/components/toast";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { DateTile, DaysChip, KindPill } from "./legal";
@@ -75,7 +75,7 @@ export function MaskReview({ pv, onFiled }: { pv: any; onFiled: (r: any) => void
                 onChange={() => setUnmask(s => { const n = new Set(s); n.has(k) ? n.delete(k) : n.add(k); return n; })} />
               <span className="w-28 shrink-0 font-mono text-[11px] uppercase tracking-wider text-mute">{e.type}</span>
               <span className={cn("flex-1 truncate text-[14px]", !kept && "line-through")}>{e.value}</span>
-              <span className="rounded-md bg-brass-soft px-2 py-0.5 font-mono text-[12px] text-[rgb(var(--brass))]">{e.placeholder}</span>
+              <span className="rounded-md bg-brass-soft px-2 py-0.5 font-mono text-[12px] text-brass-ink">{e.placeholder}</span>
             </label>
           );
         }) : <p className="px-4 py-3 text-[13.5px] text-mute">Nothing private found in this paper.</p>}

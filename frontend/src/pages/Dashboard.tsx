@@ -11,7 +11,7 @@ import { docName, greeting, isoDay, niceDate, store } from "@/lib/utils";
 const QUICK = [
   { icon: FilePen, title: "Draft a document", text: "Petition, application, notice or reply", ask: "Draft a ", tone: "from-seal/15 to-seal/0 text-seal" },
   { icon: MessageSquareText, title: "Ask a legal question", text: "Answers from real judgments and Acts", ask: "What does the law say about ", tone: "from-brand-2/15 to-brand-2/0 text-brand-2" },
-  { icon: BookOpen, title: "Find a section", text: "Central Acts, searched by topic", to: "/research", tone: "from-brass/20 to-brass/0 text-[rgb(var(--brass))]" },
+  { icon: BookOpen, title: "Find a section", text: "Central Acts, searched by topic", to: "/research", tone: "from-brass/20 to-brass/0 text-brass-ink" },
   { icon: FileCheck2, title: "Check citations", text: "Paste text; wrong citations get fixed", to: "/verify", tone: "from-ok/15 to-ok/0 text-ok" },
 ];
 
@@ -56,7 +56,7 @@ export default function Dashboard() {
       {!loading && (cases.data || []).length === 0 && (
         <FadeIn className="mb-6">
           <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-brass/30 bg-gradient-to-r from-brass-soft to-transparent px-6 py-5">
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-surface text-[rgb(var(--brass))] shadow-card"><Sparkles className="h-5 w-5" /></div>
+            <div className="grid h-11 w-11 place-items-center rounded-xl bg-surface text-brass-ink shadow-card"><Sparkles className="h-5 w-5" /></div>
             <div className="flex-1"><p className="h-display text-[17px]">New here? Start with your first case papers.</p>
               <p className="text-[13.5px] text-ink-2">Attach them in the chat: the case file, parties and hearing dates are created for you.</p></div>
             <Button variant="secondary" onClick={() => nav("/guide")}>Open the guide</Button>

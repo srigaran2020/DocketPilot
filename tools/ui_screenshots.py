@@ -133,7 +133,7 @@ async def main(out: Path, paper: Path, steps: set[str]) -> None:
 
             if "section" in steps:
                 await go("#/research")
-                await js("[...document.querySelectorAll('[role=tab]')].find(t => t.textContent.includes('Find a section')).click()")
+                await js("[...document.querySelectorAll('[role=tab]')].find(t => t.textContent.includes('Find a section')).focus()")
                 await asyncio.sleep(1)
                 await type_into("input[name=q]", "divorce cruelty desertion")
                 await js("document.querySelector('input[name=q]').form.querySelector('button[type=submit]').click()")

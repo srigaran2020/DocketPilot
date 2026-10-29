@@ -42,7 +42,7 @@ export default function Guide() {
           <div className="space-y-4 px-5 pb-5">{EXAMPLES.map(([h, xs]) => (
             <div key={h}><p className="mb-1.5 text-[13px] font-semibold text-ink-2">{h}</p><div className="flex flex-wrap gap-2">{xs.map(x => (
               <button key={x} onClick={() => ask(x)} className="inline-flex items-center gap-1.5 rounded-lg border border-brass/30 bg-brass-soft/60 px-3 py-1.5 text-[13px] text-ink transition hover:border-brass hover:bg-brass-soft">
-                {x.trim()}<ArrowUpRight className="h-3.5 w-3.5 text-[rgb(var(--brass))]" /></button>))}</div></div>))}
+                {x.trim()}<ArrowUpRight className="h-3.5 w-3.5 text-brass-ink" /></button>))}</div></div>))}
             <p className="text-[12.5px] text-mute">Tip: switch on <b>Explain simply</b> for answers in easy words, and pick a case at the top of the chat so answers use its papers.</p>
           </div>
         </Card>

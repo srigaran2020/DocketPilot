@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { KeyRound, LogOut, UserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "@/components/toast";
 import { Badge, Button, Card, CardHeader, ErrorNote, Input, Label, PageHeader } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth";

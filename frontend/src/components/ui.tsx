@@ -88,7 +88,7 @@ export function Label({ children, hint, htmlFor }: { children: ReactNode; hint?:
 export function Switch({ checked, onChange, label, id }: { checked: boolean; onChange: (v: boolean) => void; label: ReactNode; id: string }) {
   return (
     <label htmlFor={id} className="inline-flex cursor-pointer items-center gap-2.5 text-[13.5px] text-ink-2">
-      <SwitchP.Root id={id} checked={checked} onCheckedChange={onChange}
+      <SwitchP.Root id={id} checked={checked} onCheckedChange={onChange} aria-label={typeof label === "string" ? label : undefined}
         className="relative h-[22px] w-[38px] rounded-full bg-line-2 transition-colors data-[state=checked]:bg-brand-2">
         <SwitchP.Thumb className="block h-[18px] w-[18px] translate-x-[2px] rounded-full bg-white shadow transition-transform data-[state=checked]:translate-x-[18px]" />
       </SwitchP.Root>
@@ -100,7 +100,7 @@ export function Switch({ checked, onChange, label, id }: { checked: boolean; onC
 // ---------------------------------------------------------------- Badges and status
 const TONES = {
   ok: "bg-ok-soft text-ok ring-ok/20", warn: "bg-warn-soft text-warn ring-warn/25", bad: "bg-bad-soft text-bad ring-bad/20",
-  brand: "bg-brand-soft text-brand ring-brand/15", seal: "bg-seal-soft text-seal ring-seal/20", brass: "bg-brass-soft text-[rgb(var(--brass))] ring-brass/25",
+  brand: "bg-brand-soft text-brand ring-brand/15", seal: "bg-seal-soft text-seal ring-seal/20", brass: "bg-brass-soft text-brass-ink ring-brass/25",
   idle: "bg-line/60 text-ink-2 ring-line-2",
 };
 export type Tone = keyof typeof TONES;

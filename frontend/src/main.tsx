@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { HashRouter } from "react-router-dom";
-import { Toaster } from "sonner";
+import { Toaster } from "./components/toast";
 import App from "./App";
 import "./index.css";
 import { AuthProvider } from "./lib/auth";
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <HashRouter>
             <App />
           </HashRouter>
-          <Toaster position="bottom-right" richColors closeButton toastOptions={{ className: "font-sans" }} />
+          <Toaster />
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
