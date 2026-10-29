@@ -89,7 +89,7 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
     <div class="stat"><div class="v">16,318</div><div class="l">judgments with full text (SC + 5 HC benches)</div></div>
     <div class="stat"><div class="v">48,168</div><div class="l">cases in the citation store (SC 1950-2026)</div></div>
     <div class="stat"><div class="v">372,122</div><div class="l">passages in the vector index</div></div>
-    <div class="stat"><div class="v">35</div><div class="l">Central Acts, 4,832 sections (India Code)</div></div>
+    <div class="stat"><div class="v">79</div><div class="l">Central Acts, 8,558 sections (India Code)</div></div>
     <div class="stat"><div class="v">7</div><div class="l">agents in a LangGraph pipeline</div></div>
     <div class="stat"><div class="v">242</div><div class="l">automated tests passing</div></div>
   </div>
@@ -120,7 +120,7 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
     <tbody>
       <tr><td>1</td><td>Orchestrator</td><td>Picks the workflow: Section 138 notice/complaint (fixed templates) or <i>general</i> (any document type).</td><td>No</td></tr>
       <tr><td>2</td><td>Document analysis</td><td>Extracts facts from masked papers and instructions; a fact is kept only if its quote is found in the source.</td><td>Yes</td></tr>
-      <tr><td>3</td><td>Research</td><td>Statute sections (named + topic search over 35 Acts) and reranked judgment passages.</td><td>No</td></tr>
+      <tr><td>3</td><td>Research</td><td>Statute sections (named + topic search over 79 Acts) and reranked judgment passages.</td><td>No</td></tr>
       <tr><td>4</td><td>Drafting</td><td>Writes the document; every legal statement must carry a source tag <code>[P1]</code> / <code>[S2]</code>; gaps become <code>[missing: …]</code>.</td><td>Yes</td></tr>
       <tr><td>5</td><td>Verification</td><td>Runs the 9-step verifier, then auto-corrects (replace wrong citations, remove unsupported ones).</td><td>Judge only</td></tr>
       <tr><td>6</td><td>Strategy &amp; risk</td><td>Checklist (s.138 ingredients, or missing facts) and similar past cases with outcomes as signals.</td><td>No</td></tr>
@@ -159,7 +159,7 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
   <h2>Verification and auto-correction</h2>
   <p><span class="path">docketpilot/verification/</span>: <code>extract.py</code> (find citations, quotes, section references), <code>engine.py</code> (steps 2-9), <code>quotes.py</code>, <code>correct.py</code> (auto-correction).</p>
   <ol>
-    <li><b>Extract</b> citations with case names, direct quotes and "Section N of &lt;Act&gt;" references (35 Acts + repealed IPC/CrPC/Evidence Act).</li>
+    <li><b>Extract</b> citations with case names, direct quotes and "Section N of &lt;Act&gt;" references (79 Acts + repealed IPC/CrPC/Evidence Act).</li>
     <li><b>Normalise</b> each citation to a canonical key.</li>
     <li><b>Resolve</b> against 48,168 cases (exact key, then name + year).</li>
     <li><b>Verdict</b>: VERIFIED, PARTIAL, CONFLICT (cites a different case) or NOT_FOUND.</li>
@@ -225,7 +225,7 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
   retrieval/      search.py (all tiers) · index.py (Qdrant indexer, --gpu) · models.py (embeddings, reranker)
   verification/   extract.py · engine.py · quotes.py · correct.py
   privacy/        redact.py (recognisers + spaCy) · vault.py (Fernet)
-  knowledge/      statutes.py (35 Acts, aliases, as-on-date) · citations.py · parse.py · models.py
+  knowledge/      statutes.py (79 Acts, aliases, as-on-date) · citations.py · parse.py · models.py
   ingestion/      download.py (AWS Open Data) · load.py (texts, citations, statutes into PostgreSQL)
   drafting/       templates.py (s.138 templates) · docx_out.py (Word file)
   rules/          engine.py (s.138 deadlines and checklist)
@@ -252,7 +252,7 @@ start.ps1 · check.ps1 · docker-compose.yml · requirements.txt · constraints.
   <div class="tbl"><table><thead><tr><th>Source</th><th>What we took</th><th>Licence</th></tr></thead><tbody>
     <tr><td>AWS Open Data: Indian Supreme Court judgments</td><td>Metadata 1950-2026 (citation existence checks); English full text 2015-2026</td><td>CC-BY-4.0</td></tr>
     <tr><td>AWS Open Data: Indian High Court judgments</td><td>Kerala, Karnataka (Bengaluru), Telangana, Madras and Madurai benches, 2023-2024: 300 criminal + 500 civil / family / writ per bench per year</td><td>CC-BY-4.0</td></tr>
-    <tr><td>India Code (DSpace REST API)</td><td>35 Central Acts, 4,832 sections with amendment footnotes, e.g. BNS, BNSS, BSA, CPC, Contract, Specific Relief, Limitation, Hindu Marriage, DV, Consumer Protection, Arbitration, IBC, POCSO, NDPS, RERA</td><td>Government of India</td></tr>
+    <tr><td>India Code (DSpace REST API)</td><td>79 Central Acts, 8,558 sections with amendment footnotes, e.g. BNS, BNSS, BSA, CPC, Contract, Specific Relief, Limitation, Hindu Marriage, DV, Consumer Protection, Arbitration, IBC, POCSO, NDPS, RERA</td><td>Government of India</td></tr>
   </tbody></table></div>
   <p>SCR headnotes are stored as a separate <code>headnote</code> segment and never used as evidence. Everything legal is marked <i>unverified</i>; no lawyer reviewed the data (decision 11).</p>
 </section>

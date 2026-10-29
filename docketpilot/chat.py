@@ -6,6 +6,7 @@ except an audit entry; the conversation lives in the browser.
 import asyncio
 import json
 import re
+import time
 from datetime import date
 from typing import Any
 
@@ -136,6 +137,9 @@ def swap_tags(text: str, labels: dict[str, str]) -> tuple[str, list[str]]:
     writes 【P1】 instead of [P1]; both are accepted. Unknown tags are dropped. Nothing else in the text is touched.
     Statute tags are [S1], [S2] (labels given); the older [S:138] form means the NI Act."""
     text = re.sub(rf"【\s*({_TAG})\s*】", r"[\1]", text)
+    # other ways the model sometimes writes a tag: *P1*, **P1**, (P1), {P1}; normalise them to [P1]
+    text = re.sub(r"\*{1,2}\s*(P\d+|S\d+)\s*\*{1,2}", r"[\1]", text)
+    text = re.sub(r"[({]\s*(P\d+|S\d+)\s*[)}]", r"[\1]", text)
     used: list[str] = []
 
     def run(m: re.Match[str]) -> str:
@@ -153,7 +157,9 @@ def swap_tags(text: str, labels: dict[str, str]) -> tuple[str, list[str]]:
 
 async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict[str, str]],
                  matter_id: str | None = None, firm_id: Any = None, style: str = "expert",
-                 mode: str = "answer") -> dict[str, Any]:
+                 mode: str = "answer", trace: dict[str, Any] | None = None) -> dict[str, Any]:
+    """`trace`, when given, receives per-stage timings and the answer before verification (for evaluation)."""
+    t0 = time.perf_counter()
     turns = [m for m in messages if m.get("role") in ("user", "assistant") and m.get("content")][-MAX_TURNS:]
     if not turns or turns[-1]["role"] != "user":
         raise ValueError("last message must be from the user")
@@ -167,6 +173,7 @@ async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict
         mapping = red.mapping
         red_turns.append({"role": t["role"], "content": red.text})
     question = red_turns[-1]["content"]
+    t_mask = time.perf_counter()
 
     # 2. Retrieval: judgments (follow-ups borrow the previous question), statutes mentioned, matter context.
     prev_q = next((t["content"] for t in reversed(red_turns[:-1]) if t["role"] == "user"), "")
@@ -198,6 +205,7 @@ async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict
         ctx += "\n\nMATTER (redacted):\n" + json.dumps({k: v for k, v in matter.items() if k != "similar_cases"},
                                                       default=str)[:6000]
 
+    t_retrieve = time.perf_counter()
     # 3. Answer only from the sources.
     system = (PROMPTS / "chat_v1.md").read_text(encoding="utf-8") + STYLE.get(style, "")
     if mode == "risk":
@@ -218,6 +226,7 @@ async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict
     if not text:
         raise LLMError("empty answer")
 
+    t_llm = time.perf_counter()
     # 4. Replace source tags with real citations; unknown tags are dropped.
     labels = {p["tag"]: p["label"] for p in passages} | {st["tag"]: st["label"] for st in statutes}
     answer_red, used = swap_tags(text, labels)
@@ -226,9 +235,16 @@ async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict
     # are corrected, unsupported ones are removed with the claim that relied on them.
     from docketpilot.verification.correct import autocorrect
 
+    before_verification = answer_red
     report = await verify(conn, answer_red, llm)
+    t_verify = time.perf_counter()
     answer_red, changes, report = await asyncio.to_thread(autocorrect, conn, answer_red, report)
     used = [t for t in used if labels[t] in answer_red]
+    if trace is not None:
+        t_end = time.perf_counter()
+        trace.update(context=ctx, question=question, before_verification=pii.restore(before_verification, mapping),
+                     seconds={"masking": t_mask - t0, "retrieval": t_retrieve - t_mask, "llm_answer": t_llm - t_retrieve,
+                              "verification": t_verify - t_llm, "auto_correction": t_end - t_verify})
 
     return {
         "answer": pii.restore(answer_red, mapping),

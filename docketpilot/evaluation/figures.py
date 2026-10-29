@@ -151,8 +151,8 @@ def main() -> None:
                   ("GPT-OSS\n120B‡", 55.1, 30.5), ("Gemini\n2.5 Flash", 66.9, 27.0), ("Qwen3\n8B", 41.1, 18.6)]
         for name, idx, label, mine in (("fig2a_citation_recall", 1, "Recall of bad citations (%)", rec),
                                        ("fig2b_citation_f1", 2, "F1 of citation checking (%)", f1)):
-            bars = [("Docket\nPilot", mine, BLUE, False)] + [
-                (o[0], o[idx], ORANGE if "‡" in o[0] else GREY, False) for o in others]
+            bars: list[tuple[str, float | None, str, bool]] = [("Docket\nPilot", mine, BLUE, False)]
+            bars += [(str(o[0]), float(o[idx]), ORANGE if "‡" in str(o[0]) else GREY, False) for o in others]
             _ranked(name, label, bars, "‡ the same LLM DocketPilot uses, without DocketPilot (agentic checker)", ymax=112)
 
     dp = _find(ours, "DocketPilot", "Fabricated citations")
@@ -191,10 +191,10 @@ def main() -> None:
         _save(fig, "fig4_cost")
 
     parts = ["# Figure captions and how each comparison was made\n"]
-    for k, v in CAPTIONS.items():
+    for k, cap in CAPTIONS.items():
         if not (OUT / f"{k}.png").exists():
             continue
-        parts.append(f"## {k}\n\n**Caption.** {v}\n\n**How each comparison was made.**\n")
+        parts.append(f"## {k}\n\n**Caption.** {cap}\n\n**How each comparison was made.**\n")
         parts += [f"- **{who}**: {how}" for who, how in METHODS.get(k, [])]
         parts.append("")
     (OUT / "captions.md").write_text("\n".join(parts) + "\n", encoding="utf-8")

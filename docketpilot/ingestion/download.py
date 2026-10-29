@@ -96,10 +96,10 @@ def hc_meta(year: int, court: str, bench: str) -> pd.DataFrame:
     return pd.read_parquet(dest, columns=["title", "pdf_link", "cnr"])
 
 
-def hc_jobs(per_bench_year: int, civil_per_bench_year: int = 0) -> list[tuple[str, str, Path, dict]]:
+def hc_jobs(per_bench_year: int, civil_per_bench_year: int = 0, years: tuple[int, ...] = HC_YEARS) -> list[tuple[str, str, Path, dict]]:
     jobs = []
     for label, court, bench in HC_BENCHES:
-        for year in HC_YEARS:
+        for year in years:
             df = hc_meta(year, court, bench)
             types = df.title.fillna("").str.extract(r"^\s*([^/]+?)\s*/")[0].str.upper().fillna("")
             crim = df[types.str.contains(CRIMINAL)]
@@ -126,12 +126,13 @@ def main() -> None:
     ap.add_argument("--hc-per-bench-year", type=int, default=300)
     ap.add_argument("--civil-per-bench-year", type=int, default=500)
     ap.add_argument("--sc-from", type=int, default=SC_YEARS.start)
+    ap.add_argument("--hc-years", type=int, nargs="+", default=list(HC_YEARS))
     ap.add_argument("--workers", type=int, default=24)
     args = ap.parse_args()
 
     # Order is priority: small, s.138-rich HC files first, then SC newest first. The link is slow
     # (~0.3 MB/s), so whatever has arrived can be loaded while the rest continues.
-    jobs = hc_jobs(args.hc_per_bench_year, args.civil_per_bench_year) + sc_jobs(args.sc_from)
+    jobs = hc_jobs(args.hc_per_bench_year, args.civil_per_bench_year, tuple(args.hc_years)) + sc_jobs(args.sc_from)
     print(f"{len(jobs)} files to fetch", flush=True)
     manifest = RAW / "download_manifest.jsonl"
     done = errors = 0

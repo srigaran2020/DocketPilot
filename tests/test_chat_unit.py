@@ -64,6 +64,13 @@ def test_swap_tags_grouping_and_odd_brackets():
     assert used == ["P1", "P2", "P1"]
 
 
+def test_swap_tags_accepts_asterisk_and_paren_forms():
+    labels = {"P1": "A v. B, 2020 INSC 1", "P2": "C v. D, 2021 INSC 2"}
+    out, used = chat.swap_tags("In *P1* the Court held X. Also **P2** and (P1).", labels)
+    assert "*P1*" not in out and "P2" not in out.replace("2021", "")
+    assert "A v. B, 2020 INSC 1" in out and "C v. D, 2021 INSC 2" in out and used == ["P1", "P2", "P1"]
+
+
 def test_last_message_must_be_user(patched):
     with pytest.raises(ValueError):
         asyncio.run(chat.answer(None, FakeLLM(), [{"role": "assistant", "content": "hi"}]))  # type: ignore[arg-type]

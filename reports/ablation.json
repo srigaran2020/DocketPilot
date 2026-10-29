@@ -1,0 +1,428 @@
+{
+ "generated": "2026-10-29T03:05:50.370368+00:00",
+ "model": "openai/gpt-oss-120b (Groq)",
+ "n_questions": 8,
+ "arms": {
+  "A": {
+   "citations": 125,
+   "fabricated": 7,
+   "unsupported": 3,
+   "outside_coverage": 63,
+   "fabricated_pct": 11.290322580645162,
+   "unsupported_pct": 4.838709677419355
+  },
+  "B": {
+   "citations": 22,
+   "fabricated": 1,
+   "unsupported": 2,
+   "outside_coverage": 9,
+   "fabricated_pct": 7.6923076923076925,
+   "unsupported_pct": 15.384615384615385
+  },
+  "C": {
+   "citations": 20,
+   "fabricated": 0,
+   "unsupported": 7,
+   "outside_coverage": 2,
+   "fabricated_pct": 0.0,
+   "unsupported_pct": 38.888888888888886
+  },
+  "D": {
+   "citations": 9,
+   "fabricated": 0,
+   "unsupported": 0,
+   "outside_coverage": 0,
+   "fabricated_pct": 0.0,
+   "unsupported_pct": 0.0
+  }
+ },
+ "timing_mean_s": {
+  "masking": 0.9971264499999961,
+  "retrieval": 9.281409524999617,
+  "llm_answer": 2.7104906125005073,
+  "verification": 2.177790287496464,
+  "auto_correction": 0.0025859000015771016
+ },
+ "tokens_mean": {
+  "answer_in": 3390.25,
+  "answer_out": 647.875,
+  "judge_in": 2946.5,
+  "judge_out": 446.125,
+  "judge_calls": 2.25
+ },
+ "funnel": {
+  "citations_before": 20,
+  "replaced": 0,
+  "removed": 11,
+  "kept_in_final": 9
+ },
+ "rows": [
+  {
+   "question": "Is the presumption under Section 139 of the NI Act rebuttable, and what standard of proof does the accused need?",
+   "timing_s": {
+    "masking": 7.844085100005032,
+    "retrieval": 12.327961099988897,
+    "llm_answer": 2.051263300003484,
+    "verification": 0.006966100001591258,
+    "auto_correction": 0.0012669999996433035,
+    "total": 22.23163840000052
+   },
+   "tokens": {
+    "answer_in": 3219,
+    "answer_out": 373,
+    "judge_in": 0,
+    "judge_out": 0,
+    "judge_calls": 0
+   },
+   "usd": 0.00070665,
+   "corrections": [],
+   "C": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "D": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 5,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "A": {
+    "citations": 10,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   }
+  },
+  {
+   "question": "What must a wife prove to get divorce on the ground of cruelty under the Hindu Marriage Act?",
+   "timing_s": {
+    "masking": 0.015248999989125878,
+    "retrieval": 6.970354600009159,
+    "llm_answer": 2.3977458000008482,
+    "verification": 2.220772399989073,
+    "auto_correction": 0.003018500006874092,
+    "total": 11.607210900008795
+   },
+   "tokens": {
+    "answer_in": 3203,
+    "answer_out": 762,
+    "judge_in": 4952,
+    "judge_out": 670,
+    "judge_calls": 4
+   },
+   "usd": 0.00208245,
+   "corrections": [
+    "remove",
+    "remove",
+    "remove",
+    "remove"
+   ],
+   "C": {
+    "citations": 6,
+    "fabricated": 0,
+    "unsupported": 2,
+    "outside_coverage": 2
+   },
+   "D": {
+    "citations": 2,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 6,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 4
+   },
+   "A": {
+    "citations": 11,
+    "fabricated": 2,
+    "unsupported": 0,
+    "outside_coverage": 9
+   }
+  },
+  {
+   "question": "When can a court grant anticipatory bail and what conditions can it impose?",
+   "timing_s": {
+    "masking": 0.025555799991707318,
+    "retrieval": 8.920267599998624,
+    "llm_answer": 2.7505194999976084,
+    "verification": 0.00082970000221394,
+    "auto_correction": 0.0008480999968014657,
+    "total": 11.698124300004565
+   },
+   "tokens": {
+    "answer_in": 3085,
+    "answer_out": 920,
+    "judge_in": 0,
+    "judge_out": 0,
+    "judge_calls": 0
+   },
+   "usd": 0.00101475,
+   "corrections": [],
+   "C": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "D": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "A": {
+    "citations": 27,
+    "fabricated": 2,
+    "unsupported": 3,
+    "outside_coverage": 4
+   }
+  },
+  {
+   "question": "Can the High Court quash an FIR when the parties have settled a matrimonial dispute?",
+   "timing_s": {
+    "masking": 0.019514100000378676,
+    "retrieval": 10.938704200001666,
+    "llm_answer": 1.9979043000057572,
+    "verification": 2.2325737999926787,
+    "auto_correction": 0.0024367000005440786,
+    "total": 15.191315200005192
+   },
+   "tokens": {
+    "answer_in": 3576,
+    "answer_out": 594,
+    "judge_in": 3950,
+    "judge_out": 699,
+    "judge_calls": 3
+   },
+   "usd": 0.0019047,
+   "corrections": [
+    "remove",
+    "remove",
+    "remove"
+   ],
+   "C": {
+    "citations": 3,
+    "fabricated": 0,
+    "unsupported": 2,
+    "outside_coverage": 0
+   },
+   "D": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 6,
+    "fabricated": 0,
+    "unsupported": 2,
+    "outside_coverage": 1
+   },
+   "A": {
+    "citations": 15,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 2
+   }
+  },
+  {
+   "question": "When is specific performance of an agreement to sell immovable property refused?",
+   "timing_s": {
+    "masking": 0.015187500001047738,
+    "retrieval": 6.794092199997976,
+    "llm_answer": 2.903957200003788,
+    "verification": 11.775201099997503,
+    "auto_correction": 0.009236600002623163,
+    "total": 21.49780169999576
+   },
+   "tokens": {
+    "answer_in": 3680,
+    "answer_out": 1026,
+    "judge_in": 11852,
+    "judge_out": 1938,
+    "judge_calls": 9
+   },
+   "usd": 0.004108199999999999,
+   "corrections": [
+    "remove",
+    "remove"
+   ],
+   "C": {
+    "citations": 9,
+    "fabricated": 0,
+    "unsupported": 1,
+    "outside_coverage": 0
+   },
+   "D": {
+    "citations": 7,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 2,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 2
+   },
+   "A": {
+    "citations": 35,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 35
+   }
+  },
+  {
+   "question": "What is the limitation period to file a suit for recovery of money lent, and when does it start?",
+   "timing_s": {
+    "masking": 0.014815100003033876,
+    "retrieval": 6.959215499999118,
+    "llm_answer": 1.444116099999519,
+    "verification": 1.1778879999910714,
+    "auto_correction": 0.0017158999980892986,
+    "total": 9.597850200007088
+   },
+   "tokens": {
+    "answer_in": 3258,
+    "answer_out": 438,
+    "judge_in": 2818,
+    "judge_out": 262,
+    "judge_calls": 2
+   },
+   "usd": 0.0013314,
+   "corrections": [
+    "remove",
+    "remove"
+   ],
+   "C": {
+    "citations": 2,
+    "fabricated": 0,
+    "unsupported": 2,
+    "outside_coverage": 0
+   },
+   "D": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "A": {
+    "citations": 5,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 4
+   }
+  },
+  {
+   "question": "When can an arbitral award be set aside under Section 34 of the Arbitration and Conciliation Act?",
+   "timing_s": {
+    "masking": 0.026851500006159768,
+    "retrieval": 9.555788700003177,
+    "llm_answer": 6.63244339999801,
+    "verification": 0.00760430000082124,
+    "auto_correction": 0.0012075999984517694,
+    "total": 16.224004300005618
+   },
+   "tokens": {
+    "answer_in": 3354,
+    "answer_out": 673,
+    "judge_in": 0,
+    "judge_out": 0,
+    "judge_calls": 0
+   },
+   "usd": 0.0009069,
+   "corrections": [],
+   "C": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "D": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 3,
+    "fabricated": 1,
+    "unsupported": 0,
+    "outside_coverage": 2
+   },
+   "A": {
+    "citations": 15,
+    "fabricated": 3,
+    "unsupported": 0,
+    "outside_coverage": 9
+   }
+  },
+  {
+   "question": "Who can claim maintenance under Section 144 of the BNSS and what must be shown?",
+   "timing_s": {
+    "masking": 0.015753500003484078,
+    "retrieval": 11.784892299998319,
+    "llm_answer": 1.5059752999950433,
+    "verification": 0.00048689999675843865,
+    "auto_correction": 0.0009568000095896423,
+    "total": 13.308293299996876
+   },
+   "tokens": {
+    "answer_in": 3747,
+    "answer_out": 397,
+    "judge_in": 0,
+    "judge_out": 0,
+    "judge_calls": 0
+   },
+   "usd": 0.00080025,
+   "corrections": [],
+   "C": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "D": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "B": {
+    "citations": 0,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   },
+   "A": {
+    "citations": 7,
+    "fabricated": 0,
+    "unsupported": 0,
+    "outside_coverage": 0
+   }
+  }
+ ]
+}

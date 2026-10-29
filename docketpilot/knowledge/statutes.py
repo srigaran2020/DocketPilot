@@ -102,6 +102,11 @@ ACT_ALIASES: list[tuple[str, str]] = [
     (rf"Commercial\s+Courts\s+Act{_Y}", "Commercial Courts Act"),
     (rf"Prevention\s+of\s+Corruption\s+Act{_Y}|P\.?\s?C\.?\s?Act", "PC Act"),
 ]
+from docketpilot.knowledge.acts_more import MORE_ACTS  # noqa: E402  (second batch, decision 34)
+
+for _short, _aid, _title, _num, _year, _pat in MORE_ACTS:
+    ACTS[_short] = (_aid, _title, _num, _year)
+    ACT_ALIASES.append((_pat, _short))
 _ALIAS_RES = [(re.compile(rf"\s*(?:the\s+)?(?:{p})\s*", re.I), short) for p, short in ACT_ALIASES]
 
 

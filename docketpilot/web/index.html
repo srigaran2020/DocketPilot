@@ -356,7 +356,7 @@ function shell(active) {
       <div class="brand"><div class="mark"><img class="logo" src="/logo.png" alt=""><b>DocketPilot</b></div><small>Research & drafting</small></div>
       <nav id="nav"></nav>
       <div class="who" id="who"></div>
-      <div class="disclaimer">Prototype · Not legal advice · Not lawyer-reviewed</div>
+      <div class="disclaimer">Research prototype</div>
       </aside><main id="app"></main></div>`;
   }
   $("#nav").innerHTML = NAV.map(([k,l,n]) => `<a class="${k===active?"on":""}" href="#${k}"><span class="tab">${n}</span>${l}</a>`).join("")
@@ -414,7 +414,7 @@ function viewLogin(mode) {
         <div class="feat"><i>?</i><b>Ask DocketPilot</b><span>One chat for questions, drafts, dates and citation checks.</span></div>
         <div class="feat"><i>⚖</i><b>Precedent finder</b><span>Supreme Court and High Court judgments, in seconds.</span></div>
       </div></div>
-      <div class="mute" style="color:#9fbcb2">Prototype · Not legal advice</div></div>
+      <div class="mute" style="color:#9fbcb2">Research prototype</div></div>
     <div class="formside"><form id="f" autocomplete="on">
       <div class="authtabs"><a class="${up ? "" : "on"}" href="#login">Sign in</a><a class="${up ? "on" : ""}" href="#signup">Create account</a></div>
       <h2 style="font-size:28px;margin:6px 0 18px">${up ? "Start free" : "Welcome back"}</h2>
@@ -492,7 +492,7 @@ async function viewDashboard() {
 }
 const QUICK = [["¶", "Draft a document", "Petition, application, notice, reply", "Draft a "],
   ["§", "Ask a legal question", "Answers from real judgments and Acts", "What does the law say about "],
-  ["⌕", "Find a section", "35 Central Acts, by topic", "#research"],
+  ["⌕", "Find a section", "Central Acts, searched by topic", "#research"],
   ["✓", "Check citations", "Paste text; wrong citations get fixed", "#verify"]];
 
 // ---------- adding papers (shared by Cases, a case page and the chat) ----------
@@ -955,7 +955,7 @@ function viewGuide() {
     <table><tbody>
       <tr><td><b>Ask about the law</b></td><td>${ex("What must be proved for divorce on the ground of cruelty?")} ${ex("When can anticipatory bail be granted under the BNSS?")}</td></tr>
       <tr><td><b>Make a draft</b></td><td>${ex("Draft a bail application for this case")} ${ex("Draft a reply to the legal notice")} ${ex("Draft a divorce petition")}</td></tr>
-      <tr><td><b>Find a section</b></td><td>Research → <b>Find the section</b>: type a topic like “specific performance”. 35 Central Acts, including BNS, BNSS, BSA, CPC, Contract, Hindu Marriage, DV, Consumer, Arbitration.</td></tr>
+      <tr><td><b>Find a section</b></td><td>Research → <b>Find the section</b>: type a topic like “specific performance” and it searches across the Central Acts in the library.</td></tr>
       <tr><td><b>Check citations</b></td><td>${ex("Verify this: ")} then paste your text</td></tr>
       <tr><td><b>Risk and strategy</b></td><td>${ex("What strategy should I use for this case?")}</td></tr>
       <tr><td><b>Past cases</b></td><td>${ex("Show me similar past cases")}</td></tr>
@@ -990,7 +990,7 @@ function viewGuide() {
       <li>DocketPilot gives strengths, risks and strategy, but it <b>does not predict who will win</b>.</li>
       <li>Scanned papers without text cannot be read yet. Use a text PDF, Word or .txt file.</li>
       <li>If the AI is busy, wait a minute and try again. Search and checking still work.</li>
-      <li>This is a prototype. It is not legal advice, and the legal rules have not been reviewed by a lawyer.</li>
+      <li>This is a research prototype. Always read a draft fully before filing it.</li>
     </ul></div>
   </div></div>`;
   app.querySelectorAll(".gex").forEach(el => el.onclick = () => {

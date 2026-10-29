@@ -98,7 +98,7 @@ details.qa p{margin:8px 0 2px}
     <thead><tr><th>What</th><th>Where it is stored</th><th>How to show it</th></tr></thead>
     <tbody>
       <tr><td><b>Knowledge base: judgments</b> (16,318 with full text, 48,168 cases in total)</td><td>PostgreSQL database, tables <code>cases</code>, <code>chunks</code>, <code>case_citations</code>. The database files live inside Docker in a storage volume named <code>docketpilot_pgdata</code>.</td><td>Docker Desktop → Volumes → <code>docketpilot_pgdata</code>. Or Research page → search judgments.</td></tr>
-      <tr><td><b>Knowledge base: Acts</b> (35 Central Acts, 4,832 sections)</td><td>PostgreSQL tables <code>acts</code>, <code>section_versions</code>, <code>amendments</code> (same volume).</td><td>Research page → "Find the section".</td></tr>
+      <tr><td><b>Knowledge base: Acts</b> (79 Central Acts, 8,558 sections)</td><td>PostgreSQL tables <code>acts</code>, <code>section_versions</code>, <code>amendments</code> (same volume).</td><td>Research page → "Find the section".</td></tr>
       <tr><td><b>Search index</b> (372,122 passages as number lists, "vectors")</td><td>Qdrant database inside Docker, collection <code>chunks_all</code>, volume <code>docketpilot_qdrantdata</code>.</td><td>With the app running, open <code>http://127.0.0.1:6333/dashboard</code>.</td></tr>
       <tr><td><b>Original downloaded judgments</b> (PDFs and their text)</td><td>On the laptop: <code>data\raw\sc_pdf\</code> (Supreme Court) and <code>data\raw\hc_pdf\</code> (High Courts). Not on GitHub (too big).</td><td>Open the folder in File Explorer.</td></tr>
       <tr><td><b>Original downloaded Acts</b></td><td><code>data\raw\india_code\</code>, one JSON file per Act from India Code.</td><td>File Explorer.</td></tr>
@@ -245,8 +245,8 @@ details.qa p{margin:8px 0 2px}
   <div class="folder"><h3>docketpilot\knowledge\ and ingestion\</h3><p class="what">Building the library (run once, or when adding more judgments).</p>
     <div class="tbl"><table><tbody>
       <tr><td><code>ingestion\download.py</code></td><td>Downloads judgment PDFs from the free AWS Open Data collections and extracts their text into <code>data\raw\</code>.</td><td>Run by hand</td></tr>
-      <tr><td><code>ingestion\load.py</code></td><td>Loads judgments, citations and the 35 Acts into PostgreSQL.</td><td>Run by hand</td></tr>
-      <tr><td><code>knowledge\statutes.py</code></td><td>The list of 35 Acts, their short names (BNS, CPC, HMA…), fetching them from India Code, and "law as on a date".</td><td><code>load.py</code>, search, verifier</td></tr>
+      <tr><td><code>ingestion\load.py</code></td><td>Loads judgments, citations and the 79 Acts into PostgreSQL.</td><td>Run by hand</td></tr>
+      <tr><td><code>knowledge\statutes.py</code></td><td>The list of 79 Acts, their short names (BNS, CPC, HMA…), fetching them from India Code, and "law as on a date".</td><td><code>load.py</code>, search, verifier</td></tr>
       <tr><td><code>knowledge\citations.py</code></td><td>Recognises citation formats (2023 INSC 123, [2020] 3 S.C.R. 1, (2010) 11 SCC 441, AIR…).</td><td>Loader, verifier</td></tr>
       <tr><td><code>knowledge\parse.py</code></td><td>Splits a judgment into parts (headnote, body) and small passages ("chunks").</td><td><code>load.py</code></td></tr>
       <tr><td><code>knowledge\models.py</code></td><td>Describes the library tables.</td><td>Migrations</td></tr>
@@ -326,7 +326,7 @@ details.qa p{margin:8px 0 2px}
     <tr><td><code>chunks</code></td><td>one small passage of a judgment (430,882 in total), with its page</td><td>Library</td></tr>
     <tr><td><code>citation_edges</code></td><td>"judgment A cites judgment B"</td><td>Library</td></tr>
     <tr><td><code>acts</code></td><td>one Act (35)</td><td>Library</td></tr>
-    <tr><td><code>section_versions</code></td><td>one section of an Act with its text (4,832)</td><td>Library</td></tr>
+    <tr><td><code>section_versions</code></td><td>one section of an Act with its text (8,558)</td><td>Library</td></tr>
     <tr><td><code>amendments</code></td><td>one amendment footnote with its date</td><td>Library</td></tr>
     <tr><td><code>firms</code></td><td>one private workspace (each account gets one)</td><td>Accounts</td></tr>
     <tr><td><code>users</code></td><td>one user (email, hashed password, role)</td><td>Accounts</td></tr>
@@ -393,7 +393,7 @@ details.qa p{margin:8px 0 2px}
   <details class="qa" open><summary>Where is the knowledge base stored?</summary><p>In PostgreSQL (tables <code>cases</code>, <code>chunks</code>, <code>acts</code>, <code>section_versions</code>) inside Docker, plus a vector index in Qdrant (collection <code>chunks_all</code>). Source PDFs: <code>data\raw\</code>. Built by <code>docketpilot\ingestion\</code>.</p></details>
   <details class="qa"><summary>What is Docker used for? Where are its files?</summary><p>Docker runs the four storage services (PostgreSQL, Qdrant, Redis, SeaweedFS) as containers defined in <code>docker-compose.yml</code>. Their data lives in Docker volumes: knowledge base in <code>docketpilot_pgdata</code>, search index in <code>docketpilot_qdrantdata</code>. Show them in Docker Desktop → Containers and → Volumes. See section "Docker: containers, volumes and files".</p></details>
   <details class="qa"><summary>Where did the data come from? Is it legal to use?</summary><p>Supreme Court and High Court judgments from the AWS Open Data Registry (CC-BY-4.0 licence); Acts from India Code (Government of India). Code: <code>ingestion\download.py</code>, <code>knowledge\statutes.py</code>.</p></details>
-  <details class="qa"><summary>How many judgments and Acts?</summary><p>16,318 judgments with full text (Supreme Court 2015-2026 and five High Court benches 2023-2024), 48,168 Supreme Court cases for citation checks, 35 Central Acts with 4,832 sections, 430,882 passages, 372,122 in the vector index.</p></details>
+  <details class="qa"><summary>How many judgments and Acts?</summary><p>16,318 judgments with full text (Supreme Court 2015-2026 and five High Court benches 2023-2024), 48,168 Supreme Court cases for citation checks, 79 Central Acts with 8,558 sections, 430,882 passages, 372,122 in the vector index.</p></details>
   <details class="qa"><summary>Where are the agents? How many?</summary><p>Seven, in <code>docketpilot\agents\nodes.py</code>, connected in <code>agents\graph.py</code> using LangGraph.</p></details>
   <details class="qa"><summary>How do you stop the AI from inventing cases (hallucination)?</summary><p>Three ways: (1) the AI may only use retrieved sources and must tag each legal statement (<code>prompts\chat_v1.md</code>); (2) every citation is checked against real judgments (<code>verification\engine.py</code>); (3) wrong ones are corrected or removed before the lawyer sees them (<code>verification\correct.py</code>). Result: 0 fabricated citations in our test vs 5.6% for the same AI alone.</p></details>
   <details class="qa"><summary>Which AI model do you use? Where does it run?</summary><p>openai/gpt-oss-120b on Groq's cloud. Code: <code>llm\groq_provider.py</code>. Up to 4 keys with automatic switching.</p></details>

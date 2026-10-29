@@ -25,6 +25,7 @@ PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "stack
           "limits", "refs"]
 
 EXTRA_CSS = """
+.explain{border-left:4px solid #2a6fc0;background:var(--code);padding:8px 14px 2px;margin:4px 0 10px;font-size:13.5px}.explain ul{margin:0;padding-left:18px}.explain li{margin-bottom:6px;max-width:none}
 .part{border-top:0;margin-top:56px}.partlabel{font:700 24px var(--display);color:var(--seal);letter-spacing:.04em;border-bottom:3px double var(--seal);padding-bottom:6px;margin-bottom:6px}
 .navpart{margin:14px 0 4px;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#f2c56b}
 .where{border-left:4px solid var(--gold);background:var(--gold-soft);padding:10px 14px;margin:12px 0;color:var(--ink)}
@@ -59,6 +60,34 @@ def _method(name: str) -> str:
     return f'\n  <div class="method"><b class="mh">How this comparison was made</b><ul>{items}</ul></div>'
 
 
+FIG_ORDER = ["fig11_pipeline_ablation", "fig3_hallucination", "fig2a_citation_recall", "fig2b_citation_f1", "fig1a_cost_reduction",
+             "fig4_cost", "fig5_retrieval_modes", "fig6_speed_accuracy", "fig7_error_types", "fig8_confusion_matrix",
+             "fig9_privacy_types", "fig10_knowledge_base", "fig12_time_breakdown", "fig13_token_breakdown",
+             "fig14_autocorrect_outcomes", "fig15_lime"]
+
+
+def _figures_section() -> str:
+    """Every chart, each with what it shows / how to read it / what it means / how it was measured."""
+    from docketpilot.evaluation.figures_extra import EXPLAIN
+
+    parts = ['<section id="figs"><h2>Figures for the paper</h2>',
+             '<p>All charts are in <span class="path">reports/figures/</span> as 600 dpi PNG and SVG, sized for one IEEE column. '
+             'Under each chart: what it shows, how to read it, what it means, and how it was measured, so you can explain it to anyone.</p>']
+    for i, name in enumerate([n for n in FIG_ORDER if (ROOT / "reports" / "figures" / f"{n}.png").exists()], 1):
+        e = EXPLAIN.get(name, {})
+        parts.append(f'<h3>Figure {i}. {html.escape(e.get("title", name))}</h3>')
+        parts.append(f'<figure class="fig"><img src="{{{{F:{name}}}}}" alt="{html.escape(e.get("title", name))}">'
+                     f'<figcaption>{name}.png</figcaption></figure>')
+        rows = "".join(f"<li><b>{label}</b>: {html.escape(e[k])}</li>" for k, label in
+                       (("shows", "What it shows"), ("read", "How to read it"), ("means", "What it means"), ("how", "How it was measured"))
+                       if k in e)
+        parts.append(f'<div class="explain"><ul>{rows}</ul></div>')
+        if name in METHODS:
+            parts.append(_method(name))
+    parts.append("</section>")
+    return "\n".join(parts)
+
+
 def main() -> None:
     hb = (SRC / "research.html").read_text(encoding="utf-8")
     gd = (SRC / "understanding.html").read_text(encoding="utf-8")
@@ -68,6 +97,7 @@ def main() -> None:
                          "<h2>The project in one minute</h2>", G["minute"], flags=re.S)
     for i, k in enumerate(PART_A, 1):
         G[k] = re.sub(r"<h2>(?:\d+\.\s*)?(.*?)</h2>", lambda m, i=i: f"<h2>A{i}. {m.group(1)}</h2>", G[k], count=1)
+    H["figs"] = _figures_section()
     for i, k in enumerate(PART_B, 1):
         H[k] = re.sub(r"<h2>(.*?)</h2>", lambda m, i=i: f"<h2>B{i}. {m.group(1)}</h2>", H[k], count=1)
     part = lambda t, sub: f'<section class="part"><div class="partlabel">{t}</div><p>{sub}</p></section>'  # noqa: E731

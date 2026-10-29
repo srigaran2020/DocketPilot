@@ -1,0 +1,122 @@
+[
+ {
+  "query": "Is the presumption under Section 139 of the Negotiable Instruments Act rebuttable, and what must the accused show?",
+  "passage": "that the presumption mandated by Section 139 of the N.I. Act includes the presumption as regards existence of a legally enforceable debt or liability. It has been held that Section 139 is an example of a reverse onus clause that has been included in furtherance of the legislative object of improving the credibility of negotiable instruments. The presumption is rebuttable and the accused can raise a defence wherein the existence of a legally enforceable debt or liability can be contested. 3 2010 INSC 289 34 [2026] 5 S.C.R. In Rajesh",
+  "original_score": 7.159759998321533,
+  "surrogate_r2": 0.8570403230762307,
+  "n_samples": 400,
+  "top_words": [
+   [
+    "139",
+    1.9697999390052159
+   ],
+   [
+    "rebuttable",
+    1.2782139744328274
+   ],
+   [
+    "negotiable",
+    1.2083493126442213
+   ],
+   [
+    "accused",
+    1.1760852050754989
+   ],
+   [
+    "instruments",
+    1.0640121055382814
+   ],
+   [
+    "section",
+    0.7108467374558871
+   ],
+   [
+    "presumption",
+    0.6285155083240267
+   ],
+   [
+    "act",
+    0.4707654776832234
+   ],
+   [
+    "enforceable",
+    -0.302105939138679
+   ],
+   [
+    "example",
+    -0.21511724054598813
+   ],
+   [
+    "debt",
+    -0.20997799651106955
+   ],
+   [
+    "raise",
+    -0.17438543660559733
+   ]
+  ],
+  "case": "RENUKA versus THE STATE OF MAHARASHTRA AND ANOTHER",
+  "court": "Supreme Court of India",
+  "year": 2026
+ },
+ {
+  "query": "Can a wife claim maintenance from her husband under more than one law at the same time?",
+  "passage": "settled that a wife can make a claim for m aintenance under different statutes. For instance, there is no bar to seek maintenance both under the D.V . Act and Section 125 of the Cr.P.C., or under H.M.A. It would, however, be inequitable to direct the husband to pay maintenance under each of the proceedings, independent of the relief granted in a previous proceeding. If maintenance is awarded to the wife in a previously instituted proceeding, she is under a legal obligation to disclose the same in a subsequent proceeding",
+  "original_score": 7.478182792663574,
+  "surrogate_r2": 0.7533760307698725,
+  "n_samples": 400,
+  "top_words": [
+   [
+    "wife",
+    2.2969921893013754
+   ],
+   [
+    "husband",
+    1.3496334779948789
+   ],
+   [
+    "claim",
+    1.188212502370212
+   ],
+   [
+    "maintenance",
+    1.1089815683935293
+   ],
+   [
+    "same",
+    0.7873592214908552
+   ],
+   [
+    "can",
+    0.4934560092930189
+   ],
+   [
+    "different",
+    0.4882302773655233
+   ],
+   [
+    "both",
+    0.440484083514927
+   ],
+   [
+    "under",
+    0.37744630213911634
+   ],
+   [
+    "cr.p.c",
+    -0.32569640713704723
+   ],
+   [
+    "direct",
+    -0.2804424933331276
+   ],
+   [
+    "settled",
+    -0.2603375680938033
+   ]
+  ],
+  "case": "RAJNESH versus NEHA & ANR.",
+  "court": "Supreme Court of India",
+  "year": 2020
+ }
+]
