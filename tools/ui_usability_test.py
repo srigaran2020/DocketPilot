@@ -1,3 +1,4 @@
+# ruff: noqa: ASYNC210,ASYNC220,ASYNC240,ASYNC251,E501,S603  (browser test harness: blocking start-up calls and long JS strings are fine here)
 """Automated usability check of the React interface -> reports/ui_usability.json (+ printed summary).
 
     .venv\\Scripts\\python tools\\ui_usability_test.py PAPER.txt

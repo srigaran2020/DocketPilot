@@ -1,3 +1,4 @@
+# ruff: noqa: ASYNC210,ASYNC220,ASYNC240,ASYNC251,E501,S603  (browser test harness: blocking start-up calls and long JS strings are fine here)
 """Screenshots of the React interface for the paper, report and handbook (synthetic case paper, fresh demo account).
 
     .venv\\Scripts\\python tools\\ui_screenshots.py OUT_DIR PAPER.txt [steps]
