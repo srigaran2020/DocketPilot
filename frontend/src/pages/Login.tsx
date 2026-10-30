@@ -175,11 +175,12 @@ function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_15%_20%,rgba(31,107,93,.45),transparent_70%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#071f1b] to-transparent" />
       <div className="relative mx-auto w-full max-w-[1240px] px-5 py-20 sm:px-8">
-        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-[620px]">
+        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-[760px]">
           <span className="mb-6 inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[.07] px-3 py-1.5 text-[13px] text-[#d8e6df] backdrop-blur">
             <BadgeCheck className="h-4 w-4 text-[#f2c56b]" />Every citation checked against the judgment</span>
-          <h1 className="font-display text-[44px] font-semibold leading-[1.04] tracking-[-.02em] text-white sm:text-[60px]">
-            Legal research and drafting,<br /><em className="font-normal text-[#f2c56b]">verified line by line.</em></h1>
+          <h1 className="font-display text-[26px] font-semibold leading-[1.18] tracking-[-.01em] text-white sm:text-[34px]">
+            An Agentic AI System for Indian Legal Research, Drafting, Anti-Hallucination Verification and Case Management
+            <em className="mt-3 block text-[34px] font-normal leading-tight text-[#f2c56b] sm:text-[46px]">verified line by line.</em></h1>
           <p className="mt-6 max-w-[540px] text-[17px] leading-relaxed text-[#c9ddd5]">
             DocketPilot reads your case papers, finds the law in Indian judgments and Central Acts, drafts the document, and checks every citation before you see it. Client names never leave your machine.</p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
