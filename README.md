@@ -7,6 +7,50 @@ type. Section 138 NI Act (cheque bounce) has the deepest rule support (fixed tem
 What was built and what was cut: [docs/DECISIONS.md](docs/DECISIONS.md). Measured results: [reports/EVALUATION_REPORT.md](reports/EVALUATION_REPORT.md);
 comparison with LegalMind and other systems: [reports/COMPARISON.md](reports/COMPARISON.md).
 
+## Screenshots
+
+The case shown is a made-up divorce matter (H.M.O.P. No. 214 of 2026) used for testing.
+
+**1. Home page.** The public front page: the project title, what DocketPilot does, and buttons to start. A real DocketPilot draft sits in the background.
+
+![Home page](reports/screenshots/s0_home.png)
+
+**2. Sign in.** Sign in or create an account in a panel that slides in from the right (Google sign-in too). Each account has its own private workspace.
+
+![Sign-in panel](reports/screenshots/s1_signin.png)
+
+**3. Dashboard.** The lawyer's day at a glance: shortcuts to draft, ask, find a section or check citations; counts of active cases, hearings this week and drafts waiting; upcoming hearings and recent cases.
+
+![Dashboard](reports/screenshots/s7_dashboard.png)
+
+**4. Privacy check before the AI sees anything.** After a case paper is uploaded, every name, place and address found in it is listed with the placeholder that will replace it (`PERSON_1`, `ADDRESS_1`, ...). The lawyer can untick false hits or add missed names, then files it. Only the masked text goes to the AI.
+
+![Masking review](reports/screenshots/s2_masking_review.png)
+
+**5. A verified answer.** Ask a legal question in plain words. The answer quotes real judgments and Acts, and every reference is checked against the source; here 8 references were checked and 6 that could not be supported were removed. The panel on the right explains the marks: verified, check, problem.
+
+![Verified answer](reports/screenshots/s3_verified_answer.png)
+
+**6. Find a section.** Search 35 Central Acts by topic ("divorce cruelty desertion") and read the exact section text, with its India Code source link. No AI is used here.
+
+![Find a section](reports/screenshots/s5_find_section.png)
+
+**7. Drafting in progress.** A draft runs through seven steps: plan, read papers, research, draft, verify, checklist of missing facts, deadlines. It usually takes one to three minutes.
+
+![Draft progress](reports/screenshots/s6b_draft_progress.png)
+
+**8. Draft review.** The finished draft with its verification result ("Clear to approve"). Clicking a citation shows the passage from the judgment it rests on, on the right. Facts the papers did not give appear as `[missing: ...]`. Real names are put back only in the downloaded Word file.
+
+![Draft verification](reports/screenshots/s6_draft_verification.png)
+
+**9. Calendar.** Hearings, deadlines and orders are read from the case papers. Each date links to the sentence it came from, so it can be checked. Reminders can be added by hand.
+
+![Calendar](reports/screenshots/s4_calendar.png)
+
+**10. On a phone.** The same app works on a small screen: the menu folds away and the chat fills the width.
+
+<img src="reports/screenshots/s9_mobile_chat.png" alt="Chat on a phone" width="300">
+
 ## Start it (one command)
 
 Needs Docker Desktop running.
