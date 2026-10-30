@@ -29,6 +29,7 @@ export default function App() {
   return (
     <AnimatePresence mode="wait">
       <Routes>
+        <Route path="/" element={me ? <Navigate to="/dashboard" replace /> : <Login />} />
         <Route path="/login" element={me ? <Navigate to="/dashboard" replace /> : <Login mode="signin" />} />
         <Route path="/signup" element={me ? <Navigate to="/dashboard" replace /> : <Login mode="signup" />} />
         <Route path="/dashboard" element={<Private><Dashboard /></Private>} />
@@ -41,7 +42,7 @@ export default function App() {
         <Route path="/verify" element={<Private><Verify /></Private>} />
         <Route path="/guide" element={<Private><Guide /></Private>} />
         <Route path="/account" element={<Private><Account /></Private>} />
-        <Route path="*" element={<Navigate to={me ? "/dashboard" : "/login"} replace />} />
+        <Route path="*" element={<Navigate to={me ? "/dashboard" : "/"} replace />} />
       </Routes>
     </AnimatePresence>
   );

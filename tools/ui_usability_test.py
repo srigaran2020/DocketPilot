@@ -27,6 +27,8 @@ EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 BASE = "http://127.0.0.1:8000"
 PORT = 9372
 AXE = (ROOT / "frontend" / "node_modules" / "axe-core" / "axe.min.js").read_text(encoding="utf-8")
+AXE_RUN = ("axe.run(document, {runOnly: {type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa']}}).then(r => r.violations.map(v => "
+           "({id: v.id, impact: v.impact, nodes: v.nodes.length, help: v.help, targets: v.nodes.slice(0, 4).map(n => [n.target.join(' '), (n.any[0] || {}).message || ''])})))")
 PAGES = ["dashboard", "ask", "cases", "calendar", "research", "verify", "guide", "account"]
 
 
@@ -96,6 +98,16 @@ async def main(paper: Path) -> None:
             await cmd("Page.navigate", url=BASE + "/#/login")
             await until("!!document.querySelector('[data-testid=auth-form]')")
             await js("localStorage.clear(); sessionStorage.clear(); localStorage.setItem('dp_theme','light')")
+
+            # the public pages (home page, and the sign-in panel over it) are audited before signing in
+            await js(AXE)
+            for name, hash_ in (("home", "#/"), ("sign-in", "#/login")):
+                await js(f"location.hash = '{hash_}'")
+                await asyncio.sleep(2.5)
+                await js("window.scrollTo(0, document.body.scrollHeight); window.scrollTo(0, 0)")
+                r = await js(AXE_RUN)
+                res["axe"][name] = r or []
+                print(f"axe {name}: {len(r or [])} rule(s) violated", [(v['id'], v['impact'], v['nodes']) for v in (r or [])], flush=True)
 
             email = f"ux-{uuid.uuid4().hex[:6]}@example.test"
 
@@ -182,7 +194,7 @@ async def main(paper: Path) -> None:
                 await asyncio.sleep(1.8)
                 if not await js("typeof axe !== 'undefined'"):
                     await js(AXE)
-                r = await js("axe.run(document, {runOnly: {type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa']}}).then(r => r.violations.map(v => ({id: v.id, impact: v.impact, nodes: v.nodes.length, help: v.help, targets: v.nodes.slice(0, 4).map(n => [n.target.join(' '), (n.any[0] || {}).message || ''])})))")
+                r = await js(AXE_RUN)
                 res["axe"][p] = r or []
                 print(f"axe {p}: {len(r or [])} rule(s) violated", [(v['id'], v['impact'], v['nodes']) for v in (r or [])], flush=True)
 

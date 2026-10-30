@@ -23,7 +23,8 @@ from docketpilot.evaluation.figures import METHODS  # noqa: E402
 PART_A = ["minute", "layers", "storage", "docker", "root", "code", "other", "db", "journeys", "tools", "qa", "words"]
 PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "stack", "ui", "data", "bench", "compare", "figs", "run",
           "limits", "refs"]
-SHOTS = [("s1_signin", "Sign in", "Split screen: the product promise and six feature cards on the left; sign-in, sign-up and Google sign-in on the right."),
+SHOTS = [("s0_home", "Home page", "The public home page in court green and white: a hero with the product promise over a DocketPilot draft, then how it works, everyday matters, a product overview, measured results and a call to action."),
+         ("s1_signin", "Sign in", "Sign in and Create account open in a panel over the home page; e-mail accounts and Google sign-in are both supported."),
          ("s7_dashboard", "Dashboard", "Greeting, four quick actions, three headline numbers, a timeline of coming dates, drafts waiting for review and recent cases."),
          ("s2_masking_review", "Masking review in the chat", "After a paper is dropped in, every identifier is listed with the placeholder that replaces it. The lawyer can untick or add items, then files it."),
          ("s3_verified_answer", "Verified research answer", "Citations are underlined; hovering one previews its passage, clicking pins it in the Source panel. The green line says how many references were checked and removed."),

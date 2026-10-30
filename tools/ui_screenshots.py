@@ -91,6 +91,12 @@ async def main(out: Path, paper: Path, steps: set[str]) -> None:
             await asyncio.sleep(1.5)
             if "login" in steps:
                 await shot("s1_signin", 900)
+            if "home" in steps:  # the public home page behind the sign-in panel
+                await go("#/")
+                await asyncio.sleep(1.5)
+                await shot("s0_home", 900)
+                await go("#/login")
+                await wait("!!document.querySelector('[data-testid=auth-form]')", 20, "login form")
 
             # create a fresh demo account
             await go("#/signup")
@@ -180,5 +186,5 @@ async def main(out: Path, paper: Path, steps: set[str]) -> None:
 
 
 if __name__ == "__main__":
-    all_steps = "login,mask,answer,calendar,section,draft,dashboard,dark,mobile"
+    all_steps = "home,login,mask,answer,calendar,section,draft,dashboard,dark,mobile"
     asyncio.run(main(Path(sys.argv[1]), Path(sys.argv[2]).resolve(), set((sys.argv[3] if len(sys.argv) > 3 else all_steps).split(","))))
