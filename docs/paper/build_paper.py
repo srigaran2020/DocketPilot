@@ -265,11 +265,11 @@ figure(FIG / "fig15_lime.png", "Fig. 10. LIME attributions of the evidence re-ra
 
 # ================= VI. Limitations and future work =================
 heading("VI", "Limitations and Future Work")
-para("The evaluation is automatic: citation reliability is judged against a case store and an AI judge, and the question sets are small because of free-tier API quotas. Full-text coverage is limited to the Supreme Court from 2015 and a sample of five High Court benches; citations in formats the store does not fully cover cannot yet be checked. Scanned papers require OCR, which is not yet integrated. Planned work includes a study with practising advocates measuring time saved and output quality, wider High Court coverage, and hosting on a cloud server with encrypted storage.")
+para("The evaluation is automatic: citation reliability is judged against a case store and an AI judge, and the question sets are small because of free-tier API quotas. Full-text coverage is limited to the Supreme Court from 2015 and a sample of five High Court benches; citations in formats the store does not fully cover cannot yet be checked. Planned work includes a study with practising advocates measuring time saved and output quality, wider High Court coverage, and hosting on a cloud server with encrypted storage.")
 
 # ================= VII. Conclusion =================
 heading("VII", "Conclusion")
-para(f"DocketPilot shows that a single open-weight model, wrapped in retrieval, source tagging and a verifier that repairs its own output, can deliver legal answers and drafts whose citations are checked before release, at a fraction of the cost of long-context prompting and without exposing client identities. Reducing unreliable citations from {pct(A_tot)} to {pct(D_tot)} required every layer of the pipeline, which suggests that verification should be treated as a first-class component of legal AI rather than an optional check.")
+para(f"DocketPilot shows that a single open-weight model, wrapped in retrieval, source tagging and a verifier that repairs its own output, can deliver legal answers and drafts whose citations are checked before release, at a fraction of the cost of long-context prompting and without exposing client identities. Reducing unreliable citations from {pct(A_tot)} to {pct(D_tot)} required every layer of the pipeline, which suggests that verification should be treated as a first-class component of legal AI rather than an optional check. The statute store also yields Bar Examination practice questions with no model call (1,685 checked, all sound).")
 
 # ================= References =================
 rp = para("References", size=10, align=WD_ALIGN_PARAGRAPH.CENTER, indent=False, before=8, after=4, sc=True)

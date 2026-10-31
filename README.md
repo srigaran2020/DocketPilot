@@ -51,6 +51,10 @@ The case shown is a made-up divorce matter (H.M.O.P. No. 214 of 2026) used for t
 
 <img src="reports/screenshots/s9_mobile_chat.png" alt="Chat on a phone" width="300">
 
+**11. Exam prep (AIBE).** Practice questions and timed mock tests for the All India Bar Examination, made straight from the bare Acts with no AI. After each answer the section it comes from is shown, and the score is broken down by subject.
+
+![Exam prep practice question](reports/screenshots/s11_exam_practice.png)
+
 ## Start it (one command)
 
 Needs Docker Desktop running.
@@ -91,6 +95,9 @@ Search, statutes, calendar, cases and citation look-ups do not use the AI. For r
 5. **Approve** → download the Word file (real names restored only now, with a removable verification appendix) and the deadlines calendar (.ics).
 6. **Research**: search judgments, **find the section** by topic across 35 Acts, look up "Section X as on date D", look up a
    citation. **Check a document**: paste any text; wrong citations come back corrected.
+7. **Exam prep** (AIBE): practise one subject, take a 100-question timed mock test, or a speed drill (type the section number in
+   45 seconds); Progress shows your weakest subjects. Questions are built from the bare Acts with no AI and no Groq tokens
+   (17 of the 19 AIBE subjects; not the Constitution or PIL yet). Check them: `python -m docketpilot.evaluation.exam_check`.
 
 ## Rebuild the knowledge base
 

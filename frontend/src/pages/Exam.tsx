@@ -171,7 +171,7 @@ function Coverage({ subjects }: { subjects: Subject[] }) {
   return (
     <Card>
       <CardHeader icon={GraduationCap} title="AIBE subjects" subtitle={`${subjects.filter(s => s.sections).length} of ${subjects.length} have questions from the bare Acts`} />
-      <div className="max-h-[420px] divide-y divide-line overflow-auto">{subjects.map(s => (
+      <div className="max-h-[420px] divide-y divide-line overflow-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40" tabIndex={0} role="region" aria-label="AIBE subjects and coverage">{subjects.map(s => (
         <div key={s.name} className="flex items-start gap-3 px-5 py-2.5">
           <span className={cn("mt-1.5 h-2 w-2 shrink-0 rounded-full", s.coverage === "full" ? "bg-ok" : s.coverage === "partial" ? "bg-warn" : "bg-line-2")} />
           <div className="min-w-0 flex-1"><p className="text-[13.5px]">{s.name}</p>{s.note && <p className="text-[12px] text-mute">{s.note}</p>}</div>

@@ -29,7 +29,7 @@ PORT = 9372
 AXE = (ROOT / "frontend" / "node_modules" / "axe-core" / "axe.min.js").read_text(encoding="utf-8")
 AXE_RUN = ("axe.run(document, {runOnly: {type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa']}}).then(r => r.violations.map(v => "
            "({id: v.id, impact: v.impact, nodes: v.nodes.length, help: v.help, targets: v.nodes.slice(0, 4).map(n => [n.target.join(' '), (n.any[0] || {}).message || ''])})))")
-PAGES = ["dashboard", "ask", "cases", "calendar", "research", "verify", "guide", "account"]
+PAGES = ["dashboard", "ask", "cases", "calendar", "research", "verify", "exam", "guide", "account"]
 
 
 async def main(paper: Path) -> None:
