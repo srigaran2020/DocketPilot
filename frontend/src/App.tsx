@@ -11,6 +11,7 @@ import CaseDetail from "./pages/CaseDetail";
 import Cases from "./pages/Cases";
 import Dashboard from "./pages/Dashboard";
 import Draft from "./pages/Draft";
+import Exam from "./pages/Exam";
 import Guide from "./pages/Guide";
 import Login from "./pages/Login";
 import Research from "./pages/Research";
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/calendar" element={<Private wide><CalendarPage /></Private>} />
         <Route path="/research" element={<Private><Research /></Private>} />
         <Route path="/verify" element={<Private><Verify /></Private>} />
+        <Route path="/exam" element={<Private><Exam /></Private>} />
         <Route path="/guide" element={<Private><Guide /></Private>} />
         <Route path="/account" element={<Private><Account /></Private>} />
         <Route path="*" element={<Navigate to={me ? "/dashboard" : "/"} replace />} />

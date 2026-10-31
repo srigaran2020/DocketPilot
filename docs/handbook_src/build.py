@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT))
 from docketpilot.evaluation.figures import METHODS  # noqa: E402
 
 PART_A = ["minute", "layers", "storage", "docker", "root", "code", "other", "db", "journeys", "tools", "qa", "words"]
-PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "stack", "ui", "data", "bench", "compare", "figs", "run",
+PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "stack", "ui", "exam", "data", "bench", "compare", "figs", "run",
           "limits", "refs"]
 SHOTS = [("s0_home", "Home page", "The public home page in court green and white: a hero with the product promise over a DocketPilot draft, then how it works, everyday matters, a product overview, measured results and a call to action."),
          ("s1_signin", "Sign in", "Sign in and Create account open in a panel over the home page; e-mail accounts and Google sign-in are both supported."),
@@ -32,6 +32,9 @@ SHOTS = [("s0_home", "Home page", "The public home page in court green and white
          ("s6_draft_verification", "Draft review", "The draft on ruled legal paper with colour-coded citations, the evidence panel, the sign-off card and tabs for checks, the checklist and precedent."),
          ("s4_calendar", "Calendar", "Month grid colour-coded by kind of date; the details panel shows the sentence each date came from."),
          ("s5_find_section", "Find a section", "Central Acts searched by topic; each result opens to the section text from India Code."),
+         ("s10_exam", "Exam prep", "AIBE practice: pick a subject and the number of questions; the right-hand list shows which of the 19 AIBE subjects have questions."),
+         ("s11_exam_practice", "Practice question", "After answering, the right option turns green and the section it comes from is shown with its India Code link."),
+         ("s12_exam_result", "Mock-test score", "Score out of 100 against the 45% pass mark, then accuracy per subject (weakest first) and a review of wrong answers."),
          ("s8_dashboard_dark", "Dark mode", "The same dashboard in the dark theme (toggle in the top bar; remembered per device)."),
          ("s9_mobile_chat", "Phone layout", "The chat on a 390-pixel-wide phone screen; the menu becomes a slide-out drawer.")]
 

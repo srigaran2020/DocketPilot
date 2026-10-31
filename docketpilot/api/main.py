@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from docketpilot import __version__
-from docketpilot.api import assistant, auth, casefiles, health, matters, research
+from docketpilot.api import assistant, auth, casefiles, exam, health, matters, research
 
 
 @asynccontextmanager
@@ -42,6 +42,7 @@ app.include_router(research.router)
 app.include_router(matters.router)
 app.include_router(assistant.router)
 app.include_router(casefiles.router)
+app.include_router(exam.router)
 
 WEB = Path(__file__).resolve().parents[1] / "web" / "index.html"  # original single-file interface
 DIST = WEB.parent / "dist"  # React interface, built by `npm run build` in frontend/

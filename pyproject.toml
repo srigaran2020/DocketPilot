@@ -15,6 +15,7 @@ ignore = ["S101"]  # assert is fine in tests
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S105", "S106"]  # fake passwords in tests
 "docketpilot/evaluation/*" = ["S311"]  # random is for synthetic test data, not security
+"docketpilot/exam.py" = ["S311"]  # random shuffles practice questions, not security
 
 [tool.mypy]
 python_version = "3.11"

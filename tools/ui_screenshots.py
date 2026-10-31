@@ -108,19 +108,20 @@ async def main(out: Path, paper: Path, steps: set[str]) -> None:
             await js("document.querySelector('[data-testid=auth-form] button[type=submit]').click()")
             await wait("location.hash.includes('dashboard')", 30, "signed in")
 
-            # file the synthetic paper through the chat
-            await go("#/ask")
-            await wait("!!document.querySelector('[data-testid=chat-file]')", 20, "chat")
-            doc = await cmd("DOM.getDocument", depth=1)
-            node = await cmd("DOM.querySelector", nodeId=doc["root"]["nodeId"], selector="[data-testid=chat-file]")
-            await cmd("DOM.setFileInputFiles", files=[str(paper)], nodeId=node["nodeId"])
-            await wait("!!document.querySelector('[data-testid=mask-review]')", 60, "mask review")
-            await asyncio.sleep(1)
-            if "mask" in steps:
-                await shot("s2_masking_review", 900)
-            await js("document.querySelector('[data-testid=file-it]').click()")
-            await wait("!!document.querySelector('[data-testid=filed]')", 120, "filed")
-            await asyncio.sleep(2)
+            # file the synthetic paper through the chat (only the case screens need it)
+            if steps & {"mask", "answer", "calendar", "draft", "dashboard", "dark", "mobile"}:
+                await go("#/ask")
+                await wait("!!document.querySelector('[data-testid=chat-file]')", 20, "chat")
+                doc = await cmd("DOM.getDocument", depth=1)
+                node = await cmd("DOM.querySelector", nodeId=doc["root"]["nodeId"], selector="[data-testid=chat-file]")
+                await cmd("DOM.setFileInputFiles", files=[str(paper)], nodeId=node["nodeId"])
+                await wait("!!document.querySelector('[data-testid=mask-review]')", 60, "mask review")
+                await asyncio.sleep(1)
+                if "mask" in steps:
+                    await shot("s2_masking_review", 900)
+                await js("document.querySelector('[data-testid=file-it]').click()")
+                await wait("!!document.querySelector('[data-testid=filed]')", 120, "filed")
+                await asyncio.sleep(2)
 
             if "answer" in steps:
                 await type_into("[data-testid=composer]", "What must a wife prove to obtain divorce on the ground of cruelty, and can she also claim maintenance?")
@@ -165,6 +166,33 @@ async def main(out: Path, paper: Path, steps: set[str]) -> None:
                 await js("window.scrollTo(0,0)")
                 await shot("s6_draft_verification", 1000)
 
+            if "exam" in steps:  # AIBE practice: subject picker, an answered question with its section, a mock-test score
+                await go("#/exam")
+                await wait("!!document.querySelector('[data-testid=exam-start]')", 30, "exam page")
+                await shot("s10_exam", 900)
+                await js("document.querySelector('[data-testid=exam-start]').click()")
+                await wait("!!document.querySelector('[data-testid=exam-question]')", 30, "question")
+                await js("document.querySelectorAll('[data-testid=exam-option]')[1].click()")
+                await asyncio.sleep(1)
+                await shot("s11_exam_practice", 1000)
+                await go("#/dashboard")
+                await go("#/exam")
+                await wait("!!document.querySelector('[role=tab]')", 20)
+                await js("[...document.querySelectorAll('[role=tab]')].find(t => t.textContent.includes('Mock test')).focus()")
+                await wait("!!document.querySelector('[data-testid=mock-start]')", 20, "mock tab")
+                # note the answers as the test loads, to play a candidate who gets about 70% right
+                await js("""(()=>{const f=window.fetch; window.fetch=async(...a)=>{const r=await f(...a);
+                    if(String(a[0]).includes('/exam/quiz')) r.clone().json().then(d=>window.__ans=d.questions.map(q=>q.answer)); return r;};})()""")
+                await js("document.querySelector('[data-testid=mock-start]').click()")
+                await wait("!!document.querySelector('[data-testid=exam-question]') && !!window.__ans", 30, "mock question")
+                for i in range(100):
+                    pick = f"window.__ans[{i}]" if i % 10 < 7 else f"(window.__ans[{i}] + 1) % 4"
+                    await js(f"document.querySelectorAll('[data-testid=exam-option]')[{pick}].click()")
+                    await js("(document.querySelector('[data-testid=exam-next]') || document.querySelector('[data-testid=exam-finish]')).click()")
+                await wait("!!document.querySelector('[data-testid=exam-result]')", 30, "mock result")
+                await asyncio.sleep(1)
+                await shot("s12_exam_result", 1000)
+
             if "dashboard" in steps:
                 await go("#/dashboard")
                 await asyncio.sleep(2)
@@ -186,5 +214,5 @@ async def main(out: Path, paper: Path, steps: set[str]) -> None:
 
 
 if __name__ == "__main__":
-    all_steps = "home,login,mask,answer,calendar,section,draft,dashboard,dark,mobile"
+    all_steps = "home,login,mask,answer,calendar,section,draft,exam,dashboard,dark,mobile"
     asyncio.run(main(Path(sys.argv[1]), Path(sys.argv[2]).resolve(), set((sys.argv[3] if len(sys.argv) > 3 else all_steps).split(","))))

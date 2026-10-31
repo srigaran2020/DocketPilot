@@ -227,6 +227,7 @@ details.qa p{margin:8px 0 2px}
       <tr><td><code>casefiles.py</code></td><td>Uploading papers, filing them into the right case, cases list, calendar and reminders.</td><td>Cases, Calendar, chat 📎</td></tr>
       <tr><td><code>matters.py</code></td><td>Case files, drafts (start, view, edit, approve, download Word), dashboard numbers.</td><td>Case page, draft page, dashboard</td></tr>
       <tr><td><code>research.py</code></td><td>Search judgments, list Acts, find a section by topic, section "as on a date", citation look-up, check a document.</td><td>Research page, Check a document</td></tr>
+      <tr><td><code>exam.py</code></td><td>AIBE exam prep: list subjects, make a practice set or mock test, save a score, show progress per subject. No AI.</td><td>Exam prep page</td></tr>
       <tr><td><code>health.py</code></td><td>"Are all databases up?" check at <code>/health</code>.</td><td>Monitoring</td></tr>
     </tbody></table></div></div>
 
@@ -240,6 +241,7 @@ details.qa p{margin:8px 0 2px}
     <div class="tbl"><table><tbody>
       <tr><td><code>chat.py</code></td><td>How a chat answer is made: mask names → find judgments and sections → ask the AI → turn source tags into real citations → check and fix every citation → put names back.</td><td><code>api/assistant.py</code></td></tr>
       <tr><td><code>casefile.py</code></td><td>Reads the case number from a paper (on the laptop, no AI), files the paper into the right case, extracts every hearing date onto the calendar.</td><td><code>api/casefiles.py</code></td></tr>
+      <tr><td><code>exam.py</code></td><td>Makes AIBE practice questions from the bare Acts with no AI: "which section deals with…", "Section X deals with…", "which Act…" and time-limit blanks. Maps the 19 AIBE subjects to the Acts.</td><td><code>api/exam.py</code></td></tr>
       <tr><td><code>config.py</code></td><td>Reads all settings from <code>.env</code>.</td><td>Everywhere</td></tr>
       <tr><td><code>db.py</code>, <code>models.py</code></td><td>Database connection, and the account tables (firms, users, audit log).</td><td><code>api/</code></td></tr>
       <tr><td><code>security.py</code></td><td>Password hashing (Argon2) and sign-in tokens (JWT).</td><td><code>api/auth.py</code></td></tr>
@@ -302,6 +304,7 @@ details.qa p{margin:8px 0 2px}
       <tr><td><code>benchmark_vs.py</code></td><td>Compares DocketPilot with the same AI used without DocketPilot (cost, speed, fake citations).</td><td>Run by hand</td></tr>
       <tr><td><code>comparison.py</code></td><td>Puts our results beside other published systems → <code>reports\COMPARISON.md</code>.</td><td>Run by hand</td></tr>
       <tr><td><code>figures.py</code></td><td>Draws the paper charts → <code>reports\figures\</code>.</td><td>Run by hand</td></tr>
+      <tr><td><code>exam_check.py</code></td><td>Makes 1,685 exam questions and re-checks every answer against its section → <code>reports\exam_check.json</code> (all sound, 0 AI tokens).</td><td>Run by hand</td></tr>
     </tbody></table></div></div>
 </section>
 
@@ -329,7 +332,7 @@ details.qa p{margin:8px 0 2px}
 
 <section id="db">
   <h2>7. The database tables</h2>
-  <p>PostgreSQL holds 15 main tables (plus LangGraph's own). Think of each as a spreadsheet.</p>
+  <p>PostgreSQL holds 16 main tables (plus LangGraph's own). Think of each as a spreadsheet.</p>
   <div class="tbl"><table><thead><tr><th>Table</th><th>One row is…</th><th>Group</th></tr></thead><tbody>
     <tr><td><code>cases</code></td><td>one judgment (title, court, date, judges)</td><td>Library</td></tr>
     <tr><td><code>case_citations</code></td><td>one way to cite a judgment (e.g. 2020 INSC 631)</td><td>Library</td></tr>
@@ -346,6 +349,7 @@ details.qa p{margin:8px 0 2px}
     <tr><td><code>matter_documents</code></td><td>one uploaded paper (masked text only)</td><td>Lawyer's work</td></tr>
     <tr><td><code>drafts</code></td><td>one draft with its verification report and status</td><td>Lawyer's work</td></tr>
     <tr><td><code>reminders</code></td><td>one calendar date (hearing, deadline, reminder)</td><td>Lawyer's work</td></tr>
+    <tr><td><code>exam_attempts</code></td><td>one finished practice set, mock test or speed drill, with the score per subject</td><td>Exam prep</td></tr>
   </tbody></table></div>
 </section>
 

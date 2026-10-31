@@ -1,0 +1,17 @@
+{
+ "questions_checked": 1685,
+ "by_kind": {
+  "which_section": 518,
+  "which_heading": 517,
+  "period": 126,
+  "which_act": 524
+ },
+ "sound": 1685,
+ "problems": {},
+ "examples": [],
+ "subjects_covered": 17,
+ "subjects_total": 19,
+ "usable_sections": 5670,
+ "llm_tokens_used": 0,
+ "seconds": 7.5
+}

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Command } from "cmdk";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  BookOpen, Briefcase, CalendarDays, ChevronsLeft, ChevronsRight, FileCheck2, HelpCircle, LayoutDashboard, LogOut, Menu, MessageSquareText,
+  BookOpen, Briefcase, CalendarDays, ChevronsLeft, ChevronsRight, FileCheck2, GraduationCap, HelpCircle, LayoutDashboard, LogOut, Menu, MessageSquareText,
   Moon, Search, Settings, Sun, X, type LucideIcon,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
@@ -22,6 +22,7 @@ export const NAV: { to: string; label: string; icon: LucideIcon; hint: string }[
   { to: "/calendar", label: "Calendar", icon: CalendarDays, hint: "Hearings and deadlines" },
   { to: "/research", label: "Research", icon: BookOpen, hint: "Judgments, Acts and citations" },
   { to: "/verify", label: "Check a document", icon: FileCheck2, hint: "Verify every citation in a text" },
+  { to: "/exam", label: "Exam prep", icon: GraduationCap, hint: "AIBE practice and mock tests" },
 ];
 
 function Brand({ collapsed }: { collapsed?: boolean }) {
@@ -158,7 +159,7 @@ function CommandPalette({ open, setOpen }: { open: boolean; setOpen: (v: boolean
 }
 
 const CRUMBS: Record<string, string> = { dashboard: "Dashboard", ask: "Ask DocketPilot", cases: "Cases", calendar: "Calendar", research: "Research",
-  verify: "Check a document", guide: "How to use", account: "Account", drafts: "Draft" };
+  verify: "Check a document", exam: "Exam prep", guide: "How to use", account: "Account", drafts: "Draft" };
 
 export function AppShell({ children, wide }: { children: ReactNode; wide?: boolean }) {
   const [collapsed, setCollapsed] = useState(() => store.get("dp_nav") === "1");

@@ -217,6 +217,24 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
 
 <section id="ui"><h2>The interface</h2><p>Filled in by build.py from reports/screenshots and reports/ui_usability.json.</p></section>
 
+<section id="exam">
+  <h2>Exam prep (AIBE)</h2>
+  <p>Every advocate must pass the <b>All India Bar Examination</b> (Bar Council of India): 100 multiple-choice questions across 19 subjects, open book (bare Acts without notes). The <b>Exam prep</b> page turns the bare Acts already in the library into practice questions. It uses <b>no AI and no Groq tokens</b>.</p>
+  <div class="tbl"><table><thead><tr><th>Question kind</th><th>Made from</th><th>Example</th></tr></thead><tbody>
+    <tr><td>Find the section</td><td>section heading</td><td>Which section of the BNS deals with "Punishment for murder"?</td></tr>
+    <tr><td>What does it deal with</td><td>section number</td><td>Section 34 of the Customs Act deals with: …</td></tr>
+    <tr><td>Which Act</td><td>section heading and Act</td><td>"Liability of ancestral property" is a provision of which Act?</td></tr>
+    <tr><td>Time limit</td><td>a period quoted in the text</td><td>… imprisonment for a term which may extend to _____ years</td></tr>
+  </tbody></table></div>
+  <ul>
+    <li><b>Why the answers are right:</b> the right option is copied from the section itself. Wrong options come from nearby sections of the same Act or other Acts of the same subject. Headings that appear in more than one section anywhere, repealed or omitted sections and "Definitions" are skipped, so each question has one right answer.</li>
+    <li><b>Modes:</b> Practice (one subject, answer and section text shown after each question), Mock test (100 questions across all covered subjects, timed, answers after submitting), Speed drill (type the section number within 45 seconds, the open-book skill), Progress (accuracy per subject, weakest first; stored in <code>exam_attempts</code>).</li>
+    <li><b>Coverage:</b> 17 of the 19 subjects have questions (5,670 usable sections). Not covered: Constitution (text not loaded) and PIL (case law). Income-tax Act, 1961 left out (replaced by the 2025 Act).</li>
+    <li><b>Checked:</b> <code>exam_check.py</code> made 1,685 questions and re-read every source section: all 1,685 sound.</li>
+    <li><b>Limits:</b> these test where the law is, not applying it to facts; practice questions, not past papers; not reviewed by a lawyer.</li>
+  </ul>
+</section>
+
 <section id="files">
   <h2>File map</h2>
   <p>Project root: <span class="path">D:\docket pilot\</span></p>
@@ -341,6 +359,7 @@ start.ps1 · check.ps1 · docker-compose.yml · requirements.txt · constraints.
   <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.evaluation.benchmark_vs --n-docs 8 --n-questions 8</code><button type="button">Copy</button></div>
   <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.evaluation.comparison</code><button type="button">Copy</button></div>
   <div class="cmd"><code>.\.venv-gpu\Scripts\python.exe -m docketpilot.evaluation.figures</code><button type="button">Copy</button></div>
+  <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.evaluation.exam_check</code><button type="button">Copy</button></div>
   <h3>Rebuild the knowledge base</h3>
   <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.ingestion.download --sc-from 2015</code><button type="button">Copy</button></div>
   <div class="cmd"><code>.\.venv\Scripts\python.exe -m docketpilot.ingestion.load</code><button type="button">Copy</button></div>
@@ -359,6 +378,7 @@ start.ps1 · check.ps1 · docker-compose.yml · requirements.txt · constraints.
     <li>No OCR for scanned papers; Word output only.</li>
     <li>Database is not encrypted at rest; no HTTPS until hosted (planned: Oracle Cloud Always Free with Docker Compose).</li>
     <li>Strategy advice never predicts outcomes.</li>
+    <li>Exam prep: no Constitution, PIL or Bar Council conduct rules yet, and no application (fact-pattern) questions; these would need the AI, made once in advance into a stored, checked question bank.</li>
   </ul>
 </section>
 
