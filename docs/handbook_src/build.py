@@ -21,11 +21,11 @@ sys.path.insert(0, str(ROOT))
 from docketpilot.evaluation.figures import METHODS  # noqa: E402
 
 PART_A = ["minute", "layers", "storage", "docker", "root", "code", "other", "db", "journeys", "tools", "qa", "words"]
-PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "stack", "ui", "exam", "data", "bench", "compare", "figs", "run",
+PART_B = ["workflow", "agents", "chat", "retrieval", "verify", "privacy", "security", "lawupdate", "stack", "ui", "exam", "data", "bench", "compare", "figs", "run",
           "limits", "refs"]
-SHOTS = [("s0_home", "Home page", "The public home page in court green and white: a hero with the product promise over a DocketPilot draft, then how it works, everyday matters, a product overview, measured results and a call to action."),
+SHOTS = [("s0_home", "Home page", "The public home page in oxblood and white. In the 3D hero, a DocketPilot draft and three proof cards (a verified citation, a masked name, a hearing reminder) float at different depths and turn with the mouse. Below: how it works, everyday matters, a product overview, measured results and a call to action."),
          ("s1_signin", "Sign in", "Sign in and Create account open in a panel over the home page; e-mail accounts and Google sign-in are both supported."),
-         ("s7_dashboard", "Dashboard", "Greeting, four quick actions, three headline numbers, a timeline of coming dates, drafts waiting for review and recent cases."),
+         ("s7_dashboard", "Dashboard", "Greeting, four quick actions and three headline numbers (cards tilt in 3D under the mouse; numbers count up), a timeline of coming dates, drafts waiting for review, the weekly Law updates card and recent cases."),
          ("s2_masking_review", "Masking review in the chat", "After a paper is dropped in, every identifier is listed with the placeholder that replaces it. The lawyer can untick or add items, then files it."),
          ("s3_verified_answer", "Verified research answer", "Citations are underlined; hovering one previews its passage, clicking pins it in the Source panel. The green line says how many references were checked and removed."),
          ("s6b_draft_progress", "Draft in progress", "A live stepper shows which of the seven agents has finished."),
@@ -35,7 +35,7 @@ SHOTS = [("s0_home", "Home page", "The public home page in court green and white
          ("s10_exam", "Exam prep", "AIBE practice: pick a subject and the number of questions; the right-hand list shows which of the 19 AIBE subjects have questions."),
          ("s11_exam_practice", "Practice question", "After answering, the right option turns green and the section it comes from is shown with its India Code link."),
          ("s12_exam_result", "Mock-test score", "Score out of 100 against the 45% pass mark, then accuracy per subject (weakest first) and a review of wrong answers."),
-         ("s8_dashboard_dark", "Dark mode", "The same dashboard in the dark theme (toggle in the top bar; remembered per device)."),
+         ("s8_dashboard_dark", "Dark mode", "The dark theme on a pure black background (toggle in the top bar; remembered per device)."),
          ("s9_mobile_chat", "Phone layout", "The chat on a 390-pixel-wide phone screen; the menu becomes a slide-out drawer.")]
 
 EXTRA_CSS = """

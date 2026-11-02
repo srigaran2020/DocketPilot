@@ -4,7 +4,7 @@
 <title>DocketPilot Project Guide</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a guided tour of the project folder. Green spine for contents, white pages, gold for "where to point". */
+/* Layout: a guided tour of the project folder. Dark spine for contents, white pages, gold for "where to point". */
 :root{--bg:#f3f5f2;--page:#fff;--ink:#14231d;--ink2:#3e4c46;--mute:#6c7973;--rule:#dde3df;--spine:#123c33;--spine-ink:#d9e7e1;
   --gold:#a97c1c;--gold-soft:#f6eed9;--seal:#b4440f;--code:#eef2ef;--blue:#2a6fc0;--blue-soft:#e8f0fa;
   --display:"Cinzel",Georgia,serif;--sans:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",Consolas,monospace}
@@ -208,7 +208,7 @@ details.qa p{margin:8px 0 2px}
       <tr><td><code>src\pages\</code></td><td>One file per screen, for example <code>Ask.tsx</code> (the chat), <code>Draft.tsx</code> (review and approve), <code>Calendar.tsx</code>.</td><td><code>App.tsx</code></td></tr>
       <tr><td><code>src\components\</code></td><td>Shared building blocks: <code>ui.tsx</code> (buttons, cards, dialogs), <code>legal.tsx</code> (stamps, date tiles, citation pop-ups), <code>papers.tsx</code> (upload and masking review), <code>shell.tsx</code> (sidebar, top bar, Ctrl+K search).</td><td>pages</td></tr>
       <tr><td><code>src\lib\</code></td><td><code>api.ts</code> (talks to the server), <code>auth.tsx</code> (sign-in state), <code>theme.tsx</code> (light and dark mode), <code>utils.ts</code>.</td><td>everywhere</td></tr>
-      <tr><td><code>src\index.css</code>, <code>tailwind.config.js</code></td><td>The design system: colours (court green, seal vermilion, brass), fonts, light and dark themes.</td><td>Tailwind</td></tr>
+      <tr><td><code>src\index.css</code>, <code>tailwind.config.js</code></td><td>The design system: colours (oxblood, champagne and slate on white; pure black in dark mode), fonts, 3D tilt and page-entrance motion (switched off for users who ask for reduced motion).</td><td>Tailwind</td></tr>
     </tbody></table></div></div>
 
   <div class="folder"><h3>docketpilot\web\</h3><p class="what">What the server sends to the browser.</p>
@@ -229,6 +229,7 @@ details.qa p{margin:8px 0 2px}
       <tr><td><code>research.py</code></td><td>Search judgments, list Acts, find a section by topic, section "as on a date", citation look-up, check a document.</td><td>Research page, Check a document</td></tr>
       <tr><td><code>exam.py</code></td><td>AIBE exam prep: list subjects, make a practice set or mock test, save a score, show progress per subject. No AI.</td><td>Exam prep page</td></tr>
       <tr><td><code>health.py</code></td><td>"Are all databases up?" check at <code>/health</code>.</td><td>Monitoring</td></tr>
+      <tr><td><code>hardening.py</code></td><td>Security headers (Content-Security-Policy and others), the 16 MB request limit, and a plain 404 for malformed ids. See <code>docs\SECURITY.md</code>.</td><td>Every request</td></tr>
     </tbody></table></div></div>
 
   <div class="folder"><h3>docketpilot\agents\</h3><p class="what">The team of seven AI agents, built with LangGraph.</p>
@@ -259,6 +260,7 @@ details.qa p{margin:8px 0 2px}
     <div class="tbl"><table><tbody>
       <tr><td><code>ingestion\download.py</code></td><td>Downloads judgment PDFs from the free AWS Open Data collections and extracts their text into <code>data\raw\</code>.</td><td>Run by hand</td></tr>
       <tr><td><code>ingestion\load.py</code></td><td>Loads judgments, citations and the 79 Acts into PostgreSQL.</td><td>Run by hand</td></tr>
+      <tr><td><code>ingestion\update_laws.py</code></td><td>Weekly law update: fetches every Act again from India Code, keeps the old wording of changed sections as earlier versions, records the run for the dashboard. No AI.</td><td>Windows Task Scheduler (<code>tools\schedule_law_update.ps1</code>)</td></tr>
       <tr><td><code>knowledge\statutes.py</code></td><td>The list of 79 Acts, their short names (BNS, CPC, HMA…), fetching them from India Code, and "law as on a date".</td><td><code>load.py</code>, search, verifier</td></tr>
       <tr><td><code>knowledge\citations.py</code></td><td>Recognises citation formats (2023 INSC 123, [2020] 3 S.C.R. 1, (2010) 11 SCC 441, AIR…).</td><td>Loader, verifier</td></tr>
       <tr><td><code>knowledge\parse.py</code></td><td>Splits a judgment into parts (headnote, body) and small passages ("chunks").</td><td><code>load.py</code></td></tr>
@@ -332,7 +334,7 @@ details.qa p{margin:8px 0 2px}
 
 <section id="db">
   <h2>7. The database tables</h2>
-  <p>PostgreSQL holds 16 main tables (plus LangGraph's own). Think of each as a spreadsheet.</p>
+  <p>PostgreSQL holds 17 main tables (plus LangGraph's own). Think of each as a spreadsheet.</p>
   <div class="tbl"><table><thead><tr><th>Table</th><th>One row is…</th><th>Group</th></tr></thead><tbody>
     <tr><td><code>cases</code></td><td>one judgment (title, court, date, judges)</td><td>Library</td></tr>
     <tr><td><code>case_citations</code></td><td>one way to cite a judgment (e.g. 2020 INSC 631)</td><td>Library</td></tr>
@@ -340,16 +342,17 @@ details.qa p{margin:8px 0 2px}
     <tr><td><code>chunks</code></td><td>one small passage of a judgment (583,931 in total), with its page</td><td>Library</td></tr>
     <tr><td><code>citation_edges</code></td><td>"judgment A cites judgment B"</td><td>Library</td></tr>
     <tr><td><code>acts</code></td><td>one Act (35)</td><td>Library</td></tr>
-    <tr><td><code>section_versions</code></td><td>one section of an Act with its text (8,558)</td><td>Library</td></tr>
+    <tr><td><code>section_versions</code></td><td>one version of a section of an Act with its text (8,558 current); earlier wording kept with an end date when the weekly update finds a change</td><td>Library</td></tr>
     <tr><td><code>amendments</code></td><td>one amendment footnote with its date</td><td>Library</td></tr>
     <tr><td><code>firms</code></td><td>one private workspace (each account gets one)</td><td>Accounts</td></tr>
-    <tr><td><code>users</code></td><td>one user (email, hashed password, role)</td><td>Accounts</td></tr>
+    <tr><td><code>users</code></td><td>one user (email, hashed password, role, token version: raised on sign-out to cancel old tokens)</td><td>Accounts</td></tr>
     <tr><td><code>audit_log</code></td><td>one action (sign-in, upload, approval…); cannot be edited</td><td>Accounts</td></tr>
     <tr><td><code>matters</code></td><td>one case file of a lawyer (case number, court, parties as placeholders)</td><td>Lawyer's work</td></tr>
     <tr><td><code>matter_documents</code></td><td>one uploaded paper (masked text only)</td><td>Lawyer's work</td></tr>
     <tr><td><code>drafts</code></td><td>one draft with its verification report and status</td><td>Lawyer's work</td></tr>
     <tr><td><code>reminders</code></td><td>one calendar date (hearing, deadline, reminder)</td><td>Lawyer's work</td></tr>
     <tr><td><code>exam_attempts</code></td><td>one finished practice set, mock test or speed drill, with the score per subject</td><td>Exam prep</td></tr>
+    <tr><td><code>law_updates</code></td><td>one weekly law-update run: Acts checked, sections added / changed / removed, failures, drafts citing a changed section</td><td>Dashboard (Law updates)</td></tr>
   </tbody></table></div>
 </section>
 

@@ -5,7 +5,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: a bound case file. A court-green spine (sticky contents) beside a white page; gold marks what was measured. */
+/* Layout: a bound case file. A dark spine (sticky contents) beside a white page; gold marks what was measured. */
 :root{
   --bg:#f3f5f2; --page:#ffffff; --ink:#14231d; --ink2:#3e4c46; --mute:#6c7973; --rule:#dde3df;
   --spine:#123c33; --spine-ink:#d9e7e1; --gold:#a97c1c; --gold-soft:#f6eed9; --seal:#b4440f; --code:#eef2ef;
@@ -170,6 +170,36 @@ pre.tree{font:12.5px/1.55 var(--mono);background:var(--code);padding:14px;overfl
     <li><b>Gate</b>: red items block approval; amber items need sign-off.</li>
   </ol>
   <p><b>Auto-correction</b> then replaces a wrong citation with the real one when the named case exists, removes citations whose case is missing, whose quote is not in the judgment or that do not support the point (with the sentence that relied on them), and removes case names written without any citation.</p>
+</section>
+
+<section id="security">
+  <h2>Security</h2>
+  <p>Reviewed against the OWASP Top 10:2025, the OWASP Top 10 for LLM Applications and ASVS 5.0; the full list with each control's purpose is in <span class="path">docs/SECURITY.md</span>, tests in <span class="path">tests/test_hardening.py</span>.</p>
+  <div class="tbl"><table><thead><tr><th>Control</th><th>Purpose</th></tr></thead><tbody>
+    <tr><td>Argon2 password hashes; common passwords and the user's name/email refused</td><td>Stolen data does not reveal passwords; the first guesses fail</td></tr>
+    <tr><td>Lock after 10 failed sign-ins per minute per address and per 15 minutes per account</td><td>Slows password guessing</td></tr>
+    <tr><td>Google sign-in (OAuth 2.0 / OpenID Connect ID token checked with Google: issuer, this app's client ID, verified email)</td><td>Sign-in without a password</td></tr>
+    <tr><td>Signed tokens with expiry; sign-out and password change cancel all earlier tokens (<code>users.token_version</code>)</td><td>A copied token stops working after sign-out</td></tr>
+    <tr><td>Every case, draft and reminder query filtered by the user's workspace; malformed ids give 404</td><td>No one can open another user's case by editing an id</td></tr>
+    <tr><td>Content-Security-Policy (own scripts plus Google sign-in only), no framing, <code>nosniff</code>, no caching of API answers</td><td>Blocks injected scripts and clickjacking</td></tr>
+    <tr><td>16 MB request cap before reading; file content must match its extension; page and unzip limits</td><td>Huge or disguised uploads are refused</td></tr>
+    <tr><td>30 AI requests per user per 10 minutes; the AI has no tools and cannot act</td><td>Protects the Groq quota; prompt injection in a paper cannot do anything</td></tr>
+    <tr><td>Append-only audit log (database trigger)</td><td>Who did what cannot be quietly changed</td></tr>
+  </tbody></table></div>
+  <p><b>Limits:</b> plain HTTP on 127.0.0.1 (HTTPS needed before any network use); token kept in browser storage; counters reset on restart; no two-factor for password accounts; no external penetration test.</p>
+</section>
+
+<section id="lawupdate">
+  <h2>Weekly law update</h2>
+  <p>Laws change, so the Acts are fetched again from India Code every week by <b>Windows Task Scheduler</b> (task "DocketPilot weekly law update", Sundays 10:00, set up with <span class="path">tools/schedule_law_update.ps1</span>; runs <span class="path">tools/run_law_update.ps1</span> → <span class="path">docketpilot/ingestion/update_laws.py</span>). No AI is involved.</p>
+  <ol>
+    <li>Download each of the 79 Acts (one second between pages, to be polite to the government server).</li>
+    <li>Compare every section with the stored one by a SHA-256 fingerprint of its text.</li>
+    <li>Changed: the old wording is kept as an earlier version (<code>valid_to</code> = the date the new wording started, read from the amendment footnotes) and the new wording becomes current. New sections are added; removed sections are closed, never deleted.</li>
+    <li>An Act whose download has fewer than half the stored sections is skipped (site down or changed), never half-applied.</li>
+    <li>The run is saved in <code>law_updates</code>; the dashboard's <b>Law updates</b> card lists what changed and the user's drafts that cite a changed section.</li>
+  </ol>
+  <p>Because earlier wording is now stored, "Section X as on date D" returns the old text for dates before an amendment. If the laptop is off on Sunday, the task runs at the next sign-in. Limits: India Code may publish amendments days or weeks after the Gazette; new Acts must still be added to the list by hand.</p>
 </section>
 
 <section id="privacy">
