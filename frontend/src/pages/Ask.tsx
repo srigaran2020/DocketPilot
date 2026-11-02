@@ -324,7 +324,7 @@ export default function Ask() {
       <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 lg:left-[var(--sidebar,252px)]">
         <div className="mx-auto max-w-[1440px] bg-gradient-to-t from-bg via-bg/95 to-transparent px-4 pb-5 pt-10 sm:px-6 lg:px-10">
           <div className="pointer-events-auto xl:mr-[364px]">
-            <div className="flex items-end gap-2 rounded-2xl border border-line-2 bg-surface p-2 shadow-pop transition focus-within:border-brand-2 focus-within:shadow-[0_0_0_4px_rgb(var(--brand)/.12),0_12px_40px_-12px_rgb(10_20_18/.35)]">
+            <div className="flex items-end gap-2 rounded-2xl border border-line-2 bg-surface p-2 shadow-pop transition focus-within:border-brand-2 focus-within:shadow-[0_0_0_4px_rgb(var(--brand)/.12),0_12px_40px_-12px_rgb(20_10_12/.35)]">
               <button onClick={openFiles} className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-ink-2 transition hover:bg-line/60 hover:text-ink" aria-label="Attach case papers" data-testid="attach">
                 <Paperclip className="h-5 w-5" /></button>
               <textarea ref={ta} value={text} onChange={e => setText(e.target.value)} rows={1} data-testid="composer"
@@ -332,7 +332,7 @@ export default function Ask() {
                 placeholder="Ask a question, draft a document, or set a reminder…"
                 className="max-h-[200px] min-h-[40px] flex-1 resize-none bg-transparent px-1 py-2 text-[15px] leading-relaxed outline-none placeholder:text-mute" aria-label="Message" />
               <button onClick={() => send()} disabled={!text.trim() || pending !== false} aria-label="Send" data-testid="send"
-                className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-seal text-white shadow transition hover:brightness-110 disabled:bg-line-2 disabled:text-mute disabled:shadow-none">
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-seal text-[rgb(var(--on-brand))] shadow transition hover:brightness-110 disabled:bg-line-2 disabled:text-mute disabled:shadow-none">
                 {pending !== false ? <Dots className="scale-75" /> : <ArrowUp className="h-5 w-5" />}</button>
             </div>
             <div className="mt-2 flex flex-wrap justify-between gap-2 px-2 text-[11.5px] text-mute">

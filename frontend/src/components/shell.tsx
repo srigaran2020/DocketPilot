@@ -28,11 +28,11 @@ export const NAV: { to: string; label: string; icon: LucideIcon; hint: string }[
 function Brand({ collapsed }: { collapsed?: boolean }) {
   return (
     <div className={cn("flex items-center gap-3 px-4 pb-5 pt-5", collapsed && "justify-center px-0")}>
-      <img src="/logo.png" alt="" className="h-9 w-9 shrink-0 rounded-full ring-2 ring-[#f2c56b]/50" />
+      <img src="/logo.png" alt="" className="h-9 w-9 shrink-0 rounded-full ring-2 ring-[#E8C9A0]/50" />
       {!collapsed && (
         <div className="min-w-0">
           <div className="font-mark text-[18px] font-bold tracking-[.06em] text-white">DocketPilot</div>
-          <div className="text-[10.5px] uppercase tracking-[.16em] text-[#9fbcb2]">Research & drafting</div>
+          <div className="text-[10.5px] uppercase tracking-[.16em] text-[#C9AEB2]">Research & drafting</div>
         </div>
       )}
     </div>
@@ -47,11 +47,11 @@ function NavItems({ collapsed, onNavigate }: { collapsed?: boolean; onNavigate?:
           <NavLink key={n.to} to={n.to} onClick={onNavigate}
             className={({ isActive }) => cn(
               "group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-[14px] font-medium transition",
-              isActive ? "bg-white/[.09] text-white shadow-[inset_0_0_0_1px_rgb(255_255_255/.07)]" : "text-[#b9d2c9] hover:bg-white/[.05] hover:text-white",
+              isActive ? "bg-white/[.09] text-white shadow-[inset_0_0_0_1px_rgb(255_255_255/.07)]" : "text-[#E2CCCF] hover:bg-white/[.05] hover:text-white",
               collapsed && "justify-center px-0")}>
             {({ isActive }) => (<>
-              {isActive && <motion.span layoutId="navbar" className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-[#f2a15b]" />}
-              <n.icon className={cn("h-[18px] w-[18px] shrink-0", isActive ? "text-[#f2c56b]" : "text-[#86a99d] group-hover:text-[#d8e6df]")} />
+              {isActive && <motion.span layoutId="navbar" className="absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-[#E8C9A0]" />}
+              <n.icon className={cn("h-[18px] w-[18px] shrink-0", isActive ? "text-[#E8C9A0]" : "text-[#B0939A] group-hover:text-[#F3E6E8]")} />
               {!collapsed && <span className="truncate">{n.label}</span>}
             </>)}
           </NavLink>
@@ -64,21 +64,21 @@ function NavItems({ collapsed, onNavigate }: { collapsed?: boolean; onNavigate?:
 
 function Sidebar({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed: (v: boolean) => void }) {
   return (
-    <aside className={cn("sticky top-0 hidden h-screen shrink-0 flex-col border-r border-black/20 bg-[#0c2f29] transition-[width] duration-200 lg:flex",
+    <aside className={cn("sticky top-0 hidden h-screen shrink-0 flex-col border-r border-black/20 bg-[#4A1520] dark:bg-[#1A080C] transition-[width] duration-200 lg:flex",
       collapsed ? "w-[72px]" : "w-[252px]")}>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_60%_at_0%_0%,rgb(242_197_107/.10),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_60%_at_0%_0%,rgb(232_201_160/.10),transparent_60%)]" />
       <Brand collapsed={collapsed} />
       <NavItems collapsed={collapsed} />
       <div className="space-y-1 px-3 pb-4">
-        <NavLink to="/guide" className={({ isActive }) => cn("flex items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] text-[#b9d2c9] hover:bg-white/[.05] hover:text-white",
+        <NavLink to="/guide" className={({ isActive }) => cn("flex items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] text-[#E2CCCF] hover:bg-white/[.05] hover:text-white",
           isActive && "bg-white/[.09] text-white", collapsed && "justify-center px-0")}>
-          <HelpCircle className="h-[18px] w-[18px] text-[#86a99d]" />{!collapsed && "How to use"}
+          <HelpCircle className="h-[18px] w-[18px] text-[#B0939A]" />{!collapsed && "How to use"}
         </NavLink>
         <button onClick={() => setCollapsed(!collapsed)} aria-label={collapsed ? "Expand menu" : "Collapse menu"}
-          className={cn("flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[13px] text-[#86a99d] hover:bg-white/[.05] hover:text-white", collapsed && "justify-center px-0")}>
+          className={cn("flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[13px] text-[#B0939A] hover:bg-white/[.05] hover:text-white", collapsed && "justify-center px-0")}>
           {collapsed ? <ChevronsRight className="h-[18px] w-[18px]" /> : <><ChevronsLeft className="h-[18px] w-[18px]" />Collapse</>}
         </button>
-        {!collapsed && <p className="px-3 pt-2 text-[11px] uppercase tracking-[.14em] text-[#86a99d]">Research prototype</p>}
+        {!collapsed && <p className="px-3 pt-2 text-[11px] uppercase tracking-[.14em] text-[#B0939A]">Research prototype</p>}
       </div>
     </aside>
   );
@@ -119,7 +119,7 @@ function CommandPalette({ open, setOpen }: { open: boolean; setOpen: (v: boolean
   return (
     <AnimatePresence>
       {open && (
-        <motion.div className="fixed inset-0 z-[70] flex items-start justify-center bg-[rgb(6_14_12/.45)] px-4 pt-[14vh] backdrop-blur-[2px]"
+        <motion.div className="fixed inset-0 z-[70] flex items-start justify-center bg-[rgb(20_6_9/.45)] px-4 pt-[14vh] backdrop-blur-[2px]"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOpen(false)}>
           <motion.div initial={{ y: -8, scale: 0.98 }} animate={{ y: 0, scale: 1 }} exit={{ y: -8, scale: 0.98 }} onClick={e => e.stopPropagation()}
             className="w-full max-w-xl overflow-hidden rounded-2xl border border-line bg-surface shadow-pop">
@@ -186,8 +186,8 @@ export function AppShell({ children, wide }: { children: ReactNode; wide?: boole
             <motion.div className="fixed inset-0 z-50 lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <div className="absolute inset-0 bg-black/40" onClick={() => setMobile(false)} />
               <motion.aside initial={{ x: -280 }} animate={{ x: 0 }} exit={{ x: -280 }} transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="absolute inset-y-0 left-0 flex w-[268px] flex-col bg-[#0c2f29]">
-                <button onClick={() => setMobile(false)} className="absolute right-3 top-5 rounded-lg p-1.5 text-[#b9d2c9]" aria-label="Close menu"><X className="h-5 w-5" /></button>
+                className="absolute inset-y-0 left-0 flex w-[268px] flex-col bg-[#4A1520] dark:bg-[#1A080C]">
+                <button onClick={() => setMobile(false)} className="absolute right-3 top-5 rounded-lg p-1.5 text-[#E2CCCF]" aria-label="Close menu"><X className="h-5 w-5" /></button>
                 <Brand /><NavItems onNavigate={() => setMobile(false)} />
               </motion.aside>
             </motion.div>
@@ -210,7 +210,10 @@ export function AppShell({ children, wide }: { children: ReactNode; wide?: boole
             </Tip>
             <UserMenu />
           </header>
-          <main className={cn("mx-auto w-full flex-1 px-4 pb-16 pt-8 sm:px-6 lg:px-10", wide ? "max-w-[1440px]" : "max-w-[1240px]")}>{children}</main>
+          <div key={"bar" + loc.pathname} className="route-bar pointer-events-none fixed left-0 right-0 top-0 z-[80] h-[2px] bg-gradient-to-r from-brand-2 via-brass to-brand-2" aria-hidden />
+          <main className={cn("mx-auto w-full flex-1 px-4 pb-16 pt-8 sm:px-6 lg:px-10", wide ? "max-w-[1440px]" : "max-w-[1240px]")}>
+            <div key={loc.pathname} className="page-in">{children}</div>
+          </main>
         </div>
         <CommandPalette open={palette} setOpen={setPalette} />
       </div>

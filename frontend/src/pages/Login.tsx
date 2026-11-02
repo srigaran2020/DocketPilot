@@ -1,5 +1,5 @@
 import * as DialogP from "@radix-ui/react-dialog";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight, BadgeCheck, Banknote, BookOpenCheck, Building2, CalendarClock, ChevronLeft, ChevronRight, FileSignature, Gavel, HeartHandshake,
   Home, Lock, Mail, MessageSquareText, ScanSearch, ShieldCheck, User, Users, X, type LucideIcon,
@@ -119,7 +119,7 @@ function AuthSheet({ mode }: { mode?: "signin" | "signup" }) {
   return (
     <DialogP.Root open={!!mode} onOpenChange={o => { if (!o) nav("/", { replace: true }); }}>
       <DialogP.Portal>
-        <DialogP.Overlay className="fixed inset-0 z-50 bg-[rgb(4_14_12/.55)] backdrop-blur-[3px]" />
+        <DialogP.Overlay className="fixed inset-0 z-50 bg-[rgb(20_6_9/.55)] backdrop-blur-[3px]" />
         <DialogP.Content className="fixed inset-y-0 right-0 z-50 flex w-full max-w-[460px] flex-col overflow-y-auto bg-surface px-8 py-8 shadow-pop focus:outline-none sm:px-10"
           aria-describedby={undefined}
           onOpenAutoFocus={e => { e.preventDefault(); setTimeout(() => document.querySelector<HTMLInputElement>("[data-testid=auth-form] input")?.focus(), 50); }}>
@@ -146,7 +146,7 @@ function Nav() {
     <header className={cn("fixed inset-x-0 top-0 z-40 transition-all duration-300", solid ? "border-b border-line bg-white/90 shadow-sm backdrop-blur-md" : "bg-transparent")}>
       <div className="mx-auto flex h-[72px] max-w-[1240px] items-center gap-6 px-5 sm:px-8">
         <a href="#top" className="flex items-center gap-2.5" onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
-          <img src="/logo.png" alt="" className={cn("h-9 w-9 rounded-full ring-2 transition", solid ? "ring-brand/20" : "ring-[#f2c56b]/60")} />
+          <img src="/logo.png" alt="" className={cn("h-9 w-9 rounded-full ring-2 transition", solid ? "ring-brand/20" : "ring-[#E8C9A0]/60")} />
           <span className={cn("font-mark text-[19px] font-bold tracking-[.06em] transition", solid ? "text-brand" : "text-white")}>DocketPilot</span>
         </a>
         <nav className="mx-auto hidden items-center gap-8 md:flex" aria-label="Sections">
@@ -156,10 +156,63 @@ function Nav() {
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-0">
           <Link to="/login" className={cn("rounded-lg px-3.5 py-2 text-[14px] font-medium transition", solid ? "text-ink hover:bg-line/60" : "text-white hover:bg-white/10")} data-testid="nav-signin">Sign in</Link>
-          <Link to="/signup" className={cn("hidden rounded-lg px-4 py-2 text-[14px] font-semibold transition sm:inline-flex", solid ? "bg-brand text-white hover:bg-brand-2" : "bg-white text-brand hover:bg-white/90")}>Start free</Link>
+          <Link to="/signup" className={cn("hidden rounded-lg px-4 py-2 text-[14px] font-semibold transition sm:inline-flex", solid ? "bg-brand text-[rgb(var(--on-brand))] hover:bg-brand-2" : "bg-white text-brand hover:bg-white/90")}>Start free</Link>
         </div>
       </div>
     </header>
+  );
+}
+
+// 3D hero: the draft page and three proof cards float at different depths and turn with the pointer.
+const heroX = { v: null as null | ReturnType<typeof useMotionValue<number>> };
+const heroY = { v: null as null | ReturnType<typeof useMotionValue<number>> };
+function heroPointer(e: React.PointerEvent<HTMLElement>) {
+  const r = e.currentTarget.getBoundingClientRect();
+  heroX.v?.set((e.clientX - r.left) / r.width - 0.5);
+  heroY.v?.set((e.clientY - r.top) / r.height - 0.5);
+}
+
+function Float({ z, className, delay = 0, children }: { z: number; className: string; delay?: number; children: React.ReactNode }) {
+  return (
+    <div className={cn("absolute [transform-style:preserve-3d]", className)} style={{ transform: `translateZ(${z}px)` }}>
+      <div className="hero-float rounded-xl border border-white/15 bg-[#2A0B12]/80 px-4 py-3 text-white shadow-[0_30px_60px_-20px_rgba(0,0,0,.7)] backdrop-blur-md"
+        style={{ animationDelay: `${delay}s` }}>{children}</div>
+    </div>
+  );
+}
+
+function HeroStage() {
+  const still = useReducedMotion();
+  const mx = useMotionValue(0), my = useMotionValue(0);
+  heroX.v = mx; heroY.v = my;
+  const sx = useSpring(mx, { stiffness: 60, damping: 18 }), sy = useSpring(my, { stiffness: 60, damping: 18 });
+  const rotateY = useTransform(sx, [-0.5, 0.5], still ? [-16, -16] : [-24, -8]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], still ? [8, 8] : [14, 2]);
+  return (
+    <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[54%] items-center justify-center lg:flex" style={{ perspective: 1300 }} aria-hidden>
+      <motion.div className="relative h-[560px] w-[440px] [transform-style:preserve-3d]" style={{ rotateY, rotateX }}>
+        <div className="absolute inset-0 overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_60px_120px_-30px_rgba(0,0,0,.8)]" style={{ transform: "translateZ(0px)" }}>
+          <img src={heroDraft} alt="" className="h-full w-full object-cover object-left-top" />
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#2A0B12]/30" />
+        </div>
+        <div className="absolute inset-0 rounded-2xl border border-white/10 bg-white/[.06]" style={{ transform: "translateZ(-40px) translateX(26px) translateY(18px)" }} />
+        <div className="absolute inset-0 rounded-2xl border border-white/10 bg-white/[.04]" style={{ transform: "translateZ(-80px) translateX(52px) translateY(36px)" }} />
+        <Float z={90} className="-left-24 top-16">
+          <p className="flex items-center gap-2 text-[13px] font-semibold"><BadgeCheck className="h-4 w-4 text-[#7EE2A8]" />Verified</p>
+          <p className="mt-0.5 font-mono text-[12px] text-[#E6D3D6]">(2014) 9 SCC 129 · page 14</p>
+        </Float>
+        <Float z={130} delay={1.2} className="-right-16 top-[46%]">
+          <p className="text-[12px] uppercase tracking-[.14em] text-[#E8C9A0]">Masked before the AI</p>
+          <p className="mt-1 font-mono text-[13px]">Kavitha Raman <span className="text-[#E8C9A0]">→</span> PERSON_1</p>
+        </Float>
+        <Float z={70} delay={2.1} className="-left-10 bottom-14">
+          <div className="flex items-center gap-3">
+            <div className="overflow-hidden rounded-lg bg-white text-center text-[#2A0B12]"><p className="bg-[#8C2A3C] px-2.5 text-[10px] font-bold text-white">NOV</p><p className="px-2.5 font-display text-[18px] font-semibold leading-7">07</p></div>
+            <div><p className="text-[13px] font-semibold">Hearing, Court No. 9</p><p className="text-[12px] text-[#E6D3D6]">Reminder set · in 5 days</p></div>
+          </div>
+        </Float>
+      </motion.div>
+    </div>
   );
 }
 
@@ -167,24 +220,25 @@ function Hero() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 700], [0, 120]);
   return (
-    <section id="top" className="relative flex min-h-[640px] items-center overflow-hidden bg-[#071f1b] pt-[72px] lg:min-h-[86vh]">
-      <motion.div style={{ y }} className="pointer-events-none absolute inset-y-0 right-[-6%] w-[78%] lg:w-[64%]">
+    <section id="top" onPointerMove={heroPointer} className="relative flex min-h-[640px] items-center overflow-hidden bg-[#2A0B12] pt-[72px] lg:min-h-[86vh]">
+      <motion.div style={{ y }} className="pointer-events-none absolute inset-y-0 right-[-6%] w-[78%] lg:hidden">
         <img src={heroDraft} alt="" className="h-full w-full rotate-[-4deg] scale-110 object-cover object-left-top opacity-[.55] [filter:sepia(.25)_saturate(.8)]" />
       </motion.div>
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#071f1b_0%,#071f1b_32%,rgba(7,31,27,.86)_52%,rgba(7,31,27,.35)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_15%_20%,rgba(31,107,93,.45),transparent_70%)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#071f1b] to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#2A0B12_0%,#2A0B12_32%,rgba(42,11,18,.86)_52%,rgba(42,11,18,.35)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_15%_20%,rgba(140,42,60,.45),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#2A0B12] to-transparent" />
+      <HeroStage />
       <div className="relative mx-auto w-full max-w-[1240px] px-5 py-20 sm:px-8">
-        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-[760px]">
-          <span className="mb-6 inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[.07] px-3 py-1.5 text-[13px] text-[#d8e6df] backdrop-blur">
-            <BadgeCheck className="h-4 w-4 text-[#f2c56b]" />Every citation checked against the judgment</span>
+        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="relative z-10 max-w-[760px] lg:max-w-[52%]">
+          <span className="mb-6 inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[.07] px-3 py-1.5 text-[13px] text-[#F3E6E8] backdrop-blur">
+            <BadgeCheck className="h-4 w-4 text-[#E8C9A0]" />Every citation checked against the judgment</span>
           <h1 className="font-display text-[26px] font-semibold leading-[1.18] tracking-[-.01em] text-white sm:text-[34px]">
             An Agentic AI System for Indian Legal Research, Drafting, Anti-Hallucination Verification and Case Management
-            <em className="mt-3 block text-[34px] font-normal leading-tight text-[#f2c56b] sm:text-[46px]">verified line by line.</em></h1>
-          <p className="mt-6 max-w-[540px] text-[17px] leading-relaxed text-[#c9ddd5]">
+            <em className="mt-3 block text-[34px] font-normal leading-tight text-[#E8C9A0] sm:text-[46px]">verified line by line.</em></h1>
+          <p className="mt-6 max-w-[540px] text-[17px] leading-relaxed text-[#E6D3D6]">
             DocketPilot reads your case papers, finds the law in Indian judgments and Central Acts, drafts the document, and checks every citation before you see it. Client names never leave your machine.</p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link to="/signup" className="inline-flex h-12 items-center gap-2 rounded-lg bg-white px-6 text-[15px] font-semibold text-brand shadow-lg transition hover:bg-[#f4f1ea]" data-testid="hero-cta">
+            <Link to="/signup" className="inline-flex h-12 items-center gap-2 rounded-lg bg-white px-6 text-[15px] font-semibold text-brand shadow-lg transition hover:bg-[#F3F4F6]" data-testid="hero-cta">
               Start free <ArrowRight className="h-4 w-4" /></Link>
             <a href="#how" onClick={e => { e.preventDefault(); document.querySelector("#how")?.scrollIntoView({ behavior: "smooth" }); }}
               className="inline-flex h-12 items-center rounded-lg border border-white/25 px-6 text-[15px] font-medium text-white transition hover:bg-white/10">See how it works</a>
@@ -196,7 +250,7 @@ function Hero() {
 }
 
 function Eyebrow({ children, dark }: { children: string; dark?: boolean }) {
-  return <p className={cn("mb-3 font-mono text-[12px] uppercase tracking-[.2em]", dark ? "text-[#9fbcb2]" : "text-brand-2")}>{children}</p>;
+  return <p className={cn("mb-3 font-mono text-[12px] uppercase tracking-[.2em]", dark ? "text-[#C9AEB2]" : "text-brand-2")}>{children}</p>;
 }
 
 function HowItWorks() {
@@ -204,17 +258,17 @@ function HowItWorks() {
     <section id="how" className="bg-white py-24">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
         <Eyebrow>How it works</Eyebrow>
-        <h2 className="h-display max-w-[640px] text-[38px] leading-tight text-[#0c2f29]">From case papers to a filing you can trust.</h2>
-        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-[#e3ebe7] sm:grid-cols-2 lg:grid-cols-4">
+        <h2 className="h-display max-w-[640px] text-[38px] leading-tight text-[#4A1520]">From case papers to a filing you can trust.</h2>
+        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-[#E5E7EB] sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((s, i) => (
             <motion.div key={s.title} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ delay: i * 0.08 }}
               className="bg-white p-7">
               <div className="mb-6 flex items-center justify-between">
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#0c2f29] text-[#f2c56b]"><s.icon className="h-5 w-5" /></div>
-                <span className="font-display text-[34px] font-semibold text-[#e3ebe7]">0{i + 1}</span>
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#4A1520] text-[#E8C9A0]"><s.icon className="h-5 w-5" /></div>
+                <span className="font-display text-[34px] font-semibold text-[#E5E7EB]">0{i + 1}</span>
               </div>
-              <p className="text-[17px] font-semibold text-[#0c2f29]">{s.title}</p>
-              <p className="mt-2 text-[14.5px] leading-relaxed text-[#4d5b56]">{s.text}</p>
+              <p className="text-[17px] font-semibold text-[#4A1520]">{s.title}</p>
+              <p className="mt-2 text-[14.5px] leading-relaxed text-[#475569]">{s.text}</p>
             </motion.div>))}
         </div>
       </div>
@@ -226,31 +280,31 @@ function Scenarios() {
   const row = useRef<HTMLDivElement>(null);
   const scroll = (d: number) => row.current?.scrollBy({ left: d * (row.current.clientWidth * 0.8), behavior: "smooth" });
   return (
-    <section id="work" className="bg-[#f6f8f7] py-24">
+    <section id="work" className="bg-[#F8FAFC] py-24">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
         <Eyebrow>Real matters, real work</Eyebrow>
         <div className="flex flex-wrap items-end gap-6">
           <div className="max-w-[640px] flex-1">
-            <h2 className="h-display text-[38px] leading-tight text-[#0c2f29]">What lands on an advocate's desk.</h2>
-            <p className="mt-3 text-[16.5px] text-[#4d5b56]">The everyday matters of Indian practice, and what DocketPilot does with each of them.</p>
+            <h2 className="h-display text-[38px] leading-tight text-[#4A1520]">What lands on an advocate's desk.</h2>
+            <p className="mt-3 text-[16.5px] text-[#475569]">The everyday matters of Indian practice, and what DocketPilot does with each of them.</p>
           </div>
           <div className="ml-auto flex gap-2">
-            <button onClick={() => scroll(-1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#cfdcd6] bg-white text-[#0c2f29] transition hover:border-[#0c2f29]" aria-label="Previous"><ChevronLeft className="h-5 w-5" /></button>
-            <button onClick={() => scroll(1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#cfdcd6] bg-white text-[#0c2f29] transition hover:border-[#0c2f29]" aria-label="Next"><ChevronRight className="h-5 w-5" /></button>
+            <button onClick={() => scroll(-1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#CBD5E1] bg-white text-[#4A1520] transition hover:border-[#4A1520]" aria-label="Previous"><ChevronLeft className="h-5 w-5" /></button>
+            <button onClick={() => scroll(1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#CBD5E1] bg-white text-[#4A1520] transition hover:border-[#4A1520]" aria-label="Next"><ChevronRight className="h-5 w-5" /></button>
           </div>
         </div>
         <div ref={row} tabIndex={0} role="region" aria-label="Everyday matters (scroll sideways)" className="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {SCENARIOS.map((s, i) => (
             <motion.article key={s.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
-              className="group relative flex h-[440px] w-[86%] shrink-0 snap-start flex-col overflow-hidden rounded-2xl bg-[#071f1b] p-7 text-white sm:w-[360px]">
-              <div className="pointer-events-none absolute left-1/2 top-[-30%] h-[420px] w-[180px] -translate-x-1/2 rotate-[18deg] bg-gradient-to-b from-[#9fd9c6]/30 to-transparent blur-2xl transition duration-500 group-hover:from-[#f2c56b]/30" />
-              <div className="relative mx-auto mt-10 grid h-32 w-32 place-items-center rounded-[34%] border border-white/10 bg-gradient-to-br from-[#1f6b5d] to-[#0c2f29] shadow-[0_20px_60px_-10px_rgba(31,107,93,.7)] transition duration-500 group-hover:scale-105">
-                <s.icon className="h-14 w-14 text-[#f2c56b]" strokeWidth={1.4} />
+              className="group relative flex h-[440px] w-[86%] shrink-0 snap-start flex-col overflow-hidden rounded-2xl bg-[#2A0B12] p-7 text-white sm:w-[360px]">
+              <div className="pointer-events-none absolute left-1/2 top-[-30%] h-[420px] w-[180px] -translate-x-1/2 rotate-[18deg] bg-gradient-to-b from-[#F0C9D0]/30 to-transparent blur-2xl transition duration-500 group-hover:from-[#E8C9A0]/30" />
+              <div className="relative mx-auto mt-10 grid h-32 w-32 place-items-center rounded-[34%] border border-white/10 bg-gradient-to-br from-[#8C2A3C] to-[#4A1520] shadow-[0_20px_60px_-10px_rgba(140,42,60,.7)] transition duration-500 group-hover:scale-105">
+                <s.icon className="h-14 w-14 text-[#E8C9A0]" strokeWidth={1.4} />
               </div>
               <div className="relative mt-auto">
-                <p className="mb-1.5 font-mono text-[11px] uppercase tracking-[.2em] text-[#9fbcb2]">{s.tag}</p>
+                <p className="mb-1.5 font-mono text-[11px] uppercase tracking-[.2em] text-[#C9AEB2]">{s.tag}</p>
                 <h3 className="text-[18px] font-semibold leading-snug">{s.title}</h3>
-                <p className="mt-3 text-[14px] leading-relaxed text-[#b9d2c9]">{s.text}</p>
+                <p className="mt-3 text-[14px] leading-relaxed text-[#E2CCCF]">{s.text}</p>
               </div>
             </motion.article>))}
         </div>
@@ -261,18 +315,18 @@ function Scenarios() {
 
 function Product() {
   return (
-    <section id="product" className="relative overflow-hidden bg-[#071f1b] py-24">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[900px] -translate-x-1/2 rounded-full bg-[#1f6b5d] opacity-25 blur-3xl" />
+    <section id="product" className="relative overflow-hidden bg-[#2A0B12] py-24">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[480px] w-[900px] -translate-x-1/2 rounded-full bg-[#8C2A3C] opacity-25 blur-3xl" />
       <div className="relative mx-auto max-w-[1240px] px-5 sm:px-8">
         <Eyebrow dark>Overview</Eyebrow>
         <h2 className="h-display max-w-[720px] text-[38px] leading-tight text-white">One workspace for every case.</h2>
-        <p className="mt-4 max-w-[700px] text-[16.5px] leading-relaxed text-[#b9d2c9]">
+        <p className="mt-4 max-w-[700px] text-[16.5px] leading-relaxed text-[#E2CCCF]">
           Ask in plain words, attach papers, draft and approve, all in one conversation. Hover any citation to read the passage it rests on. Nothing is final until you approve it.</p>
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7 }}
-          className="mt-12 overflow-hidden rounded-2xl border border-white/10 bg-[#0e2a25] shadow-[0_40px_120px_-30px_rgba(0,0,0,.8)]">
+          className="mt-12 overflow-hidden rounded-2xl border border-white/10 bg-[#2E0E15] shadow-[0_40px_120px_-30px_rgba(0,0,0,.8)]">
           <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
             <span className="h-3 w-3 rounded-full bg-[#ff5f57]" /><span className="h-3 w-3 rounded-full bg-[#febc2e]" /><span className="h-3 w-3 rounded-full bg-[#28c840]" />
-            <span className="mx-auto rounded-md bg-white/[.06] px-4 py-1 font-mono text-[12px] text-[#9fbcb2]">127.0.0.1 · DocketPilot</span>
+            <span className="mx-auto rounded-md bg-white/[.06] px-4 py-1 font-mono text-[12px] text-[#C9AEB2]">127.0.0.1 · DocketPilot</span>
           </div>
           <img src={productShot} alt="DocketPilot answering a legal question with verified citations and the source passage" className="block w-full" loading="lazy" />
         </motion.div>
@@ -283,7 +337,7 @@ function Product() {
             const I = Icon as LucideIcon;
             return (
               <div key={t as string} className="rounded-xl border border-white/10 bg-white/[.03] p-5">
-                <I className="mb-3 h-5 w-5 text-[#f2c56b]" /><p className="font-semibold text-white">{t as string}</p><p className="mt-1 text-[14px] text-[#9fbcb2]">{d as string}</p>
+                <I className="mb-3 h-5 w-5 text-[#E8C9A0]" /><p className="font-semibold text-white">{t as string}</p><p className="mt-1 text-[14px] text-[#C9AEB2]">{d as string}</p>
               </div>);
           })}
         </div>
@@ -297,15 +351,15 @@ function Numbers() {
     <section id="numbers" className="bg-white py-24">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
         <Eyebrow>Results</Eyebrow>
-        <h2 className="h-display max-w-[720px] text-[38px] leading-tight text-[#0c2f29]">Built on Indian law, measured honestly.</h2>
-        <p className="mt-3 max-w-[700px] text-[16.5px] text-[#4d5b56]">A library of open Supreme Court and High Court judgments and India Code, with every number below measured on the running system.</p>
+        <h2 className="h-display max-w-[720px] text-[38px] leading-tight text-[#4A1520]">Built on Indian law, measured honestly.</h2>
+        <p className="mt-3 max-w-[700px] text-[16.5px] text-[#475569]">A library of open Supreme Court and High Court judgments and India Code, with every number below measured on the running system.</p>
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <motion.div key={s.label} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-              className={cn("px-6 py-6", i > 0 && "lg:border-l", i % 2 === 1 && "sm:border-l", "border-[#e3ebe7]")}>
-              <p className="text-[15px] text-[#4d5b56]">{s.label}</p>
-              <p className="mt-4 font-display text-[54px] font-semibold leading-none tracking-[-.02em] text-[#0c2f29]">{s.value}</p>
-              <p className="mt-3 text-[13px] text-[#6b7873]">{s.note}</p>
+              className={cn("px-6 py-6", i > 0 && "lg:border-l", i % 2 === 1 && "sm:border-l", "border-[#E5E7EB]")}>
+              <p className="text-[15px] text-[#475569]">{s.label}</p>
+              <p className="mt-4 font-display text-[54px] font-semibold leading-none tracking-[-.02em] text-[#4A1520]">{s.value}</p>
+              <p className="mt-3 text-[13px] text-[#64748B]">{s.note}</p>
             </motion.div>))}
         </div>
       </div>
@@ -317,12 +371,12 @@ function Closing() {
   return (
     <section className="bg-white pb-24">
       <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
-        <div className="relative overflow-hidden rounded-3xl bg-[#0c2f29] px-8 py-14 text-center sm:px-16">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#1f6b5d] opacity-50 blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl bg-[#4A1520] px-8 py-14 text-center sm:px-16">
+          <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#8C2A3C] opacity-50 blur-3xl" />
           <h2 className="h-display relative text-[34px] text-white sm:text-[40px]">Bring your next case.</h2>
-          <p className="relative mx-auto mt-3 max-w-[520px] text-[16px] text-[#b9d2c9]">Create a free account and add your first papers. The case file, parties and hearing dates are set up for you.</p>
+          <p className="relative mx-auto mt-3 max-w-[520px] text-[16px] text-[#E2CCCF]">Create a free account and add your first papers. The case file, parties and hearing dates are set up for you.</p>
           <div className="relative mt-8 flex flex-wrap justify-center gap-3">
-            <Link to="/signup" className="inline-flex h-12 items-center gap-2 rounded-lg bg-white px-6 text-[15px] font-semibold text-brand transition hover:bg-[#f4f1ea]">Start free <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/signup" className="inline-flex h-12 items-center gap-2 rounded-lg bg-white px-6 text-[15px] font-semibold text-brand transition hover:bg-[#F3F4F6]">Start free <ArrowRight className="h-4 w-4" /></Link>
             <Link to="/login" className="inline-flex h-12 items-center rounded-lg border border-white/25 px-6 text-[15px] font-medium text-white transition hover:bg-white/10">Sign in</Link>
           </div>
         </div>
@@ -333,9 +387,9 @@ function Closing() {
 
 function Footer() {
   return (
-    <footer className="bg-[#071f1b] text-[#9fbcb2]">
+    <footer className="bg-[#2A0B12] text-[#C9AEB2]">
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-6 px-5 py-10 sm:px-8">
-        <div className="flex items-center gap-3"><img src="/logo.png" alt="" className="h-10 w-10 rounded-full ring-2 ring-[#f2c56b]/40" />
+        <div className="flex items-center gap-3"><img src="/logo.png" alt="" className="h-10 w-10 rounded-full ring-2 ring-[#E8C9A0]/40" />
           <div><p className="font-mark text-[17px] font-bold tracking-[.06em] text-white">DocketPilot</p>
             <p className="text-[12.5px]">An agentic AI system for Indian legal research, drafting, verification and case management.</p></div></div>
         <div className="ml-auto flex flex-wrap items-center gap-5 text-[13.5px]">

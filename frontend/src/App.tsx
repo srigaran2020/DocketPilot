@@ -1,4 +1,4 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import type { ReactNode } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AppShell } from "./components/shell";
@@ -28,7 +28,7 @@ export default function App() {
   const { me, ready } = useAuth();
   if (!ready) return <div className="grid min-h-screen place-items-center"><Dots /></div>;
   return (
-    <AnimatePresence mode="wait">
+    <MotionConfig reducedMotion="user"><AnimatePresence mode="wait">
       <Routes>
         <Route path="/" element={me ? <Navigate to="/dashboard" replace /> : <Login />} />
         <Route path="/login" element={me ? <Navigate to="/dashboard" replace /> : <Login mode="signin" />} />
@@ -46,6 +46,6 @@ export default function App() {
         <Route path="/account" element={<Private><Account /></Private>} />
         <Route path="*" element={<Navigate to={me ? "/dashboard" : "/"} replace />} />
       </Routes>
-    </AnimatePresence>
+    </AnimatePresence></MotionConfig>
   );
 }

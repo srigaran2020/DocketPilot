@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, BookOpen, Briefcase, CalendarDays, FileCheck2, FilePen, Gavel, Inbox, MessageSquareText, Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { DateTile, DaysChip, KindPill, StatusPill } from "@/components/legal";
-import { Button, Card, CardHeader, Empty, ErrorNote, FadeIn, PageHeader, Skeleton } from "@/components/ui";
+import { Button, Card, CardHeader, CountUp, Empty, Tilt, ErrorNote, FadeIn, PageHeader, Skeleton, spotlight } from "@/components/ui";
 import { api } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { docName, greeting, isoDay, niceDate, store } from "@/lib/utils";
@@ -17,17 +17,17 @@ const QUICK = [
 
 function Stat({ label, value, icon: Icon, accent, loading, to }: { label: string; value: number; icon: any; accent: string; loading: boolean; to: string }) {
   return (
-    <Link to={to} className="card group relative overflow-hidden p-5 transition hover:-translate-y-0.5 hover:shadow-pop">
+    <Tilt className="rounded-xl"><Link to={to} onPointerMove={spotlight} className="card spotlight group relative block overflow-hidden p-5 transition hover:shadow-pop">
       <div className={`absolute inset-x-0 top-0 h-1 ${accent}`} />
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[12.5px] font-medium text-mute">{label}</p>
-          {loading ? <Skeleton className="mt-2 h-9 w-14" /> : <p className="mt-1 font-display text-[38px] font-semibold leading-none text-ink">{value}</p>}
+          {loading ? <Skeleton className="mt-2 h-9 w-14" /> : <p className="mt-1 font-display text-[38px] font-semibold leading-none text-ink"><CountUp value={value} /></p>}
         </div>
         <div className="grid h-10 w-10 place-items-center rounded-xl bg-raised text-ink-2 ring-1 ring-line transition group-hover:text-brand"><Icon className="h-5 w-5" /></div>
       </div>
       <p className="absolute bottom-4 right-5 flex items-center gap-1 text-[12.5px] font-medium text-brand-2 opacity-0 transition group-hover:opacity-100">Open <ArrowRight className="h-3.5 w-3.5" /></p>
-    </Link>
+    </Link></Tilt>
   );
 }
 
@@ -66,12 +66,13 @@ export default function Dashboard() {
 
       <div className="mb-7 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {QUICK.map((q, i) => (
-          <motion.button key={q.title} onClick={() => quick(q)} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            className="card group flex items-start gap-3.5 p-4 text-left transition hover:-translate-y-0.5 hover:border-line-2 hover:shadow-pop" data-testid={`quick-${i}`}>
+          <motion.div key={q.title} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}><Tilt className="h-full rounded-xl">
+          <button onClick={() => quick(q)} onPointerMove={spotlight}
+            className="card spotlight group flex h-full w-full items-start gap-3.5 p-4 text-left transition hover:border-line-2 hover:shadow-pop" data-testid={`quick-${i}`}>
             <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br ${q.tone}`}><q.icon className="h-5 w-5" /></div>
             <div className="min-w-0 flex-1"><p className="font-semibold text-ink">{q.title}</p><p className="text-[13px] text-mute">{q.text}</p></div>
             <ArrowUpRight className="h-4 w-4 text-mute opacity-0 transition group-hover:opacity-100" />
-          </motion.button>
+          </button></Tilt></motion.div>
         ))}
       </div>
 

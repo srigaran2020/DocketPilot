@@ -66,12 +66,13 @@ function Result({ qs, picks, seconds, onAgain }: { qs: Q[]; picks: (number | nul
   const [open, setOpen] = useState<number | null>(null);
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5" data-testid="exam-result">
-      <Card className="flex flex-wrap items-center gap-6 p-6">
+      <motion.div initial={{ rotateX: -70, opacity: 0 }} animate={{ rotateX: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 140, damping: 16 }}
+        style={{ transformPerspective: 1000, transformOrigin: "50% 0%" }} className="card flex flex-wrap items-center gap-6 p-6">
         <div><p className="text-[12px] uppercase tracking-[.14em] text-mute">Score</p><p className="font-display text-[44px] leading-none">{right}<span className="text-[22px] text-mute"> / {qs.length}</span></p></div>
         <div><Badge tone={pct >= PASS ? "ok" : "bad"} dot>{pct}% · {pct >= PASS ? "above" : "below"} the {PASS}% pass mark</Badge>
           <p className="mt-2 text-[12.5px] text-mute">Time {mmss(seconds)} · AIBE pass mark is 45% (40% for SC/ST); check the current notification.</p></div>
         <Button className="ml-auto" variant="secondary" icon={RotateCcw} onClick={onAgain}>New set</Button>
-      </Card>
+      </motion.div>
       {subj.length > 1 && <Card><CardHeader icon={BarChart3} title="By subject" subtitle="Weakest first" />
         <div className="space-y-2.5 px-5 pb-5">{subj.map(([s, [c, t]]) => <Bar key={s} label={s} c={c} t={t} />)}</div></Card>}
       {wrong.length > 0 && <Card><CardHeader icon={BookOpenCheck} title={`Review ${wrong.length} wrong or skipped`} subtitle="Read the section each answer comes from" />
@@ -116,7 +117,8 @@ function Runner({ qs, mode, minutes, subject, onAgain }: { qs: Q[]; mode: "pract
   const answered = picks.filter(p => p !== null).length;
   return (
     <div className={cn("grid gap-5", mode === "mock" && "lg:grid-cols-[1fr_260px]")}>
-      <Card className="p-6" data-testid="exam-question">
+      <motion.div key={i} initial={{ opacity: 0, rotateY: -12, x: 18 }} animate={{ opacity: 1, rotateY: 0, x: 0 }} transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        style={{ transformPerspective: 1200 }} className="card p-6" data-testid="exam-question">
         <div className="mb-4 flex flex-wrap items-center gap-2 text-[12.5px] text-mute">
           <span className="font-medium text-ink">Question {i + 1} of {qs.length}</span><Badge>{q.subject}</Badge><Badge tone="brass">{KIND_LABEL[q.kind]}</Badge>
           <span className="ml-auto inline-flex items-center gap-1 tabular-nums"><Clock3 className="h-3.5 w-3.5" />{left !== null ? `${mmss(Math.max(left, 0))} left` : mmss(t)}</span>
@@ -132,12 +134,12 @@ function Runner({ qs, mode, minutes, subject, onAgain }: { qs: Q[]; mode: "pract
           {i < qs.length - 1 ? <Button className="ml-auto" onClick={() => setI(i + 1)} data-testid="exam-next">Next <ChevronRight className="h-4 w-4" /></Button>
             : <Button className="ml-auto" onClick={finish} data-testid="exam-finish">{mode === "mock" ? "Submit test" : "See score"}</Button>}
         </div>
-      </Card>
+      </motion.div>
       {mode === "mock" && <Card className="h-fit p-4">
         <p className="mb-3 text-[13px] text-mute">{answered} of {qs.length} answered</p>
         <div className="grid grid-cols-8 gap-1.5 lg:grid-cols-6">{qs.map((_, k) => (
           <button key={k} onClick={() => setI(k)} aria-label={`Question ${k + 1}`}
-            className={cn("h-8 rounded-md text-[12px] tabular-nums transition", k === i ? "bg-brand text-white" : picks[k] !== null ? "bg-brand-soft text-brand" : "bg-raised text-mute hover:text-ink")}>{k + 1}</button>))}</div>
+            className={cn("h-8 rounded-md text-[12px] tabular-nums transition", k === i ? "bg-brand text-[rgb(var(--on-brand))]" : picks[k] !== null ? "bg-brand-soft text-brand" : "bg-raised text-mute hover:text-ink")}>{k + 1}</button>))}</div>
         <Button className="mt-4 w-full" variant="secondary" onClick={finish}>Submit test</Button>
       </Card>}
     </div>

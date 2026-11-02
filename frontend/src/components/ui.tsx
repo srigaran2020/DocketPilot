@@ -2,9 +2,9 @@ import * as DialogP from "@radix-ui/react-dialog";
 import * as SwitchP from "@radix-ui/react-switch";
 import * as TabsP from "@radix-ui/react-tabs";
 import * as TooltipP from "@radix-ui/react-tooltip";
-import { motion } from "framer-motion";
+import { animate, motion, useInView, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { Loader2, X, type LucideIcon } from "lucide-react";
-import { forwardRef, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
+import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 // ---------------------------------------------------------------- Button
@@ -28,7 +28,7 @@ export const Button = forwardRef<HTMLButtonElement, BtnProps>(function Button(
         size === "lg" && "h-12 px-6 text-[15px]",
         size === "icon" && "h-9 w-9",
         variant === "primary" && "bg-brand text-[rgb(var(--on-brand))] shadow-[0_1px_0_rgb(0_0_0/.15),inset_0_1px_0_rgb(255_255_255/.12)] hover:bg-brand-2",
-        variant === "seal" && "bg-seal text-white shadow-[0_1px_0_rgb(0_0_0/.15),inset_0_1px_0_rgb(255_255_255/.15)] hover:brightness-110",
+        variant === "seal" && "bg-seal text-[rgb(var(--on-brand))] shadow-[0_1px_0_rgb(0_0_0/.15),inset_0_1px_0_rgb(255_255_255/.15)] hover:brightness-110",
         variant === "secondary" && "bg-surface text-ink border border-line-2 hover:border-ink-2/40 hover:bg-raised shadow-sm",
         variant === "ghost" && "text-ink-2 hover:bg-line/60 hover:text-ink",
         variant === "subtle" && "bg-brand-soft text-brand hover:bg-brand-soft/70",
@@ -136,7 +136,7 @@ export function Dialog({ open, onOpenChange, title, description, children, wide 
   return (
     <DialogP.Root open={open} onOpenChange={onOpenChange}>
       <DialogP.Portal>
-        <DialogP.Overlay className="fixed inset-0 z-50 bg-[rgb(6_14_12/.45)] backdrop-blur-[2px] data-[state=open]:animate-in" />
+        <DialogP.Overlay className="fixed inset-0 z-50 bg-[rgb(20_6_9/.45)] backdrop-blur-[2px] data-[state=open]:animate-in" />
         <DialogP.Content className={cn("fixed left-1/2 top-1/2 z-50 max-h-[88vh] w-[calc(100vw-32px)] -translate-x-1/2 -translate-y-1/2 overflow-auto rounded-2xl border border-line bg-surface p-6 shadow-pop focus:outline-none",
           wide ? "max-w-3xl" : "max-w-lg")}>
           <div className="mb-4 flex items-start gap-4">
@@ -215,3 +215,46 @@ export function PageHeader({ eyebrow, title, subtitle, actions }: { eyebrow?: Re
 
 export const FadeIn = ({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) =>
   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay }} className={className}>{children}</motion.div>;
+
+/** A number that counts up from 0 the first time it scrolls into view (instant with reduced motion). */
+export function CountUp({ value, className }: { value: number; className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const seen = useInView(ref, { once: true });
+  const still = useReducedMotion();
+  const [shown, setShown] = useState(still ? value : 0);
+  useEffect(() => {
+    if (!seen) return;
+    if (still) { setShown(value); return; }
+    const c = animate(0, value, { duration: 0.9, ease: [0.16, 1, 0.3, 1], onUpdate: v => setShown(Math.round(v)) });
+    return () => c.stop();
+  }, [seen, value, still]);
+  return <span ref={ref} className={cn("tabular-nums", className)}>{shown}</span>;
+}
+
+/** Soft light that follows the pointer across a card (pair with the .spotlight class). */
+export const spotlight = (e: React.PointerEvent<HTMLElement>) => {
+  const r = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+  e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+};
+
+/** 3D tilt: the card turns toward the pointer with a soft glare. Flat for touch and reduced motion. */
+export function Tilt({ children, className, max = 7, glare = true }: { children: ReactNode; className?: string; max?: number; glare?: boolean }) {
+  const still = useReducedMotion();
+  const px = useMotionValue(0.5), py = useMotionValue(0.5);
+  const sx = useSpring(px, { stiffness: 220, damping: 22 }), sy = useSpring(py, { stiffness: 220, damping: 22 });
+  const rotateY = useTransform(sx, [0, 1], [-max, max]);
+  const rotateX = useTransform(sy, [0, 1], [max, -max]);
+  const gx = useTransform(sx, v => `${v * 100}%`), gy = useTransform(sy, v => `${v * 100}%`);
+  const sheen = useMotionTemplate`radial-gradient(320px circle at ${gx} ${gy}, rgb(255 255 255 / .16), transparent 60%)`;
+  if (still) return <div className={className}>{children}</div>;
+  return (
+    <motion.div className={cn("group/tilt relative [transform-style:preserve-3d]", className)}
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
+      onPointerMove={e => { if (e.pointerType !== "mouse") return; const r = e.currentTarget.getBoundingClientRect(); px.set((e.clientX - r.left) / r.width); py.set((e.clientY - r.top) / r.height); }}
+      onPointerLeave={() => { px.set(0.5); py.set(0.5); }}>
+      {children}
+      {glare && <motion.div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 mix-blend-soft-light transition-opacity duration-300 group-hover/tilt:opacity-100" style={{ background: sheen }} />}
+    </motion.div>
+  );
+}

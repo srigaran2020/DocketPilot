@@ -2,27 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DocketPilot design tokens. Court green, seal vermilion and brass on warm paper; a deep, quiet dark theme. */
+/* DocketPilot design tokens. Oxblood and champagne on white with slate greys; pure black dark theme. */
 @layer base {
   :root {
-    --bg: 246 244 239; --surface: 255 255 255; --raised: 251 250 247;
-    --line: 232 228 219; --line-2: 214 208 194;
-    --ink: 20 33 29; --ink-2: 61 74 69; --mute: 98 107 102;
-    --brand: 15 59 51; --brand-2: 21 94 82; --brand-soft: 229 240 236; --brand-ink: 216 230 223; --on-brand: 255 255 255;
-    --seal: 194 65 12; --seal-soft: 253 238 229;
-    --brass: 176 138 46; --brass-soft: 248 240 218; --brass-ink: 130 96 22;
+    --bg: 255 255 255; --surface: 255 255 255; --raised: 248 250 252;
+    --line: 229 231 235; --line-2: 209 213 219;
+    --ink: 15 23 42; --ink-2: 51 65 85; --mute: 100 116 139;
+    --brand: 74 21 32; --brand-2: 140 42 60; --brand-soft: 248 236 238; --brand-ink: 243 230 232; --on-brand: 255 255 255;
+    --seal: 140 42 60; --seal-soft: 248 236 238;
+    --brass: 160 118 66; --brass-soft: 248 239 226; --brass-ink: 122 86 40;
     --ok: 22 117 70; --ok-soft: 228 244 234;
     --warn: 138 84 0; --warn-soft: 253 243 217;
     --bad: 186 36 28; --bad-soft: 252 232 229;
     color-scheme: light;
   }
   .dark {
-    --bg: 10 16 15; --surface: 16 24 22; --raised: 21 31 29;
-    --line: 34 46 43; --line-2: 50 64 60;
-    --ink: 233 239 236; --ink-2: 192 203 198; --mute: 134 148 142;
-    --brand: 104 204 176; --brand-2: 132 220 196; --brand-soft: 20 46 40; --brand-ink: 216 230 223; --on-brand: 8 22 18;
-    --seal: 246 126 76; --seal-soft: 56 27 17;
-    --brass: 224 186 96; --brass-soft: 50 40 17; --brass-ink: 224 186 96;
+    --bg: 0 0 0; --surface: 12 12 14; --raised: 20 20 24;
+    --line: 38 38 44; --line-2: 58 58 66;
+    --ink: 237 237 240; --ink-2: 196 198 206; --mute: 140 144 156;
+    --brand: 214 98 118; --brand-2: 232 134 150; --brand-soft: 44 18 24; --brand-ink: 243 230 232; --on-brand: 12 6 8;
+    --seal: 232 134 150; --seal-soft: 48 20 26;
+    --brass: 232 201 160; --brass-soft: 42 33 20; --brass-ink: 232 201 160;
     --ok: 86 204 140; --ok-soft: 17 46 32;
     --warn: 240 184 76; --warn-soft: 54 40 13;
     --bad: 246 112 100; --bad-soft: 58 22 20;
@@ -51,6 +51,21 @@
   .prose-answer ul { @apply mb-3 list-disc pl-5 space-y-1.5 marker:text-brass; }
   .prose-answer b { @apply font-semibold text-ink; }
 }
+
+.spotlight { position: relative; isolation: isolate; }
+.spotlight::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1; opacity: 0; transition: opacity .25s;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--brand-2) / .10), transparent 70%);
+}
+.spotlight:hover::after { opacity: 1; }
+/* Page entrance with a slight 3D swing; no fill-mode, so no transform is left behind (fixed children keep working). */
+.page-in { animation: pagein .42s cubic-bezier(.16,1,.3,1); transform-origin: 50% 0; }
+@keyframes pagein { from { opacity: 0; transform: perspective(1400px) translateY(12px) rotateX(5deg); } to { opacity: 1; transform: perspective(1400px) translateY(0) rotateX(0); } }
+.hero-float { animation: herofloat 6s ease-in-out infinite; }
+@keyframes herofloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.route-bar { transform-origin: left; animation: routebar .6s cubic-bezier(.16,1,.3,1) forwards; }
+@keyframes routebar { 0% { transform: scaleX(0); opacity: 1; } 70% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .page-in, .hero-float { animation: none; } .route-bar { animation: none; opacity: 0; } .spotlight::after { display: none; } }
 
 .grain::before {
   content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: overlay;

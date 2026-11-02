@@ -4,25 +4,25 @@
    "task": "Create an account and reach the dashboard",
    "success": true,
    "user_actions": 5,
-   "seconds": 0.27
+   "seconds": 0.22
   },
   {
    "task": "Add case papers, review masking and file them",
    "success": true,
    "user_actions": 4,
-   "seconds": 5.29
+   "seconds": 3.52
   },
   {
    "task": "See the next hearing date",
    "success": true,
    "user_actions": 1,
-   "seconds": 0.46
+   "seconds": 0.47
   },
   {
    "task": "Open a case from the command palette (Ctrl+K)",
    "success": true,
    "user_actions": 3,
-   "seconds": 0.59
+   "seconds": 0.56
   },
   {
    "task": "Find a section of an Act by topic",
@@ -34,7 +34,7 @@
    "task": "Add a reminder to the calendar",
    "success": true,
    "user_actions": 4,
-   "seconds": 0.19
+   "seconds": 0.16
   },
   {
    "task": "Switch to dark mode",
@@ -46,7 +46,7 @@
    "task": "Check the citations in a pasted text",
    "success": true,
    "user_actions": 3,
-   "seconds": 0.17
+   "seconds": 0.15
   }
  ],
  "axe": {
@@ -58,6 +58,7 @@
   "calendar": [],
   "research": [],
   "verify": [],
+  "exam": [],
   "guide": [],
   "account": []
  },
@@ -83,6 +84,10 @@
    "ok": true
   },
   "verify@390": {
+   "overflow_px": 0,
+   "ok": true
+  },
+  "exam@390": {
    "overflow_px": 0,
    "ok": true
   },
@@ -118,8 +123,12 @@
    "overflow_px": 0,
    "ok": true
   },
-  "guide@1440": {
+  "exam@1440": {
    "overflow_px": -10,
+   "ok": true
+  },
+  "guide@1440": {
+   "overflow_px": 0,
    "ok": true
   },
   "account@1440": {
@@ -128,16 +137,16 @@
   }
  },
  "speed": {
-  "reload_to_interactive_dashboard_s": 0.31,
+  "reload_to_interactive_dashboard_s": 0.43,
   "navigation_timing_ms": {
-   "dom_content_loaded": 163,
-   "load": 164
+   "dom_content_loaded": 209,
+   "load": 211
   }
  },
  "bundle_kb": {
   "hero-draft-uFJaPA2X.jpg": 174,
-  "index-3yXhl-ua.css": 58,
-  "index-DPUsGx71.js": 655,
+  "index-BDo09oZ_.js": 685,
+  "index-ZQfR4B9T.css": 63,
   "product-answer-PtHpIwaJ.jpg": 211
  }
 }
