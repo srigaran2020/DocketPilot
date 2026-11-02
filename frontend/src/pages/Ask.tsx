@@ -29,7 +29,10 @@ const STAGES = ["Hiding names on this machine", "Searching judgments and Acts", 
 function inline(text: string, cits: any[], pin: (c: any) => void): ReactNode[] {
   const raws = cits.map(c => c.raw).filter(Boolean).sort((a, b) => b.length - a.length);
   const out: ReactNode[] = [];
-  const bold = (s: string, key: string) => s.split(/\*\*(.+?)\*\*/g).map((p, i) => (i % 2 ? <b key={key + i}>{p}</b> : <Fragment key={key + i}>{p}</Fragment>));
+  // *italic* is shown as italics, never as raw asterisks
+  const ital = (s: string, key: string) => s.split(/(?<![*\w])\*(?!\s)([^*\n]+?)\*(?![*\w])/g)
+    .map((p, i) => (i % 2 ? <i key={key + i}>{p}</i> : <Fragment key={key + i}>{p}</Fragment>));
+  const bold = (s: string, key: string) => s.split(/\*\*(.+?)\*\*/g).map((p, i) => (i % 2 ? <b key={key + i}>{p}</b> : <Fragment key={key + i}>{ital(p, key + i + "i")}</Fragment>));
   let rest = text, k = 0;
   while (rest) {
     let best = -1, hit = "";
@@ -47,7 +50,7 @@ function Answer({ text, report, pin }: { text: string; report?: any; pin: (c: an
   return (
     <div className="prose-answer text-[15px] leading-[1.75] text-ink">
       {String(text || "").split(/\n{2,}/).map((b, i) => {
-        const lines = b.split("\n").filter(l => l.trim());
+        const lines = b.split("\n").filter(l => l.trim() && !/^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/.test(l));
         if (!lines.length) return null;
         const isB = (l: string) => /^\s*[-•*]\s+/.test(l);
         if (lines.filter(isB).length >= lines.length - 1 && lines.some(isB)) {

@@ -109,6 +109,7 @@ def statute_as_on(conn: psycopg.Connection, act: str, section: str, on: date) ->
 
 # Everyday names for provisions whose statutory wording is different (search help only, not legal text).
 STATUTE_SYNONYMS = {
+    r"\bwom[ae]n\b|\bempower": "women woman wife female girl dowry harassment",
     r"anticipatory\s+bail": "bail apprehending arrest",
     r"\bquash\w*": "inherent powers high court",
     r"cheque\s+bounce": "dishonour cheque insufficiency funds",
@@ -120,32 +121,146 @@ STATUTE_SYNONYMS = {
     r"\bwill\b": "will testament",
 }
 _STATUTE_TSV = "to_tsvector('english', coalesce(sv.heading, '') || ' ' || coalesce(sv.text, ''))"
+_TITLE_TSV = "to_tsvector('english', a.title)"
+# Words that say how to answer, not what the law is about ("top 10 best laws"); left in, "10" alone matched GST.
+_FILLER = re.compile(r"\b(?:talk|tell|about|explain|describe|give|provide|list|name|show|me|us|please|top|best|most|"
+                     r"important|key|main|major|some|all|any|various|different|which|what|are|is|the|a|an|of|on|in|for|"
+                     r"and|or|to|with|from|by|can|could|should|would|do|does|did|i|you|we|it|this|that|these|those|why|"
+                     r"how|only|just|few|more|need|want|asked|provided|dont|not|no|yes|ok|okay|laws?|acts?|statutes?|"
+                     r"legislations?|provisions?|rules?|india|indian|central|ten|five|\d+)\b", re.I)
 
 
-def statute_search(conn: psycopg.Connection, query: str, k: int = 4, acts: list[str] | None = None) -> list[dict[str, Any]]:
-    """Sections whose heading/text best match the question (all stored Acts, or only `acts` by short name).
-    Matches use the ix_section_versions_tsv index (migration 0004); words in the heading count more. A short query
-    must match every word; if that finds too little, any word may match."""
+# Sections that say nothing about the law itself: never offered as the answer.
+BOILERPLATE = re.compile(r"\s*(?:\[?repealed|\[?omitted|omitted|short title|repeal and savings?|savings|"
+                         r"application of this chapter|power to (?:make|remove) (?:rules|difficult)|power to frame schemes|"
+                         r"act not in derogation|act to be in addition|protection of action taken|"
+                         r"act to have overriding|commencement)", re.I)
+
+
+def long_title(about: str | None) -> str:
+    """The Act's official long title ("An Act to provide for ...") from acts.about, or ''."""
+    m = re.search(r"(An Act (?:to|for)\b.*?\.)(?:\s|$)", about or "", re.S)
+    return m.group(1) if m else ""
+
+
+def statute_words(query: str) -> str:
+    """The topic words of a statute question ("top 10 best women empowerment laws" -> "women empowerment")."""
+    words = _FILLER.sub(" ", query).split()
+    return " ".join(words) if words else query
+
+
+def statute_search(conn: psycopg.Connection, query: str, k: int = 4, acts: list[str] | None = None,
+                   per_act: int | None = None) -> list[dict[str, Any]]:
+    """Sections that best answer the question (all stored Acts, or only `acts` by short name).
+
+    Hybrid, like judgment search: keyword matches (the Act's title and the section heading count most) and
+    meaning matches from the `statutes` vector index are fused, then the cross-encoder re-ranks the top
+    candidates against the question. "Short title" sections are skipped (they say nothing about the law).
+    per_act: at most that many sections from one Act (for "which laws deal with X" questions)."""
+    from docketpilot.retrieval import statute_index
+    from docketpilot.retrieval.models import rerank_scores
+
+    topic = statute_words(query)
+    expanded = topic
     for pattern, extra in STATUTE_SYNONYMS.items():
-        if re.search(pattern, query, re.I):
-            query = f"{query} {extra}"
+        if re.search(pattern, topic, re.I):
+            expanded = f"{expanded} {extra}"
     act_filter = "AND a.short_name = ANY(%s)" if acts else ""
-    sql = f"""SELECT a.short_name, a.title, sv.section_number, sv.heading, sv.text, sv.source_url, sv.status,
-                     ts_rank_cd(setweight(to_tsvector('english', coalesce(sv.heading, '')), 'A')
-                                || setweight(to_tsvector('english', coalesce(sv.text, '')), 'B'),
-                                websearch_to_tsquery('english', %s)) AS rank
-              FROM section_versions sv JOIN acts a ON a.id = sv.act_id
-              WHERE {_STATUTE_TSV} @@ websearch_to_tsquery('english', %s) {act_filter} AND length(sv.text) > 40 AND sv.valid_to IS NULL
-              ORDER BY rank DESC LIMIT %s"""  # noqa: S608 (fixed fragments only)
-    rows: list[Any] = []
+    sql = f"""SELECT sv.id FROM section_versions sv JOIN acts a ON a.id = sv.act_id
+              WHERE ({_STATUTE_TSV} @@ websearch_to_tsquery('english', %s) OR {_TITLE_TSV} @@ websearch_to_tsquery('english', %s))
+                    {act_filter} AND length(sv.text) > 40 AND sv.valid_to IS NULL
+              ORDER BY ts_rank_cd(setweight({_TITLE_TSV}, 'A')
+                                  || setweight(to_tsvector('english', coalesce(sv.heading, '')), 'A')
+                                  || setweight(to_tsvector('english', coalesce(sv.text, '')), 'B'),
+                                  websearch_to_tsquery('english', %s)) DESC
+              LIMIT %s"""  # noqa: S608 (fixed fragments only)
+    pool = 80 if per_act else 40  # a list of Acts needs a wide pool to find many different Acts
+    lexical_ids: list[int] = []
     with conn.cursor() as cur:
-        for tsq in dict.fromkeys([ts_text(query, max_words=4), ts_text(query, max_words=0)]):
-            cur.execute(sql, [tsq, tsq, *([acts] if acts else []), k])
-            rows += [r for r in cur.fetchall() if all((r[0], r[2]) != (x[0], x[2]) for x in rows)]
-            if len(rows) >= k:
+        for tsq in dict.fromkeys([ts_text(expanded, max_words=4), ts_text(expanded, max_words=0)]):
+            cur.execute(sql, [tsq, tsq, *([acts] if acts else []), tsq, pool])
+            lexical_ids += [r[0] for r in cur.fetchall() if r[0] not in lexical_ids]
+            if len(lexical_ids) >= pool // 2:
                 break
-    return [{"act": r[0], "act_title": r[1], "section": r[2], "heading": r[3], "text": r[4], "source_url": r[5],
-             "verification_status": r[6]} for r in rows[:k]]
+    dense_ids = statute_index.dense(topic, k=pool, acts=acts)
+    fused = [i for i, _ in rrf([(i, 0.0) for i in lexical_ids], [(i, 0.0) for i in dense_ids])][:pool]
+    if not fused:
+        return []
+    with conn.cursor() as cur:
+        cur.execute("""SELECT sv.id, a.short_name, a.title, sv.section_number, sv.heading, sv.text, sv.source_url, sv.status
+                       FROM section_versions sv JOIN acts a ON a.id = sv.act_id WHERE sv.id = ANY(%s)""", (fused,))
+        by_id = {r[0]: r for r in cur.fetchall()}
+    cands = [by_id[i] for i in fused if i in by_id and not BOILERPLATE.match(by_id[i][4] or "")][:40]
+    try:  # the cross-encoder reads question and section together; fall back to fused order if it is unavailable
+        scores = rerank_scores(topic, [f"{r[2]}. {r[4]}. {r[5][:600]}" for r in cands])
+        cands = [r for _, r in sorted(zip(scores, cands, strict=True), key=lambda x: -x[0])]
+    except Exception:  # noqa: S110 (ranking quality only)
+        pass
+    # a section whose heading is exactly the topic ("Theft." for "punishment for theft") comes first
+    words = set(re.findall(r"[a-z]+", topic.lower()))
+
+    def named(r: Any) -> bool:
+        h = re.sub(r"^(?:punishment for|definition of)\s+", "", re.sub(r"[^a-z ]", "", (r[4] or "").lower()).strip())
+        return bool(h) and set(h.split()) <= words
+    cands = [r for r in cands if named(r)] + [r for r in cands if not named(r)]
+    rows: list[Any] = []
+    per: dict[str, int] = {}
+    for r in cands:
+        if per_act and per.get(r[1], 0) >= per_act:
+            continue
+        per[r[1]] = per.get(r[1], 0) + 1
+        rows.append(r)
+        if len(rows) >= k:
+            break
+    return [{"act": r[1], "act_title": r[2], "section": r[3], "heading": r[4], "text": r[5], "source_url": r[6],
+             "verification_status": r[7]} for r in rows]
+
+
+def statute_list(conn: psycopg.Connection, query: str, k: int = 10) -> list[dict[str, Any]]:
+    """For "which laws deal with X": rank whole Acts, then give each chosen Act's best section.
+
+    Two rankings are fused: the cross-encoder reading each Act's title and India Code description (acts.about)
+    against the topic, and the order in which Acts appear among the best-matching sections. Picking the ten best
+    sections and keeping one per Act let unrelated Acts in through single stray sections."""
+    from docketpilot.retrieval.models import rerank_scores
+
+    topic = statute_words(query)
+    with conn.cursor() as cur:
+        cur.execute("SELECT short_name, title || '. ' || coalesce(about, '') FROM acts WHERE EXISTS "
+                    "(SELECT 1 FROM section_versions sv WHERE sv.act_id = acts.id AND sv.valid_to IS NULL)")
+        acts = cur.fetchall()
+    scores = rerank_scores(topic, [t[:900] for _, t in acts])
+    by_title = [a for (a, _), _ in sorted(zip(acts, scores, strict=True), key=lambda x: -x[1])]
+    sections: list[dict[str, Any]] = statute_search(conn, query, k=30, per_act=2)
+    by_sections = list(dict.fromkeys(s["act"] for s in sections))
+    relevant = set(by_title[:15])  # an Act must be about the topic, not just contain one matching section
+    fused = [a for a, _ in rrf([(a, 0.0) for a in by_title[:25]], [(a, 0.0) for a in by_sections]) if a in relevant][:k]
+    out: list[dict[str, Any]] = []
+    from docketpilot.retrieval import statute_index
+
+    about: dict[str, str] = dict(acts)
+    picks: dict[str, list[int]] = {}
+    for act in fused:
+        # the section that best shows what the Act does: nearest in meaning to the topic plus the Act's long title
+        purpose = re.split(r"(?<=\.)\s", about.get(act, ""), maxsplit=2)
+        ids = statute_index.dense(f"{topic}. {' '.join(purpose[:1])}", k=6, acts=[act])
+        if ids:
+            picks[act] = ids
+    with conn.cursor() as cur:
+        cur.execute("""SELECT sv.id, a.short_name, a.title, sv.section_number, sv.heading, sv.text, sv.source_url, sv.status
+                       FROM section_versions sv JOIN acts a ON a.id = sv.act_id WHERE sv.id = ANY(%s)""",
+                    ([i for ids in picks.values() for i in ids],))
+        got = {r[0]: r for r in cur.fetchall()}
+    for act in fused:
+        r = next((got[i] for i in picks.get(act, []) if i in got and not BOILERPLATE.match(got[i][4] or "")), None)
+        best = ({"act": r[1], "act_title": r[2], "section": r[3], "heading": r[4], "text": r[5], "source_url": r[6],
+                 "verification_status": r[7]} if r else next((s for s in sections if s["act"] == act), None))
+        if best:
+            # for a list of laws, what the Act is for matters most: lead with its official long title
+            lt = long_title(about.get(act))
+            out.append({**best, "text": f"[Long title of the Act] {lt}\n[Section {best['section']}] {best['text']}"}
+                       if lt else best)
+    return out
 
 
 # ---------------- Tier 3: lexical ----------------
@@ -210,8 +325,8 @@ def dense(query: str, f: Filters, k: int = 50) -> list[tuple[int, float]]:
 
 # ---------------- fusion, hydration, rerank ----------------
 
-def rrf(*rankings: list[tuple[int, float]], k: int = 60) -> list[tuple[int, float]]:
-    scores: dict[int, float] = {}
+def rrf(*rankings: list[tuple[Any, float]], k: int = 60) -> list[tuple[Any, float]]:
+    scores: dict[Any, float] = {}
     for ranking in rankings:
         for rank, (doc, _) in enumerate(ranking):
             scores[doc] = scores.get(doc, 0.0) + 1.0 / (k + rank + 1)

@@ -314,8 +314,21 @@ def load_statutes(conn: psycopg.Connection) -> None:
     conn.commit()
 
 
+def act_abouts(conn: psycopg.Connection) -> None:
+    """Fill acts.about from the downloaded India Code records (no download)."""
+    n = 0
+    with conn.cursor() as cur:
+        for act_id, *_rest in statutes.ACTS.values():
+            about = statutes.act_about(statutes.fetch_act(act_id))
+            if about:
+                cur.execute("UPDATE acts SET about=%s WHERE india_code_act_id=%s", (about, act_id))
+                n += cur.rowcount
+    conn.commit()
+    print(f"act_abouts: {n} Acts described")
+
+
 STEPS = {"sc_metadata": load_sc_metadata, "texts": load_texts, "hc_own": hc_own_citations,
-         "aliases": mine_aliases, "resolve": resolve_edges, "statutes": load_statutes}
+         "aliases": mine_aliases, "resolve": resolve_edges, "statutes": load_statutes, "act_abouts": act_abouts}
 
 
 def main() -> None:

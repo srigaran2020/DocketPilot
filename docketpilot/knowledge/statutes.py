@@ -154,6 +154,20 @@ def fetch_act(act_id: str, page_size: int = 50, refresh: bool = False) -> list[d
 
 # ---------- parsing ----------
 
+def act_about(items: list[dict]) -> str | None:
+    """What the Act is about, from its India Code record: the long title ("An Act to provide for ...") and the
+    start of India Code's summary. Used only to rank Acts for a topic, never shown or cited as the law."""
+    act = next((i for i in items if i["metadata"].get("dc.identifier.collection", [""])[0] == "ACT"), None)
+    if act is None:
+        return None
+    md = act["metadata"]
+    pre = html_to_text(md.get("dc.identifier.preamble_description", [""])[0])
+    m = re.search(r"An Act (?:to|for)\b.*?(?:\.|$)", pre, flags=re.S)
+    summary = re.sub(r"\s+", " ", html_to_text(md.get("dc.description.abstract", [""])[0]))
+    about = " ".join(x for x in ((m.group(0) if m else pre[:400]), summary[:700]) if x).strip()
+    return about or None
+
+
 def html_to_text(s: str) -> str:
     s = re.sub(r"<sup>\s*\d+\s*</sup>", "", s)  # footnote markers
     s = re.sub(r"<br\s*/?>|<hr[^>]*>", "\n", s)

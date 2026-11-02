@@ -74,10 +74,47 @@ def statute_label(st: dict[str, Any]) -> str:
     return f"Section {st['section']}, {act}"
 
 
+# Everyday words for a topic -> the Acts that govern it (more specific topics first). Searching the Acts' own wording misses these ("cheque
+# bounce" never appears in the NI Act), so the named Acts are searched first, then all Acts.
+TOPIC_ACTS: list[tuple[re.Pattern[str], list[str]]] = [(re.compile(p, re.I), acts) for p, acts in [
+    (r"\bcheques?\b|\bbounce", ["NI Act"]),
+    (r"\brti\b|right to information", ["RTI Act"]),
+    (r"confess|admissib|evidence|witness|electronic record", ["BSA"]),
+    (r"custody|guardian", ["Guardians and Wards Act", "HMGA"]),
+    (r"builder|flat|apartment|real estate|promoter|allottee", ["RERA"]),
+    (r"\bconsumer|defective|deficiency in service", ["Consumer Protection Act"]),
+    (r"\bbail\b|\bfir\b|arrest|charge ?sheet|cognizance", ["BNSS"]),
+    (r"murder|theft|robbery|cheating|defamation|kidnap|rape|hurt|culpable", ["BNS"]),
+    (r"talaq|muslim", ["Muslim Women Act 2019", "DMMA"]),
+    (r"senior citizen|parents?\b.*\bmaintenance|maintenance.*\bparents?\b", ["Senior Citizens Act", "BNSS"]),
+    (r"divorce|judicial separation|restitution of conjugal", ["Hindu Marriage Act", "Special Marriage Act", "Divorce Act", "DMMA"]),
+    (r"maintenance|alimony", ["BNSS", "HAMA", "Hindu Marriage Act"]),
+    (r"domestic violence", ["DV Act"]),
+    (r"dowry", ["Dowry Prohibition Act"]),
+    (r"sexual harassment|workplace harassment|internal committee", ["POSH Act"]),
+    (r"child marriage|age of marriage", ["PCMA"]),
+    (r"inherit|succession|share in (?:father|mother|parent)|ancestral", ["Hindu Succession Act", "Indian Succession Act"]),
+    (r"accident|drunk driv|driving licen|vehicle", ["Motor Vehicles Act"]),
+    (r"arbitra", ["Arbitration Act"]),
+    (r"\bcontracts?\b|agreement|competent to contract", ["Contract Act"]),
+    (r"insolven|bankrupt", ["IBC"]),
+    (r"limitation|time limit|time-barred|delay condon", ["Limitation Act"]),
+    (r"adverse possession", ["Limitation Act", "Transfer of Property Act"]),
+    (r"cyber|hacking|online fraud|obscene .*electronic", ["IT Act", "BNS"]),
+]]
+
+
+# "Which laws protect women?", "top 10 consumer laws": the answer is a set of Acts, so offer many Acts, one section each.
+LIST_QUESTION = re.compile(r"\b(?:laws|acts|statutes|legislations)\b|\b(?:top|list|which)\b.{0,40}\b(?:law|act|statute)", re.I)
+LIST_MAX = 10
+
+
 def statute_sources(conn: psycopg.Connection, text: str, query: str, default_act: str | None = None,
                     k: int = 4) -> list[dict[str, Any]]:
     """Statute sections for a question: every 'Section N of <Act>' mentioned (as in force today), then the
-    sections whose wording best matches the question. Bare 'section 138' uses `default_act` when given."""
+    sections whose wording best matches the question. Bare 'section 138' uses `default_act` when given.
+    A question asking for laws in general gets up to LIST_MAX different Acts."""
+    listing = bool(LIST_QUESTION.search(text))
     from docketpilot.knowledge.statutes import act_title
 
     wanted: list[tuple[str, str]] = [(sr.act, sr.section) for sr in extract_refs(text)]
@@ -93,8 +130,17 @@ def statute_sources(conn: psycopg.Connection, text: str, query: str, default_act
         if st["status"] != "not_found":
             out.append({"act": act, "act_title": st["act"] or act_title(act), "section": sec, "heading": st["heading"],
                         "text": st["text"] or st["message"], "status": st["status"]})
-    for st in rs.statute_search(conn, query, k=k):
-        if (st["act"], st["section"]) not in seen and len(out) < 7:
+    from docketpilot.knowledge.statutes import _ALIAS_RES
+
+    named = [short for rx, short in _ALIAS_RES if rx.search(f" {text} ")]
+    hinted = list(dict.fromkeys(named + [act for rx, acts in TOPIC_ACTS if rx.search(text) for act in acts]))
+    found = []
+    if hinted and not listing:  # the governing Acts first (best two sections of each), then the best matches anywhere
+        for act in hinted[:3]:
+            found += rs.statute_search(conn, query, k=2, acts=[act])
+    found += rs.statute_list(conn, text, k=LIST_MAX) if listing else rs.statute_search(conn, query, k=k)
+    for st in found:
+        if (st["act"], st["section"]) not in seen and len(out) < (LIST_MAX if listing else 7):
             seen.add((st["act"], st["section"]))
             out.append({**st, "status": "in_force"})
     for i, st in enumerate(out):
@@ -108,15 +154,24 @@ def statute_sources(conn: psycopg.Connection, text: str, query: str, default_act
 SOURCE_BUDGET_CHARS = 13_000
 
 
-def fit_sources(passages: list[dict[str, Any]], statutes: list[dict[str, Any]],
-                budget: int = SOURCE_BUDGET_CHARS) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def _head_tail(text: str, cap: int) -> str:
+    """Shorten a section but keep its end too: punishments and provisos usually come last (BNS s.303(2))."""
+    if len(text) <= cap:
+        return text
+    head = cap * 2 // 3
+    return text[:head] + " [...] " + text[-(cap - head):]
+
+
+def fit_sources(passages: list[dict[str, Any]], statutes: list[dict[str, Any]], budget: int = SOURCE_BUDGET_CHARS,
+                listing: bool = False) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Trim statute text first (sections mentioned by the user come first and are kept longest), then drop the
     weakest passages, until everything fits the budget."""
-    statutes = [dict(s) for s in statutes[:5]]
+    # a "which laws" question gets many Acts, each a short extract
+    statutes = [dict(s) for s in statutes[:LIST_MAX if listing else 5]]
     passages = [dict(p) for p in passages]
-    for cap in (2500, 1600, 1000, 700):
+    for cap in ((600, 450, 350, 250) if listing else (2500, 1600, 1000, 700)):
         for s in statutes:
-            s["text"] = (s.get("text") or "")[:cap]
+            s["text"] = _head_tail(s.get("text") or "", cap)
         for p in passages:
             p["text"] = p["text"][:max(cap, 900)]
         if sum(len(s["text"]) for s in statutes) + sum(len(p["text"]) for p in passages) <= budget:
@@ -137,6 +192,8 @@ def swap_tags(text: str, labels: dict[str, str]) -> tuple[str, list[str]]:
     writes 【P1】 instead of [P1]; both are accepted. Unknown tags are dropped. Nothing else in the text is touched.
     Statute tags are [S1], [S2] (labels given); the older [S:138] form means the NI Act."""
     text = re.sub(rf"【\s*({_TAG})\s*】", r"[\1]", text)
+    # a range of tags ("[P1]-[P6]", "(S1-S4)", "P1–P6") is not a citation of anything: drop it
+    text = re.sub(r"\s*[\[(]?\s*\b([PS])\d+\s*\]?\s*[-–]\s*\[?\s*\1\d+\b\s*[\])]?", "", text)
     # other ways the model sometimes writes a tag: *P1*, **P1**, (P1), {P1}; normalise them to [P1]
     text = re.sub(r"\*{1,2}\s*(P\d+|S\d+)\s*\*{1,2}", r"[\1]", text)
     text = re.sub(r"[({]\s*(P\d+|S\d+)\s*[)}]", r"[\1]", text)
@@ -154,7 +211,10 @@ def swap_tags(text: str, labels: dict[str, str]) -> tuple[str, list[str]]:
                 parts.append(labels[tag])
         return f" ({'; '.join(dict.fromkeys(parts))})" if parts else ""
 
-    return _TAG_RUN.sub(run, text), used
+    text = _TAG_RUN.sub(run, text)
+    # the interface shows **bold** only; single-asterisk italics would appear as raw asterisks
+    text = re.sub(r"(?<![*\w])\*(?!\s)([^*\n]+?)\*(?![*\w])", r"\1", text)
+    return text, used
 
 
 async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict[str, str]],
@@ -179,7 +239,9 @@ async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict
 
     # 2. Retrieval: judgments (follow-ups borrow the previous question), statutes mentioned, matter context.
     prev_q = next((t["content"] for t in reversed(red_turns[:-1]) if t["role"] == "user"), "")
-    query = question if len(question.split()) >= 6 or not prev_q else f"{prev_q} {question}"
+    # a follow-up ("why only five?", "give me ten") has few topic words of its own: search with the earlier question
+    follow_up = bool(prev_q) and len(rs.statute_words(question).split()) < 3
+    query = f"{prev_q} {question}" if follow_up else question
     matter = _matter_context(conn, matter_id, firm_id) if matter_id else None
     if matter and matter.get("checklist"):  # ground matter questions in the law the checklist is about
         query += " " + " ".join(item["title"] for item in matter["checklist"][:4])
@@ -195,9 +257,10 @@ async def answer(conn: psycopg.Connection, llm: LLMProvider, messages: list[dict
                          "text": h["text"][:1400]})
         if len(passages) == 6:
             break
-    user_text = " ".join(t["content"] for t in red_turns if t["role"] == "user")
+    user_text = f"{prev_q} {question}" if follow_up else question
     statutes = statute_sources(conn, user_text, query, default_act="NI Act" if matter and matter.get("checklist") else None)
-    passages, statutes = fit_sources(passages, statutes, SOURCE_BUDGET_CHARS - (6000 if matter else 0))
+    passages, statutes = fit_sources(passages, statutes, SOURCE_BUDGET_CHARS - (6000 if matter else 0),
+                                     listing=bool(LIST_QUESTION.search(user_text)))
 
     src = "\n\n".join(f"[{p['tag']}] {p['court']}, {p['year']}:\n{p['text']}" for p in passages) or "(no passages found)"
     stat = "\n\n".join(f"[{st['tag']}] {st['label']} - {st.get('heading') or ''}:\n{(st['text'] or '')[:2500]}"

@@ -1,0 +1,1362 @@
+{
+ "questions": 57,
+ "statute_hit": 57,
+ "statute_hit_pct": 100.0,
+ "list_questions_distinct_acts_avg": 10.0,
+ "retrieval": [
+  {
+   "question": "talk about the top 10 best women empowerment laws",
+   "expected_any": [
+    "DV Act",
+    "Dowry Prohibition Act",
+    "POSH Act"
+   ],
+   "statutes": [
+    "POSH Act s.24",
+    "RPwD Act s.4",
+    "HAMA s.8",
+    "Hindu Succession Act s.15",
+    "Dowry Prohibition Act s.6",
+    "Indian Succession Act s.15",
+    "DV Act s.11",
+    "Muslim Women Act 2019 s.5",
+    "DMMA s.2",
+    "HMGA s.3"
+   ],
+   "hit": true,
+   "distinct_acts": 10,
+   "listing": true,
+   "expected_found": [
+    "DV Act",
+    "Dowry Prohibition Act",
+    "POSH Act"
+   ]
+  },
+  {
+   "question": "which laws protect children in india",
+   "expected_any": [
+    "JJ Act",
+    "PCMA",
+    "POCSO Act"
+   ],
+   "statutes": [
+    "POCSO Act s.43",
+    "JJ Act s.89",
+    "DV Act s.18",
+    "Muslim Women Act 2019 s.6",
+    "HMGA s.8",
+    "RPwD Act s.4",
+    "Wild Life Act s.39",
+    "Human Rights Act s.12",
+    "PCMA s.19",
+    "Environment Act s.24"
+   ],
+   "hit": true,
+   "distinct_acts": 10,
+   "listing": true,
+   "expected_found": [
+    "JJ Act",
+    "PCMA",
+    "POCSO Act"
+   ]
+  },
+  {
+   "question": "list the main labour laws",
+   "expected_any": [
+    "Code on Wages",
+    "Industrial Relations Code",
+    "OSH Code",
+    "Social Security Code"
+   ],
+   "statutes": [
+    "Industrial Relations Code s.84",
+    "Code on Wages s.50",
+    "OSH Code s.18",
+    "Social Security Code s.15",
+    "Legal Services Act s.12",
+    "POSH Act s.24",
+    "Dowry Prohibition Act s.6",
+    "DV Act s.11",
+    "RPwD Act s.39",
+    "Sale of Goods Act s.33"
+   ],
+   "hit": true,
+   "distinct_acts": 10,
+   "listing": true,
+   "expected_found": [
+    "Code on Wages",
+    "Industrial Relations Code",
+    "OSH Code",
+    "Social Security Code"
+   ]
+  },
+  {
+   "question": "what are the environmental protection laws",
+   "expected_any": [
+    "Air Act",
+    "Environment Act",
+    "Water Act"
+   ],
+   "statutes": [
+    "Environment Act s.24",
+    "Wild Life Act s.18A",
+    "Air Act s.3",
+    "Water Act s.60",
+    "Electricity Act s.53",
+    "RPwD Act s.24",
+    "DV Act s.11",
+    "JJ Act s.89",
+    "Companies Act s.218",
+    "FSS Act s.18"
+   ],
+   "hit": true,
+   "distinct_acts": 10,
+   "listing": true,
+   "expected_found": [
+    "Air Act",
+    "Environment Act",
+    "Water Act"
+   ]
+  },
+  {
+   "question": "laws on cyber crime",
+   "expected_any": [
+    "IT Act"
+   ],
+   "statutes": [
+    "BNS s.143",
+    "IT Act s.66F",
+    "BNSS s.202",
+    "PMLA s.63",
+    "PC Act s.25",
+    "POCSO Act s.20",
+    "Contempt Act s.24",
+    "RTI Act s.3",
+    "POSH Act s.23",
+    "NDPS Act s.60"
+   ],
+   "hit": true,
+   "distinct_acts": 10,
+   "listing": true,
+   "expected_found": [
+    "IT Act"
+   ]
+  },
+  {
+   "question": "what is the punishment for murder",
+   "expected_any": [
+    "BNS"
+   ],
+   "statutes": [
+    "BNS s.103",
+    "BNS s.101",
+    "BNS s.104",
+    "BNS s.105"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "punishment for theft under new criminal law",
+   "expected_any": [
+    "BNS"
+   ],
+   "statutes": [
+    "BNS s.303",
+    "BNS s.313",
+    "IT Act s.66C",
+    "BNS s.134"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "how to get anticipatory bail",
+   "expected_any": [
+    "BNSS"
+   ],
+   "statutes": [
+    "BNSS s.480",
+    "BNSS s.478",
+    "JJ Act s.12",
+    "BNSS s.488"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "BNSS"
+   ]
+  },
+  {
+   "question": "what is the time limit to file a cheque bounce complaint",
+   "expected_any": [
+    "NI Act"
+   ],
+   "statutes": [
+    "NI Act s.6",
+    "NI Act s.142",
+    "Limitation Act s.12",
+    "Limitation Act s.15",
+    "Industrial Relations Code s.38",
+    "Consumer Protection Act s.69",
+    "Consumer Protection Act s.38"
+   ],
+   "hit": true,
+   "distinct_acts": 4,
+   "listing": false,
+   "expected_found": [
+    "NI Act"
+   ]
+  },
+  {
+   "question": "can a wife claim maintenance from her husband",
+   "expected_any": [
+    "BNSS",
+    "HAMA",
+    "Hindu Marriage Act"
+   ],
+   "statutes": [
+    "BNSS s.144",
+    "BNSS s.145",
+    "HAMA s.18",
+    "HAMA s.19",
+    "Hindu Marriage Act s.24",
+    "Hindu Marriage Act s.25",
+    "Special Marriage Act s.37"
+   ],
+   "hit": true,
+   "distinct_acts": 4,
+   "listing": false,
+   "expected_found": [
+    "BNSS",
+    "HAMA",
+    "Hindu Marriage Act"
+   ]
+  },
+  {
+   "question": "grounds for divorce for hindus",
+   "expected_any": [
+    "Hindu Marriage Act"
+   ],
+   "statutes": [
+    "Hindu Marriage Act s.13",
+    "Hindu Marriage Act s.10",
+    "Special Marriage Act s.27",
+    "Special Marriage Act s.23",
+    "Divorce Act s.10",
+    "Divorce Act s.19",
+    "Hindu Marriage Act s.13A"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "Hindu Marriage Act"
+   ]
+  },
+  {
+   "question": "how can a muslim woman get divorce",
+   "expected_any": [
+    "DMMA",
+    "Muslim Women Act 2019"
+   ],
+   "statutes": [
+    "Muslim Women Act 2019 s.2",
+    "Muslim Women Act 2019 s.6",
+    "DMMA s.2",
+    "DMMA s.4",
+    "Hindu Marriage Act s.13",
+    "Hindu Marriage Act s.23A",
+    "Special Marriage Act s.27"
+   ],
+   "hit": true,
+   "distinct_acts": 4,
+   "listing": false,
+   "expected_found": [
+    "DMMA",
+    "Muslim Women Act 2019"
+   ]
+  },
+  {
+   "question": "is triple talaq illegal",
+   "expected_any": [
+    "Muslim Women Act 2019"
+   ],
+   "statutes": [
+    "Muslim Women Act 2019 s.3",
+    "Muslim Women Act 2019 s.4",
+    "DMMA s.2",
+    "DMMA s.4",
+    "Muslim Women Act 2019 s.7",
+    "BNS s.176"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "Muslim Women Act 2019"
+   ]
+  },
+  {
+   "question": "what is domestic violence",
+   "expected_any": [
+    "DV Act"
+   ],
+   "statutes": [
+    "DV Act s.3",
+    "DV Act s.22",
+    "DV Act s.32",
+    "DV Act s.18"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "DV Act"
+   ]
+  },
+  {
+   "question": "sexual harassment complaint at office internal committee",
+   "expected_any": [
+    "POSH Act"
+   ],
+   "statutes": [
+    "POSH Act s.4",
+    "POSH Act s.9",
+    "POSH Act s.11",
+    "POSH Act s.14"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "POSH Act"
+   ]
+  },
+  {
+   "question": "is giving dowry a crime",
+   "expected_any": [
+    "BNS",
+    "Dowry Prohibition Act"
+   ],
+   "statutes": [
+    "Dowry Prohibition Act s.2",
+    "Dowry Prohibition Act s.3",
+    "Dowry Prohibition Act s.5",
+    "Dowry Prohibition Act s.4"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Dowry Prohibition Act"
+   ]
+  },
+  {
+   "question": "minimum age of marriage for girls",
+   "expected_any": [
+    "Hindu Marriage Act",
+    "PCMA",
+    "Special Marriage Act"
+   ],
+   "statutes": [
+    "PCMA s.9",
+    "PCMA s.2",
+    "HAMA s.10",
+    "PCMA s.4"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "PCMA"
+   ]
+  },
+  {
+   "question": "how to file a consumer complaint for defective product",
+   "expected_any": [
+    "Consumer Protection Act"
+   ],
+   "statutes": [
+    "Consumer Protection Act s.82",
+    "Consumer Protection Act s.83",
+    "Consumer Protection Act s.39",
+    "Consumer Protection Act s.84"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Consumer Protection Act"
+   ]
+  },
+  {
+   "question": "limitation period for filing a civil suit for money",
+   "expected_any": [
+    "Limitation Act"
+   ],
+   "statutes": [
+    "Limitation Act s.14",
+    "Limitation Act s.9",
+    "Consumer Protection Act s.69",
+    "SARFAESI s.36",
+    "IBC s.238A"
+   ],
+   "hit": true,
+   "distinct_acts": 4,
+   "listing": false,
+   "expected_found": [
+    "Limitation Act"
+   ]
+  },
+  {
+   "question": "what makes a contract void",
+   "expected_any": [
+    "Contract Act"
+   ],
+   "statutes": [
+    "Contract Act s.65",
+    "Contract Act s.25",
+    "Sale of Goods Act s.7",
+    "Contract Act s.29"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "Contract Act"
+   ]
+  },
+  {
+   "question": "specific performance of agreement to sell",
+   "expected_any": [
+    "Specific Relief Act"
+   ],
+   "statutes": [
+    "Contract Act s.232",
+    "Contract Act s.38",
+    "Sale of Goods Act s.58",
+    "Specific Relief Act s.28",
+    "Specific Relief Act s.15",
+    "Specific Relief Act s.12"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "Specific Relief Act"
+   ]
+  },
+  {
+   "question": "is registration of sale deed compulsory",
+   "expected_any": [
+    "Registration Act",
+    "Transfer of Property Act"
+   ],
+   "statutes": [
+    "Registration Act s.17",
+    "Registration Act s.48",
+    "RERA s.9",
+    "Registration Act s.18"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "Registration Act"
+   ]
+  },
+  {
+   "question": "daughter's share in father's property",
+   "expected_any": [
+    "Hindu Succession Act"
+   ],
+   "statutes": [
+    "Hindu Succession Act s.10",
+    "Hindu Succession Act s.15",
+    "Indian Succession Act s.45",
+    "Indian Succession Act s.43",
+    "Indian Succession Act s.44",
+    "Indian Succession Act s.47",
+    "HAMA s.19"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "Hindu Succession Act"
+   ]
+  },
+  {
+   "question": "how to appoint an arbitrator",
+   "expected_any": [
+    "Arbitration Act"
+   ],
+   "statutes": [
+    "Arbitration Act s.11",
+    "Arbitration Act s.26",
+    "Arbitration Act s.15",
+    "Arbitration Act s.12"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Arbitration Act"
+   ]
+  },
+  {
+   "question": "what is an RTI application and time limit for reply",
+   "expected_any": [
+    "RTI Act"
+   ],
+   "statutes": [
+    "RTI Act s.19",
+    "RTI Act s.7",
+    "Limitation Act s.12",
+    "Limitation Act s.15",
+    "CGST Act s.168A",
+    "Arbitration Act s.29A",
+    "RP Act s.151A"
+   ],
+   "hit": true,
+   "distinct_acts": 5,
+   "listing": false,
+   "expected_found": [
+    "RTI Act"
+   ]
+  },
+  {
+   "question": "punishment for drunk driving",
+   "expected_any": [
+    "Motor Vehicles Act"
+   ],
+   "statutes": [
+    "Motor Vehicles Act s.185",
+    "Motor Vehicles Act s.187",
+    "BNS s.355",
+    "BNS s.281"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "Motor Vehicles Act"
+   ]
+  },
+  {
+   "question": "compensation for road accident death",
+   "expected_any": [
+    "Motor Vehicles Act"
+   ],
+   "statutes": [
+    "Motor Vehicles Act s.164",
+    "Motor Vehicles Act s.161",
+    "Motor Vehicles Act s.166",
+    "Motor Vehicles Act s.165"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Motor Vehicles Act"
+   ]
+  },
+  {
+   "question": "possession of drugs punishment ndps",
+   "expected_any": [
+    "NDPS Act"
+   ],
+   "statutes": [
+    "NDPS Act s.58",
+    "NDPS Act s.20",
+    "NDPS Act s.27A",
+    "NDPS Act s.21"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "NDPS Act"
+   ]
+  },
+  {
+   "question": "bribery by public servant punishment",
+   "expected_any": [
+    "BNS",
+    "PC Act"
+   ],
+   "statutes": [
+    "BNS s.173",
+    "PC Act s.8",
+    "PC Act s.7",
+    "BNS s.221"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "BNS",
+    "PC Act"
+   ]
+  },
+  {
+   "question": "money laundering offence",
+   "expected_any": [
+    "PMLA"
+   ],
+   "statutes": [
+    "PMLA s.3",
+    "PMLA s.4",
+    "PMLA s.64",
+    "PMLA s.23"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "PMLA"
+   ]
+  },
+  {
+   "question": "insolvency of a company who can file",
+   "expected_any": [
+    "IBC"
+   ],
+   "statutes": [
+    "IBC s.217",
+    "IBC s.7",
+    "IBC s.10",
+    "IBC s.57"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "IBC"
+   ]
+  },
+  {
+   "question": "what is a confession to police admissible",
+   "expected_any": [
+    "BSA"
+   ],
+   "statutes": [
+    "BSA s.23",
+    "BSA s.22",
+    "BNSS s.183",
+    "BSA s.79"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "BSA"
+   ]
+  },
+  {
+   "question": "how to get bail in a non bailable offence",
+   "expected_any": [
+    "BNSS"
+   ],
+   "statutes": [
+    "BNSS s.480",
+    "BNSS s.478",
+    "PMLA s.45",
+    "BNSS s.482"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "BNSS"
+   ]
+  },
+  {
+   "question": "maintenance of senior citizen parents by children",
+   "expected_any": [
+    "Senior Citizens Act"
+   ],
+   "statutes": [
+    "Senior Citizens Act s.4",
+    "Senior Citizens Act s.9",
+    "BNSS s.144",
+    "BNSS s.146",
+    "HAMA s.20",
+    "HAMA s.23",
+    "Senior Citizens Act s.2"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "Senior Citizens Act"
+   ]
+  },
+  {
+   "question": "custody of child after divorce",
+   "expected_any": [
+    "Guardians and Wards Act",
+    "HMGA",
+    "Hindu Marriage Act"
+   ],
+   "statutes": [
+    "Guardians and Wards Act s.21",
+    "Guardians and Wards Act s.45",
+    "HMGA s.6",
+    "HMGA s.7",
+    "Hindu Marriage Act s.13",
+    "Hindu Marriage Act s.26",
+    "Divorce Act s.42"
+   ],
+   "hit": true,
+   "distinct_acts": 4,
+   "listing": false,
+   "expected_found": [
+    "Guardians and Wards Act",
+    "HMGA",
+    "Hindu Marriage Act"
+   ]
+  },
+  {
+   "question": "atrocity against scheduled caste person punishment",
+   "expected_any": [
+    "SC/ST Act"
+   ],
+   "statutes": [
+    "SC/ST Act s.3",
+    "SC/ST Act s.13",
+    "SC/ST Act s.5",
+    "SC/ST Act s.4"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "SC/ST Act"
+   ]
+  },
+  {
+   "question": "copyright infringement remedy",
+   "expected_any": [
+    "Copyright Act"
+   ],
+   "statutes": [
+    "Copyright Act s.55",
+    "Copyright Act s.60",
+    "Copyright Act s.58",
+    "Copyright Act s.59"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Copyright Act"
+   ]
+  },
+  {
+   "question": "trademark registration",
+   "expected_any": [
+    "Trade Marks Act"
+   ],
+   "statutes": [
+    "Trade Marks Act s.49",
+    "Trade Marks Act s.16",
+    "Trade Marks Act s.146",
+    "Trade Marks Act s.50"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Trade Marks Act"
+   ]
+  },
+  {
+   "question": "builder delayed flat possession",
+   "expected_any": [
+    "Consumer Protection Act",
+    "RERA"
+   ],
+   "statutes": [
+    "RERA s.18",
+    "RERA s.17",
+    "Arms Act s.21",
+    "Transfer of Property Act s.78",
+    "Transfer of Property Act s.66"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "RERA"
+   ]
+  },
+  {
+   "question": "free legal aid who is entitled",
+   "expected_any": [
+    "Legal Services Act"
+   ],
+   "statutes": [
+    "Legal Services Act s.12",
+    "Legal Services Act s.13",
+    "POCSO Act s.40",
+    "Legal Services Act s.16"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "Legal Services Act"
+   ]
+  },
+  {
+   "question": "defamation punishment",
+   "expected_any": [
+    "BNS"
+   ],
+   "statutes": [
+    "BNS s.356",
+    "BNS s.352",
+    "BNSS s.222",
+    "IT Act s.67"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "rights of persons with disabilities",
+   "expected_any": [
+    "RPwD Act"
+   ],
+   "statutes": [
+    "RPwD Act s.3",
+    "RPwD Act s.12",
+    "RPwD Act s.5",
+    "RPwD Act s.28"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "RPwD Act"
+   ]
+  },
+  {
+   "question": "punishment for stalking a woman",
+   "expected_any": [
+    "BNS"
+   ],
+   "statutes": [
+    "BNS s.78",
+    "POSH Act s.14",
+    "POSH Act s.26",
+    "POSH Act s.27"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "can police arrest without warrant",
+   "expected_any": [
+    "BNSS"
+   ],
+   "statutes": [
+    "BNSS s.35",
+    "BNSS s.57",
+    "Motor Vehicles Act s.202",
+    "BNSS s.55"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "BNSS"
+   ]
+  },
+  {
+   "question": "how to make a valid will",
+   "expected_any": [
+    "Indian Succession Act"
+   ],
+   "statutes": [
+    "Indian Succession Act s.59",
+    "Indian Succession Act s.61",
+    "Court-fees Act s.19D",
+    "Indian Succession Act s.62"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "Indian Succession Act"
+   ]
+  },
+  {
+   "question": "what is adverse possession period",
+   "expected_any": [
+    "Limitation Act"
+   ],
+   "statutes": [
+    "Limitation Act s.27",
+    "Limitation Act s.26",
+    "Transfer of Property Act s.76",
+    "Transfer of Property Act s.116",
+    "Arms Act s.24A",
+    "BNS s.315",
+    "RFCTLARR Act s.38"
+   ],
+   "hit": true,
+   "distinct_acts": 5,
+   "listing": false,
+   "expected_found": [
+    "Limitation Act"
+   ]
+  },
+  {
+   "question": "penalty for not filing GST return",
+   "expected_any": [
+    "CGST Act"
+   ],
+   "statutes": [
+    "Companies Act s.172",
+    "IT Act s.44",
+    "CGST Act s.123",
+    "OSH Code s.96"
+   ],
+   "hit": true,
+   "distinct_acts": 4,
+   "listing": false,
+   "expected_found": [
+    "CGST Act"
+   ]
+  },
+  {
+   "question": "can an employer deduct salary",
+   "expected_any": [
+    "Code on Wages"
+   ],
+   "statutes": [
+    "Code on Wages s.38",
+    "Code on Wages s.18",
+    "Code on Wages s.37",
+    "Code on Wages s.34"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Code on Wages"
+   ]
+  },
+  {
+   "question": "maternity leave how many weeks",
+   "expected_any": [
+    "Social Security Code"
+   ],
+   "statutes": [
+    "Social Security Code s.65",
+    "Social Security Code s.59",
+    "OSH Code s.32",
+    "Social Security Code s.68"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "Social Security Code"
+   ]
+  },
+  {
+   "question": "gratuity eligibility",
+   "expected_any": [
+    "Social Security Code"
+   ],
+   "statutes": [
+    "Social Security Code s.56",
+    "Social Security Code s.53",
+    "Social Security Code s.55",
+    "Social Security Code s.57"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "Social Security Code"
+   ]
+  },
+  {
+   "question": "what is a power of attorney and stamp duty",
+   "expected_any": [
+    "Stamp Act"
+   ],
+   "statutes": [
+    "Stamp Act s.47",
+    "Stamp Act s.9",
+    "Stamp Act s.45",
+    "BSA s.84"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "Stamp Act"
+   ]
+  },
+  {
+   "question": "bank recovering loan by seizing house",
+   "expected_any": [
+    "RDB Act",
+    "SARFAESI"
+   ],
+   "statutes": [
+    "IBC s.249",
+    "RDB Act s.19",
+    "SARFAESI s.30D",
+    "SARFAESI s.2"
+   ],
+   "hit": true,
+   "distinct_acts": 3,
+   "listing": false,
+   "expected_found": [
+    "RDB Act",
+    "SARFAESI"
+   ]
+  },
+  {
+   "question": "can a minor enter a contract",
+   "expected_any": [
+    "Contract Act"
+   ],
+   "statutes": [
+    "Contract Act s.26",
+    "Contract Act s.39",
+    "NI Act s.26",
+    "Partnership Act s.30",
+    "Industrial Relations Code s.20",
+    "Companies Act s.193"
+   ],
+   "hit": true,
+   "distinct_acts": 5,
+   "listing": false,
+   "expected_found": [
+    "Contract Act"
+   ]
+  },
+  {
+   "question": "right to education of children with disability",
+   "expected_any": [
+    "RPwD Act"
+   ],
+   "statutes": [
+    "RPwD Act s.31",
+    "RPwD Act s.16",
+    "RPwD Act s.17",
+    "RPwD Act s.18"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "RPwD Act"
+   ]
+  },
+  {
+   "question": "acid attack punishment",
+   "expected_any": [
+    "BNS"
+   ],
+   "statutes": [
+    "BNS s.124",
+    "BNS s.131",
+    "BNS s.133",
+    "BNS s.136"
+   ],
+   "hit": true,
+   "distinct_acts": 1,
+   "listing": false,
+   "expected_found": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "food adulteration penalty",
+   "expected_any": [
+    "FSS Act"
+   ],
+   "statutes": [
+    "BNS s.274",
+    "FSS Act s.57",
+    "FSS Act s.56",
+    "FSS Act s.51"
+   ],
+   "hit": true,
+   "distinct_acts": 2,
+   "listing": false,
+   "expected_found": [
+    "FSS Act"
+   ]
+  },
+  {
+   "question": "consumer protection laws in india",
+   "expected_any": [
+    "Consumer Protection Act"
+   ],
+   "statutes": [
+    "Consumer Protection Act s.9",
+    "RERA s.92",
+    "Electricity Act s.53",
+    "Environment Act s.24",
+    "DV Act s.10",
+    "Wild Life Act s.38F",
+    "FSS Act s.18",
+    "POCSO Act s.43",
+    "JJ Act s.89",
+    "Human Rights Act s.12"
+   ],
+   "hit": true,
+   "distinct_acts": 10,
+   "listing": true,
+   "expected_found": [
+    "Consumer Protection Act"
+   ]
+  }
+ ],
+ "answered": 12,
+ "answers_ok": 12,
+ "answers": [
+  {
+   "question": "talk about the top 10 best women empowerment laws",
+   "answer": "- **Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013** – Section 24 empowers the appropriate Government, subject to resource availability, to develop information, education and communication programmes and to formulate orientation and training for members of the Internal Complaints Committee, thereby enhancing awareness and prevention of workplace harassment (Section 24, Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013).\n\n- **Rights of Persons with Disabilities Act, 2016** – Section 4 mandates the appropriate Government and local authorities to ensure that women and children with disabilities enjoy their rights on an equal basis with others and are able to freely express their views on matters affecting them, with appropriate support (Section 4, Rights of Persons with Disabilities Act, 2016).\n\n- **Hindu Adoptions and Maintenance Act, 1956** – Section 8 recognises that any female Hindu of sound mind and not a minor can adopt a son or daughter, provided she obtains her husband's consent unless he has renounced the world, declared unsound mind, or ceased to be a Hindu, thereby affirming women's capacity to create families (Section 8, Hindu Adoptions and Maintenance Act, 1956).\n\n- **Hindu Succession Act, 1956** – Section 15 establishes that the property of a female Hindu dying intestate devolves first upon her sons, daughters (including descendants of pre‑deceased children) and husband, ensuring women’s rightful share in inheritance (Section 15, Hindu Succession Act, 1956).\n\n- **Dowry Prohibition Act, 1961** – Section 6 requires any dowry received by a person other than the bride to be transferred to the woman within three months of marriage (or as ordered by the court), protecting the financial interests of the wife and her heirs (Section 6, Dowry Prohibition Act, 1961).\n\n- **Indian Succession Act, 1925** – Section 15 provides that a woman acquires the domicile of her husband upon marriage if she did not previously have the same domicile, facilitating legal certainty in matters of succession and property rights (Section 15, Indian Succession Act, 1925).\n\n- **Protection of Women from Domestic Violence Act, 2005** – Section 11 obliges the Central and State Governments to take all measures, including periodic review and preparation of protocols for ministries, to ensure effective implementation of the Act’s protective provisions for women (Section 11, Protection of Women from Domestic Violence Act, 2005).\n\n- **Muslim Women (Protection of Rights on Marriage) Act, 2019** – Section 5 guarantees a subsistence allowance to a married Muslim woman and her dependent children when talaq is pronounced, as determined by a magistrate, securing financial support post‑divorce (Section 5, Muslim Women (Protection of Rights on Marriage) Act, 2019).\n\n- **Dissolution of Muslim Marriages Act, 1939** – Section 2 allows a Muslim woman to obtain a decree for dissolution of marriage on specified grounds, such as the husband's failure to provide maintenance, thereby protecting her right to exit a harmful marriage (Section 2, Dissolution of Muslim Marriages Act, 1939).\n\n- **Hindu Minority and Guardianship Act, 1956** – Section 3 defines the persons to whom the Act applies, extending its protective framework to Hindus, Buddhists, Jains, Sikhs and others, ensuring guardianship and minority rights for women and children (Section 3, Hindu Minority and Guardianship Act, 1956).",
+   "seconds": 20.9,
+   "citations_checked": 10,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true,
+    "list_of_4_plus_acts": true
+   },
+   "ok": true,
+   "bullets": 10,
+   "named": [
+    "POSH Act",
+    "Dowry Prohibition Act",
+    "DV Act"
+   ]
+  },
+  {
+   "question": "which laws protect children in india",
+   "answer": "- **Protection of Children from Sexual Offences (POCSO) Act, 2012** – provides comprehensive protection against sexual assault, sexual harassment and pornography; mandates public awareness and periodic training for officials to ensure effective implementation (Section 43) (Section 43, Protection of Children from Sexual Offences Act, 2012). \n- **Juvenile Justice (Care and Protection of Children) Act, 2015** – defines any child who commits an offence under the Act as a “child in conflict with law” and ensures child‑friendly procedures, rehabilitation focus and prohibition of death or life imprisonment without release (Section 89, Juvenile Justice (Care and Protection of Children) Act, 2015). The Court stresses that the juvenile justice system must rest on care and rehabilitation rather than punishment (The State Of Uttar Pradesh v. Anurudh, 2026INSC47). \n\n- **Prohibition of Child Marriage Act, 2006** – authorises the State Government to make rules for preventing child marriage, thereby protecting the survival, development and dignity of minors (Section 19, Prohibition of Child Marriage Act, 2006). The Supreme Court underlines the need to protect children from early and forced marriages (Society For Enlightenment And Voluntary Action, 2024INSC790). \n\n- **Protection of Women from Domestic Violence Act, 2005** – empowers the Magistrate to issue protection orders that may extend to children residing with the aggrieved woman, shielding them from domestic violence and ensuring their safety (Section 18, Protection of Women from Domestic Violence Act, 2005). The Court notes the principle of non‑discrimination and the right of a child to dignity in such contexts (Gangadhar Narayan Nayak @ Gangadhar Hiregutti v. State Of Karnataka, 2022INSC318). \n\n- **Rights of Persons with Disabilities Act, 2016** – obliges the Government and local authorities to ensure that women and children with disabilities enjoy their rights equally and receive appropriate support according to age and disability (Section 6, Muslim Women (Protection of Rights on Marriage) Act, 2019). \n- **Muslim Women (Protection of Rights on Marriage) Act, 2019** – guarantees that a married Muslim woman is entitled to custody of her minor children upon talaq, safeguarding the child’s welfare in marital disputes (Section 6, Muslim Women (Protection of Rights on Marriage) Act, 2019). \n\n- **Hindu Minority and Guardianship Act, 1956** – applies to Hindu, Buddhist, Jain and Sikh minors, establishing a framework for guardianship and protection of minority children (Section 3, Hindu Minority and Guardianship Act, 1956). The Court references provisions that protect children in conflict with law and ensure their rights (Barun Chandra Thakur v. Master Bholu, 2022INSC716).",
+   "seconds": 28.3,
+   "citations_checked": 11,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true,
+    "list_of_4_plus_acts": true
+   },
+   "ok": true,
+   "bullets": 7,
+   "named": [
+    "POCSO Act",
+    "PCMA",
+    "JJ Act"
+   ]
+  },
+  {
+   "question": "list the main labour laws",
+   "answer": "- **Industrial Relations Code, 2020** – prohibits unfair labour practices and sets out offences listed in the Second Schedule (Section 84, Industrial Relations Code, 2020). \n- **Code on Wages, 2019** – requires every employer to maintain a register of employees, muster rolls, wages and related details (Section 50, Code on Wages, 2019). \n- **Occupational Safety, Health and Working Conditions Code, 2020** – empowers the Central Government to declare occupational safety and health standards for factories, mines, docks, construction and other establishments (Section 18, Occupational Safety, Health and Working Conditions Code, 2020). \n- **Code on Social Security, 2020** – enables the Central Government to frame and notify social security schemes for workers, which may take effect prospectively or retrospectively (Section 15, Code on Social Security, 2020). \n- **Minimum Wages Act, 1948** – fixes minimum rates of wages for various categories of employees and provides a remedy for payments below the prescribed rates (Steel Authority Of India Ltd., 2019INSC727). \n- **Factories Act, 1934** – governs health, safety and welfare of workers in factories, though noted as needing a comprehensive overhaul (The State Of Goa, 2025INSC306).",
+   "seconds": 21.3,
+   "citations_checked": 6,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true,
+    "list_of_4_plus_acts": true
+   },
+   "ok": true,
+   "bullets": 6,
+   "named": [
+    "Industrial Relations Code",
+    "Code on Wages",
+    "Social Security Code",
+    "OSH Code"
+   ]
+  },
+  {
+   "question": "punishment for theft under new criminal law",
+   "answer": "Under the Bharatiya Nyaya Sanhita 2023, theft is defined in Section 303. A person who commits theft is punishable with imprisonment of either description for a term which may extend to three years, or with fine, or with both (Section 303, Bharatiya Nyaya Sanhita, 2023). \n\nIf the offender has a second or subsequent conviction under the same section, the punishment is rigorous imprisonment for a term of not less than one year but which may extend to five years, together with a fine (Section 303, Bharatiya Nyaya Sanhita, 2023). \n\nFor a first‑time offender where the value of the stolen property is less than ₹5,000 and the property is returned or restored, the law provides for community service instead of imprisonment (Section 303, Bharatiya Nyaya Sanhita, 2023). \n\nFor comparison, under the earlier IPC the maximum term for theft was three years, as noted in High Court of Karnataka 2023 (Kuldeep v. The State Of Karnataka (2023)). However, the BNS 2023 statute now governs theft offences and sets the detailed punishments above.",
+   "seconds": 14.1,
+   "citations_checked": 4,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true
+   },
+   "ok": true,
+   "bullets": 0,
+   "named": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "how to get anticipatory bail",
+   "answer": "Anticipatory bail is a pre‑emptive direction from a High Court or Court of Sessions that the accused will be released on bail if and when he is arrested. \n**Steps to obtain anticipatory bail**\n\n- **Set out the material facts** – Explain why the accused is innocent or unlikely to tamper with evidence, note the absence of prior convictions (or only minor past cases) and any special circumstances such as the accused being a woman, child or sick person (Sridhar @ Sritharraj v. The Inspector Of Police (2024); Section 480, Bharatiya Nagarik Suraksha Sanhita, 2023). \n- **Attach a bail bond and sureties** – Courts commonly require the petitioner to execute a bond (e.g., Rs 10,000 with two sureties) and may condition the release on that bond (Praveen Kumar.T.P @ Praveen Panonneri S/O.M.T.Kunhiraman Nambiar v. State Of Kerala (2023)). \n- **Agree to conditions that the court may impose** – Typical conditions include: \n * surrender to the investigating officer within a stipulated period (e.g., two weeks) (Pradeep Kumar C K v. State Of Kerala (2023); Haridas.B, v. State Of Kerala (2023)); \n * appear before the magistrate on the date of surrender (Pradeep Kumar C K v. State Of Kerala (2023); Haridas.B, v. State Of Kerala (2023)); \n * report to the investigating officer as and when required (Praveen Kumar.T.P @ Praveen Panonneri S/O.M.T.Kunhiraman Nambiar v. State Of Kerala (2023)); \n * not intimidate or influence witnesses (Praveen Kumar.T.P @ Praveen Panonneri S/O.M.T.Kunhiraman Nambiar v. State Of Kerala (2023)); \n- **Rely on statutory provisions for bail** – Under **Section 480 of the Bharatiya Nagarik Suraksha Sanhita** a person accused of a non‑bailable offence may be released on bail if “reasonable grounds” do not exist for a serious offence and the court is satisfied that “it is just and proper…for any other special reason” (Section 480, Bharatiya Nagarik Suraksha Sanhita, 2023). \n- **If the accused is indigent** – Section 478 of the same Act allows release on a bond without surety where the person cannot furnish sureties (Section 478, Bharatiya Nagarik Suraksha Sanhita, 2023). \n- **Special provision for children** – Where the accused is a child, Section 12 of the Juvenile Justice Act permits bail “with or without surety” unless release would endanger the child or defeat justice (Section 12, Juvenile Justice (Care and Protection of Children) Act, 2015). \n\nIf the court is satisfied on the basis of the above facts and conditions, it will issue an anticipatory bail order directing that the accused be released on bail at the time of arrest, subject to the stipulated bond and any conditions imposed. If the petitioner fails to surrender as directed, the investigating officer may arrest him as if no order existed (Pradeep Kumar C K v. State Of Kerala (2023); Haridas.B, v. State Of Kerala (2023)).",
+   "seconds": 34.3,
+   "citations_checked": 12,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true
+   },
+   "ok": true,
+   "bullets": 6,
+   "named": [
+    "BNSS"
+   ]
+  },
+  {
+   "question": "punishment for stalking a woman",
+   "answer": "Stalking a woman is punishable under Section 78 of the Bharatiya Nyaya Sanhita, 2023. On a first conviction the offender may be sentenced to imprisonment of any description for a term which may extend to three years and shall also be liable to a fine. On a second or subsequent conviction the imprisonment may extend to five years, together with a fine. (Section 78, Bharatiya Nyaya Sanhita, 2023)",
+   "seconds": 10.6,
+   "citations_checked": 2,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true
+   },
+   "ok": true,
+   "bullets": 0,
+   "named": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "how to make a valid will",
+   "answer": "A valid will must be made by a person who is **competent** – i.e., of sound mind and not a minor – to dispose of his property (Section 59, Indian Succession Act) (Section 59, Indian Succession Act, 1925). \n\nThe testator must **voluntarily** intend the disposition; the intention to give away property after his death is the essential element of a will (Supreme Court 2025) (N.P. Saseendran v. N.P. Ponnamma, 2025INSC388). \n\nThe will has to be **executed by the testator** (or by a person in his presence and by his direction) and must be the **last will** executed by him (Supreme Court 2026) (Parvathi Nairthi (Dead), 2026INSC521). \n\nFormalities prescribed under **Section 63 of the Succession Act** must be complied with: \n\n- The testator must **sign** the will or **affix his mark**, or the will may be signed by another person in his presence and by his direction, showing that it is intended to be a will (Supreme Court 2026) (Parvathi Nairthi (Dead), 2026INSC521). \n- The will must be **attested by at least two witnesses**; no particular form of attestation is required, but each witness must have **seen the testator sign or affix his mark** (Supreme Court 2026) (Parvathi Nairthi (Dead), 2026INSC521). \n\nA will obtained **through fraud, coercion or importunity** that deprives the testator of free agency is **void** (Section 61, Indian Succession Act) (Section 61, Indian Succession Act, 1925). \n\nThe maker may **revoke or alter** the will at any time, provided he remains competent to make a will (Section 62, Indian Succession Act) (Section 62, Indian Succession Act, 1925). \n\nWhen all these conditions are satisfied, the will is a valid testamentary instrument that becomes operative on the testator’s death.",
+   "seconds": 14.0,
+   "citations_checked": 10,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true
+   },
+   "ok": true,
+   "bullets": 2,
+   "named": [
+    "Indian Succession Act"
+   ]
+  },
+  {
+   "question": "what is adverse possession period",
+   "answer": "Adverse possession is a common‑law concept whose statutory period is prescribed under the law of limitation. The prevailing period is **twelve years** – the time prescribed in Article 65 of the Limitation Act – and the requirement is that the claimant must show continuous, open and hostile possession for the full term before the right of the true owner is extinguished (Kishundeo Rout, 2025INSC956; Ravinder Kaur Grewal, 2019INSC930; Dharampal (Dead) Thr. \n\nWhen the land involved is **government land**, the period required is **thirty years** before a claim of adverse possession can be made against the State, as held in a 2023 Supreme Court decision (Government Of Kerala, 2023INSC693).",
+   "seconds": 27.0,
+   "citations_checked": 4,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true
+   },
+   "ok": true,
+   "bullets": 0,
+   "named": [
+    "Limitation Act"
+   ]
+  },
+  {
+   "question": "can an employer deduct salary",
+   "answer": "An employer may deduct from an employee’s salary only the amounts that the **Code on Wages, 2019** expressly authorises. Section 18 of the Code provides a non‑exhaustive list of permissible deductions – e.g., fines, deductions for unauthorised absence, loss or damage to goods entrusted to the employee, or deductions for house‑accommodation supplied by the employer – and caps total deductions at 50 % of the wages in any wage period (Section 18, Code on Wages, 2019). \n\nA deduction that is not covered by that list is unlawful. For example, the Supreme Court has held that a contribution deducted from the employee’s salary and deposited by the employer cannot be characterised as an “employer’s contribution”; the contribution remains the employee’s and may not be treated as a deduction permissible to the employer (Checkmate Services P. Ltd. v. Commissioner Of Income Tax-1, 2022INSC1069). \n\n \n\n \n\nIn sum, an employer may deduct salary only for:\n\n- amounts expressly authorised by Section 18 of the Code on Wages (fines, absence, loss/damage, house‑accommodation, etc.) (Section 18, Code on Wages, 2019); \n- statutory tax deductions under the Income‑Tax Act (State Bank Of India v. Assistant Commissioner Of Income Tax, 2022INSC1165); and \n- other specific deductions allowed by law (e.g., loss from bonus under Section 38, but not from ordinary wages) (Section 38, Code on Wages, 2019). \n\nAny deduction outside these authorised categories – such as treating an employee’s own contribution as the employer’s or deducting for leave encashment that has not been paid – is not permitted.",
+   "seconds": 15.8,
+   "citations_checked": 6,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true
+   },
+   "ok": true,
+   "bullets": 3,
+   "named": [
+    "Code on Wages"
+   ]
+  },
+  {
+   "question": "acid attack punishment",
+   "answer": "An acid‑attack is punished under **Section 124 of the Bharatiya Nyaya Sanhita, 2023**:\n\n- **Section 124(1)** – Whoever causes permanent or partial damage, deformity, burns, maims, disfigurement, disability or grievous hurt by throwing or administering acid (or any corrosive substance) **shall be punished with imprisonment of not less than ten years, which may extend to life**, and with a fine that must be “just and reasonable to meet the medical expenses of the treatment of the victim” and is payable to the victim (Section 124, Bharatiya Nyaya Sanhita, 2023) \n\n- **Section 124(2)** – Whoever **throws or attempts to throw acid, or attempts to administer acid**, with the intention of causing the same injuries, **shall be punished with imprisonment of not less than five years, which may extend to seven years**, and shall also be liable to a fine (Section 124, Bharatiya Nyaya Sanhita, 2023) \n\nThe statute’s explanatory notes clarify that “acid” includes any acidic or corrosive substance capable of causing injury or scarring, and that the damage need not be irreversible (Section 124, Bharatiya Nyaya Sanhita, 2023).\n\n**Case law on sentencing**\n\n- The Supreme Court stresses the principle of **proportionality** in sentencing for heinous acid‑attack injuries, warning that undue suspension of a sentence defeats the purpose of the criminal justice system (Shivani Tyagi v. State Of U.P., 2024INSC343). \n- A 2018 judgment reiterated that any fine imposed “shall be just and reasonable to meet the medical expenses of the treatment of the victim” and must be paid to the victim (Maqbool v. The State Of Uttar Pradesh, 2018INSC799). \n\nTogether, the statute and the Supreme Court’s pronouncements set a baseline of **minimum five‑year imprisonment (or ten years where the injury is permanent or grievous) with a fine directed to the victim**, and they allow the court to impose **life imprisonment** where the injury is severe and the offence “heinous.” \n\nThus, the punishment for an acid‑attack under the current criminal code is **imprisonment of 5 – 7 years (or ≥10 years up to life) plus a victim‑compensatory fine**, with the higher term applied in cases of permanent or grievous injury.",
+   "seconds": 23.2,
+   "citations_checked": 7,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true
+   },
+   "ok": true,
+   "bullets": 4,
+   "named": [
+    "BNS"
+   ]
+  },
+  {
+   "question": "consumer protection laws in india",
+   "answer": "- **Consumer Protection Act, 2019** – an act to protect the interests of consumers and to establish authorities for timely and effective administration and settlement of consumer disputes; Section 9 outlines the objects of each District Council in promoting and protecting consumer rights within the district (Section 9, Consumer Protection Act, 2019).\n\n- **Consumer Protection Act, 1986** – creates specialised fora for the expeditious adjudication of consumer disputes and provides remedies against defective goods, deficient services, and unfair trade practices, positioning the consumer at an elevated position compared to a plaintiff in a civil suit (M/S. Magma Fincorp Ltd. v. Rajesh Kumar Tiwari, 2020INSC574; Assurance Co. Ltd. v. Hilli Multipurpose Cold Storage Pvt. \n- **Electricity Act, 2003** – consolidates laws relating to generation, transmission, distribution and use of electricity and includes provisions to protect the interests of electricity consumers, with Section 53 dealing specifically with safety and supply matters (Section 53, Electricity Act, 2003).\n\n- **Real Estate (Regulation and Development) Act, 2016** – establishes the Real Estate Regulatory Authority to regulate the real‑estate sector, ensure transparent transactions and protect the interests of consumers in real‑estate dealings (Section 92, Real Estate (Regulation and Development) Act, 2016).\n\n- **Environment (Protection) Act, 1986** – provides that its provisions and the rules made thereunder have effect notwithstanding any inconsistency with other laws, thereby supporting consumer rights related to environmental safety and health (Section 24, Environment (Protection) Act, 1986).",
+   "seconds": 20.2,
+   "citations_checked": 6,
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true,
+    "list_of_4_plus_acts": true
+   },
+   "ok": true,
+   "bullets": 5,
+   "named": [
+    "Consumer Protection Act"
+   ]
+  },
+  {
+   "question": "talk about the top 10 best women empowerment laws -> i asked for top 10, why you provided few",
+   "answer": "- **Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013** – Section 24 authorises the appropriate Government to develop information, education and communication programmes and to formulate orientation and training for members of Local Committees, thereby promoting awareness and prevention of workplace sexual harassment (Section 24, Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013) \n\n- **Rights of Persons with Disabilities Act, 2016** – Section 4 requires the appropriate Government and local authorities to ensure that women and children with disabilities enjoy their rights equally with others and can freely express their views on matters affecting them (Section 4, Rights of Persons with Disabilities Act, 2016) \n\n- **Hindu Adoptions and Maintenance Act, 1956** – Section 3 defines “custom”, “minor” and other terms, laying the groundwork for women’s right to adopt and to receive maintenance under clear statutory definitions (Section 3, Hindu Adoptions and Maintenance Act, 1956) \n\n- **Dowry Prohibition Act, 1961** – Section 6 mandates that any dowry received by a person other than the wife must be transferred to the woman (or her heirs) within three months of marriage, ensuring dowry benefits accrue directly to the wife (Section 6, Dowry Prohibition Act, 1961) \n\n- **Hindu Succession Act, 1956** – Section 15 stipulates that the property of a female Hindu dying intestate shall first devolve to her sons, daughters (including their children) and husband, securing women’s inheritance rights (Section 15, Hindu Succession Act, 1956) \n\n- **Indian Succession Act, 1925** – Section 15 provides that, by marriage, a woman acquires the domicile of her husband, affecting her legal status and rights of residence (Section 15, Indian Succession Act, 1925) \n\n- **Protection of Women from Domestic Violence Act, 2005** – Section 11 obliges the Central and State Governments to take all measures to ensure the provisions of the Act are implemented, including periodic review and preparation of protocols for ministries and courts (Section 11, Protection of Women from Domestic Violence Act, 2005) \n\n- **Muslim Women (Protection of Rights on Marriage) Act, 2019** – Section 5 entitles a married Muslim woman, on whom talaq is pronounced, to a subsistence allowance determined by the Magistrate for herself and her dependent children (Section 5, Muslim Women (Protection of Rights on Marriage) Act, 2019) \n\n- **Dissolution of Muslim Marriages Act, 1939** – Section 2 allows a Muslim woman to obtain a decree for dissolution of marriage on specified grounds, providing a legal avenue for marital relief (Section 2, Dissolution of Muslim Marriages Act, 1939) \n\n- **Hindu Minority and Guardianship Act, 1956** – Section 3 defines the persons to whom the Act applies, ensuring that Hindu women (and other specified groups) are covered by its provisions on minority and guardianship matters (Section 3, Hindu Minority and Guardianship Act, 1956)",
+   "checks": {
+    "not_refusal": true,
+    "names_expected_act": true,
+    "no_leaked_tags": true,
+    "no_raw_asterisks": true,
+    "list_of_4_plus_acts": true
+   },
+   "ok": true,
+   "bullets": 10,
+   "named": [
+    "POSH Act",
+    "Dowry Prohibition Act",
+    "DV Act"
+   ]
+  }
+ ]
+}

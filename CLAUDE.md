@@ -15,5 +15,6 @@ Read docs/SPEC.md first, then docs/DECISIONS.md (it records where the prototype 
 - Exam prep (AIBE, no LLM): `docketpilot/exam.py`, page `frontend/src/pages/Exam.tsx`; check questions with `python -m docketpilot.evaluation.exam_check` (decision 34).
 - Benchmarks vs other systems: `python -m docketpilot.evaluation.benchmark_vs` -> reports/benchmark_vs.json; report in reports/COMPARISON.md.
 - Weekly law update (decision 36): `python -m docketpilot.ingestion.update_laws`; scheduled with `tools\schedule_law_update.ps1` (task "DocketPilot weekly law update", Sundays 10:00). Old section wording is kept (`valid_to`); queries for current text must filter `valid_to IS NULL`.
+- Chat quality (decision 37): `python -m docketpilot.evaluation.chat_eval` (no AI) and `--llm N` / `--pick 0,6,...` (Groq). Statute vectors: `.venv-gpu\Scripts\python -m docketpilot.retrieval.statute_index --gpu` after loading Acts.
 - Security controls and their purpose: docs/SECURITY.md (decision 35); keep it updated when auth, uploads or headers change.
 - Never run the test suite with TEST_DATABASE_URL pointing at the main database: the test fixture rebuilds the schema.

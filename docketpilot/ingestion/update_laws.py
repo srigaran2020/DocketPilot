@@ -9,7 +9,7 @@ For each section, the new text's SHA-256 fingerprint is compared with the stored
                              becomes the current version, with its amendment footnotes;
   * new section number    -> added;
   * section gone          -> the stored version is closed (valid_to = today), nothing is deleted.
-Statute search reads PostgreSQL directly, so no search re-index is needed. Each Act is its own transaction, and
+Keyword search reads PostgreSQL directly; the meaning-based statute index is synced for changed sections. Each Act is its own transaction, and
 an Act whose download looks broken (far fewer sections than stored) is skipped, never half-applied.
 The run, its changes and the drafts that cite a changed section go into the law_updates table (shown on the
 dashboard). Everything stays 'unverified' (decision 11).
@@ -56,6 +56,7 @@ def compare(stored: dict[str, list[str]], fresh: dict[str, list[ParsedSection]])
 
 def update_act(conn: psycopg.Connection, short: str, india_code_id: str, today: date) -> dict[str, Any]:
     items = statutes.fetch_act(india_code_id, refresh=True)
+    about = statutes.act_about(items)
     fresh: dict[str, list[ParsedSection]] = defaultdict(list)
     for item in items:
         sec = statutes.parse_section(item)
@@ -67,6 +68,8 @@ def update_act(conn: psycopg.Connection, short: str, india_code_id: str, today: 
         if row is None:
             return {"act": short, "skipped": "not loaded yet (run ingestion.load --step statutes first)"}
         act_id, title = row
+        if about:
+            cur.execute("UPDATE acts SET about=%s WHERE id=%s", (about, act_id))
         cur.execute("SELECT section_number, content_sha256 FROM section_versions WHERE act_id=%s AND valid_to IS NULL",
                     (act_id,))
         stored: dict[str, list[str]] = defaultdict(list)
@@ -131,6 +134,13 @@ def run(only: list[str] | None = None) -> dict[str, Any]:
                 log.warning("%s: FAILED %s", short, e)
         changes = [c for r in results for c in r.get("changes", [])]
         drafts = affected_drafts(conn, changes)
+        if changes:  # meaning-based statute search must see the new wording too
+            try:
+                from docketpilot.retrieval import statute_index
+
+                log.info("statute index: %s", statute_index.sync(conn))
+            except Exception as e:  # keyword search still works; the next run retries
+                log.warning("statute index not updated: %s", e)
         summary = {"acts_checked": len(results), "added": sum(c["kind"] == "added" for c in changes),
                    "changed": sum(c["kind"] == "changed" for c in changes),
                    "removed": sum(c["kind"] == "removed" for c in changes)}

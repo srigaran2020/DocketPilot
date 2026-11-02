@@ -81,3 +81,30 @@ def test_swap_tags_accepts_spaces_inside_brackets():
 def test_last_message_must_be_user(patched):
     with pytest.raises(ValueError):
         asyncio.run(chat.answer(None, FakeLLM(), [{"role": "assistant", "content": "hi"}]))  # type: ignore[arg-type]
+
+
+def test_statute_words_keeps_the_topic_only():
+    from docketpilot.retrieval.search import statute_words
+
+    assert statute_words("talk about the top 10 best women empowerment laws") == "women empowerment"
+    assert statute_words("what is the punishment for murder") == "punishment murder"
+    assert statute_words("top 10 laws") == "top 10 laws"  # nothing left: keep the question as it was
+
+
+def test_tag_ranges_and_italics_are_cleaned():
+    text, used = chat.swap_tags("Women are protected (P1-P6) and *reasonable apprehension* matters [S1]. See [S1]-[S4].",
+                                {"S1": "Section 2, Dowry Prohibition Act, 1961"})
+    assert "P1" not in text and "S4" not in text and "*" not in text
+    assert "reasonable apprehension" in text and "(Section 2, Dowry Prohibition Act, 1961)" in text and used == ["S1"]
+
+
+def test_long_sections_keep_their_end():
+    text = "Whoever commits theft " + "x" * 3000 + " shall be punished with imprisonment up to three years."
+    short = chat._head_tail(text, 700)
+    assert len(short) < 720 and short.startswith("Whoever") and short.endswith("three years.")
+
+
+def test_list_questions_are_recognised():
+    assert chat.LIST_QUESTION.search("talk about the top 10 best women empowerment laws")
+    assert chat.LIST_QUESTION.search("which act deals with cyber crime")
+    assert not chat.LIST_QUESTION.search("what is the punishment for murder")
