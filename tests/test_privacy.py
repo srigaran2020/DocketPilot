@@ -3,7 +3,7 @@ import pytest
 
 from docketpilot.config import get_settings
 from docketpilot.privacy import vault
-from docketpilot.privacy.redact import detect, redact, restore, verhoeff_digit, verhoeff_valid
+from docketpilot.privacy.redact import detect, redact, remask, restore, verhoeff_digit, verhoeff_valid
 
 
 def test_verhoeff():
@@ -90,3 +90,11 @@ def test_vault_roundtrip_and_encryption(tmp_path, monkeypatch):
 def test_vault_rejects_path_tricks():
     with pytest.raises(vault.VaultError):
         vault.load("../..")
+
+
+def test_edited_text_with_real_names_is_masked_again():
+    mapping = {"PERSON_1": "Ramesh Kumar", "PERSON_12": "Suresh Babu"}
+    red = remask("Notice to Ramesh Kumar and SURESH BABU on behalf of the drawer.", mapping)
+    assert "Ramesh" not in red.text and "SURESH" not in red.text
+    assert "PERSON_1 " in red.text and "PERSON_12" in red.text
+    assert restore(red.text, red.mapping).startswith("Notice to Ramesh Kumar")

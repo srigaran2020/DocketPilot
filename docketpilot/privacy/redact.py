@@ -151,6 +151,15 @@ def redact(text: str, mapping: dict[str, str] | None = None, extra: list[tuple[s
     return Redaction("".join(parts), entities, mapping)
 
 
+def remask(text: str, mapping: dict[str, str]) -> Redaction:
+    """Mask a lawyer-edited text that shows real names: known values go back to their placeholders
+    (longest first), then any new personal data gets new ones."""
+    for ph, value in sorted(mapping.items(), key=lambda kv: len(kv[1]), reverse=True):
+        if len(value) >= 2:
+            text = re.sub(rf"(?<!\w){re.escape(value)}(?!\w)", ph, text, flags=re.IGNORECASE)
+    return redact(text, mapping=mapping)
+
+
 def restore(text: str, mapping: dict[str, str]) -> str:
     """Put real values back (only after the lawyer approves the draft). Longest placeholders first so
     PERSON_12 is not broken by PERSON_1."""

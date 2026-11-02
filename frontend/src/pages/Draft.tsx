@@ -110,7 +110,7 @@ export default function Draft() {
               <span className="text-[12.5px] text-mute">Hover a citation to preview its proof; click to pin it.</span>
               <div className="ml-auto flex items-center gap-2">
                 <Badge tone="ok">{counts.green} verified</Badge>{counts.amber > 0 && <Badge tone="warn">{counts.amber} check</Badge>}{counts.red > 0 && <Badge tone="bad">{counts.red} problem</Badge>}
-                {editable && !editing && <Button variant="secondary" size="sm" icon={Pencil} onClick={() => { setEdit(d.redacted_text || ""); setEditing(true); }}>Edit</Button>}
+                {editable && !editing && <Button variant="secondary" size="sm" icon={Pencil} onClick={() => { setEdit(d.text || d.redacted_text || ""); setEditing(true); }}>Edit</Button>}
               </div>
             </div>
             <div className="p-4">
@@ -118,7 +118,7 @@ export default function Draft() {
                 <div className="space-y-3"><Textarea value={edit} onChange={e => setEdit(e.target.value)} className="min-h-[56vh] font-display text-[15px] leading-[28px]" />
                   <div className="flex gap-2"><Button onClick={() => revise.mutate()} loading={revise.isPending} icon={ShieldCheck}>Re-check edited text</Button>
                     <Button variant="ghost" onClick={() => setEditing(false)}>Cancel</Button></div><ErrorNote error={revise.error} /></div>
-              ) : <DraftText text={d.redacted_text || ""} citations={rep.citations} onPick={id => { setPick(id); setChunk(null); }} />}
+              ) : <DraftText text={d.text || d.redacted_text || ""} citations={rep.citations} onPick={id => { setPick(id); setChunk(null); }} />}
             </div>
           </Card>
 

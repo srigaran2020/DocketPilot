@@ -297,6 +297,11 @@ async def get_draft(draft_id: str, user: CurrentUser) -> dict[str, Any]:
                 pass
             if d["status"] == "failed" and not d.get("error"):  # e.g. cut off by a server restart
                 d["error"] = next((t.get("error") for t in reversed(d.get("trace") or []) if t.get("error")), None)
+        # The lawyer sees real names; only the model ever saw the placeholders.
+        mapping = vault.load(str(d["matter_id"]))
+        d["text"] = pii.restore(d.get("redacted_text") or "", mapping)
+        if isinstance(d.get("facts"), dict):
+            d["facts"] = {k: pii.restore(v, mapping) if isinstance(v, str) else v for k, v in d["facts"].items()}
         return d
 
     return await asyncio.to_thread(run)
@@ -337,19 +342,23 @@ async def approve(draft_id: str, body: ApproveIn, user: Approver, session: Sessi
 @router.post("/drafts/{draft_id}/revise", status_code=202)
 async def revise(draft_id: str, body: ReviseIn, user: CurrentUser, session: Session,
                  background: BackgroundTasks) -> dict[str, Any]:
-    """The lawyer's edited text (still with placeholders) is re-verified before it can be approved."""
+    """The lawyer's edited text (with real names) is masked again, then re-verified before it can be approved."""
     from docketpilot.agents import graph
     from docketpilot.agents.nodes import save_draft
 
-    def run() -> None:
+    def run() -> str:
         with kb_conn() as conn:
             d = _own_draft(conn, draft_id, user.firm_id)
         if d["status"] not in ("awaiting_approval", "blocked"):
             raise HTTPException(409, f"Draft is {d['status']}")
+        mid = str(d["matter_id"])
+        red = pii.remask(body.text, vault.load(mid))
+        vault.save(mid, red.mapping)
         save_draft(draft_id, status="running")
+        return red.text
 
-    await asyncio.to_thread(run)
-    background.add_task(asyncio.to_thread, _run_graph, graph.resume, draft_id, {"action": "revise", "text": body.text})
+    masked = await asyncio.to_thread(run)
+    background.add_task(asyncio.to_thread, _run_graph, graph.resume, draft_id, {"action": "revise", "text": masked})
     audit.record(session, "draft.revise", actor_user_id=user.id, firm_id=user.firm_id, target_type="draft",
                  target_id=draft_id)
     await session.commit()
