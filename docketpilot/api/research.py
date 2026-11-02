@@ -54,7 +54,8 @@ async def acts(user: CurrentUser) -> list[dict[str, Any]]:
     """The Acts in the statute store, for pickers."""
     def run() -> list[dict[str, Any]]:
         with kb_conn() as conn, conn.cursor() as cur:
-            cur.execute("""SELECT a.short_name, a.title, count(sv.id) FROM acts a LEFT JOIN section_versions sv ON sv.act_id=a.id
+            cur.execute("""SELECT a.short_name, a.title, count(sv.id) FROM acts a
+                           LEFT JOIN section_versions sv ON sv.act_id=a.id AND sv.valid_to IS NULL
                            GROUP BY a.id ORDER BY a.title""")
             return [{"short_name": r[0], "title": r[1], "sections": r[2]} for r in cur.fetchall()]
 

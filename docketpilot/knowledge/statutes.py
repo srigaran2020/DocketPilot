@@ -129,10 +129,10 @@ def _get(url: str) -> dict:
         return json.loads(r.read())
 
 
-def fetch_act(act_id: str, page_size: int = 50) -> list[dict]:
-    """All items of one act, saved to data/raw/india_code/<act_id>.json (re-used if present)."""
+def fetch_act(act_id: str, page_size: int = 50, refresh: bool = False) -> list[dict]:
+    """All items of one act, saved to data/raw/india_code/<act_id>.json (re-used if present unless refresh)."""
     out_file = RAW / f"{act_id}.json"
-    if out_file.exists():
+    if out_file.exists() and not refresh:
         return json.loads(out_file.read_text(encoding="utf-8"))
     query = urllib.parse.quote(f'dc.identifier.act_id:"{act_id}"')
     items, page = [], 0

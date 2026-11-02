@@ -51,7 +51,7 @@ def statute_boundaries(conn: psycopg.Connection) -> dict[str, Any]:
     """For every amendment date in the ledger, the lookup must change status exactly at that date."""
     with conn.cursor() as cur:
         cur.execute("SELECT section_number, inserted_on, valid_from FROM section_versions sv "
-                    "JOIN acts a ON a.id = sv.act_id WHERE a.short_name = 'NI Act'")
+                    "JOIN acts a ON a.id = sv.act_id WHERE a.short_name = 'NI Act' AND sv.valid_to IS NULL")
         rows = cur.fetchall()
     checks = passed = 0
     failures = []

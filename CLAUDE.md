@@ -14,5 +14,6 @@ Read docs/SPEC.md first, then docs/DECISIONS.md (it records where the prototype 
 - Interface (since 2026-10-29): React 18 + TypeScript in `frontend/` (Vite, Tailwind, Radix UI). After changing it: `cd frontend; npm run build` (writes `docketpilot/web/dist/`, which is committed so the app runs without Node). Old one-file UI stays at `/classic`. Screens: `python tools/ui_screenshots.py OUT PAPER.txt`; usability check: `python tools/ui_usability_test.py PAPER.txt`.
 - Exam prep (AIBE, no LLM): `docketpilot/exam.py`, page `frontend/src/pages/Exam.tsx`; check questions with `python -m docketpilot.evaluation.exam_check` (decision 34).
 - Benchmarks vs other systems: `python -m docketpilot.evaluation.benchmark_vs` -> reports/benchmark_vs.json; report in reports/COMPARISON.md.
+- Weekly law update (decision 36): `python -m docketpilot.ingestion.update_laws`; scheduled with `tools\schedule_law_update.ps1` (task "DocketPilot weekly law update", Sundays 10:00). Old section wording is kept (`valid_to`); queries for current text must filter `valid_to IS NULL`.
 - Security controls and their purpose: docs/SECURITY.md (decision 35); keep it updated when auth, uploads or headers change.
 - Never run the test suite with TEST_DATABASE_URL pointing at the main database: the test fixture rebuilds the schema.

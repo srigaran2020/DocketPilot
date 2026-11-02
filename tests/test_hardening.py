@@ -13,7 +13,6 @@ from docketpilot.api.main import app
 from docketpilot.api.matters import _extract_text
 from docketpilot.security import password_problem
 
-
 # ---------------- unit ----------------
 
 def test_password_rules():
@@ -62,7 +61,7 @@ def test_upload_content_must_match_extension(name, data, status):
 
 
 def test_plain_text_upload_still_works():
-    text, pages, src = _extract_text("notes.txt", "Cheque dishonoured on 20-08-2026".encode())
+    text, pages, src = _extract_text("notes.txt", b"Cheque dishonoured on 20-08-2026")
     assert "dishonoured" in text and pages == 1 and src == "plain_text"
 
 

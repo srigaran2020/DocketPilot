@@ -440,6 +440,24 @@ async def reminders_ics(matter_id: str, user: CurrentUser) -> Response:
                     headers={"Content-Disposition": f'attachment; filename="matter-{matter_id[:8]}.ics"'})
 
 
+def _law_update(cur: Any, firm_id: uuid.UUID) -> dict[str, Any] | None:
+    """The latest weekly law update, with only this workspace's drafts among those citing a changed section."""
+    cur.execute("""SELECT finished_at, acts_checked, sections_added, sections_changed, sections_removed, changes,
+                          jsonb_array_length(failed), affected_drafts FROM law_updates
+                   WHERE finished_at IS NOT NULL ORDER BY finished_at DESC LIMIT 1""")
+    r = cur.fetchone()
+    if r is None:
+        return None
+    ids = [d["draft_id"] for d in r[7]]
+    cur.execute("""SELECT d.id::text, d.version, d.template, d.doc_type, m.title FROM drafts d JOIN matters m ON m.id = d.matter_id
+                   WHERE m.firm_id = %s AND d.id::text = ANY(%s)""", (firm_id, ids))
+    sections = {d["draft_id"]: d["sections"] for d in r[7]}
+    mine = [{"id": x[0], "version": x[1], "template": x[2], "doc_type": x[3], "matter": x[4], "sections": sections[x[0]]}
+            for x in cur.fetchall()]
+    return {"finished_at": r[0], "acts_checked": r[1], "added": r[2], "changed": r[3], "removed": r[4],
+            "changes": r[5][:12], "failed": r[6], "affected_drafts": mine}
+
+
 @router.get("/dashboard")
 async def dashboard(user: CurrentUser) -> dict[str, Any]:
     def run() -> dict[str, Any]:
@@ -456,7 +474,8 @@ async def dashboard(user: CurrentUser) -> dict[str, Any]:
             drafts = _rows(cur)
             cur.execute("SELECT count(*) FROM matters WHERE firm_id = %s", (user.firm_id,))
             n = cur.fetchone()[0]  # type: ignore[index]
-        return {"matters": n, "upcoming_deadlines": upcoming, "drafts_needing_action": drafts,
+            law = _law_update(cur, user.firm_id)
+        return {"matters": n, "upcoming_deadlines": upcoming, "drafts_needing_action": drafts, "law_update": law,
                 "notice": "Deadlines are computed from unverified rules. Not legal advice; not reviewed by a lawyer."}
 
     return await asyncio.to_thread(run)

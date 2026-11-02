@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowUpRight, BookOpen, Briefcase, CalendarDays, FileCheck2, FilePen, Gavel, Inbox, MessageSquareText, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, Briefcase, CalendarDays, FileCheck2, FilePen, Gavel, Inbox, MessageSquareText, Scale, Sparkles, TriangleAlert } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { DateTile, DaysChip, KindPill, StatusPill } from "@/components/legal";
 import { Button, Card, CardHeader, CountUp, Empty, Tilt, ErrorNote, FadeIn, PageHeader, Skeleton, spotlight } from "@/components/ui";
@@ -121,6 +121,7 @@ export default function Dashboard() {
                 )) : <div className="px-2 pb-2"><Empty icon={Inbox} title="Nothing waiting">You're all caught up.</Empty></div>}
             </div>
           </Card>
+          <LawUpdates law={desk.data?.law_update} loading={loading} />
           <Card>
             <CardHeader icon={Briefcase} title="Recent cases" action={<Button variant="ghost" size="sm" onClick={() => nav("/cases")}>All</Button>} />
             <div className="px-3 pb-3">
@@ -137,5 +138,34 @@ export default function Dashboard() {
         </div>
       </div>
     </>
+  );
+}
+
+const KIND_WORD: Record<string, string> = { changed: "amended", added: "new section", removed: "omitted" };
+
+/** Latest weekly law update (from India Code): what changed, and the user's drafts that cite a changed section. */
+function LawUpdates({ law, loading }: { law: any; loading: boolean }) {
+  if (loading) return <Card className="p-5"><Skeleton className="h-16" /></Card>;
+  const total = law ? law.added + law.changed + law.removed : 0;
+  return (
+    <Card data-testid="law-updates">
+      <CardHeader icon={Scale} title="Law updates" subtitle={law ? `Checked ${law.acts_checked} Acts on ${niceDate(String(law.finished_at).slice(0, 10))}` : "Weekly check of India Code"} />
+      <div className="space-y-2 px-5 pb-5">
+        {!law && <p className="text-[13.5px] text-mute">No update has run yet. Updates run every week once the weekly task is scheduled on this computer.</p>}
+        {law && total === 0 && <p className="text-[13.5px] text-ink-2">No changes to the stored Acts since the last check.{law.failed ? ` ${law.failed} Act(s) could not be checked.` : ""}</p>}
+        {law && total > 0 && <>
+          <p className="text-[13.5px] text-ink-2"><b className="text-ink">{total}</b> section(s) changed{law.failed ? ` · ${law.failed} Act(s) could not be checked` : ""}</p>
+          <ul className="space-y-1.5">{law.changes.map((c: any, i: number) => (
+            <li key={i} className="flex items-baseline gap-2 text-[13px]"><span className="shrink-0 rounded-md bg-brand-soft px-1.5 py-0.5 text-[11.5px] font-medium text-brand-2">{KIND_WORD[c.kind]}</span>
+              <span className="min-w-0 truncate text-ink-2">{c.short} s.{c.section}{c.heading ? ` · ${c.heading}` : ""}</span></li>))}</ul>
+        </>}
+        {law?.affected_drafts?.length > 0 && (
+          <div className="mt-3 space-y-1.5 rounded-xl border border-warn/30 bg-warn-soft/60 p-3">
+            <p className="flex items-center gap-1.5 text-[13px] font-semibold text-warn"><TriangleAlert className="h-4 w-4" />Drafts citing a changed section</p>
+            {law.affected_drafts.map((d: any) => (
+              <Link key={d.id} to={`/drafts/${d.id}`} className="block truncate text-[13px] text-ink hover:underline">v{d.version} · {docName(d.template, d)} · {d.sections.join(", ")}</Link>))}
+          </div>)}
+      </div>
+    </Card>
   );
 }

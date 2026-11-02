@@ -82,8 +82,12 @@ def statute_as_on(conn: psycopg.Connection, act: str, section: str, on: date) ->
         cur.execute("""SELECT sv.section_number, sv.heading, sv.text, sv.footnotes, sv.inserted_on, sv.valid_from,
                               sv.source_url, sv.content_sha256, sv.status, a.title
                        FROM section_versions sv JOIN acts a ON a.id = sv.act_id
-                       WHERE (a.short_name ILIKE %s OR a.title ILIKE %s) AND upper(sv.section_number) = upper(%s)""",
-                    (act, f"%{act}%", section.strip()))
+                       WHERE (a.short_name ILIKE %s OR a.title ILIKE %s) AND upper(sv.section_number) = upper(%s)
+                       ORDER BY (sv.valid_to IS NOT NULL AND coalesce(sv.valid_from, '0001-01-01') <= %s
+                                 AND %s < sv.valid_to) DESC,  -- an earlier stored version in force on that date first
+                                (sv.valid_to IS NULL) DESC, sv.valid_from DESC NULLS LAST
+                       LIMIT 1""",
+                    (act, f"%{act}%", section.strip(), on, on))
         row = cur.fetchone()
         notes: list[Footnote] = []
         if row:
@@ -131,7 +135,7 @@ def statute_search(conn: psycopg.Connection, query: str, k: int = 4, acts: list[
                                 || setweight(to_tsvector('english', coalesce(sv.text, '')), 'B'),
                                 websearch_to_tsquery('english', %s)) AS rank
               FROM section_versions sv JOIN acts a ON a.id = sv.act_id
-              WHERE {_STATUTE_TSV} @@ websearch_to_tsquery('english', %s) {act_filter} AND length(sv.text) > 40
+              WHERE {_STATUTE_TSV} @@ websearch_to_tsquery('english', %s) {act_filter} AND length(sv.text) > 40 AND sv.valid_to IS NULL
               ORDER BY rank DESC LIMIT %s"""  # noqa: S608 (fixed fragments only)
     rows: list[Any] = []
     with conn.cursor() as cur:

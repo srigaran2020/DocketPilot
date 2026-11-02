@@ -98,6 +98,10 @@ Search, statutes, calendar, cases and citation look-ups do not use the AI. For r
 7. **Exam prep** (AIBE): practise one subject, take a 100-question timed mock test, or a speed drill (type the section number in
    45 seconds); Progress shows your weakest subjects. Questions are built from the bare Acts with no AI and no Groq tokens
    (17 of the 19 AIBE subjects; not the Constitution or PIL yet). Check them: `python -m docketpilot.evaluation.exam_check`.
+8. **Law updates** on the dashboard: every week the Acts are fetched again from India Code; changed sections keep their old
+   wording as an earlier version, and drafts that cite a changed section are flagged (no AI).
+
+Security controls and their purpose are listed in [docs/SECURITY.md](docs/SECURITY.md).
 
 ## Rebuild the knowledge base
 
@@ -106,6 +110,15 @@ Search, statutes, calendar, cases and citation look-ups do not use the AI. For r
 .\.venv\Scripts\python.exe -m docketpilot.ingestion.load       # judgments + 35 Acts into PostgreSQL; safe to re-run
 .\.venv-gpu\Scripts\python.exe -m docketpilot.retrieval.index --gpu --scope all --collection chunks_all   # GPU vectors
 # no NVIDIA GPU? .\.venv\Scripts\python.exe -m docketpilot.retrieval.index  (CPU, s.138 judgments only)
+```
+
+### Keep the law up to date (weekly, Windows Task Scheduler)
+
+```powershell
+.	ools\schedule_law_update.ps1                 # once: registers "DocketPilot weekly law update", Sundays 10:00
+.	oolsun_law_update.ps1                      # run it by hand any time (logs in data\law_updates\)
+.\.venv\Scripts\python.exe -m docketpilot.ingestion.update_laws --act "NI Act"   # one Act only
+.	ools\schedule_law_update.ps1 -Remove         # stop the weekly task
 ```
 
 ## Check and evaluate
