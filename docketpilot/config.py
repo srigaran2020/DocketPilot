@@ -36,6 +36,8 @@ class Settings(BaseSettings):
     # Google sign-in: OAuth client id from Google Cloud Console (APIs & Services > Credentials). Empty = button hidden.
     google_client_id: str | None = None
     signup_open: bool = True
+    # Interactive API documentation at /docs and /openapi.json (off unless a developer turns it on).
+    api_docs: bool = False
 
     # Privacy vault (Fernet key; generate with cryptography.fernet.Fernet.generate_key())
     vault_key: SecretStr | None = None

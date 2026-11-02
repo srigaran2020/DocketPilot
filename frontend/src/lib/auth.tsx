@@ -16,6 +16,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(() => {
     try { if (me) localStorage.removeItem("dp_chat_" + me.id); sessionStorage.clear(); } catch { /* ignore */ }
     try { (window as any).google?.accounts?.id?.disableAutoSelect(); } catch { /* ignore */ }
+    // Tell the server first (the request carries the token), so the token cannot be used again anywhere.
+    if (getToken()) api("/auth/logout", { method: "POST" }).catch(() => { /* offline: the token still expires */ });
     saveToken(null); setMe(null); qc.clear();
   }, [me, qc]);
 

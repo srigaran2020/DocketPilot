@@ -10,13 +10,22 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from docketpilot import __version__
-from docketpilot.api import assistant, auth, casefiles, exam, health, matters, research
+from docketpilot.api import assistant, auth, casefiles, exam, hardening, health, matters, research
+from docketpilot.config import get_settings
+
+WEAK_SECRETS = {"change-me-in-env", "secret", "changeme"}
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    """Drafts run inside this process, so a draft still 'running' at start-up was cut off by a restart: mark it
+    """Refuses to start with a guessable token secret (anyone could forge a sign-in).
+
+    Drafts run inside this process, so a draft still 'running' at start-up was cut off by a restart: mark it
     failed (with a reason the lawyer can read) instead of leaving a spinner that never ends."""
+    secret = get_settings().jwt_secret.get_secret_value()
+    if secret in WEAK_SECRETS or len(secret) < 32:
+        raise RuntimeError("JWT_SECRET in .env is missing or too short (need 32+ random characters). Generate one with: "
+                           'python -c "import secrets; print(secrets.token_urlsafe(48))"')
     try:
         from docketpilot.knowledge.pool import kb_conn
 
@@ -35,6 +44,9 @@ app = FastAPI(
     title="DocketPilot API",
     version=__version__,
     description="Verifiable legal research and drafting. Not legal advice; not reviewed by a lawyer.",
+    docs_url="/docs" if get_settings().api_docs else None,
+    redoc_url=None,
+    openapi_url="/openapi.json" if get_settings().api_docs else None,
 )
 app.include_router(health.router)
 app.include_router(auth.router)
@@ -46,6 +58,7 @@ app.include_router(exam.router)
 
 WEB = Path(__file__).resolve().parents[1] / "web" / "index.html"  # original single-file interface
 DIST = WEB.parent / "dist"  # React interface, built by `npm run build` in frontend/
+hardening.install(app, DIST / "index.html")
 if (DIST / "assets").is_dir():
     app.mount("/assets", StaticFiles(directory=DIST / "assets"), name="assets")
 

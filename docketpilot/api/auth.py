@@ -24,7 +24,7 @@ from docketpilot import audit
 from docketpilot.api.deps import CurrentUser, Session, require_role
 from docketpilot.config import get_settings
 from docketpilot.models import Firm, Role, User
-from docketpilot.security import create_access_token, hash_password, verify_password
+from docketpilot.security import create_access_token, hash_password, password_problem, verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -63,24 +63,41 @@ class GoogleCredential(BaseModel):
     credential: str = Field(min_length=20, max_length=5000)
 
 
-# ---------- brute-force guard: at most 10 failed attempts per minute per client address ----------
+# ---------- brute-force guard ----------
+# At most 10 failed attempts per minute from one address, and 10 per 15 minutes against one account
+# (so guessing one account's password from many addresses is slowed down too).
 _failures: dict[str, deque[float]] = defaultdict(deque)
+_LIMITS = {"ip": (60, 10), "acct": (900, 10)}
 
 
-def _key(request: Request) -> str:
-    return request.client.host if request.client else "?"
+def _keys(request: Request, account: str | None) -> list[tuple[str, str]]:
+    keys = [("ip", "ip:" + (request.client.host if request.client else "?"))]
+    if account:
+        keys.append(("acct", "acct:" + account.strip().lower()))
+    return keys
 
 
-def _throttle(request: Request) -> None:
-    q, now = _failures[_key(request)], time.monotonic()
-    while q and now - q[0] > 60:
-        q.popleft()
-    if len(q) >= 10:
-        raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Too many attempts. Wait a minute.")
+def _throttle(request: Request, account: str | None = None) -> None:
+    now = time.monotonic()
+    for kind, key in _keys(request, account):
+        window, most = _LIMITS[kind]
+        q = _failures[key]
+        while q and now - q[0] > window:
+            q.popleft()
+        if len(q) >= most:
+            raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                                detail="Too many attempts. Wait a few minutes and try again.")
 
 
-def _failed(request: Request) -> None:
-    _failures[_key(request)].append(time.monotonic())
+def _failed(request: Request, account: str | None = None) -> None:
+    for _, key in _keys(request, account):
+        _failures[key].append(time.monotonic())
+
+
+def _check_password(password: str, email: str = "", name: str = "") -> None:
+    why = password_problem(password, email, name)
+    if why:
+        raise HTTPException(status_code=422, detail=why)
 
 
 def _out(u: User) -> UserOut:
@@ -88,7 +105,7 @@ def _out(u: User) -> UserOut:
 
 
 def _token(u: User) -> Token:
-    return Token(access_token=create_access_token(u.id, u.firm_id, u.role))
+    return Token(access_token=create_access_token(u.id, u.firm_id, u.role, u.token_version))
 
 
 async def _new_account(session: Session, email: str, full_name: str, password_hash: str, chambers: str | None) -> User:
@@ -111,14 +128,14 @@ async def config() -> dict[str, Any]:
 
 @router.post("/login")
 async def login(request: Request, session: Session, form: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
-    _throttle(request)
+    _throttle(request, form.username)
     user = (await session.execute(select(User).where(User.email == form.username.strip().lower()))).scalar_one_or_none()
     if user is not None and user.password_hash == NO_PASSWORD:
-        _failed(request)
+        _failed(request, form.username)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="This account uses Google sign-in. Use the Google button.")
     if user is None or not user.is_active or not verify_password(form.password, user.password_hash):
-        _failed(request)
+        _failed(request, form.username)
         audit.record(session, "auth.login_failed")
         await session.commit()
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Wrong email or password")
@@ -133,6 +150,7 @@ async def signup(request: Request, body: SignUp, session: Session) -> Token:
     if not get_settings().signup_open:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Sign-up is closed")
     email = body.email.strip().lower()
+    _check_password(body.password, email, body.full_name)
     if (await session.execute(select(User.id).where(User.email == email))).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="An account with this email exists. Sign in instead.")
     try:
@@ -181,6 +199,17 @@ async def google(request: Request, body: GoogleCredential, session: Session) -> 
     return _token(user)
 
 
+@router.post("/logout")
+async def logout(user: CurrentUser, session: Session) -> dict[str, str]:
+    """Signing out cancels every token issued so far for this account (on all devices)."""
+    db_user = await session.get(User, user.id)
+    assert db_user is not None
+    db_user.token_version += 1
+    audit.record(session, "auth.logout", actor_user_id=user.id, firm_id=user.firm_id)
+    await session.commit()
+    return {"status": "signed_out"}
+
+
 @router.post("/refresh")
 async def refresh(user: CurrentUser) -> Token:
     """Called by the page on every visit, so an active user is never asked to sign in again."""
@@ -199,16 +228,19 @@ class PasswordChange(BaseModel):
 
 @router.post("/password")
 async def change_password(request: Request, body: PasswordChange, user: CurrentUser, session: Session) -> dict[str, str]:
-    _throttle(request)
+    """A new password signs out every other device; this device gets a fresh token."""
+    _throttle(request, user.email)
     if user.password_hash != NO_PASSWORD and not verify_password(body.current_password, user.password_hash):
-        _failed(request)
+        _failed(request, user.email)
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Your current password is not right")
+    _check_password(body.new_password, user.email, user.full_name)
     db_user = await session.get(User, user.id)
     assert db_user is not None
     db_user.password_hash = hash_password(body.new_password)
+    db_user.token_version += 1
     audit.record(session, "auth.password_change", actor_user_id=user.id, firm_id=user.firm_id)
     await session.commit()
-    return {"status": "changed"}
+    return {"status": "changed", "access_token": _token(db_user).access_token}
 
 
 @router.post("/users", status_code=status.HTTP_201_CREATED)
@@ -218,6 +250,7 @@ async def create_user(
     admin: Annotated[User, Depends(require_role(Role.admin))],
 ) -> UserOut:
     """An admin can only add users to their own firm."""
+    _check_password(body.password, body.email, body.full_name)
     user = User(
         firm_id=admin.firm_id,
         email=body.email.lower(),

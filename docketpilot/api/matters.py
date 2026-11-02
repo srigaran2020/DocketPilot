@@ -18,7 +18,7 @@ from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel, Field
 
 from docketpilot import audit
-from docketpilot.api.deps import CurrentUser, Session, require_role
+from docketpilot.api.deps import AIUser, CurrentUser, Session, require_role
 from docketpilot.knowledge.pool import kb_conn
 from docketpilot.models import Role, User
 from docketpilot.privacy import redact as pii
@@ -113,31 +113,62 @@ async def get_matter(matter_id: str, user: CurrentUser, session: Session) -> dic
 
 # ---------------- documents: preview, then confirm ----------------
 
+MAX_UPLOAD = 15_000_000
+MAX_PAGES = 500
+MAX_DOCX_UNZIPPED = 100_000_000  # a .docx is a zip; refuse "zip bombs" that expand to huge sizes
+
+
+async def read_upload(file: UploadFile) -> bytes:
+    """Reads at most MAX_UPLOAD + 1 bytes, so an oversized file is refused without filling memory."""
+    data = await file.read(MAX_UPLOAD + 1)
+    if len(data) > MAX_UPLOAD:
+        raise HTTPException(413, "File too large (15 MB max)")
+    return data
+
+
 def _extract_text(name: str, data: bytes) -> tuple[str, int, str]:
+    """The file's content must match its extension (checked by its first bytes); broken files give a clear 422."""
     lower = name.lower()
-    if lower.endswith(".pdf"):
-        from pypdf import PdfReader
+    try:
+        if lower.endswith(".pdf"):
+            from pypdf import PdfReader
 
-        pages = [p.extract_text() or "" for p in PdfReader(io.BytesIO(data)).pages]
-        if sum(len(p.strip()) for p in pages) < 50:
-            raise HTTPException(422, "This PDF has no text layer (probably a scan). OCR is not available in the "
-                                     "prototype; upload a text PDF, .docx or .txt.")
-        return "\f".join(pages), len(pages), "text_layer"
-    if lower.endswith(".docx"):
-        from docx import Document
+            if not data.startswith(b"%PDF-"):
+                raise HTTPException(415, "This file is not a real PDF.")
+            reader = PdfReader(io.BytesIO(data))
+            if len(reader.pages) > MAX_PAGES:
+                raise HTTPException(413, f"PDF has more than {MAX_PAGES} pages; split it into parts.")
+            pages = [p.extract_text() or "" for p in reader.pages]
+            if sum(len(p.strip()) for p in pages) < 50:
+                raise HTTPException(422, "This PDF has no text layer (probably a scan). OCR is not available in the "
+                                         "prototype; upload a text PDF, .docx or .txt.")
+            return "\f".join(pages), len(pages), "text_layer"
+        if lower.endswith(".docx"):
+            import zipfile
 
-        doc = Document(io.BytesIO(data))
-        return "\n".join(p.text for p in doc.paragraphs), 1, "docx"
-    if lower.endswith(".txt"):
-        return data.decode("utf-8", errors="replace"), 1, "plain_text"
+            from docx import Document
+
+            if not data.startswith(b"PK\x03\x04"):
+                raise HTTPException(415, "This file is not a real .docx document.")
+            with zipfile.ZipFile(io.BytesIO(data)) as z:
+                if sum(i.file_size for i in z.infolist()) > MAX_DOCX_UNZIPPED:
+                    raise HTTPException(413, "This .docx expands to an unusually large size and was refused.")
+            doc = Document(io.BytesIO(data))
+            return "\n".join(p.text for p in doc.paragraphs), 1, "docx"
+        if lower.endswith(".txt"):
+            if b"\x00" in data[:4096]:
+                raise HTTPException(415, "This file is not plain text.")
+            return data.decode("utf-8", errors="replace"), 1, "plain_text"
+    except HTTPException:
+        raise
+    except Exception:  # damaged or unreadable file: the user's problem to fix, not a server error
+        raise HTTPException(422, "This file could not be read. It may be damaged or password-protected.") from None
     raise HTTPException(415, "Supported files: .pdf (with text), .docx, .txt")
 
 
 @router.post("/matters/{matter_id}/documents/preview")
 async def preview_document(matter_id: str, user: CurrentUser, file: Annotated[UploadFile, File()]) -> dict[str, Any]:
-    data = await file.read()
-    if len(data) > 15_000_000:
-        raise HTTPException(413, "File too large (15 MB max)")
+    data = await read_upload(file)
     name = Path(file.filename or "upload").name
 
     def run() -> dict[str, Any]:
@@ -253,7 +284,7 @@ def _run_graph(fn: Any, *args: Any) -> None:
 
 
 @router.post("/matters/{matter_id}/drafts", status_code=202)
-async def start_draft(matter_id: str, body: DraftIn, user: CurrentUser, session: Session,
+async def start_draft(matter_id: str, body: DraftIn, user: AIUser, session: Session,
                       background: BackgroundTasks) -> dict[str, Any]:
     def run() -> dict[str, Any]:
         with kb_conn() as conn:
@@ -340,7 +371,7 @@ async def approve(draft_id: str, body: ApproveIn, user: Approver, session: Sessi
 
 
 @router.post("/drafts/{draft_id}/revise", status_code=202)
-async def revise(draft_id: str, body: ReviseIn, user: CurrentUser, session: Session,
+async def revise(draft_id: str, body: ReviseIn, user: AIUser, session: Session,
                  background: BackgroundTasks) -> dict[str, Any]:
     """The lawyer's edited text (with real names) is masked again, then re-verified before it can be approved."""
     from docketpilot.agents import graph

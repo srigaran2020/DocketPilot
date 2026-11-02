@@ -15,7 +15,7 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel, Field
 
 from docketpilot import audit, chat
-from docketpilot.api.deps import CurrentUser, Session
+from docketpilot.api.deps import AIUser, Session
 from docketpilot.api.matters import _rows, launch_draft
 from docketpilot.knowledge.citations import find_citations
 from docketpilot.knowledge.pool import kb_conn
@@ -279,7 +279,7 @@ def tool_similar(conn: Any, text: str, matter: dict[str, Any] | None) -> dict[st
 # ---------------- endpoint ----------------
 
 @router.post("/ask")
-async def ask(body: AskIn, user: CurrentUser, session: Session, background: BackgroundTasks) -> dict[str, Any]:
+async def ask(body: AskIn, user: AIUser, session: Session, background: BackgroundTasks) -> dict[str, Any]:
     msgs = [m.model_dump() for m in body.messages]
     text = msgs[-1]["content"]
     if msgs[-1]["role"] != "user":

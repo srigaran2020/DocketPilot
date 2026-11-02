@@ -8,7 +8,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from docketpilot import audit
-from docketpilot.api.deps import CurrentUser, Session
+from docketpilot.api.deps import AIUser, CurrentUser, Session
 from docketpilot.knowledge.pool import kb_conn
 from docketpilot.llm import get_llm
 from docketpilot.retrieval import search as rs
@@ -139,7 +139,7 @@ class ChatRequest(BaseModel):
 
 
 @router.post("/chat")
-async def chat_endpoint(body: ChatRequest, user: CurrentUser, session: Session) -> dict[str, Any]:
+async def chat_endpoint(body: ChatRequest, user: AIUser, session: Session) -> dict[str, Any]:
     """Verified chat: names masked before the AI sees them, answers only from retrieved sources, every
     citation in the answer verified."""
     from docketpilot import chat
@@ -170,7 +170,7 @@ class VerifyRequest(BaseModel):
 
 
 @router.post("/verify")
-async def verify_endpoint(body: VerifyRequest, user: CurrentUser, session: Session) -> dict[str, Any]:
+async def verify_endpoint(body: VerifyRequest, user: AIUser, session: Session) -> dict[str, Any]:
     """Standalone verification (spec 17, Phase 5). The text must already be redacted if it holds client data."""
     def run() -> dict[str, Any]:
         with kb_conn() as conn:

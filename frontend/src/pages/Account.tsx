@@ -3,7 +3,7 @@ import { KeyRound, LogOut, UserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/toast";
 import { Badge, Button, Card, CardHeader, ErrorNote, Input, Label, PageHeader } from "@/components/ui";
-import { api } from "@/lib/api";
+import { api, saveToken } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { initials } from "@/lib/utils";
 
@@ -11,7 +11,7 @@ export default function Account() {
   const { me, signOut } = useAuth();
   const nav = useNavigate();
   const pw = useMutation({ mutationFn: (f: { cur: string; next: string }) => api("/auth/password", { json: { current_password: f.cur, new_password: f.next } }),
-    onSuccess: () => toast.success("Password changed") });
+    onSuccess: (r: any) => { if (r?.access_token) saveToken(r.access_token); toast.success("Password changed", { description: "Other devices have been signed out." }); } });
   return (
     <>
       <PageHeader eyebrow="Your account" title={me?.full_name || "Account"} />

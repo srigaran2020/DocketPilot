@@ -18,7 +18,7 @@ from pydantic import BaseModel, Field
 
 from docketpilot import audit, casefile
 from docketpilot.api.deps import CurrentUser, Session
-from docketpilot.api.matters import _extract_text
+from docketpilot.api.matters import _extract_text, read_upload
 from docketpilot.knowledge.pool import kb_conn
 from docketpilot.privacy import redact as pii
 from docketpilot.privacy import vault
@@ -68,9 +68,7 @@ def case_card(conn: Any, matter_id: str) -> dict[str, Any]:
 @router.post("/papers/preview")
 async def paper_preview(user: CurrentUser, file: Annotated[UploadFile, File()],
                         matter_id: Annotated[str | None, Form()] = None) -> dict[str, Any]:
-    data = await file.read()
-    if len(data) > 15_000_000:
-        raise HTTPException(413, "File too large (15 MB max)")
+    data = await read_upload(file)
     name = Path(file.filename or "upload").name
 
     def run() -> dict[str, Any]:
