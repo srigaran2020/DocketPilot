@@ -30,6 +30,39 @@ def test_routes(text, intent):
     assert route(text) == intent
 
 
+@pytest.mark.parametrize("text", [
+    "hearing date is on 15th december 2026 for this case. add it to calender",
+    "add hearing date of 15th december 2026 on calender",
+    "hearing on 15th december 2026",
+    "next hearing 20.12.2026",
+    "case is posted to 3rd Jan",
+    "matter adjourned to 12/01/2027",
+    "add it to my calendar",
+    "put this in the diary",
+    "mark 15 dec in calander",
+    "note the hearing in my calendar",
+    "save this date to calendar please",
+    "arguments on 5th Feb 2027",
+    "filing deadline is next friday",
+    "client meeting tomorrow at 4",
+    "hearing shifted to Dec 18",
+    "the matter is listed on 2027-01-04",
+])
+def test_calendar_requests_however_typed(text):
+    assert route(text) == "schedule"
+
+
+@pytest.mark.parametrize("text", [
+    "What happens if I miss the hearing on 15 December?",
+    "Can the court adjourn a hearing more than 3 times?",
+    "Explain the limitation period for filing a cheque bounce complaint",
+    "is the accused required to appear on every date?",
+    "Draft an application for adjournment of the hearing on 15 December 2026",
+])
+def test_questions_and_drafts_with_dates_are_not_calendar(text):
+    assert route(text) != "schedule"
+
+
 def test_long_pasted_text_with_citations_is_verified():
     text = ("The law is settled. " * 20) + "See (2019) 4 SCC 197 and 2023 INSC 123."
     assert route(text) == "verify"

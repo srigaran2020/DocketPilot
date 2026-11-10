@@ -31,12 +31,29 @@ DOC_WORDS = (r"(notice|complaint|petition|application|plaint|written\s+statement
              r"revision|agreement|deed|bail|vakalat|memo|counter|objection|caveat|synopsis|grounds|suit|letter|"
              r"undertaking|will|contract|lease|declaration|representation|submissions?)\b")
 
+# Calendar requests are typed every which way: misspellings, "it", no verb like "remind".
+CALENDAR = r"calend[ae]rs?|calandars?|calanders?|calenders?|diary|planner|schedule"
+ACTION = r"add|put|mark|note|save|set|create|enter|book|block|fix|update|include|record|keep|log"
+MONTH = (r"jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|"
+         r"oct(?:ober)?|nov(?:ember)?|dec(?:ember)?")
+DATE = (rf"\b\d{{1,2}}(?:st|nd|rd|th)?\s*(?:of\s+)?(?:{MONTH})\b|\b(?:{MONTH})\.?\s+\d{{1,2}}(?:st|nd|rd|th)?\b|"
+        r"\b\d{1,2}[./-]\d{1,2}(?:[./-]\d{2,4})?\b|\b\d{4}-\d{2}-\d{2}\b|\b(?:today|tomorrow|day after tomorrow|"
+        r"next\s+(?:week|month|mon|tues|wednes|thurs|fri|satur|sun)(?:day)?)\b|\bin\s+\d+\s+(?:days?|weeks?)\b")
+EVENT = (r"hearings?|posting|posted|next\s+date|listed|adjourn\w*|deadline|due|appearance|appear|meeting|appointment|"
+         r"filing|mediation|arguments?|trial|judgment\s+(?:date|day)|reschedul\w*|postpone\w*|moved\s+to|shifted\s+to")
+# "hearing date is on 15th december 2026 for this case": an event and a date, said as a statement, not a question
+_STATED_DATE = re.compile(rf"\b(?:{EVENT})\b.{{0,80}}(?:{DATE})|(?:{DATE}).{{0,60}}\b(?:{EVENT})\b", re.I)
+_QUESTION = re.compile(r"^\s*(?:what|why|how|can|could|should|is|are|does|do|will|would|who|which)\b|\?\s*$", re.I)
+
 ROUTES: list[tuple[str, re.Pattern[str]]] = [
     # questions about dates are answered from the calendar, with no AI
     ("dates", re.compile(r"^\s*(?:when|what(?:'s| is| are)?|show(?: me)?|list|tell me)\b.{0,60}\b(?:hearings?|next\s+date|"
                          r"posting|dates?|deadlines?|calendar|schedule)\b(?!.*\b(?:on|for)\s+\d)", re.I)),
     ("schedule", re.compile(r"\b(remind(?:\s+me)?|reminder|schedule|add\s+(?:a\s+)?(?:hearing|date|deadline)|"
                             r"put\s+.*\bon\s+(?:my\s+)?calendar)\b", re.I)),
+    # "add it to calender", "mark this in my diary", "note it down in the calendar" (any spelling of calendar)
+    ("schedule", re.compile(rf"\b(?:{ACTION})\b.{{0,60}}\b(?:{CALENDAR})\b|\b(?:{CALENDAR})\b.{{0,30}}\b(?:{ACTION})\b",
+                            re.I)),
     ("draft", re.compile(r"^\s*(?:please\s+|can\s+you\s+|could\s+you\s+)?draft\b|"
                          rf"\b(draft|prepare|write|generate|make)\b.{{0,50}}\b{DOC_WORDS}", re.I)),
     ("verify", re.compile(r"\b(verify|validate|fact[- ]check|check\s+(?:these|this|the|my)\s+citations?|"
@@ -54,6 +71,8 @@ def route(text: str) -> str:
             return name
     if len(text) > 400 and len(find_citations(text)) >= 2:  # a pasted draft full of citations
         return "verify"
+    if len(text) < 300 and _STATED_DATE.search(text) and not _QUESTION.search(text):
+        return "schedule"
     return "answer"
 
 
@@ -303,7 +322,10 @@ async def ask(body: AskIn, user: AIUser, session: Session, background: Backgroun
             if intent == "dates":
                 out = tool_dates(conn, matter, user.firm_id)
             elif intent == "schedule":
-                out = asyncio.run(tool_schedule(conn, text, matter["id"]))  # type: ignore[index]
+                # "add it to calendar" after "the hearing is on 15 December": the date is in the earlier message
+                prev = next((m["content"] for m in reversed(msgs[:-1]) if m["role"] == "user"), "")
+                said = text if re.search(DATE, text, re.I) or not re.search(DATE, prev, re.I) else f"{prev}\n{text}"
+                out = asyncio.run(tool_schedule(conn, said, matter["id"]))  # type: ignore[index]
             elif intent == "draft":
                 out = tool_draft(conn, user, matter["id"], text, background)  # type: ignore[index]
             elif intent == "verify":
