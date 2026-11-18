@@ -59,7 +59,13 @@ async def main(size: str, png_width: int) -> None:
             print(size, json.dumps(fit))
             pdf = await cmd("Page.printToPDF", paperWidth=w_mm * MM_IN, paperHeight=h_mm * MM_IN, marginTop=0, marginBottom=0,
                             marginLeft=0, marginRight=0, printBackground=True, preferCSSPageSize=False, scale=1)
-            (HERE / f"DocketPilot_Poster_{size.upper()}.pdf").write_bytes(base64.b64decode(pdf["data"]))
+            out = HERE / f"DocketPilot_Poster_{size.upper()}.pdf"
+            try:
+                out.write_bytes(base64.b64decode(pdf["data"]))
+            except PermissionError:  # the PDF is open in a viewer: save beside it instead of failing
+                out = out.with_name(out.stem + " (new).pdf")
+                out.write_bytes(base64.b64decode(pdf["data"]))
+                print(f"PDF was open elsewhere; saved as {out.name}")
             scale = png_width / css_w
             await cmd("Emulation.setDeviceMetricsOverride", width=css_w, height=round(h_mm * MM_IN * 96), deviceScaleFactor=scale, mobile=False)
             await asyncio.sleep(1)
