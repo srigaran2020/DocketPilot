@@ -29,7 +29,7 @@ img.ic{display:block;object-fit:contain}
 .college b{display:block;color:#fff;font-size:1.55rem;font-weight:600}
 
 /* hero */
-header{background:var(--ox);position:relative;overflow:hidden;padding-top:2rem;padding-bottom:2.2rem;text-align:center}
+header{background:var(--ox);position:relative;overflow:hidden;padding-top:1.7rem;padding-bottom:1.9rem;text-align:center}
 header .wm{position:absolute;opacity:.09;filter:grayscale(.2)}
 header .wm.r{right:-3rem;top:-2rem;width:30rem}
 header .wm.l{left:-4rem;bottom:-6rem;width:24rem}
@@ -41,25 +41,25 @@ header .wm.l{left:-4rem;bottom:-6rem;width:24rem}
 .tag img{width:3.4rem;height:3.4rem}
 
 /* sections */
-main{flex:1;min-height:0;display:flex;flex-direction:column;gap:2rem;padding-top:2.2rem;padding-bottom:2.2rem}
-h2{font-family:var(--serif);font-weight:600;font-size:2.7rem;line-height:1.1;color:var(--ox);display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
+main{flex:1;min-height:0;display:flex;flex-direction:column;gap:1.8rem;padding-top:1.8rem;padding-bottom:1.8rem}
+h2{font-family:var(--serif);font-weight:600;font-size:2.7rem;line-height:1.1;color:var(--ox);display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
 h2 img{width:3.6rem;height:3.6rem}
 
 /* seven agents */
 .agents{display:grid;grid-template-columns:repeat(7,1fr);gap:1rem}
-.agent{background:var(--card);border:1px solid var(--line);border-radius:1.2rem;padding:1.1rem .9rem 1.1rem;text-align:center;position:relative;box-shadow:0 .25rem .8rem rgba(74,21,32,.06)}
+.agent{background:var(--card);border:1px solid var(--line);border-radius:1.2rem;padding:1rem .9rem 1rem;text-align:center;position:relative;box-shadow:0 .25rem .8rem rgba(74,21,32,.06)}
 .agent .n{position:absolute;top:.8rem;left:1rem;font-family:var(--serif);font-weight:600;font-size:1.25rem;color:var(--cham2)}
 .agent img{width:4.6rem;height:4.6rem;margin:0 auto .7rem}
 .agent b{display:block;font-size:1.45rem;color:var(--ink);margin-bottom:.45rem;line-height:1.2}
 .agent span{display:block;font-size:1.15rem;line-height:1.35;color:var(--soft)}
 .agent.v{background:var(--ox);border-color:var(--ox)}
 .agent.v b{color:#fff} .agent.v span{color:#F0DADF} .agent.v .n{color:var(--cham)}
-.flow{margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:1rem;font-size:1.5rem;font-weight:600;color:var(--ox)}
+.flow{margin-top:.8rem;display:flex;align-items:center;justify-content:center;gap:1rem;font-size:1.5rem;font-weight:600;color:var(--ox)}
 .flow img{width:3.4rem;height:3.4rem}
 
 /* features */
 .features{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
-.f{background:var(--card);border:1px solid var(--line);border-radius:1.2rem;padding:1.2rem 1.4rem 1.2rem;box-shadow:0 .25rem .8rem rgba(74,21,32,.06)}
+.f{background:var(--card);border:1px solid var(--line);border-radius:1.2rem;padding:1rem 1.4rem 1rem;box-shadow:0 .25rem .8rem rgba(74,21,32,.06)}
 .f img{width:4.2rem;height:4.2rem;margin-bottom:.6rem}
 .f b{display:block;font-size:1.6rem;color:var(--ink);margin-bottom:.45rem;line-height:1.2}
 .f span{display:block;font-size:1.25rem;line-height:1.4;color:var(--soft)}
@@ -70,7 +70,7 @@ h2 img{width:3.6rem;height:3.6rem}
 .charts{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
 .chart p{font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:.9rem;display:flex;gap:.7rem;align-items:center}
 .chart p img{width:2.6rem;height:2.6rem}
-.cols{display:flex;align-items:flex-end;gap:1.4rem;height:11.5rem;border-bottom:2px solid var(--line);padding:0 .8rem}
+.cols{display:flex;align-items:flex-end;gap:1.4rem;height:9.6rem;border-bottom:2px solid var(--line);padding:0 .8rem}
 .cols div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
 .cols em{font-style:normal;font-weight:700;font-size:1.5rem;color:var(--ink);margin-bottom:.4rem}
 .cols i{display:block;width:100%;border-radius:.4rem .4rem 0 0}
@@ -88,6 +88,19 @@ h2 img{width:3.6rem;height:3.6rem}
 .kb img{width:3.2rem;height:3.2rem;margin:0 auto .4rem}
 .kb b{display:block;font-family:var(--serif);font-size:2.1rem;color:var(--ox);line-height:1.1}
 .kb span{font-size:1.1rem;color:var(--soft)}
+
+/* results as a full-width dark band: light, dark, light */
+.band{margin:0 -4rem;padding:1.3rem 4rem 1.5rem;background:var(--oxd)}
+.band h2{color:#fff}
+.band .panel{background:rgba(255,255,255,.05);border-color:rgba(232,201,160,.28);box-shadow:none}
+.band .chart p{color:#fff}
+.band .cols{border-bottom-color:rgba(232,201,160,.35)}
+.band .cols em{color:#fff} .band .cols .d em{color:var(--cham)}
+.band .cols .a i{background:#7A6467} .band .cols .d i{background:var(--cham)}
+.band .xl span,.band .note{color:#D9C2C6}
+.band .fi{color:#E6D3D6} .band .fi b{color:var(--cham)}
+.band .kb div{background:rgba(255,255,255,.06);border-color:rgba(232,201,160,.28)}
+.band .kb b{color:#fff} .band .kb span{color:#D9C2C6}
 
 /* team: four equal columns across the full width */
 footer{background:var(--ox);padding-top:1.9rem;padding-bottom:2rem;display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
@@ -129,21 +142,7 @@ footer .sub{font-size:1.1rem;color:#F0DADF;margin-top:.3rem;line-height:1.3}
     <div class="flow"><img src="icons/judge.png" alt="">The lawyer approves before anything is final</div>
   </section>
 
-  <section>
-    <h2><img src="icons/building.png" alt="">What DocketPilot does</h2>
-    <div class="features">
-      <div class="f"><img class="ic" src="icons/shield.png" alt=""><b>No fake citations</b><span>Every case checked against the real judgment before you see it</span></div>
-      <div class="f"><img class="ic" src="icons/lock.png" alt=""><b>Client privacy</b><span>Names masked before the AI, real names kept in an encrypted vault</span></div>
-      <div class="f"><img class="ic" src="icons/speech.png" alt=""><b>Ask DocketPilot</b><span>Legal answers from Indian judgments and Acts</span></div>
-      <div class="f"><img class="ic" src="icons/memo.png" alt=""><b>Drafts any document</b><span>Petitions, notices, bail applications, ready as a Word file</span></div>
-      <div class="f"><img class="ic" src="icons/calendar.png" alt=""><b>Smart calendar</b><span>Hearing dates read straight from the case papers</span></div>
-      <div class="f"><img class="ic" src="icons/scroll.png" alt=""><b>Law as on any date</b><span>See a section exactly as it stood on the day it mattered</span></div>
-      <div class="f"><img class="ic" src="icons/refresh.png" alt=""><b>Weekly law updates</b><span>79 Central Acts refreshed from India Code every week</span></div>
-      <div class="f"><img class="ic" src="icons/cap.png" alt=""><b>AIBE exam prep</b><span>Practice, mock tests and speed drills from the bare Acts</span></div>
-    </div>
-  </section>
-
-  <section>
+  <section class="band">
     <h2><img src="icons/chart.png" alt="">Results</h2>
     <div class="results">
       <div class="panel">
@@ -176,6 +175,21 @@ footer .sub{font-size:1.1rem;color:#F0DADF;margin-top:.3rem;line-height:1.3}
       </div>
     </div>
   </section>
+
+  <section>
+    <h2><img src="icons/building.png" alt="">What DocketPilot does</h2>
+    <div class="features">
+      <div class="f"><img class="ic" src="icons/shield.png" alt=""><b>No fake citations</b><span>Every case checked against the real judgment before you see it</span></div>
+      <div class="f"><img class="ic" src="icons/lock.png" alt=""><b>Client privacy</b><span>Names masked before the AI, real names kept in an encrypted vault</span></div>
+      <div class="f"><img class="ic" src="icons/speech.png" alt=""><b>Ask DocketPilot</b><span>Legal answers from Indian judgments and Acts</span></div>
+      <div class="f"><img class="ic" src="icons/memo.png" alt=""><b>Drafts any document</b><span>Petitions, notices, bail applications, ready as a Word file</span></div>
+      <div class="f"><img class="ic" src="icons/calendar.png" alt=""><b>Smart calendar</b><span>Hearing dates read straight from the case papers</span></div>
+      <div class="f"><img class="ic" src="icons/scroll.png" alt=""><b>Law as on any date</b><span>See a section exactly as it stood on the day it mattered</span></div>
+      <div class="f"><img class="ic" src="icons/refresh.png" alt=""><b>Weekly law updates</b><span>79 Central Acts refreshed from India Code every week</span></div>
+      <div class="f"><img class="ic" src="icons/cap.png" alt=""><b>AIBE exam prep</b><span>Practice, mock tests and speed drills from the bare Acts</span></div>
+    </div>
+  </section>
+
 
 </main>
 
