@@ -13,7 +13,7 @@ import websockets
 
 HERE = Path(__file__).parent
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-SIZES = {"a0": (1189, 841), "a1": (841, 594)}  # mm, landscape
+SIZES = {"a1": (594, 841)}  # mm, A1 portrait
 MM_IN = 1 / 25.4
 
 

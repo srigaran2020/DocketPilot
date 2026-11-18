@@ -1,101 +1,101 @@
 <!doctype html>
-<html lang="en" class="a0">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>DocketPilot Poster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=block" rel="stylesheet">
 <style>
-/* Landscape. The app's palette on dark grounds: oxblood hero and footer, slate body, champagne accents.
-   1rem = 8.41 mm on A0 (page = 141.4 x 100 rem); A1 is the same layout scaled by 594/841. */
+/* A1 portrait. The app's oxblood and champagne with a beige ground. 1rem = 1% of the page width (5.94 mm). */
 :root{
   --ox:#4A1520; --ox2:#8C2A3C; --oxd:#2A0B12; --cham:#E8C9A0; --cham2:#C9A06A;
-  --slate:#1E2733; --slate2:#2A3442; --slate3:#364152; --line:#435066;
-  --txt:#EEF1F5; --soft:#B8C1CE;
+  --beige:#F1E7D6; --card:#FBF6EC; --card2:#F5ECDD; --line:#E1D2B9;
+  --ink:#2A1A1C; --soft:#5E5148;
   --mark:"Cinzel",Georgia,serif; --serif:"Fraunces",Georgia,serif; --sans:"Inter","Segoe UI",Arial,sans-serif;
-  --emoji:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;
 }
-html.a0{font-size:8.41mm} html.a1{font-size:8.41mm;zoom:.706302}
+html{font-size:5.94mm}
 @page{margin:0}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--slate);color:var(--txt);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.poster{width:141.39rem;height:100rem;overflow:hidden;display:flex;flex-direction:column;background:var(--slate)}
-.pad{padding-left:3.6rem;padding-right:3.6rem}
-.e{font-family:var(--emoji);font-style:normal}
+body{background:var(--beige);color:var(--ink);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.poster{width:100rem;height:141.39rem;overflow:hidden;display:flex;flex-direction:column;background:var(--beige)}
+.pad{padding-left:4rem;padding-right:4rem}
 .college,header,footer{flex-shrink:0}
+img.ic{display:block;object-fit:contain}
 
 /* college strip */
-.college{background:var(--oxd);display:flex;align-items:center;gap:1.4rem;padding-top:1rem;padding-bottom:1rem}
-.college img{width:4rem;height:4rem;border-radius:50%;background:#fff;padding:.15rem}
-.college p{font-size:1.15rem;line-height:1.35;color:#E9D9DC}
-.college b{display:block;color:#fff;font-size:1.35rem;font-weight:600}
+.college{background:var(--oxd);display:flex;align-items:center;gap:1.5rem;padding-top:1.3rem;padding-bottom:1.3rem}
+.college img{width:5rem;height:5rem;border-radius:50%;background:#fff;padding:.18rem}
+.college p{font-size:1.3rem;line-height:1.35;color:#E9D9DC}
+.college b{display:block;color:#fff;font-size:1.55rem;font-weight:600}
 
 /* hero */
 header{background:var(--ox);position:relative;overflow:hidden;padding-top:2rem;padding-bottom:2.2rem;text-align:center}
-header .bg{position:absolute;right:2rem;top:-4rem;font-size:24rem;line-height:1;opacity:.07;font-family:var(--emoji)}
-header .bg.l{left:1rem;right:auto;top:-2rem;font-size:20rem}
+header .wm{position:absolute;opacity:.09;filter:grayscale(.2)}
+header .wm.r{right:-3rem;top:-2rem;width:30rem}
+header .wm.l{left:-4rem;bottom:-6rem;width:24rem}
 .brand{display:inline-flex;align-items:center;gap:2.4rem;position:relative}
-.brand img{width:10rem;height:10rem;border-radius:50%;box-shadow:0 0 0 .35rem rgba(232,201,160,.55)}
-.brand h1{font-family:var(--mark);font-weight:700;font-size:9.4rem;line-height:1;letter-spacing:.03em;color:#fff}
-.caption{position:relative;margin:1.3rem auto 0;max-width:118rem;font-weight:600;font-size:1.55rem;line-height:1.45;letter-spacing:.12em;text-transform:uppercase;color:var(--cham);text-wrap:balance}
-.tag{position:relative;margin-top:.8rem;font-family:var(--serif);font-style:italic;font-size:2.2rem;color:#fff}
+.brand img{width:10.5rem;height:10.5rem;border-radius:50%;box-shadow:0 0 0 .4rem rgba(232,201,160,.6)}
+.brand h1{font-family:var(--mark);font-weight:700;font-size:9.6rem;line-height:1;letter-spacing:.03em;color:#fff}
+.caption{position:relative;margin:1.3rem auto 0;max-width:88rem;font-weight:600;font-size:1.75rem;line-height:1.45;letter-spacing:.11em;text-transform:uppercase;color:var(--cham);text-wrap:balance}
+.tag{position:relative;margin-top:.8rem;font-family:var(--serif);font-style:italic;font-size:2.6rem;color:#fff;display:inline-flex;align-items:center;gap:1rem}
+.tag img{width:3.4rem;height:3.4rem}
 
-/* three columns */
-main{flex:1;min-height:0;display:grid;grid-template-columns:40rem 1fr 41rem;gap:2.4rem;padding-top:2.2rem;padding-bottom:2.2rem}
-h2{font-family:var(--serif);font-weight:600;font-size:2.4rem;line-height:1.1;color:#fff;display:flex;align-items:center;gap:.9rem;margin-bottom:1.2rem}
-h2 .e{font-size:2.2rem}
-h2 small{font-family:var(--sans);font-weight:500;font-size:1.1rem;color:var(--soft);margin-left:auto}
-.col{display:flex;flex-direction:column;min-height:0}
+/* sections */
+main{flex:1;min-height:0;display:flex;flex-direction:column;gap:2rem;padding-top:2.2rem;padding-bottom:2.2rem}
+h2{font-family:var(--serif);font-weight:600;font-size:2.7rem;line-height:1.1;color:var(--ox);display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
+h2 img{width:3.6rem;height:3.6rem}
 
-/* seven agents: a numbered sequence */
-.agents{display:flex;flex-direction:column;gap:.75rem}
-.agent{display:grid;grid-template-columns:2rem 4.4rem 1fr;align-items:center;gap:.9rem;background:var(--slate2);border:1px solid var(--line);border-radius:1rem;padding:.85rem 1.2rem}
-.agent .n{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cham2);text-align:center}
-.agent .e{font-size:3rem;line-height:1;text-align:center}
-.agent b{display:block;font-size:1.4rem;color:#fff;line-height:1.2}
-.agent span.w{display:block;font-size:1.12rem;line-height:1.35;color:var(--soft)}
-.agent.v{background:var(--ox);border-color:var(--ox2)}
-.agent.v span.w{color:#F0DADF}
-.flow{margin-top:.9rem;display:flex;align-items:center;gap:.8rem;font-size:1.25rem;color:var(--cham)}
-.flow .e{font-size:2rem}
+/* seven agents */
+.agents{display:grid;grid-template-columns:repeat(7,1fr);gap:1rem}
+.agent{background:var(--card);border:1px solid var(--line);border-radius:1.2rem;padding:1.1rem .9rem 1.1rem;text-align:center;position:relative;box-shadow:0 .25rem .8rem rgba(74,21,32,.06)}
+.agent .n{position:absolute;top:.8rem;left:1rem;font-family:var(--serif);font-weight:600;font-size:1.25rem;color:var(--cham2)}
+.agent img{width:4.6rem;height:4.6rem;margin:0 auto .7rem}
+.agent b{display:block;font-size:1.45rem;color:var(--ink);margin-bottom:.45rem;line-height:1.2}
+.agent span{display:block;font-size:1.15rem;line-height:1.35;color:var(--soft)}
+.agent.v{background:var(--ox);border-color:var(--ox)}
+.agent.v b{color:#fff} .agent.v span{color:#F0DADF} .agent.v .n{color:var(--cham)}
+.flow{margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:1rem;font-size:1.5rem;font-weight:600;color:var(--ox)}
+.flow img{width:3.4rem;height:3.4rem}
 
 /* features */
-.features{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;flex:1}
-.f{background:var(--slate2);border:1px solid var(--line);border-radius:1rem;padding:1.3rem 1.4rem;display:grid;grid-template-columns:4.2rem 1fr;gap:1.1rem;align-items:start}
-.f .e{display:grid;place-items:center;width:4.2rem;height:4.2rem;border-radius:50%;background:var(--slate3);font-size:2.3rem}
-.f b{display:block;font-size:1.45rem;color:#fff;margin-bottom:.35rem;line-height:1.2}
-.f span.w{display:block;font-size:1.15rem;line-height:1.4;color:var(--soft)}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.f{background:var(--card);border:1px solid var(--line);border-radius:1.2rem;padding:1.2rem 1.4rem 1.2rem;box-shadow:0 .25rem .8rem rgba(74,21,32,.06)}
+.f img{width:4.2rem;height:4.2rem;margin-bottom:.6rem}
+.f b{display:block;font-size:1.6rem;color:var(--ink);margin-bottom:.45rem;line-height:1.2}
+.f span{display:block;font-size:1.25rem;line-height:1.4;color:var(--soft)}
 
 /* results */
-.panel{background:var(--slate2);border:1px solid var(--line);border-radius:1rem;padding:1.4rem 1.8rem}
-.charts{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}
-.chart p{font-size:1.25rem;font-weight:600;color:#fff;margin-bottom:.8rem;display:flex;gap:.6rem;align-items:center}
-.cols{display:flex;align-items:flex-end;gap:1.2rem;height:12rem;border-bottom:2px solid var(--line);padding:0 .6rem}
+.results{display:grid;grid-template-columns:1.15fr 1fr;gap:2rem}
+.panel{display:flex;flex-direction:column;justify-content:center;background:var(--card);border:1px solid var(--line);border-radius:1.2rem;padding:1.5rem 1.9rem;box-shadow:0 .25rem .8rem rgba(74,21,32,.06)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.chart p{font-size:1.4rem;font-weight:600;color:var(--ink);margin-bottom:.9rem;display:flex;gap:.7rem;align-items:center}
+.chart p img{width:2.6rem;height:2.6rem}
+.cols{display:flex;align-items:flex-end;gap:1.4rem;height:11.5rem;border-bottom:2px solid var(--line);padding:0 .8rem}
 .cols div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
-.cols em{font-style:normal;font-weight:700;font-size:1.35rem;color:#fff;margin-bottom:.4rem}
-.cols i{display:block;width:100%;border-radius:.35rem .35rem 0 0}
-.cols .a i{background:#6B7688} .cols .d i{background:var(--cham)}
-.cols .d em{color:var(--cham)}
-.xl{display:flex;gap:1.2rem;padding:.5rem .6rem 0}
-.xl span{flex:1;text-align:center;font-size:1rem;color:var(--soft);line-height:1.25}
-.note{font-size:1rem;color:var(--soft);margin-top:.9rem}
-.findings{margin-top:1.2rem;display:flex;flex-direction:column;gap:.75rem}
-.fi{display:grid;grid-template-columns:3rem 1fr;gap:.8rem;align-items:center;font-size:1.2rem;line-height:1.35;color:var(--soft)}
-.fi .e{font-size:2rem;text-align:center}
-.fi b{color:var(--cham);font-family:var(--serif);font-size:1.6rem;font-weight:600}
-.kb{margin-top:1.2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.kb div{background:var(--slate3);border-radius:.8rem;padding:.9rem 1rem;text-align:center}
-.kb .e{font-size:2rem;display:block;line-height:1;margin-bottom:.3rem}
-.kb b{display:block;font-family:var(--serif);font-size:1.9rem;color:#fff;line-height:1.1}
-.kb span{font-size:1rem;color:var(--soft)}
+.cols em{font-style:normal;font-weight:700;font-size:1.5rem;color:var(--ink);margin-bottom:.4rem}
+.cols i{display:block;width:100%;border-radius:.4rem .4rem 0 0}
+.cols .a i{background:#BBAE99} .cols .d i{background:var(--ox2)}
+.cols .d em{color:var(--ox2)}
+.xl{display:flex;gap:1.4rem;padding:.6rem .8rem 0}
+.xl span{flex:1;text-align:center;font-size:1.1rem;color:var(--soft);line-height:1.25}
+.note{font-size:1.1rem;color:var(--soft);margin-top:1.1rem}
+.findings{display:flex;flex-direction:column;gap:1rem;justify-content:center}
+.fi{display:grid;grid-template-columns:3.6rem 1fr;gap:1rem;align-items:center;font-size:1.35rem;line-height:1.35;color:var(--soft)}
+.fi img{width:3.4rem;height:3.4rem}
+.fi b{color:var(--ox2);font-family:var(--serif);font-size:1.85rem;font-weight:600}
+.kb{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:1.4rem}
+.kb div{background:var(--card2);border:1px solid var(--line);border-radius:1rem;padding:1rem;text-align:center}
+.kb img{width:3.2rem;height:3.2rem;margin:0 auto .4rem}
+.kb b{display:block;font-family:var(--serif);font-size:2.1rem;color:var(--ox);line-height:1.1}
+.kb span{font-size:1.1rem;color:var(--soft)}
 
-/* team */
-footer{background:var(--ox);padding-top:1.6rem;padding-bottom:1.7rem;display:flex;align-items:center;gap:5rem}
-footer .k{font-size:1.05rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cham);font-weight:600;margin-bottom:.5rem}
-footer .names{display:flex;gap:4.5rem;flex-wrap:wrap;font-size:1.65rem;font-weight:600;color:#fff}
-footer .guide{font-size:1.65rem;font-weight:600;color:#fff;line-height:1.3}
-footer .guide span{font-size:1.2rem;font-weight:400;color:#F0DADF;margin-left:.8rem}
-footer .sep{width:1px;align-self:stretch;background:rgba(232,201,160,.35)}
+/* team: four equal columns across the full width */
+footer{background:var(--ox);padding-top:1.9rem;padding-bottom:2rem;display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
+footer div{padding:0 .6rem;border-left:1px solid rgba(232,201,160,.3)}
+footer div:first-child{border-left:0}
+footer .k{font-size:1.1rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cham);font-weight:600;margin-bottom:.6rem}
+footer .nm{font-size:1.6rem;white-space:nowrap;font-weight:600;color:#fff;line-height:1.25}
+footer .sub{font-size:1.1rem;color:#F0DADF;margin-top:.3rem;line-height:1.3}
 </style>
 </head>
 <body>
@@ -103,89 +103,87 @@ footer .sep{width:1px;align-self:stretch;background:rgba(232,201,160,.35)}
 
 <div class="college pad">
   <img src="crest.png" alt="Vel Tech crest">
-  <p><b>Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala Engineering College</b>Department of Computer Science and Engineering (AI &amp; ML), Chennai</p>
+  <p><b>Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala Engineering College</b>Department of Computer Science and Engineering (Artificial Intelligence and Machine Learning), Chennai</p>
 </div>
 
 <header class="pad">
-  <div class="bg">⚖️</div><div class="bg l">📜</div>
+  <img class="wm r" src="icons/scale.png" alt=""><img class="wm l" src="icons/scroll.png" alt="">
   <div class="brand"><img src="dp.png" alt="DocketPilot logo"><h1>DocketPilot</h1></div>
   <p class="caption">An Agentic AI System for Indian Legal Research, Drafting, Anti-Hallucination Verification and Case Management</p>
-  <p class="tag"><span class="e">⚖️</span> verified line by line</p>
+  <p class="tag"><img src="icons/scale.png" alt="">verified line by line</p>
 </header>
 
 <main class="pad">
 
-  <section class="col">
-    <h2><span class="e">🤖</span> Seven AI agents <small>one legal team</small></h2>
+  <section>
+    <h2><img src="icons/robot.png" alt="">Seven AI agents, one legal team</h2>
     <div class="agents">
-      <div class="agent"><span class="n">1</span><span class="e">🧭</span><div><b>Orchestrator</b><span class="w">Plans the work for each request</span></div></div>
-      <div class="agent"><span class="n">2</span><span class="e">📄</span><div><b>Document Analysis</b><span class="w">Reads case papers, keeps only facts it can quote</span></div></div>
-      <div class="agent"><span class="n">3</span><span class="e">🔍</span><div><b>Research</b><span class="w">Finds the right Acts and judgments</span></div></div>
-      <div class="agent"><span class="n">4</span><span class="e">✍️</span><div><b>Drafting</b><span class="w">Writes the document, every point sourced</span></div></div>
-      <div class="agent v"><span class="n">5</span><span class="e">✅</span><div><b>Verification</b><span class="w">Checks every citation, fixes or removes it</span></div></div>
-      <div class="agent"><span class="n">6</span><span class="e">♟️</span><div><b>Strategy &amp; Risk</b><span class="w">Spots gaps and finds similar past cases</span></div></div>
-      <div class="agent"><span class="n">7</span><span class="e">⏰</span><div><b>Monitoring</b><span class="w">Tracks deadlines and reminders</span></div></div>
+      <div class="agent"><span class="n">1</span><img class="ic" src="icons/compass.png" alt=""><b>Orchestrator</b><span>Plans the work for each request</span></div>
+      <div class="agent"><span class="n">2</span><img class="ic" src="icons/page.png" alt=""><b>Document Analysis</b><span>Reads case papers, keeps only facts it can quote</span></div>
+      <div class="agent"><span class="n">3</span><img class="ic" src="icons/search.png" alt=""><b>Research</b><span>Finds the right Acts and judgments</span></div>
+      <div class="agent"><span class="n">4</span><img class="ic" src="icons/pen.png" alt=""><b>Drafting</b><span>Writes the document, every point sourced</span></div>
+      <div class="agent v"><span class="n">5</span><img class="ic" src="icons/check.png" alt=""><b>Verification</b><span>Checks every citation, fixes or removes it</span></div>
+      <div class="agent"><span class="n">6</span><img class="ic" src="icons/chess.png" alt=""><b>Strategy &amp; Risk</b><span>Spots gaps and finds similar past cases</span></div>
+      <div class="agent"><span class="n">7</span><img class="ic" src="icons/alarm.png" alt=""><b>Monitoring</b><span>Tracks deadlines and reminders</span></div>
     </div>
-    <div class="flow"><span class="e">🧑‍⚖️</span> The lawyer approves before anything is final</div>
+    <div class="flow"><img src="icons/judge.png" alt="">The lawyer approves before anything is final</div>
   </section>
 
-  <section class="col">
-    <h2><span class="e">🏛️</span> What DocketPilot does</h2>
+  <section>
+    <h2><img src="icons/building.png" alt="">What DocketPilot does</h2>
     <div class="features">
-      <div class="f"><span class="e">🛡️</span><div><b>No fake citations</b><span class="w">Every case checked against the real judgment before you see it</span></div></div>
-      <div class="f"><span class="e">🔒</span><div><b>Client privacy</b><span class="w">Names masked before the AI, real names kept in an encrypted vault</span></div></div>
-      <div class="f"><span class="e">💬</span><div><b>Ask DocketPilot</b><span class="w">Legal answers from Indian judgments and Acts</span></div></div>
-      <div class="f"><span class="e">📝</span><div><b>Drafts any document</b><span class="w">Petitions, notices, bail applications, ready as a Word file</span></div></div>
-      <div class="f"><span class="e">📅</span><div><b>Smart calendar</b><span class="w">Hearing dates read straight from the case papers</span></div></div>
-      <div class="f"><span class="e">📜</span><div><b>Law as on any date</b><span class="w">See a section exactly as it stood on the day it mattered</span></div></div>
-      <div class="f"><span class="e">🔄</span><div><b>Weekly law updates</b><span class="w">79 Central Acts refreshed from India Code every week</span></div></div>
-      <div class="f"><span class="e">🎓</span><div><b>AIBE exam prep</b><span class="w">Practice, mock tests and speed drills from the bare Acts</span></div></div>
+      <div class="f"><img class="ic" src="icons/shield.png" alt=""><b>No fake citations</b><span>Every case checked against the real judgment before you see it</span></div>
+      <div class="f"><img class="ic" src="icons/lock.png" alt=""><b>Client privacy</b><span>Names masked before the AI, real names kept in an encrypted vault</span></div>
+      <div class="f"><img class="ic" src="icons/speech.png" alt=""><b>Ask DocketPilot</b><span>Legal answers from Indian judgments and Acts</span></div>
+      <div class="f"><img class="ic" src="icons/memo.png" alt=""><b>Drafts any document</b><span>Petitions, notices, bail applications, ready as a Word file</span></div>
+      <div class="f"><img class="ic" src="icons/calendar.png" alt=""><b>Smart calendar</b><span>Hearing dates read straight from the case papers</span></div>
+      <div class="f"><img class="ic" src="icons/scroll.png" alt=""><b>Law as on any date</b><span>See a section exactly as it stood on the day it mattered</span></div>
+      <div class="f"><img class="ic" src="icons/refresh.png" alt=""><b>Weekly law updates</b><span>79 Central Acts refreshed from India Code every week</span></div>
+      <div class="f"><img class="ic" src="icons/cap.png" alt=""><b>AIBE exam prep</b><span>Practice, mock tests and speed drills from the bare Acts</span></div>
     </div>
   </section>
 
-  <section class="col">
-    <h2><span class="e">📊</span> Results</h2>
-    <div class="panel">
-      <div class="charts">
-        <div class="chart">
-          <p><span class="e">⚠️</span> Unreliable citations</p>
-          <div class="cols"><div class="a"><em>16.1%</em><i style="height:8.4rem"></i></div><div class="d"><em>0%</em><i style="height:.25rem"></i></div></div>
-          <div class="xl"><span>Model alone</span><span>With DocketPilot</span></div>
+  <section>
+    <h2><img src="icons/chart.png" alt="">Results</h2>
+    <div class="results">
+      <div class="panel">
+        <div class="charts">
+          <div class="chart">
+            <p><img class="ic" src="icons/warning.png" alt="">Unreliable citations</p>
+            <div class="cols"><div class="a"><em>16.1%</em><i style="height:8rem"></i></div><div class="d"><em>0%</em><i style="height:.3rem"></i></div></div>
+            <div class="xl"><span>Model alone</span><span>With DocketPilot</span></div>
+          </div>
+          <div class="chart">
+            <p><img class="ic" src="icons/money.png" alt="">Cost per answer</p>
+            <div class="cols"><div class="a"><em>$0.022</em><i style="height:8rem"></i></div><div class="d"><em>$0.003</em><i style="height:1.03rem"></i></div></div>
+            <div class="xl"><span>Model alone</span><span>With DocketPilot</span></div>
+          </div>
         </div>
-        <div class="chart">
-          <p><span class="e">💰</span> Cost per answer</p>
-          <div class="cols"><div class="a"><em>$0.022</em><i style="height:8.4rem"></i></div><div class="d"><em>$0.003</em><i style="height:1.08rem"></i></div></div>
-          <div class="xl"><span>Model alone</span><span>With DocketPilot</span></div>
+        <p class="note">Same AI model (gpt-oss-120b) in both, lower is better</p>
+      </div>
+      <div>
+        <div class="findings">
+          <div class="fi"><img class="ic" src="icons/target.png" alt=""><div><b>99.6%</b> of fake citations caught in a 912-citation test</div></div>
+          <div class="fi"><img class="ic" src="icons/search.png" alt=""><div><b>95.7%</b> of searches find the right judgment in the top 5</div></div>
+          <div class="fi"><img class="ic" src="icons/lock.png" alt=""><div><b>96.8%</b> of personal details masked automatically</div></div>
+          <div class="fi"><img class="ic" src="icons/bolt.png" alt=""><div><b>36%</b> faster at reading case papers</div></div>
+        </div>
+        <div class="kb">
+          <div><img class="ic" src="icons/scale.png" alt=""><b>22,767</b><span>judgments</span></div>
+          <div><img class="ic" src="icons/building.png" alt=""><b>79</b><span>Central Acts</span></div>
+          <div><img class="ic" src="icons/books.png" alt=""><b>5.8 lakh</b><span>passages</span></div>
         </div>
       </div>
-      <p class="note">Same AI model (gpt-oss-120b) in both, lower is better</p>
-    </div>
-    <div class="findings">
-      <div class="fi"><span class="e">🎯</span><div><b>99.6%</b> of fake citations caught in a 912-citation test</div></div>
-      <div class="fi"><span class="e">🔎</span><div><b>95.7%</b> of searches find the right judgment in the top 5</div></div>
-      <div class="fi"><span class="e">🔒</span><div><b>96.8%</b> of personal details masked automatically</div></div>
-      <div class="fi"><span class="e">⚡</span><div><b>36%</b> faster at reading case papers</div></div>
-      <div class="fi"><span class="e">🎓</span><div><b>1,685</b> exam questions checked, all correct</div></div>
-    </div>
-    <div class="kb">
-      <div><span class="e">⚖️</span><b>22,767</b><span>judgments</span></div>
-      <div><span class="e">🏛️</span><b>79</b><span>Central Acts</span></div>
-      <div><span class="e">🔎</span><b>5.8 lakh</b><span>passages</span></div>
     </div>
   </section>
 
 </main>
 
 <footer class="pad">
-  <div>
-    <p class="k"><span class="e">👥</span> Team</p>
-    <div class="names"><span>Srigaran N</span><span>Suryaprakash P</span><span>Selvaraj Vasanthakumar</span></div>
-  </div>
-  <div class="sep"></div>
-  <div>
-    <p class="k"><span class="e">🎓</span> Guide</p>
-    <p class="guide">Dr. R. Saravanan, M.E., Ph.D.<span>Professor, Department of CSE (AI &amp; ML)</span></p>
-  </div>
+  <div><p class="k">Team member</p><p class="nm">Srigaran N</p></div>
+  <div><p class="k">Team member</p><p class="nm">Suryaprakash P</p></div>
+  <div><p class="k">Team member</p><p class="nm">Selvaraj Vasanthakumar</p></div>
+  <div><p class="k">Project guide</p><p class="nm">Dr. R. Saravanan, M.E., Ph.D.</p><p class="sub">Professor</p></div>
 </footer>
 
 </div>
