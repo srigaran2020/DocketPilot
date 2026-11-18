@@ -4,264 +4,187 @@
 <meta charset="utf-8">
 <title>DocketPilot Poster</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=block" rel="stylesheet">
 <style>
-/* Same palette as the app: oxblood + champagne on white, slate type. 1rem = 1% of the page width, so A0 and A1 are one layout. */
+/* Landscape. The app's palette on dark grounds: oxblood hero and footer, slate body, champagne accents.
+   1rem = 8.41 mm on A0 (page = 141.4 x 100 rem); A1 is the same layout scaled by 594/841. */
 :root{
-  --ox:#4A1520; --ox2:#8C2A3C; --oxd:#2A0B12; --cham:#E8C9A0; --brass:#A07642;
-  --ink:#0F172A; --ink2:#334155; --mute:#5B6475; --line:#E3E5EA; --tint:#F7F8FA;
-  --ok:#167546; --warn:#8A5400; --bad:#B4231C;
-  --serif:"Fraunces",Georgia,serif; --sans:"Inter","Segoe UI",Arial,sans-serif; --mono:"JetBrains Mono",Consolas,monospace;
+  --ox:#4A1520; --ox2:#8C2A3C; --oxd:#2A0B12; --cham:#E8C9A0; --cham2:#C9A06A;
+  --slate:#1E2733; --slate2:#2A3442; --slate3:#364152; --line:#435066;
+  --txt:#EEF1F5; --soft:#B8C1CE;
+  --mark:"Cinzel",Georgia,serif; --serif:"Fraunces",Georgia,serif; --sans:"Inter","Segoe UI",Arial,sans-serif;
+  --emoji:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;
 }
-html.a0{font-size:8.41mm} html.a1{font-size:8.41mm;zoom:.706302} /* A1 = A0 at 594/841: identical layout */
+html.a0{font-size:8.41mm} html.a1{font-size:8.41mm;zoom:.706302}
 @page{margin:0}
-html.a0 @page{size:841mm 1189mm}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#fff;color:var(--ink);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.poster{width:100rem;height:141.39rem;overflow:hidden;display:flex;flex-direction:column;background:#fff}
-.pad{padding-left:3.4rem;padding-right:3.4rem}
+body{background:var(--slate);color:var(--txt);font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.poster{width:141.39rem;height:100rem;overflow:hidden;display:flex;flex-direction:column;background:var(--slate)}
+.pad{padding-left:3.6rem;padding-right:3.6rem}
+.e{font-family:var(--emoji);font-style:normal}
+.college,header,footer{flex-shrink:0}
 
-/* header */
-header{background:var(--ox);color:#fff;position:relative;padding-top:2rem;padding-bottom:1.7rem}
-.inst{display:flex;align-items:center;gap:1.3rem;margin-bottom:1.2rem}
-.inst img{width:4rem;height:4rem;border-radius:50%;background:#fff;padding:.18rem}
-.inst p{font-size:.92rem;line-height:1.35;color:#E9D9DC;font-weight:500}
-.inst b{color:#fff;font-weight:600;font-size:1.05rem;letter-spacing:.01em}
-.inst .dp{margin-left:auto;display:flex;align-items:center;gap:.8rem}
-.inst .dp img{width:3.8rem;height:3.8rem;padding:0;background:none}
-.inst .dp span{font-family:var(--serif);font-weight:700;font-size:1.7rem;letter-spacing:.06em;color:#fff}
-h1{font-family:var(--serif);font-weight:600;font-size:3.25rem;line-height:1.08;letter-spacing:-.012em;max-width:88rem}
-h1 .name{color:var(--cham)}
-.sub{display:flex;align-items:flex-end;gap:2rem;margin-top:.8rem}
-.sub em{font-family:var(--serif);font-style:italic;font-weight:400;font-size:2.3rem;color:var(--cham)}
-.sub p{font-size:1.02rem;color:#E9D9DC;line-height:1.45}
-.people{margin-left:auto;display:flex;gap:2.4rem;font-size:.95rem;color:#fff;text-align:left}
-.people span{color:var(--cham);font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:.25rem}
+/* college strip */
+.college{background:var(--oxd);display:flex;align-items:center;gap:1.4rem;padding-top:1rem;padding-bottom:1rem}
+.college img{width:4rem;height:4rem;border-radius:50%;background:#fff;padding:.15rem}
+.college p{font-size:1.15rem;line-height:1.35;color:#E9D9DC}
+.college b{display:block;color:#fff;font-size:1.35rem;font-weight:600}
 
-/* thesis */
-.thesis{display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:center;padding-top:1.7rem;padding-bottom:1.6rem;border-bottom:1px solid var(--line)}
-.big{font-family:var(--serif);font-weight:700;font-size:6.4rem;line-height:.9;color:var(--ox2);letter-spacing:-.02em;white-space:nowrap}
-.big small{font-size:3.2rem;color:var(--mute);font-weight:400;margin:0 .6rem;position:relative;top:-.45em}
-.thesis h2{font-family:var(--serif);font-weight:600;font-size:1.75rem;line-height:1.2;margin-bottom:.5rem}
-.thesis p{font-size:1.08rem;line-height:1.5;color:var(--ink2);max-width:52rem}
-.kpis{display:flex;gap:0;margin-top:.9rem}
-.kpis div{padding-right:2rem;margin-right:2rem;border-right:1px solid var(--line)}
-.kpis div:last-child{border:0}
-.kpis b{display:block;font-family:var(--serif);font-size:2.25rem;color:var(--ox);line-height:1}
-.kpis span{font-size:.84rem;color:var(--mute)}
+/* hero */
+header{background:var(--ox);position:relative;overflow:hidden;padding-top:2rem;padding-bottom:2.2rem;text-align:center}
+header .bg{position:absolute;right:2rem;top:-4rem;font-size:24rem;line-height:1;opacity:.07;font-family:var(--emoji)}
+header .bg.l{left:1rem;right:auto;top:-2rem;font-size:20rem}
+.brand{display:inline-flex;align-items:center;gap:2.4rem;position:relative}
+.brand img{width:10rem;height:10rem;border-radius:50%;box-shadow:0 0 0 .35rem rgba(232,201,160,.55)}
+.brand h1{font-family:var(--mark);font-weight:700;font-size:9.4rem;line-height:1;letter-spacing:.03em;color:#fff}
+.caption{position:relative;margin:1.3rem auto 0;max-width:118rem;font-weight:600;font-size:1.55rem;line-height:1.45;letter-spacing:.12em;text-transform:uppercase;color:var(--cham);text-wrap:balance}
+.tag{position:relative;margin-top:.8rem;font-family:var(--serif);font-style:italic;font-size:2.2rem;color:#fff}
 
-/* sections */
-main{flex:1;display:flex;flex-direction:column;gap:1.45rem;padding-top:1.45rem}
-h3{font-family:var(--serif);font-weight:600;font-size:1.6rem;line-height:1.15;margin-bottom:.7rem;color:var(--ink)}
-.kick{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ox2);margin-bottom:.35rem;font-weight:600}
-p.body,li{font-size:.98rem;line-height:1.45;color:var(--ink2)}
-ul{list-style:none} ul li{padding-left:1.1rem;position:relative;margin-bottom:.45rem}
-ul li::before{content:"";position:absolute;left:0;top:.62em;width:.42rem;height:.42rem;border-radius:50%;background:var(--ox2)}
-b.t{color:var(--ink);font-weight:600}
+/* three columns */
+main{flex:1;min-height:0;display:grid;grid-template-columns:40rem 1fr 41rem;gap:2.4rem;padding-top:2.2rem;padding-bottom:2.2rem}
+h2{font-family:var(--serif);font-weight:600;font-size:2.4rem;line-height:1.1;color:#fff;display:flex;align-items:center;gap:.9rem;margin-bottom:1.2rem}
+h2 .e{font-size:2.2rem}
+h2 small{font-family:var(--sans);font-weight:500;font-size:1.1rem;color:var(--soft);margin-left:auto}
+.col{display:flex;flex-direction:column;min-height:0}
 
-.row1{display:grid;grid-template-columns:51rem 1fr;gap:2.6rem}
-.fig{border:1px solid var(--line);border-radius:.6rem;overflow:hidden;background:#fff}
-.fig img{display:block;width:100%;aspect-ratio:3840/1990;object-fit:cover;object-position:top}
-.cap{font-size:.78rem;color:var(--mute);margin-top:.45rem;line-height:1.4}
-.checks{display:flex;flex-direction:column;gap:1.35rem;margin-top:.4rem}
-.check{display:grid;grid-template-columns:2.6rem 1fr;gap:.8rem;align-items:start}
-.check i{font-style:normal;width:2.6rem;height:2.6rem;border-radius:50%;background:var(--ox);color:var(--cham);display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:1.15rem}
-.check b{display:block;font-size:1.15rem;color:var(--ink);margin-bottom:.1rem}
-.check span{font-size:1rem;color:var(--mute);line-height:1.4;display:block}
-.out{display:flex;gap:.6rem;margin-top:1.4rem;flex-wrap:wrap}
-.out span{font-size:.86rem;font-weight:600;padding:.3rem .8rem;border-radius:2rem;border:1.5px solid}
-.v{color:var(--ok);border-color:var(--ok)} .c{color:var(--warn);border-color:var(--warn)} .r{color:var(--bad);border-color:var(--bad)}
+/* seven agents: a numbered sequence */
+.agents{display:flex;flex-direction:column;gap:.75rem}
+.agent{display:grid;grid-template-columns:2rem 4.4rem 1fr;align-items:center;gap:.9rem;background:var(--slate2);border:1px solid var(--line);border-radius:1rem;padding:.85rem 1.2rem}
+.agent .n{font-family:var(--serif);font-weight:600;font-size:1.4rem;color:var(--cham2);text-align:center}
+.agent .e{font-size:3rem;line-height:1;text-align:center}
+.agent b{display:block;font-size:1.4rem;color:#fff;line-height:1.2}
+.agent span.w{display:block;font-size:1.12rem;line-height:1.35;color:var(--soft)}
+.agent.v{background:var(--ox);border-color:var(--ox2)}
+.agent.v span.w{color:#F0DADF}
+.flow{margin-top:.9rem;display:flex;align-items:center;gap:.8rem;font-size:1.25rem;color:var(--cham)}
+.flow .e{font-size:2rem}
 
-.row2{display:grid;grid-template-columns:repeat(3,1fr);gap:2.6rem}
-svg text{font-family:var(--sans)}
-.legal{background:repeating-linear-gradient(180deg,#fff 0,#fff 1.45rem,#E8EAEE 1.45rem,#E8EAEE calc(1.45rem + 1px));border:1px solid var(--line);border-radius:.5rem;position:relative;padding:.35rem 1rem .5rem 2.6rem;font-family:var(--serif);font-size:.92rem;line-height:1.45rem;color:var(--ink)}
-.legal::before{content:"";position:absolute;left:1.7rem;top:0;bottom:0;width:2px;background:rgba(140,42,60,.45)}
-.ph{font-family:var(--mono);font-size:.82rem;background:#F6EEDF;color:#7A5628;padding:0 .3rem;border-radius:.2rem}
-.arrow{display:flex;align-items:center;gap:.6rem;margin:.45rem 0;font-size:.86rem;color:var(--mute)}
-.arrow::before{content:"";flex:0 0 2.2rem;height:2px;background:var(--ox2)}
+/* features */
+.features{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;flex:1}
+.f{background:var(--slate2);border:1px solid var(--line);border-radius:1rem;padding:1.3rem 1.4rem;display:grid;grid-template-columns:4.2rem 1fr;gap:1.1rem;align-items:start}
+.f .e{display:grid;place-items:center;width:4.2rem;height:4.2rem;border-radius:50%;background:var(--slate3);font-size:2.3rem}
+.f b{display:block;font-size:1.45rem;color:#fff;margin-bottom:.35rem;line-height:1.2}
+.f span.w{display:block;font-size:1.15rem;line-height:1.4;color:var(--soft)}
 
-.row3 .shots{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-.shot img{display:block;width:100%;aspect-ratio:16/9.2;object-fit:cover;object-position:top left;border:1px solid var(--line);border-radius:.45rem}
-.shot p{font-size:.88rem;line-height:1.35;color:var(--ink2);margin-top:.4rem}
-.shot b{color:var(--ink)}
+/* results */
+.panel{background:var(--slate2);border:1px solid var(--line);border-radius:1rem;padding:1.4rem 1.8rem}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}
+.chart p{font-size:1.25rem;font-weight:600;color:#fff;margin-bottom:.8rem;display:flex;gap:.6rem;align-items:center}
+.cols{display:flex;align-items:flex-end;gap:1.2rem;height:12rem;border-bottom:2px solid var(--line);padding:0 .6rem}
+.cols div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.cols em{font-style:normal;font-weight:700;font-size:1.35rem;color:#fff;margin-bottom:.4rem}
+.cols i{display:block;width:100%;border-radius:.35rem .35rem 0 0}
+.cols .a i{background:#6B7688} .cols .d i{background:var(--cham)}
+.cols .d em{color:var(--cham)}
+.xl{display:flex;gap:1.2rem;padding:.5rem .6rem 0}
+.xl span{flex:1;text-align:center;font-size:1rem;color:var(--soft);line-height:1.25}
+.note{font-size:1rem;color:var(--soft);margin-top:.9rem}
+.findings{margin-top:1.2rem;display:flex;flex-direction:column;gap:.75rem}
+.fi{display:grid;grid-template-columns:3rem 1fr;gap:.8rem;align-items:center;font-size:1.2rem;line-height:1.35;color:var(--soft)}
+.fi .e{font-size:2rem;text-align:center}
+.fi b{color:var(--cham);font-family:var(--serif);font-size:1.6rem;font-weight:600}
+.kb{margin-top:1.2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.kb div{background:var(--slate3);border-radius:.8rem;padding:.9rem 1rem;text-align:center}
+.kb .e{font-size:2rem;display:block;line-height:1;margin-bottom:.3rem}
+.kb b{display:block;font-family:var(--serif);font-size:1.9rem;color:#fff;line-height:1.1}
+.kb span{font-size:1rem;color:var(--soft)}
 
-.row4{display:grid;grid-template-columns:1fr 1.15fr;gap:3rem}
-.nums{display:grid;grid-template-columns:repeat(4,auto);gap:.9rem 1.5rem}
-.nums b{display:block;font-family:var(--serif);font-size:1.9rem;color:var(--ox);line-height:1}
-.nums span{font-size:.84rem;color:var(--mute);line-height:1.35;display:block;margin-top:.15rem}
-.feat{display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1.6rem}
-.feat b{display:block;font-size:1rem;color:var(--ink);margin-bottom:.15rem}
-.feat span{font-size:.88rem;color:var(--mute);line-height:1.4;display:block}
-.stack{display:flex;flex-wrap:wrap;gap:.5rem}
-.stack span{font-size:.86rem;padding:.3rem .7rem;border-radius:.35rem;background:var(--tint);border:1px solid var(--line);color:var(--ink2)}
-.stack span.k{background:var(--ox);color:#fff;border-color:var(--ox)}
-
-footer{background:var(--oxd);color:#E9D9DC;margin-top:1.45rem;padding-top:1.3rem;padding-bottom:1.3rem;display:grid;grid-template-columns:1.25fr 1fr;gap:3rem}
-footer h4{font-family:var(--serif);font-weight:600;font-size:1.35rem;color:var(--cham);margin-bottom:.35rem}
-footer p{font-size:.9rem;line-height:1.45}
-footer .stackline{margin-top:.6rem;font-size:.82rem;color:#C9AEB2}
-footer .stackline b{color:var(--cham);font-weight:600}
-footer ol{font-size:.8rem;line-height:1.45;padding-left:1.2rem;color:#E9D9DC}
-footer ol li{color:#E9D9DC;font-size:.8rem;line-height:1.45;margin-bottom:.15rem}
+/* team */
+footer{background:var(--ox);padding-top:1.6rem;padding-bottom:1.7rem;display:flex;align-items:center;gap:5rem}
+footer .k{font-size:1.05rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cham);font-weight:600;margin-bottom:.5rem}
+footer .names{display:flex;gap:4.5rem;flex-wrap:wrap;font-size:1.65rem;font-weight:600;color:#fff}
+footer .guide{font-size:1.65rem;font-weight:600;color:#fff;line-height:1.3}
+footer .guide span{font-size:1.2rem;font-weight:400;color:#F0DADF;margin-left:.8rem}
+footer .sep{width:1px;align-self:stretch;background:rgba(232,201,160,.35)}
 </style>
 </head>
 <body>
 <div class="poster">
 
-<header class="pad">
-  <div class="inst">
-    <img src="crest.png" alt="Vel Tech crest">
-    <p><b>Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala Engineering College</b><br>Department of Computer Science and Engineering (Artificial Intelligence &amp; Machine Learning) · Chennai</p>
-    <div class="dp"><img src="dp.png" alt=""><span>DOCKETPILOT</span></div>
-  </div>
-  <h1><span class="name">DocketPilot:</span> An Agentic AI System for Indian Legal Research, Drafting, Anti-Hallucination Verification and Case Management</h1>
-  <div class="sub"><em>verified line by line.</em>
-    <div class="people">
-      <div><span>Team</span>Srigaran N · Suryaprakash P · Selvaraj Vasanthakumar</div>
-      <div><span>Guide</span>Dr. R. Saravanan, M.E., Ph.D., Professor</div>
-    </div>
-  </div>
-</header>
+<div class="college pad">
+  <img src="crest.png" alt="Vel Tech crest">
+  <p><b>Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala Engineering College</b>Department of Computer Science and Engineering (AI &amp; ML), Chennai</p>
+</div>
 
-<section class="thesis pad">
-  <div class="big">16.1%<small>→</small>0%</div>
-  <div>
-    <h2>AI models cite judgments that do not exist, or that say something else. With the same model, DocketPilot's checks cut unreliable citations to zero.</h2>
-    <div class="kpis">
-      <div><b>99.6%</b><span>corrupted citations caught</span></div>
-      <div><b>95.7%</b><span>right judgment in top 5</span></div>
-      <div><b>87.2%</b><span>lower cost per answer</span></div>
-      <div><b>96.8%</b><span>personal identifiers masked</span></div>
-    </div>
-  </div>
-</section>
+<header class="pad">
+  <div class="bg">⚖️</div><div class="bg l">📜</div>
+  <div class="brand"><img src="dp.png" alt="DocketPilot logo"><h1>DocketPilot</h1></div>
+  <p class="caption">An Agentic AI System for Indian Legal Research, Drafting, Anti-Hallucination Verification and Case Management</p>
+  <p class="tag"><span class="e">⚖️</span> verified line by line</p>
+</header>
 
 <main class="pad">
 
-  <div class="row1">
-    <div>
-      <div class="kick">Architecture</div>
-      <h3>Seven agents, one rule: nothing unverified reaches the lawyer</h3>
-      <div class="fig"><img src="diagram.png" alt="DocketPilot workflow diagram across five lanes"></div>
-      <p class="cap">LangGraph runs the agents as a stateful graph that checkpoints every step and pauses for the lawyer's approval. Names are masked before any model call; real names return only in the approved Word file.</p>
+  <section class="col">
+    <h2><span class="e">🤖</span> Seven AI agents <small>one legal team</small></h2>
+    <div class="agents">
+      <div class="agent"><span class="n">1</span><span class="e">🧭</span><div><b>Orchestrator</b><span class="w">Plans the work for each request</span></div></div>
+      <div class="agent"><span class="n">2</span><span class="e">📄</span><div><b>Document Analysis</b><span class="w">Reads case papers, keeps only facts it can quote</span></div></div>
+      <div class="agent"><span class="n">3</span><span class="e">🔍</span><div><b>Research</b><span class="w">Finds the right Acts and judgments</span></div></div>
+      <div class="agent"><span class="n">4</span><span class="e">✍️</span><div><b>Drafting</b><span class="w">Writes the document, every point sourced</span></div></div>
+      <div class="agent v"><span class="n">5</span><span class="e">✅</span><div><b>Verification</b><span class="w">Checks every citation, fixes or removes it</span></div></div>
+      <div class="agent"><span class="n">6</span><span class="e">♟️</span><div><b>Strategy &amp; Risk</b><span class="w">Spots gaps and finds similar past cases</span></div></div>
+      <div class="agent"><span class="n">7</span><span class="e">⏰</span><div><b>Monitoring</b><span class="w">Tracks deadlines and reminders</span></div></div>
     </div>
-    <div>
-      <div class="kick">Anti-hallucination</div>
-      <h3>Every citation, four checks</h3>
-      <div class="checks">
-        <div class="check"><i>1</i><div><b>The case exists</b><span>Matched against 52,166 Supreme Court and High Court case records.</span></div></div>
-        <div class="check"><i>2</i><div><b>The quote is real</b><span>Quoted words must appear in the judgment text itself.</span></div></div>
-        <div class="check"><i>3</i><div><b>The judgment supports the claim</b><span>An AI judge decides, and must quote the supporting passage; no quote, no pass.</span></div></div>
-        <div class="check"><i>4</i><div><b>The law was in force that day</b><span>Sections are read as they stood on the relevant date, from India Code.</span></div></div>
+    <div class="flow"><span class="e">🧑‍⚖️</span> The lawyer approves before anything is final</div>
+  </section>
+
+  <section class="col">
+    <h2><span class="e">🏛️</span> What DocketPilot does</h2>
+    <div class="features">
+      <div class="f"><span class="e">🛡️</span><div><b>No fake citations</b><span class="w">Every case checked against the real judgment before you see it</span></div></div>
+      <div class="f"><span class="e">🔒</span><div><b>Client privacy</b><span class="w">Names masked before the AI, real names kept in an encrypted vault</span></div></div>
+      <div class="f"><span class="e">💬</span><div><b>Ask DocketPilot</b><span class="w">Legal answers from Indian judgments and Acts</span></div></div>
+      <div class="f"><span class="e">📝</span><div><b>Drafts any document</b><span class="w">Petitions, notices, bail applications, ready as a Word file</span></div></div>
+      <div class="f"><span class="e">📅</span><div><b>Smart calendar</b><span class="w">Hearing dates read straight from the case papers</span></div></div>
+      <div class="f"><span class="e">📜</span><div><b>Law as on any date</b><span class="w">See a section exactly as it stood on the day it mattered</span></div></div>
+      <div class="f"><span class="e">🔄</span><div><b>Weekly law updates</b><span class="w">79 Central Acts refreshed from India Code every week</span></div></div>
+      <div class="f"><span class="e">🎓</span><div><b>AIBE exam prep</b><span class="w">Practice, mock tests and speed drills from the bare Acts</span></div></div>
+    </div>
+  </section>
+
+  <section class="col">
+    <h2><span class="e">📊</span> Results</h2>
+    <div class="panel">
+      <div class="charts">
+        <div class="chart">
+          <p><span class="e">⚠️</span> Unreliable citations</p>
+          <div class="cols"><div class="a"><em>16.1%</em><i style="height:8.4rem"></i></div><div class="d"><em>0%</em><i style="height:.25rem"></i></div></div>
+          <div class="xl"><span>Model alone</span><span>With DocketPilot</span></div>
+        </div>
+        <div class="chart">
+          <p><span class="e">💰</span> Cost per answer</p>
+          <div class="cols"><div class="a"><em>$0.022</em><i style="height:8.4rem"></i></div><div class="d"><em>$0.003</em><i style="height:1.08rem"></i></div></div>
+          <div class="xl"><span>Model alone</span><span>With DocketPilot</span></div>
+        </div>
       </div>
-      <div class="out"><span class="v">✓ verified</span><span class="c">↻ corrected</span><span class="r">✕ removed</span></div>
-      <p class="cap" style="margin-top:.7rem">A wrong citation to a real case is replaced with the correct one; an invented or unsupported one is removed with the sentence that relied on it.</p>
+      <p class="note">Same AI model (gpt-oss-120b) in both, lower is better</p>
     </div>
-  </div>
-
-  <div class="row2">
-    <div>
-      <div class="kick">Ablation · 8 questions, same model</div>
-      <h3>Every layer is needed</h3>
-      <svg viewBox="0 0 300 168" width="100%" role="img" aria-label="Unreliable citations by pipeline stage">
-        <g font-size="9" fill="#334155">
-          <text x="0" y="14">A · Model answers from memory</text>
-          <rect x="0" y="19" width="62.1" height="13" fill="#8C2A3C"/><rect x="62.1" y="19" width="26.6" height="13" fill="#C9A06A"/><text x="93" y="29.5" font-weight="600">16.1%</text>
-          <text x="0" y="52">B · + retrieved judgments</text>
-          <rect x="0" y="57" width="42.3" height="13" fill="#8C2A3C"/><rect x="42.3" y="57" width="84.6" height="13" fill="#C9A06A"/><text x="131" y="67.5" font-weight="600">23.1%</text>
-          <text x="0" y="90">C · + source tag on every statement</text>
-          <rect x="0" y="95" width="213.9" height="13" fill="#C9A06A"/><text x="218" y="105.5" font-weight="600">38.9%</text>
-          <text x="0" y="128">D · + verification and auto-correction</text>
-          <rect x="0" y="133" width="1.5" height="13" fill="#167546"/><text x="6" y="143.5" font-weight="700" fill="#167546">0%</text>
-        </g>
-        <g font-size="7.5" fill="#5B6475"><rect x="0" y="157" width="8" height="7" fill="#8C2A3C"/><text x="11" y="163.5">fabricated case</text><rect x="72" y="157" width="8" height="7" fill="#C9A06A"/><text x="83" y="163.5">real case, does not support the claim</text></g>
-      </svg>
-      <p class="body" style="margin-top:.6rem">Giving the model real sources <b class="t">raised</b> misattribution: it attaches true cases to claims they do not make. Only checking after generation removed both failures.</p>
+    <div class="findings">
+      <div class="fi"><span class="e">🎯</span><div><b>99.6%</b> of fake citations caught in a 912-citation test</div></div>
+      <div class="fi"><span class="e">🔎</span><div><b>95.7%</b> of searches find the right judgment in the top 5</div></div>
+      <div class="fi"><span class="e">🔒</span><div><b>96.8%</b> of personal details masked automatically</div></div>
+      <div class="fi"><span class="e">⚡</span><div><b>36%</b> faster at reading case papers</div></div>
+      <div class="fi"><span class="e">🎓</span><div><b>1,685</b> exam questions checked, all correct</div></div>
     </div>
-
-    <div>
-      <div class="kick">Retrieval · 93 headnote-to-judgment queries</div>
-      <h3>Hybrid search finds the right judgment</h3>
-      <svg viewBox="0 0 300 92" width="100%" role="img" aria-label="Recall at 5 by retrieval method">
-        <g font-size="9" fill="#334155">
-          <text x="0" y="11">Keyword search</text><rect x="0" y="15" width="231.5" height="12" fill="#D9C3C7"/><text x="236" y="24.5" font-weight="600">88.2%</text>
-          <text x="0" y="42">+ meaning vectors, fused (RRF)</text><rect x="0" y="46" width="245.4" height="12" fill="#B0697A"/><text x="250" y="55.5" font-weight="600">93.5%</text>
-          <text x="0" y="73">+ cross-encoder re-ranking</text><rect x="0" y="77" width="251.2" height="12" fill="#8C2A3C"/><text x="256" y="86.5" font-weight="700">95.7%</text>
-        </g>
-      </svg>
-      <p class="cap">Recall@5, bars drawn on a 0–100% scale.</p>
-      <div class="kick" style="margin-top:1.1rem">Cost per verified answer · gpt-oss-120b on Groq</div>
-      <svg viewBox="0 0 300 62" width="100%" role="img" aria-label="Cost per answer comparison">
-        <g font-size="9" fill="#334155">
-          <text x="0" y="11">Same model reading full judgments</text><rect x="0" y="15" width="230" height="12" fill="#D9C3C7"/><text x="235" y="24.5" font-weight="600">$0.02215</text>
-          <text x="0" y="42">DocketPilot, incl. every verification call</text><rect x="0" y="46" width="29.6" height="12" fill="#8C2A3C"/><text x="34" y="55.5" font-weight="700">$0.00285 · 87.2% less</text>
-        </g>
-      </svg>
+    <div class="kb">
+      <div><span class="e">⚖️</span><b>22,767</b><span>judgments</span></div>
+      <div><span class="e">🏛️</span><b>79</b><span>Central Acts</span></div>
+      <div><span class="e">🔎</span><b>5.8 lakh</b><span>passages</span></div>
     </div>
-
-    <div>
-      <div class="kick">Privacy by design</div>
-      <h3>The AI never sees a client's name</h3>
-      <div class="legal">PETITIONER: Mrs. Kavitha Raman<br>RESPONDENT: Mr. Arun Prakash<br>Married on 14-02-2019 at Chennai.</div>
-      <div class="arrow">masked on the laptop, reviewed by the lawyer</div>
-      <div class="legal">PETITIONER: Mrs. <span class="ph">PERSON_1</span><br>RESPONDENT: Mr. <span class="ph">PERSON_2</span><br>Married on 14-02-2019 at <span class="ph">ORG_1</span>.</div>
-      <ul style="margin-top:1rem">
-        <li>Names, Aadhaar, PAN, phones and addresses masked by rules and spaCy NER; real names kept in an encrypted vault.</li>
-        <li>Plus security headers, upload checks and an append-only audit log.</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="row3">
-    <div class="kick">The working system</div>
-    <h3>From a legal question to a signed-off draft</h3>
-    <div class="shots">
-      <div class="shot"><img src="s3_verified_answer.png" alt="Verified answer screen"><p><b>Ask.</b> Answers drawn from judgments and Acts, citations underlined and checked.</p></div>
-      <div class="shot"><img src="s6_draft_verification.png" alt="Draft review screen"><p><b>Draft.</b> Any legal document, with real names and the lawyer's sign-off.</p></div>
-      <div class="shot"><img src="s4_calendar.png" alt="Calendar screen"><p><b>Track.</b> Hearing dates read from the papers go straight to the calendar.</p></div>
-      <div class="shot"><img src="s11_exam_practice.png" alt="Exam prep screen"><p><b>Learn.</b> AIBE practice built from the bare Acts, with no AI call.</p></div>
-    </div>
-  </div>
-
-  <div class="row4">
-    <div>
-      <div class="kick">Knowledge base</div>
-      <h3>Built from public, official sources</h3>
-      <div class="nums">
-        <div><b>22,767</b><span>full judgments, Supreme Court and five High Court benches</span></div>
-        <div><b>79</b><span>Central Acts, 8,532 sections, from India Code</span></div>
-        <div><b>583,931</b><span>searchable passages</span></div>
-        <div><b>Weekly</b><span>Acts re-fetched; old wording kept as history</span></div>
-      </div>
-      <p class="cap" style="margin-top:.8rem">Judgments: AWS Open Data Registry (CC-BY-4.0), from the eCourts portal. Acts: India Code.</p>
-    </div>
-    <div>
-      <div class="kick">Beyond research</div>
-      <h3>What a practice needs every day</h3>
-      <div class="feat">
-        <div><b>Section as on a date</b><span>NI Act s.143A in 2017: "not yet in force" (inserted 01-09-2018).</span></div>
-        <div><b>Weekly law update</b><span>79 Acts checked in 11 minutes; 3 real amendments found and versioned.</span></div>
-        <div><b>AIBE exam prep</b><span>1,685 questions from the bare Acts checked, all sound; 17 of 19 subjects.</span></div>
-        <div><b>Accessible</b><span>8 of 8 lawyer tasks passed; no WCAG 2.1 AA violations on any page.</span></div>
-      </div>
-    </div>
-  </div>
+  </section>
 
 </main>
 
 <footer class="pad">
   <div>
-    <h4>Conclusion</h4>
-    <p>One open-weight model, wrapped in retrieval, source tagging and a verifier that repairs its own output, delivers legal answers and drafts whose citations are checked before release, at a fraction of the cost and without exposing client identities. <b style="color:#fff">Next:</b> a study with practising advocates, wider High Court coverage, OCR for scanned papers.</p>
-    <p class="stackline"><b>Built with</b> LangGraph · gpt-oss-120b on Groq · FastAPI · React + TypeScript · PostgreSQL · Qdrant · bge-small · MiniLM re-ranker · spaCy · Docker</p>
+    <p class="k"><span class="e">👥</span> Team</p>
+    <div class="names"><span>Srigaran N</span><span>Suryaprakash P</span><span>Selvaraj Vasanthakumar</span></div>
   </div>
+  <div class="sep"></div>
   <div>
-    <h4>References</h4>
-    <ol>
-      <li>LegalMind: agentic AI for legal services, IEEE Access, 2025.</li>
-      <li>Magesh et al., Hallucination-free? Assessing legal AI research tools, J. Empirical Legal Studies, 2025.</li>
-      <li>Lewis et al., Retrieval-augmented generation for knowledge-intensive NLP, NeurIPS, 2020.</li>
-    </ol>
+    <p class="k"><span class="e">🎓</span> Guide</p>
+    <p class="guide">Dr. R. Saravanan, M.E., Ph.D.<span>Professor, Department of CSE (AI &amp; ML)</span></p>
   </div>
 </footer>
 
